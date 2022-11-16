@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="SeProject.jnlp">
+  <information>
+    <title>SeProject</title>
+    <vendor>teodoroadinolfi</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="SeProject.jar" size="3055" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="seproject.SeProject"  name="SeProject" />
+  <update check="always"/>
+</jnlp>
