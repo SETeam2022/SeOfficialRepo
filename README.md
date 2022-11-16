@@ -3,7 +3,7 @@ Official repository of the Software Engineering project. The project consists in
 • Adinolfi Teodoro - 0622701902,  
 • Bove Simone - ,  
 • Ferrara  - 0622701901,  
-• Guarini Alessio - .  
+• Guarini Alessio - 0622702042.  
 
 
 
