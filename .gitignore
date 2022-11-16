@@ -1,3 +1,4 @@
+### Java ###
 # Compiled class file
 *.class
 
@@ -19,5 +20,18 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# virtual machine crash logs
 hs_err_pid*
+replay_pid*
+
+### NetBeans ###
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+*.xml
+*.gradle
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
