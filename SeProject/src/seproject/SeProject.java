@@ -20,7 +20,7 @@ public class SeProject extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        System.out.println("Questo branch contiene codice di prova.");
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
