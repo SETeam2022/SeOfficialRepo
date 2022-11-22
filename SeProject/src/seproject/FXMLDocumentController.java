@@ -77,6 +77,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addEllipses(ActionEvent event) {
+        selectedTool = new EllipseTool(drawingPane);
     }
 
     @FXML
