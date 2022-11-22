@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seproject.FXMLDocumentController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
-</AnchorPane>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seproject.FXMLDocumentController">
+   <children>
+      <VBox prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveDrawing" text="Save" />
+                        <MenuItem fx:id="loadMenuItem" mnemonicParsing="false" onAction="#loadDrawing" text="Load" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                  <Button fx:id="selectButton" layoutX="10.0" layoutY="17.0" mnemonicParsing="false" onAction="#selectShape" text="Select" />
+                <Button fx:id="ereaseButton" mnemonicParsing="false" onAction="#ereaseShape" text="Erease" />
+                  <Button fx:id="addLineButton" layoutX="10.0" layoutY="12.0" mnemonicParsing="false" onAction="#addLine" text="Add Line" />
+                  <Button fx:id="addRectangleButton" layoutX="68.0" layoutY="12.0" mnemonicParsing="false" onAction="#addRectangle" text="Add Rectangle" />
+                  <Button fx:id="addEllipsesButton" layoutX="139.0" layoutY="12.0" mnemonicParsing="false" onAction="#addEllipses" text="Add Ellipses" />
+                  <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="40.0" prefWidth="227.0" spacing="5.0">
+                     <children>
+                        <Label text="Interior color: " />
+                        <ColorPicker fx:id="interiorColorPicker" onAction="#pickInteriorColor" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="40.0" prefWidth="237.0" spacing="5.0">
+                     <children>
+                        <Label text="Border Color: " />
+                        <ColorPicker fx:id="borderColorPicker" onAction="#pickBorderColor" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+              </items>
+            </ToolBar>
+            <Pane fx:id="drawingPane" prefHeight="647.0" prefWidth="1280.0" style="-fx-background-color: white;" />
+         </children>
+      </VBox>
+   </children>
+</Pane>
