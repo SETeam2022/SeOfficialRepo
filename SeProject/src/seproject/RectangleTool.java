@@ -4,6 +4,7 @@
  */
 package seproject;
 
+import static java.lang.Math.abs;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -13,6 +14,8 @@ import javafx.scene.shape.Rectangle;
   * on the screen.
   */
 public class RectangleTool extends Tool{
+    private Rectangle rectangle;
+    private double startX,startY;
  
     /**
      *  Create a new RectangleTool
@@ -31,14 +34,16 @@ public class RectangleTool extends Tool{
     */
     @Override
     public void mousePressed(MouseEvent event){
-        Rectangle ret = new Rectangle(event.getX(),event.getY(),100,50);
-        this.getPaper().getChildren().add(ret);
+        startX = event.getX();
+        startY = event.getY();
+        rectangle = new Rectangle(startX,startY,0,0);
+        this.getPaper().getChildren().add(rectangle);
         
     }
     
-    
-    
-    
-    
-    
+    @Override
+    public void onMouseDragged(MouseEvent event){
+        rectangle.setWidth(abs(startX-event.getX()));
+        rectangle.setHeight(abs(startY-event.getY()));
+    }
 }
