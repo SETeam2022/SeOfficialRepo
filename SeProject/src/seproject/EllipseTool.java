@@ -34,6 +34,8 @@ public class EllipseTool extends Tool {
     @Override
     public  void onMousePressed(MouseEvent event){
         Ellipse ell = new Ellipse(event.getX(),event.getY(),150,300);
+        ell.setStroke(this.getStrokeColor());
+        ell.setFill(this.getFillColor());
         this.getPaper().getChildren().add(ell);
     };
     

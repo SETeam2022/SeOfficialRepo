@@ -4,7 +4,6 @@
  */
 package seproject;
 
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -44,6 +43,8 @@ public class LineTool extends Tool{
         double startX = event.getX();
         double startY = event.getY();
         line = new Line(startX,startY,startX,startY);
+        line.setStroke(this.getStrokeColor());
+        line.setFill(this.getFillColor());
         this.getPaper().getChildren().add(line);
     }
     

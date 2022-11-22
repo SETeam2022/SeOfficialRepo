@@ -84,10 +84,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void pickInteriorColor(ActionEvent event) {
+       selectedTool.setFillColor(interiorColorPicker.getValue());
     }
 
     @FXML
     private void pickBorderColor(ActionEvent event) {
+        selectedTool.setStrokeColor(borderColorPicker.getValue());
     }
 
     @FXML
