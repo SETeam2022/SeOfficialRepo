@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seproject;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,10 +11,6 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 
-/**
- *
- * @author teodoroadinolfi
- */
 public class FXMLDocumentController implements Initializable {
     
     @FXML
@@ -59,10 +51,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void closeApplication(ActionEvent event) {
+        Platform.exit();
     }
 
     @FXML
     private void selectShape(ActionEvent event) {
+        
     }
 
     @FXML
