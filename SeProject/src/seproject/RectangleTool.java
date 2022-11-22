@@ -33,7 +33,7 @@ public class RectangleTool extends Tool{
     *   X and Y coordinates will be used for the top left cornet of the shape
     */
     @Override
-    public void mousePressed(MouseEvent event){
+    public void onMousePressed(MouseEvent event){
         startX = event.getX();
         startY = event.getY();
         rectangle = new Rectangle(startX,startY,0,0);

@@ -23,7 +23,7 @@ public abstract class Tool {
      * Tool can provides a conrete implementation by overriding the method
      * @param event the JavaFx event associated with the mouse click
      */
-    public  void mousePressed(MouseEvent event){
+    public  void onMousePressed(MouseEvent event){
     };
     
     public  void onMouseDragged(MouseEvent event){

@@ -40,7 +40,7 @@ public class LineTool extends Tool{
      *  @param event is the dragging movement around the pane.
      */
     @Override
-    public void mousePressed(MouseEvent event){
+    public void onMousePressed(MouseEvent event){
         double startX = event.getX();
         double startY = event.getY();
         line = new Line(startX,startY,startX,startY);

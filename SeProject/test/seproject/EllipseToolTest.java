@@ -51,7 +51,7 @@ public class EllipseToolTest {
         
         MouseEvent e = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getCenterX(),testShape.getCenterY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,true, true, true, true, true, true, null); 
         
-        t.mousePressed(e);
+        t.onMousePressed(e);
         
         for (Node elem : paper.getChildren()){
              if (elem instanceof Ellipse ){

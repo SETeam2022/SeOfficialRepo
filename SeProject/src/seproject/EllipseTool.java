@@ -32,7 +32,7 @@ public class EllipseTool extends Tool {
     *   X and Y coordinates will be used for the center of the ellipse
     */
     @Override
-    public  void mousePressed(MouseEvent event){
+    public  void onMousePressed(MouseEvent event){
         Ellipse ell = new Ellipse(event.getX(),event.getY(),150,300);
         this.getPaper().getChildren().add(ell);
     };

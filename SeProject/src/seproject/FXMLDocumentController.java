@@ -92,7 +92,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
-        selectedTool.mousePressed(event);
+        selectedTool.onMousePressed(event);
     }
 
     @FXML
