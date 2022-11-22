@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seproject.FXMLDocumentController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seproject.FXMLDocumentController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -28,17 +28,17 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <ToolBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
               <items>
-                  <Button fx:id="selectButton" layoutX="10.0" layoutY="17.0" mnemonicParsing="false" onAction="#selectShape" text="Select" />
-                <Button fx:id="ereaseButton" mnemonicParsing="false" onAction="#ereaseShape" text="Erease" />
-                  <Button fx:id="addLineButton" layoutX="10.0" layoutY="12.0" mnemonicParsing="false" onAction="#addLine" text="Add Line" />
-                  <Button fx:id="addRectangleButton" layoutX="68.0" layoutY="12.0" mnemonicParsing="false" onAction="#addRectangle" text="Add Rectangle" />
-                  <Button fx:id="addEllipsesButton" layoutX="139.0" layoutY="12.0" mnemonicParsing="false" onAction="#addEllipses" text="Add Ellipses" />
+                  <Button fx:id="selectButton" layoutX="10.0" layoutY="17.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectShape" text="Select" />
+                <Button fx:id="ereaseButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#ereaseShape" text="Erease" />
+                  <Button fx:id="addLineButton" layoutX="10.0" layoutY="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addLine" text="Add Line" />
+                  <Button fx:id="addRectangleButton" layoutX="68.0" layoutY="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addRectangle" text="Add Rectangle" />
+                  <Button fx:id="addEllipsesButton" layoutX="139.0" layoutY="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addEllipses" text="Add Ellipses" />
                   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
                      <children>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Interior Color: " HBox.hgrow="ALWAYS" />
-                        <ColorPicker fx:id="interiorColorPicker" onAction="#pickInteriorColor" />
+                        <ColorPicker fx:id="interiorColorPicker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#pickInteriorColor" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
@@ -46,8 +46,8 @@
                   </HBox>
                   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
                      <children>
-                        <Label text="Border Color: " HBox.hgrow="ALWAYS" />
-                        <ColorPicker fx:id="borderColorPicker" onAction="#pickBorderColor" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Border Color: " HBox.hgrow="ALWAYS" />
+                        <ColorPicker fx:id="borderColorPicker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onAction="#pickBorderColor" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
@@ -55,7 +55,7 @@
                   </HBox>
               </items>
             </ToolBar>
-            <Pane fx:id="drawingPane" onMouseClicked="#clickOnDrawingPane" prefHeight="647.0" prefWidth="1280.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
+            <Pane fx:id="drawingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#clickOnDrawingPane" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>
