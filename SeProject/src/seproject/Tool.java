@@ -5,6 +5,8 @@
 package seproject;
 
 import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
 /**
@@ -13,22 +15,29 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Tool {
     
-    private Shape workingShape;
+    private Pane paper;
     
-    public abstract void mouseDown(Event event);
+    /**
+     * This method provide an empty implementation, the class that extend
+     * Tool can provide a conrete implementation by overriding the method
+     * @param event the JavaFx event associated with the mouse click
+     */
+    public  void mouseClick(MouseEvent event){
+    };
     
-    public abstract void drag(Event event);
+    public  void drag(MouseEvent event){
+    };
     
-    public Shape getShape(){
-        return workingShape;
+    public Pane getPaper(){
+        return paper;
     }
     
-    public void setShape(Shape s){
-        this.workingShape = s;
+    public void setPaper(Pane paper){
+        this.paper = paper;
     }
     
-   public Tool(){
-       workingShape = null;
+   public Tool(Pane paper){
+       this.paper = paper;
    }
     
 }

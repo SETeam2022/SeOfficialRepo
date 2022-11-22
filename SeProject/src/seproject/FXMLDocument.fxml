@@ -55,7 +55,7 @@
                   </HBox>
               </items>
             </ToolBar>
-            <Pane fx:id="drawingPane" prefHeight="647.0" prefWidth="1280.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
+            <Pane fx:id="drawingPane" onMouseClicked="#clickOnDrawingPane" prefHeight="647.0" prefWidth="1280.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class FXMLDocumentController implements Initializable {
@@ -36,9 +37,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Pane drawingPane;
     
+    private Tool selectedTool;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+            //
     }    
 
     @FXML
@@ -69,6 +72,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addRectangle(ActionEvent event) {
+        selectedTool = new RectangleTool(drawingPane);
     }
 
     @FXML
@@ -81,6 +85,11 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void pickBorderColor(ActionEvent event) {
+    }
+
+    @FXML
+    private void clickOnDrawingPane(MouseEvent event) {
+        selectedTool.mouseClick(event);
     }
     
 }
