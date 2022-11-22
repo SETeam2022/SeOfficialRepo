@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -68,6 +69,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addLine(ActionEvent event) {
+        selectedTool = new LineTool(drawingPane);
     }
 
     @FXML
@@ -90,7 +92,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
-        selectedTool.mouseClick(event);
+        selectedTool.mousePressed(event);
+    }
+
+    @FXML
+    private void onMouseDraggedOnDrawingPane(MouseEvent event) {
+        selectedTool.onMouseDragged(event);
     }
     
 }

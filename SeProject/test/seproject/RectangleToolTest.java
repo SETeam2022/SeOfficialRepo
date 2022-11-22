@@ -45,12 +45,12 @@ public class RectangleToolTest {
      * a test shape.
      */
     @Test
-    public void testMouseClick() {
+    public void testMousePressed() {
         System.out.println("mouseClick");
         
         MouseEvent e = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getX(),testShape.getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,true, true, true, true, true, true, null); 
         
-        t.mouseClick(e);
+        t.mousePressed(e);
         
         for (Node elem : paper.getChildren()){
              if (elem instanceof Rectangle ){
