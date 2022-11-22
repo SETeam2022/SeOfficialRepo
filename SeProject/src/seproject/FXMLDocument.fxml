@@ -8,14 +8,15 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seproject.FXMLDocumentController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seproject.FXMLDocumentController">
    <children>
-      <VBox prefHeight="720.0" prefWidth="1280.0">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <MenuBar>
               <menus>
@@ -37,7 +38,7 @@
                   <Button fx:id="addEllipsesButton" layoutX="139.0" layoutY="12.0" mnemonicParsing="false" onAction="#addEllipses" text="Add Ellipses" />
                   <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="40.0" prefWidth="227.0" spacing="5.0">
                      <children>
-                        <Label text="Interior color: " />
+                        <Label text="Interior Color: " />
                         <ColorPicker fx:id="interiorColorPicker" onAction="#pickInteriorColor" />
                      </children>
                      <padding>
@@ -55,8 +56,8 @@
                   </HBox>
               </items>
             </ToolBar>
-            <Pane fx:id="drawingPane" prefHeight="647.0" prefWidth="1280.0" style="-fx-background-color: white;" />
+            <Pane fx:id="drawingPane" prefHeight="647.0" prefWidth="1280.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>
-</Pane>
+</AnchorPane>
