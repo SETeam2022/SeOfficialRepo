@@ -15,6 +15,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
 public class FXMLDocumentController implements Initializable {
@@ -48,6 +49,9 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fm = new FileManager(drawingPane);
+        /*Default color picker values*/
+        interiorColorPicker.setValue(Color.BLACK);
+        borderColorPicker.setValue(Color.BLACK);
     }
 
     @FXML

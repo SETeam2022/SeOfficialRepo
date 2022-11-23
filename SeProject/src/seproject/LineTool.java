@@ -5,6 +5,7 @@
 package seproject;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -40,8 +41,10 @@ public class LineTool extends Tool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        line.setEndX(event.getX());
-        line.setEndY(event.getY());
+         if(this.getPaper().contains(new Point2D(event.getX(),event.getY()))){
+            line.setEndX(event.getX());
+            line.setEndY(event.getY());
+        }
     }
 
     /**
@@ -54,10 +57,12 @@ public class LineTool extends Tool {
     public void onMousePressed(MouseEvent event) {
         double startX = event.getX();
         double startY = event.getY();
-        line = new Line(startX, startY, startX, startY);
-        line.setStroke(this.getStrokeColor());
-        line.setFill(this.getFillColor());
-        this.getPaper().getChildren().add(line);
+        if(this.getPaper().contains(new Point2D(event.getX(),event.getY()))){
+            line = new Line(startX, startY, startX, startY);
+            line.setStroke(this.getStrokeColor());
+            line.setFill(this.getFillColor());
+            this.getPaper().getChildren().add(line);
+        }
     }
 
 }
