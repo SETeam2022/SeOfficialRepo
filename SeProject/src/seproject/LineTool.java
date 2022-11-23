@@ -9,7 +9,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 
 /**
@@ -41,11 +40,7 @@ public class LineTool extends Tool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        
-        if (this.getPaper().contains(new Point2D(event.getX(), event.getY()))) {
-            line.setEndY(event.getY());
-        }
-
+        line.setEndY(event.getY());
         line.setEndX(event.getX());
     }
 

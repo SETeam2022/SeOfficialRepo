@@ -16,7 +16,7 @@ import javafx.scene.paint.Paint;
  */
 public abstract class Tool {
 
-    private Pane paper;
+     Pane paper;
 
     private final ObjectProperty<Color> strokeColor;
     private final ObjectProperty<Color> fillColor;
