@@ -4,11 +4,14 @@
  */
 package seproject;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +25,8 @@ public class RectangleToolTest {
     private Pane paper;
     private Rectangle testShape;
     private RectangleTool t;
+    private ObjectProperty<Color> borderColorProperty;
+    private ObjectProperty<Color> fillColorProperty;
     
     public RectangleToolTest() {
     }
@@ -34,8 +39,17 @@ public class RectangleToolTest {
     @Before
     public void setUp() {
         testShape = new Rectangle(0,0,10,20);
+        testShape.setStroke(Color.RED);
+        testShape.setFill(Color.BLACK);
+        
         paper = new Pane();
-        t = new RectangleTool(paper);
+        
+        borderColorProperty = new SimpleObjectProperty<>();
+        fillColorProperty = new SimpleObjectProperty<>();        
+        borderColorProperty.set(Color.RED);
+        fillColorProperty.set(Color.BLACK);
+        t = new RectangleTool(paper,borderColorProperty,fillColorProperty);
+        
     }
     
 
@@ -55,9 +69,13 @@ public class RectangleToolTest {
         for (Node elem : paper.getChildren()){
              if (elem instanceof Rectangle ){
                 Rectangle casted = (Rectangle) elem;
+                //Checking for Position
                 Assert.assertEquals(casted.getX(),testShape.getX(),0);
                 Assert.assertEquals(casted.getY(),testShape.getY(),0);
-            }
+                //Checking for Color.
+                Assert.assertEquals(testShape.getStroke(),casted.getStroke());
+                Assert.assertEquals(testShape.getFill(), casted.getFill());
+             }
         }
         
     }

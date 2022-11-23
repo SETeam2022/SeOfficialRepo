@@ -4,10 +4,13 @@
  */
 package seproject;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +25,8 @@ public class EllipseToolTest {
     private Pane paper;
     private Ellipse testShape;
     private EllipseTool t;
+    private ObjectProperty<Color> borderColorProperty;
+    private ObjectProperty<Color> fillColorProperty;
     
     public EllipseToolTest() {
     }
@@ -35,8 +40,16 @@ public class EllipseToolTest {
     @Before
     public void setUp() {
         testShape = new Ellipse(0,0);
+        testShape.setStroke(Color.RED);
+        testShape.setFill(Color.BLACK);
         paper = new Pane();
-        t = new EllipseTool(paper);
+        // Da refactorizzare
+        borderColorProperty = new SimpleObjectProperty<>();
+        fillColorProperty = new SimpleObjectProperty<>();        
+        borderColorProperty.set(Color.RED);
+        fillColorProperty.set(Color.BLACK);
+        //
+        t = new EllipseTool(paper,borderColorProperty,fillColorProperty);
     }
     
 
@@ -56,8 +69,13 @@ public class EllipseToolTest {
         for (Node elem : paper.getChildren()){
              if (elem instanceof Ellipse ){
                 Ellipse casted = (Ellipse) elem;
-                Assert.assertEquals(casted.getCenterX(),testShape.getCenterX(),0);
-                Assert.assertEquals(casted.getCenterY(),testShape.getCenterY(),0);
+                // Checking for Position.
+                Assert.assertEquals(testShape.getCenterX(),casted.getCenterX(),0);
+                Assert.assertEquals(testShape.getCenterY(),casted.getCenterY(),0);
+                // Checking for Color.
+                Assert.assertEquals(testShape.getStroke(),casted.getStroke());
+                Assert.assertEquals(testShape.getFill(), casted.getFill());
+                
             }
         }
         
