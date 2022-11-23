@@ -41,10 +41,12 @@ public class LineTool extends Tool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-         if(this.getPaper().contains(new Point2D(event.getX(),event.getY()))){
-            line.setEndX(event.getX());
+        
+        if (this.getPaper().contains(new Point2D(event.getX(), event.getY()))) {
             line.setEndY(event.getY());
         }
+
+        line.setEndX(event.getX());
     }
 
     /**
@@ -55,14 +57,13 @@ public class LineTool extends Tool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
+        
         double startX = event.getX();
         double startY = event.getY();
-        if(this.getPaper().contains(new Point2D(event.getX(),event.getY()))){
-            line = new Line(startX, startY, startX, startY);
-            line.setStroke(this.getStrokeColor());
-            line.setFill(this.getFillColor());
-            this.getPaper().getChildren().add(line);
-        }
+        line = new Line(startX, startY, startX, startY);
+        line.setStroke(this.getStrokeColor());
+        line.setFill(this.getFillColor());
+        this.getPaper().getChildren().add(line);
     }
 
 }
