@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class FXMLDocumentController implements Initializable {
-    
+
     @FXML
     private MenuItem saveMenuItem;
     @FXML
@@ -37,13 +37,13 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker borderColorPicker;
     @FXML
     private Pane drawingPane;
-    
+
     private Tool selectedTool;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-            //
-    }    
+        //
+    }
 
     @FXML
     private void saveDrawing(ActionEvent event) {
@@ -60,7 +60,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-        
+
     }
 
     @FXML
@@ -69,27 +69,17 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addLine(ActionEvent event) {
-        selectedTool = new LineTool(drawingPane);
+        selectedTool = new LineTool(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
     }
 
     @FXML
     private void addRectangle(ActionEvent event) {
-        selectedTool = new RectangleTool(drawingPane);
+        selectedTool = new RectangleTool(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
     }
 
     @FXML
     private void addEllipses(ActionEvent event) {
-        selectedTool = new EllipseTool(drawingPane);
-    }
-
-    @FXML
-    private void pickInteriorColor(ActionEvent event) {
-       selectedTool.setFillColor(interiorColorPicker.getValue());
-    }
-
-    @FXML
-    private void pickBorderColor(ActionEvent event) {
-        selectedTool.setStrokeColor(borderColorPicker.getValue());
+        selectedTool = new EllipseTool(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
     }
 
     @FXML
@@ -101,5 +91,5 @@ public class FXMLDocumentController implements Initializable {
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
         selectedTool.onMouseDragged(event);
     }
-    
+
 }
