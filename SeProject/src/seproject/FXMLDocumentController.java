@@ -87,7 +87,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-
+        selectedTool = new SelectedShapeManager(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
     }
 
     @FXML
