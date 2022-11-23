@@ -1,10 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package seproject;
-
-import javafx.animation.PathTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -12,21 +6,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeType;
 
 /**
- *
- * @author bvs
+ * This class allows to select a shape on the screen.
  */
 public class SelectedShapeManager extends Tool{
     
-    private boolean flag;
+    private Shape selectedShape;
     
     public SelectedShapeManager(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
-        this.flag = false;
     }
     
+    /**  
+     * This function will be called after a click with the mouse on the paper it
+     * will select a shape on the screen.
+     *
+     * @param event is the event that generated the call to this method
+    */
     @Override
     public void onMousePressed(MouseEvent event){
         for(Node node : this.getPaper().getChildren()){
@@ -38,14 +35,33 @@ public class SelectedShapeManager extends Tool{
                 ds1.setOffsetY(4.0f);
                 ds1.setOffsetX(2.0f);
                 node.setEffect(ds1);
+                this.setSelectedShape((Shape)node);
             } 
         }
     }
         
-    
     @Override
     public void onMouseDragged(MouseEvent event){
         
     };
+    /**
+    * 
+    * @return selected shape
+    */
+    public Shape getSelectedShape() {
+        return selectedShape;
+    }
+    
+    
+    /**
+     * 
+     * @param selectedShape set the selected shape
+     */
+    public void setSelectedShape(Shape selectedShape) {
+        this.selectedShape = selectedShape;
+    }
+    
+    
+    
     
 }

@@ -40,6 +40,8 @@ public class EllipseToolTest {
     @Before
     public void setUp() {
         testShape = new Ellipse(0,0);
+        testShape.setRadiusX(10);
+        testShape.setRadiusY(10);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
         paper = new Pane();
