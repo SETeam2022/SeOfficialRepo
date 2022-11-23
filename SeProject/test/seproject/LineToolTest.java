@@ -36,9 +36,12 @@ public class LineToolTest {
     
     @Before
     public void setUp() {
-        testShape = new Line(2,2,10,10);
+        
+        testShape = new Line(443,308,471,308);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
+        
+        
         paper = new Pane();
         
         borderColorProperty = new SimpleObjectProperty<>();
@@ -90,8 +93,8 @@ public class LineToolTest {
         for (Node elem : paper.getChildren()){
              if (elem instanceof Line ){
                 Line casted = (Line) elem;
-                Assert.assertEquals(casted.getEndX(),testShape.getEndX(),0);
-                Assert.assertEquals(casted.getEndY(),testShape.getEndY(),0);
+                Assert.assertEquals(testShape.getEndX(),casted.getEndX(),0);
+                Assert.assertEquals(testShape.getEndY(),casted.getEndY(),0);
             }
         }
         
