@@ -22,13 +22,13 @@ public class FileManagerTest {
     
     private FileManager fm;
     private Pane paper;
-    private String expectedXML, actualXML;
+    private String expectedXML, actualXML, javaVersion = System.getProperty("java.version");
     final private String out1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-    "<java version=\"1.8.0_341\" class=\"java.beans.XMLDecoder\">" +
+    "<java version=\""+ javaVersion +"\" class=\"java.beans.XMLDecoder\">" +
     " <array class=\"javafx.scene.Node\" length=\"0\"/>" +
     "</java>",
     out2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-    "<java version=\"1.8.0_341\" class=\"java.beans.XMLDecoder\">" +
+    "<java version=\""+ javaVersion +"\" class=\"java.beans.XMLDecoder\">" +
     " <array class=\"javafx.scene.Node\" length=\"1\">" +
     "  <void index=\"0\">" +
     "   <object class=\"javafx.scene.shape.Rectangle\">" +
@@ -59,7 +59,7 @@ public class FileManagerTest {
     " </array>" +
     "</java>",
     out3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
-          "<java version=\"1.8.0_341\" class=\"java.beans.XMLDecoder\">"+
+          "<java version=\""+ javaVersion +"\" class=\"java.beans.XMLDecoder\">"+
           " <array class=\"javafx.scene.Node\" length=\"3\">"+
           "  <void index=\"0\">   <object class=\"javafx.scene.shape.Rectangle\">"+
           "    <void property=\"fill\">"+
@@ -187,7 +187,6 @@ public class FileManagerTest {
         } catch (IOException ex) {
             Logger.getLogger(FileManagerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
     }
 
