@@ -59,8 +59,8 @@ public class EllipseToolTest {
      * a test elipse.
      */
     @Test
-    public void testMouseClick() {
-        System.out.println("mouseClick");
+    public void testMousePressed() {
+        System.out.println("mousePressed");
         
         MouseEvent e = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getCenterX(),testShape.getCenterY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,true, true, true, true, true, true, null); 
         
@@ -78,6 +78,26 @@ public class EllipseToolTest {
                 
             }
         }
+        
+    }
+    
+    @Test
+    public void testOnMouseDragged(){
+        System.out.println("mouseDragged");
+        MouseEvent e2 = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getCenterX(),testShape.getCenterY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,true, true, true, true, true, true, null); 
+
+        MouseEvent e = new MouseEvent(  MouseEvent.MOUSE_DRAGGED, testShape.getRadiusX(),testShape.getRadiusY(), 0, 0, MouseButton.PRIMARY, 1,
+                                        true, true, true, true,true, true, true, true, true, true, null);
+        t.onMousePressed(e2);
+        t.onMouseDragged(e);
+        for (Node elem : paper.getChildren()){
+             if (elem instanceof Ellipse ){
+                Ellipse casted = (Ellipse) elem;
+                Assert.assertEquals(testShape.getRadiusX(),casted.getRadiusX(),0);
+                Assert.assertEquals(testShape.getRadiusY(),casted.getRadiusY(),0);
+            }
+        }
+        
         
     }
     

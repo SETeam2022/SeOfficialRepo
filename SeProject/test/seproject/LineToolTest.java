@@ -57,6 +57,7 @@ public class LineToolTest {
 
     @Test
     public void testMousePressed() {
+        System.out.println("mousePressed");
         MouseEvent e = new MouseEvent(  MouseEvent.MOUSE_CLICKED, testShape.getStartX(),testShape.getStartY(), 0, 0, MouseButton.PRIMARY, 1,
                                         true, true, true, true,true, true, true, true, true, true, null);
         t.onMousePressed(e);
@@ -78,9 +79,14 @@ public class LineToolTest {
     
     @Test
     public void testOnMouseDragged() {
-                MouseEvent e = new MouseEvent(  MouseEvent.MOUSE_DRAGGED, testShape.getEndX(),testShape.getEndY(), 0, 0, MouseButton.PRIMARY, 1,
+        System.out.println("mouseDragged");
+        MouseEvent e2 = new MouseEvent(  MouseEvent.MOUSE_CLICKED, testShape.getStartX(),testShape.getStartY(), 0, 0, MouseButton.PRIMARY, 1,
                                         true, true, true, true,true, true, true, true, true, true, null);
-        t.onMousePressed(e);
+        
+        MouseEvent e = new MouseEvent(  MouseEvent.MOUSE_DRAGGED, testShape.getEndX(),testShape.getEndY(), 0, 0, MouseButton.PRIMARY, 1,
+                                     true, true, true, true,true, true, true, true, true, true, null);
+        t.onMousePressed(e2);
+        t.onMouseDragged(e);
         for (Node elem : paper.getChildren()){
              if (elem instanceof Line ){
                 Line casted = (Line) elem;
