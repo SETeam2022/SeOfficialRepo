@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 
 /**
  * This class is used to model a FileManager able to save the drawn shapes to an
- * xml file and get the saved shapes from the xml file.
+ * xml file and get the saved shapes from an xml file.
  */
 public class FileManager {
 
@@ -36,6 +36,9 @@ public class FileManager {
      * @throws IOException
      */
     public void save(File f) throws IOException {
+        
+        if(f == null){ return; }
+        
         try ( XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(Files.newOutputStream(f.toPath())))) {
             encoder.setExceptionListener(e -> {
                 throw new RuntimeException(e);
@@ -51,6 +54,7 @@ public class FileManager {
      * @throws IOException
      */
     public void load(File f) throws IOException {
+        
         if (f == null || f.length() <= 0) {
             return;
         }

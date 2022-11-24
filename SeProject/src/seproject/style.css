@@ -1,0 +1,96 @@
+* {
+    -fx-font-family:'fantasy';
+}
+
+.button {
+    -fx-background-color: white;
+}
+
+.button:pressed:hover {
+    -fx-scale-y: 0.9;
+    -fx-scale-x: 0.9;
+    -fx-cursor: CLOSED_HAND;
+}
+
+.button:hover {
+    -fx-background-color: lightblue;
+    -fx-scale-y: 1.1;
+    -fx-cursor: hand;
+}
+
+.button:focused{
+    -fx-background-color: lightblue;
+}
+
+.color-picker{
+    -fx-background-color: white;
+    -fx-color-label-visible: false;
+}
+
+.color-picker:hover {
+    -fx-background-color: lightblue;
+    -fx-scale-y: 1.1;
+    -fx-cursor: hand;
+}
+
+.color-picker:pressed:hover {
+    -fx-scale-y: 0.9;
+    -fx-scale-x: 0.9;
+    -fx-cursor: CLOSED_HAND;
+}
+
+.tool-bar {
+    -fx-background-color: whitesmoke;
+}
+
+.menu-bar{
+    -fx-background-color: lightblue;
+}
+
+.menu:pressed:hover {
+    -fx-scale-y: 0.9;
+    -fx-scale-x: 0.9;
+    -fx-cursor: CLOSED_HAND;
+}
+
+.menu:hover {
+    -fx-scale-y: 1.1;
+    -fx-cursor: hand;
+}
+
+.menu{
+    -fx-border-radius: 30;
+    -fx-background-radius: 10;
+}
+
+.color-picker:pressed:hover {
+    -fx-scale-y: 0.9;
+    -fx-scale-x: 0.9;
+    -fx-cursor: CLOSED_HAND;
+}
+
+.menu-item:pressed:hover {
+    -fx-scale-y: 0.9;
+    -fx-scale-x: 0.9;
+    -fx-background-radius: 10px;
+    -fx-background-color: lightblue;
+    -fx-cursor: CLOSED_HAND;
+}
+
+.menu-item:hover{
+    -fx-background-color: lightblue;
+    -fx-scale-y: 1.1;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+}
+
+.menu-item{
+    -fx-background-radius: 10px;
+}
+
+.context-menu {
+    -fx-background-color: whitesmoke;
+    -fx-border-color: whitesmoke;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
