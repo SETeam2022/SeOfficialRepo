@@ -67,7 +67,10 @@ public class SelectedShapeManager extends Tool {
 
     /**
      *
-     * @param selectedShape set the selected shape
+     * @param selectedShape set the selected shape an bind the tool color
+     * properties with the shapes stroke and fill properties. This enables
+     * the change of the color.
+     * 
      */
     private void setSelectedShape(Shape selectedShape) {
         this.selectedShape = selectedShape;
@@ -88,7 +91,7 @@ public class SelectedShapeManager extends Tool {
 
     /**
      * @return shapeIsSelected an observable property that is true if there is
-     * something selected else is fase
+     * something selected else is false
      */
     public SimpleBooleanProperty getShapeIsSelectedProperty() {
         return shapeIsSelected;
