@@ -55,8 +55,9 @@ public class FXMLDocumentController implements Initializable {
         borderColorPicker.setValue(Color.BLACK);
         
         ssm = new SelectedShapeManager(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
-        
         ereaseButton.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        // selecting an initial tool
+        selectedTool = ssm;
     }
 
     @FXML
