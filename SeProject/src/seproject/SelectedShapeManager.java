@@ -105,4 +105,10 @@ public class SelectedShapeManager extends Tool {
         this.shapeIsSelected.setValue(false);
     }
 
+    public void deselect(){
+        this.selectedShape.strokeProperty().unbind();
+        this.selectedShape.fillProperty().unbind();
+        this.selectedShape.setEffect(null);
+        this.shapeIsSelected.setValue(false);
+    }
 }

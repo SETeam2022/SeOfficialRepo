@@ -10,9 +10,11 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -46,6 +48,8 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
     private FileManager fm;
     private SelectedShapeManager ssm;
+    @FXML
+    private ToolBar toolBar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,6 +62,16 @@ public class FXMLDocumentController implements Initializable {
         ereaseButton.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         // selecting an initial tool
         selectedTool = ssm;
+        
+        for(Node child : toolBar.getItems()){
+            
+            child.setOnMousePressed(event ->{
+                if(child instanceof Button){
+                    System.out.println(child);
+                    ssm.deselect();
+                }
+            });
+        }
     }
 
     @FXML
