@@ -73,10 +73,14 @@ public class SelectedShapeManagerTest {
         for (Node elem : paper.getChildren()){
             if (elem instanceof Ellipse ){
                 Ellipse casted = (Ellipse) elem;
+                // Checking for Positions
                 Assert.assertEquals(casted.getCenterX(), 
                         selectedEllipse.getCenterX(), 0);
                 Assert.assertEquals(casted.getCenterY(), 
                         selectedEllipse.getCenterY(), 0);
+                // Checking for Color
+                Assert.assertEquals(Color.RED, selectedEllipse.getStroke());
+                Assert.assertEquals(Color.BLACK, selectedEllipse.getFill());
             }
         }
     }
