@@ -66,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
         for(Node child : toolBar.getItems()){
             
             child.setOnMousePressed(event ->{
-                if(child instanceof Button){
+                if(child instanceof Button && child != ereaseButton ){
                     System.out.println(child);
                     ssm.deselect();
                 }

@@ -14,7 +14,7 @@ import javafx.scene.shape.Shape;
  */
 public class SelectedShapeManager extends Tool {
 
-    private Shape selectedShape;
+    private Shape selectedShape = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
 
@@ -31,6 +31,15 @@ public class SelectedShapeManager extends Tool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
+        if (this.selectedShape != null){
+        
+            this.selectedShape.strokeProperty().unbind();
+            this.selectedShape.fillProperty().unbind();
+            this.selectedShape.setEffect(null);
+            this.selectedShape = null;
+            
+        }
+        this.shapeIsSelected.setValue(false);
         for (Node node : this.getPaper().getChildren()) {
             Shape tmp = (Shape) node;
             if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
@@ -40,12 +49,7 @@ public class SelectedShapeManager extends Tool {
                 node.setEffect(ds1);
                 this.setSelectedShape(tmp);
                 this.shapeIsSelected.setValue(true);
-            } else {
-                tmp.strokeProperty().unbind();
-                tmp.fillProperty().unbind();
-                node.setEffect(null);
-                this.shapeIsSelected.setValue(false);
-            }
+            } 
         }
     }
 
@@ -106,6 +110,7 @@ public class SelectedShapeManager extends Tool {
     }
 
     public void deselect(){
+        if (this.selectedShape == null) return;
         this.selectedShape.strokeProperty().unbind();
         this.selectedShape.fillProperty().unbind();
         this.selectedShape.setEffect(null);
