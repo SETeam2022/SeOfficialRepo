@@ -45,6 +45,7 @@ public class FXMLDocumentController implements Initializable {
 
     private Tool selectedTool;
     private FileManager fm;
+    private SelectedShapeManager ssm;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,6 +53,10 @@ public class FXMLDocumentController implements Initializable {
         /*Default color picker values*/
         interiorColorPicker.setValue(Color.BLACK);
         borderColorPicker.setValue(Color.BLACK);
+        
+        ssm = new SelectedShapeManager(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
+        
+        ereaseButton.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
     }
 
     @FXML
@@ -87,11 +92,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-        selectedTool = new SelectedShapeManager(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
+        selectedTool = ssm;
     }
 
     @FXML
     private void ereaseShape(ActionEvent event) {
+        ssm.deleteSelectedShape();
     }
 
     @FXML
