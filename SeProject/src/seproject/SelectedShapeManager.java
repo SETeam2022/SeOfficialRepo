@@ -69,8 +69,10 @@ public class SelectedShapeManager extends Tool{
      * 
      * @param selectedShape set the selected shape
      */
-    public void setSelectedShape(Shape selectedShape) {
+    private void setSelectedShape(Shape selectedShape) {
         this.selectedShape = selectedShape;
+        this.getFillColorProperty().setValue(Color.valueOf(this.selectedShape.getFill().toString()));
+        this.getStrokeColorProperty().setValue(Color.valueOf(this.selectedShape.getStroke().toString()));
         this.selectedShape.strokeProperty().bind(this.getStrokeColorProperty());
         this.selectedShape.fillProperty().bind(this.getFillColorProperty());
     }
