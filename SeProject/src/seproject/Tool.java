@@ -18,8 +18,16 @@ public abstract class Tool {
 
      Pane paper;
 
-    private final ObjectProperty<Color> strokeColor;
-    private final ObjectProperty<Color> fillColor;
+    private final ObjectProperty<Color> strokeColorProperty;
+
+    public ObjectProperty<Color> getStrokeColorProperty() {
+        return strokeColorProperty;
+    }
+
+    public ObjectProperty<Color> getFillColorProperty() {
+        return fillColorProperty;
+    }
+    private final ObjectProperty<Color> fillColorProperty;
 
     /**
      * @param paper is the pane on witch the new Shape nodes will be added
@@ -30,8 +38,8 @@ public abstract class Tool {
      */
     public Tool(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         this.paper = paper;
-        this.strokeColor = strokeColorProperty;
-        this.fillColor = fillColorProperty;
+        this.strokeColorProperty = strokeColorProperty;
+        this.fillColorProperty = fillColorProperty;
     }
 
     /**
@@ -77,7 +85,7 @@ public abstract class Tool {
      * @return strokeColor the strokeColor setted for the tool
      */
     public Paint getStrokeColor() {
-        return this.strokeColor.getValue();
+        return this.strokeColorProperty.getValue();
     }
 
     /**
@@ -88,7 +96,7 @@ public abstract class Tool {
      * @return fillColor the fillColor setted for the tool
      */
     public Paint getFillColor() {
-        return this.fillColor.getValue();
+        return this.fillColorProperty.getValue();
     }
 
 }

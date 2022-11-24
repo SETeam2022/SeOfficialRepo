@@ -26,7 +26,11 @@ public class SelectedShapeManager extends Tool{
     */
     @Override
     public void onMousePressed(MouseEvent event){
+        this.selectedShape = null;
         for(Node node : this.getPaper().getChildren()){
+            Shape tmp = (Shape) node;
+            tmp.strokeProperty().unbind();
+            tmp.fillProperty().unbind();
             node.setEffect(null);
         }
         for(Node node : this.getPaper().getChildren()){
@@ -59,6 +63,8 @@ public class SelectedShapeManager extends Tool{
      */
     public void setSelectedShape(Shape selectedShape) {
         this.selectedShape = selectedShape;
+        this.selectedShape.strokeProperty().bind(this.getStrokeColorProperty());
+        this.selectedShape.fillProperty().bind(this.getFillColorProperty());
     }
     
     
