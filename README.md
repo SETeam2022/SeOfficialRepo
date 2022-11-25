@@ -16,7 +16,7 @@ The project consists in the creation of an application for the geometrical drawi
 | Ferrara Grazia | 0622701901 |
 | Guarini Alessio | 0622702042 |
 
-###Notes
+### Notes
 For the correct visualization of the burndown chart is reccomanded the use of Excel
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen.)
