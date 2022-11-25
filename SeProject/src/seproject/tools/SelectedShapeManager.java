@@ -1,4 +1,4 @@
-package seproject;
+package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;

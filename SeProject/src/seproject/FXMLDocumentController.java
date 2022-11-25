@@ -1,5 +1,10 @@
 package seproject;
 
+import seproject.tools.SelectedShapeManager;
+import seproject.tools.Tool;
+import seproject.tools.LineTool;
+import seproject.tools.RectangleTool;
+import seproject.tools.EllipseTool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
