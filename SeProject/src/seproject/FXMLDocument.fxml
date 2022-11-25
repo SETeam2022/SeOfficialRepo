@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,41 +40,49 @@
                   </MenuBar>
                   <ToolBar fx:id="toolBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <items>
-                        <Button fx:id="selectButton" layoutX="10.0" layoutY="17.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectShape">
+                        <RadioButton fx:id="selectButton" mnemonicParsing="false" onAction="#selectShape" styleClass="button">
                            <graphic>
                               <SVGPath content="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Select" />
-                           </tooltip></Button>
-                      <Button fx:id="ereaseButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#ereaseShape">
+                           </tooltip>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="g1" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <Button fx:id="ereaseButton" mnemonicParsing="false" onAction="#ereaseShape">
                            <graphic>
                               <SVGPath content="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Delete" />
-                           </tooltip></Button>
-                        <Button fx:id="addLineButton" layoutX="10.0" layoutY="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addLine">
+                           </tooltip>
+                        </Button>
+                        <RadioButton fx:id="addLineButton" mnemonicParsing="false" onAction="#addLine" styleClass="button" toggleGroup="$g1">
                            <graphic>
                               <SVGPath content="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" fillRule="EVEN_ODD" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Add Line Segment" />
-                           </tooltip></Button>
-                        <Button fx:id="addRectangleButton" layoutX="68.0" layoutY="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addRectangle">
+                           </tooltip>
+                        </RadioButton>
+                        <RadioButton fx:id="addRectangleButton" layoutX="715.0" layoutY="15.0" mnemonicParsing="false" onAction="#addRectangle" styleClass="button" toggleGroup="$g1">
                            <graphic>
                               <SVGPath content="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Add Rectangle" />
-                           </tooltip></Button>
-                        <Button fx:id="addEllipsesButton" layoutX="139.0" layoutY="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addEllipses">
+                           </tooltip>
+                        </RadioButton>
+                        <RadioButton fx:id="addEllipsesButton" layoutX="810.0" layoutY="15.0" mnemonicParsing="false" onAction="#addEllipses" styleClass="button" toggleGroup="$g1">
                            <graphic>
                               <SVGPath content="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" strokeLineCap="ROUND" strokeType="OUTSIDE" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Add Ellipse" />
-                           </tooltip></Button>
+                           </tooltip>
+                        </RadioButton>
                         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
                            <children>
                               <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">

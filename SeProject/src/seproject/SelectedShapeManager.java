@@ -31,7 +31,7 @@ public class SelectedShapeManager extends Tool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        this.unsetSelectedShape();    
+        this.unsetSelectedShape();
         Object eventNode = event.getTarget();
         if (eventNode instanceof Shape) {
             Shape tmp = (Shape) eventNode;
@@ -40,18 +40,19 @@ public class SelectedShapeManager extends Tool {
             }
         }
     }
+
     /**
-     * This function will be called after a click with the mouse on the paper and, while the mouse
-     * is pressed, the users performs a dragging.
-     * This fuction allows the user to drag a selected shape on the screen.
+     * This function will be called after a click with the mouse on the paper
+     * and, while the mouse is pressed, the users performs a dragging. This
+     * fuction allows the user to drag a selected shape on the screen.
      *
      * @param event is the event that generated the call to this method
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
         if (this.getSelectedShape() != null) {
-            this.selectedShape.setLayoutX((event.getX() - selectedShape.getLayoutBounds().getMinX()));
-            this.selectedShape.setLayoutY((event.getY() - selectedShape.getLayoutBounds().getMinY()));
+            this.selectedShape.relocate(event.getX(), event.getY());
+
         }
     }
 
@@ -134,12 +135,5 @@ public class SelectedShapeManager extends Tool {
         ds1.setOffsetY(4.0f);
         ds1.setOffsetX(2.0f);
         node.setEffect(ds1);
-    }
-
-    private static void unsetNodeShadow(Node node) {
-        if (node == null) {
-            return;
-        }
-
     }
 }
