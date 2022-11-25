@@ -4,6 +4,7 @@
  */
 package seproject;
 
+import seproject.tools.LineTool;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;

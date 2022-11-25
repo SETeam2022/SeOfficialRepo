@@ -4,6 +4,7 @@
  */
 package seproject;
 
+import seproject.tools.RectangleTool;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
