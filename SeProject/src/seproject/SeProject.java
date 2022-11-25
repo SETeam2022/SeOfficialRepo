@@ -1,20 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seproject;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- *
- * @author teodoroadinolfi
- */
+
 public class SeProject extends Application {
     
     @Override
@@ -23,6 +16,8 @@ public class SeProject extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
+        stage.setTitle("Definitely not Paint");
+        stage.getIcons().add(new Image("icons/paint.png"));
         stage.show();
     }
 

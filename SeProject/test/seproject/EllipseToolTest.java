@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
+
 package seproject;
 
 import seproject.tools.EllipseTool;
@@ -17,10 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author teodo
- */
+
 public class EllipseToolTest {
     
     private Pane paper;
@@ -34,7 +28,7 @@ public class EllipseToolTest {
     
     
     
-        /**
+    /**
      * This methods create the Test environment, it makes a Blue rectangole (shape and fill)
      * and istances an EllipseTool
      */
