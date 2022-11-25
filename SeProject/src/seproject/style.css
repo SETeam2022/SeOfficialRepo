@@ -2,23 +2,23 @@
     -fx-font-family:'fantasy';
 }
 
-.button {
+.toggle-button {
     -fx-background-color: white;
 }
 
-.button:pressed:hover {
+.toggle-button:pressed:hover {
     -fx-scale-y: 0.9;
     -fx-scale-x: 0.9;
     -fx-cursor: CLOSED_HAND;
 }
 
-.button:hover {
+.toggle-button:hover {
     -fx-background-color: lightblue;
     -fx-scale-y: 1.1;
     -fx-cursor: hand;
 }
 
-.button:focused{
+.toggle-button:focused{
     -fx-background-color: lightblue;
 }
 

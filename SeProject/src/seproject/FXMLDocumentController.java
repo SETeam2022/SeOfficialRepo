@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -29,15 +33,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private MenuItem closeMenuItem;
     @FXML
-    private Button selectButton;
+    private RadioButton selectButton;
     @FXML
     private Button ereaseButton;
     @FXML
-    private Button addLineButton;
+    private RadioButton addLineButton;
     @FXML
-    private Button addRectangleButton;
+    private RadioButton addRectangleButton;
     @FXML
-    private Button addEllipsesButton;
+    private RadioButton addEllipsesButton;
     @FXML
     private ColorPicker interiorColorPicker;
     @FXML
@@ -48,30 +52,47 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
     private FileManager fm;
     private SelectedShapeManager ssm;
+    
     @FXML
     private ToolBar toolBar;
+    @FXML
+    private ToggleGroup g1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        for (Node child : toolBar.getItems()){
+            if (child instanceof RadioButton){
+                child.getStyleClass().remove("radio-button");
+                child.getStyleClass().add("toggle-button");
+            }
+        }
+        
         fm = new FileManager(drawingPane);
         /*Default color picker values*/
         interiorColorPicker.setValue(Color.BLACK);
         borderColorPicker.setValue(Color.BLACK);
+        
+        /*selectButton.getStyleClass().remove("radio-button");
+        selectButton.getStyleClass().add("toggle-button");*/
         
         ssm = new SelectedShapeManager(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
         ereaseButton.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         // selecting an initial tool
         selectedTool = ssm;
         
-        for(Node child : toolBar.getItems()){
-            
-            child.setOnMousePressed(event ->{
-                if(child instanceof Button && child != ereaseButton ){
-                    System.out.println(child);
+       
+        selectButton.selectedProperty().addListener(new ChangeListener <Boolean>() {
+            @Override
+            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
+                if (newVal != oldVal && newVal == false){
                     ssm.deselect();
+                    System.out.println("changed!" + oldVal + ' ' + newVal);
                 }
-            });
-        }
+                
+            }
+        });
+        
     }
 
     @FXML

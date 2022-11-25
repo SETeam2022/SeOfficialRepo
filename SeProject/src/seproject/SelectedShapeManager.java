@@ -39,6 +39,7 @@ public class SelectedShapeManager extends Tool {
             this.selectedShape = null;
             
         }
+        
         this.shapeIsSelected.setValue(false);
         for (Node node : this.getPaper().getChildren()) {
             Shape tmp = (Shape) node;
@@ -56,8 +57,8 @@ public class SelectedShapeManager extends Tool {
     @Override
     public void onMouseDragged(MouseEvent event) {
         if (this.getSelectedShape() != null) {
-            this.selectedShape.setLayoutX((event.getX() - selectedShape.getLayoutBounds().getMinX()));
-            this.selectedShape.setLayoutY((event.getY() - selectedShape.getLayoutBounds().getMinY()));
+            this.selectedShape.relocate(event.getX(), event.getY());
+            
         }
     }
 
