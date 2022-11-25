@@ -4,6 +4,7 @@
 
 .toggle-button {
     -fx-background-color: white;
+    -fx-focus-traversable: false;
 }
 
 .toggle-button:pressed:hover {
@@ -18,7 +19,7 @@
     -fx-cursor: hand;
 }
 
-.toggle-button:focused{
+.toggle-button:selected{
     -fx-background-color: lightblue;
 }
 
