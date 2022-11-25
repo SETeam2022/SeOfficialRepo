@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -68,10 +69,10 @@ public class FXMLDocumentController implements Initializable {
             child.setOnMousePressed(event ->{
                 if(child instanceof Button && child != ereaseButton ){
                     System.out.println(child);
-                    ssm.deselect();
+                    ssm.unsetSelectedShape();
                 }
             });
-        }
+        }        
     }
 
     @FXML

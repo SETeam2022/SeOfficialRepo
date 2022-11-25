@@ -31,28 +31,22 @@ public class SelectedShapeManager extends Tool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        if (this.selectedShape != null){
-        
-            this.selectedShape.strokeProperty().unbind();
-            this.selectedShape.fillProperty().unbind();
-            this.selectedShape.setEffect(null);
-            this.selectedShape = null;
-            
-        }
-        this.shapeIsSelected.setValue(false);
-        for (Node node : this.getPaper().getChildren()) {
-            Shape tmp = (Shape) node;
-            if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
-                DropShadow ds1 = new DropShadow();
-                ds1.setOffsetY(4.0f);
-                ds1.setOffsetX(2.0f);
-                node.setEffect(ds1);
+        this.unsetSelectedShape();    
+        Object eventNode = event.getTarget();
+        if (eventNode instanceof Shape) {
+            Shape tmp = (Shape) eventNode;
+            if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 this.setSelectedShape(tmp);
-                this.shapeIsSelected.setValue(true);
-            } 
+            }
         }
     }
-
+    /**
+     * This function will be called after a click with the mouse on the paper and, while the mouse
+     * is pressed, the users performs a dragging.
+     * This fuction allows the user to drag a selected shape on the screen.
+     *
+     * @param event is the event that generated the call to this method
+     */
     @Override
     public void onMouseDragged(MouseEvent event) {
         if (this.getSelectedShape() != null) {
@@ -75,15 +69,20 @@ public class SelectedShapeManager extends Tool {
      * @param selectedShape set the selected shape
      */
     private void setSelectedShape(Shape selectedShape) {
-        if (this.selectedShape != null) {
-            this.selectedShape.strokeProperty().unbind();
-            this.selectedShape.fillProperty().unbind();
-        }
         this.selectedShape = selectedShape;
-        this.getFillColorProperty().setValue(Color.valueOf(this.selectedShape.getFill().toString()));
-        this.getStrokeColorProperty().setValue(Color.valueOf(this.selectedShape.getStroke().toString()));
-        this.selectedShape.strokeProperty().bind(this.getStrokeColorProperty());
-        this.selectedShape.fillProperty().bind(this.getFillColorProperty());
+        this.bindShapePaintProperty();
+        setNodeShadow(this.selectedShape);
+        this.shapeIsSelected.setValue(true);
+    }
+
+    public void unsetSelectedShape() {
+        if (this.selectedShape == null) {
+            return;
+        }
+        unbindShapePaintProperty(this.selectedShape);
+        this.selectedShape.setEffect(null);
+        this.shapeIsSelected.setValue(false);
+        this.selectedShape = null;
     }
 
     /**
@@ -109,11 +108,38 @@ public class SelectedShapeManager extends Tool {
         this.shapeIsSelected.setValue(false);
     }
 
-    public void deselect(){
-        if (this.selectedShape == null) return;
-        this.selectedShape.strokeProperty().unbind();
-        this.selectedShape.fillProperty().unbind();
-        this.selectedShape.setEffect(null);
-        this.shapeIsSelected.setValue(false);
+    private static void unbindShapePaintProperty(Shape shape) {
+        if (shape == null) {
+            return;
+        }
+        shape.strokeProperty().unbind();
+        shape.fillProperty().unbind();
+    }
+
+    private void bindShapePaintProperty() {
+        if (this.selectedShape == null) {
+            return;
+        }
+        this.getFillColorProperty().setValue(Color.valueOf(this.selectedShape.getFill().toString()));
+        this.getStrokeColorProperty().setValue(Color.valueOf(this.selectedShape.getStroke().toString()));
+        this.selectedShape.strokeProperty().bind(this.getStrokeColorProperty());
+        this.selectedShape.fillProperty().bind(this.getFillColorProperty());
+    }
+
+    private static void setNodeShadow(Node node) {
+        if (node == null) {
+            return;
+        }
+        DropShadow ds1 = new DropShadow();
+        ds1.setOffsetY(4.0f);
+        ds1.setOffsetX(2.0f);
+        node.setEffect(ds1);
+    }
+
+    private static void unsetNodeShadow(Node node) {
+        if (node == null) {
+            return;
+        }
+
     }
 }
