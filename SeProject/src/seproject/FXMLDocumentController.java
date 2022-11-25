@@ -77,17 +77,14 @@ public class FXMLDocumentController implements Initializable {
         ereaseButton.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         // selecting an initial tool
         selectedTool = ssm;
-
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
                 if (newVal != oldVal && newVal == false) {
                     ssm.unsetSelectedShape();
                 }
-
             }
         });
-
     }
 
     @FXML
