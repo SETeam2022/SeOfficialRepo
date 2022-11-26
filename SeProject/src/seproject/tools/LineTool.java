@@ -1,7 +1,6 @@
 package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -29,7 +28,7 @@ public class LineTool extends Tool {
     }
 
     /**
-     * onMouseDragghed method. It refreshes the creation of the line before
+     * onMouseDragged method. It refreshes the creation of the line before
      * dropping it on the paper.
      *
      * @param event is the dragging movement around the pane.
