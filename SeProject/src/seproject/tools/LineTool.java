@@ -1,19 +1,21 @@
 package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-
+/**
+ * This class is the rappresentation of a specialized tool that can draw
+ * Lines on the screen.
+ */
 public class LineTool extends Tool {
 
     private Line line;
 
     /**
-     * Create a LineTool
+     * Create a new LineTool
      *
      * @param paper is the pane on witch the new line nodes will be added
      * @param strokeColorProperty is the associated ObjectProperty of Stroke
@@ -26,7 +28,7 @@ public class LineTool extends Tool {
     }
 
     /**
-     * onMouseDragghed method. It refreshes the creation of the line before
+     * onMouseDragged method. It refreshes the creation of the line before
      * dropping it on the paper.
      *
      * @param event is the dragging movement around the pane.
