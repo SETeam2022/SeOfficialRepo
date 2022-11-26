@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package seproject;
 
 import seproject.tools.SelectedShapeManager;
@@ -19,10 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author bvs
- */
+
 public class SelectedShapeManagerTest {
 
     private Pane paper;
@@ -31,6 +24,11 @@ public class SelectedShapeManagerTest {
     private ObjectProperty<Color> fillColorProperty;
     private SelectedShapeManager ssm;
     private Ellipse instancedEllipse;
+    
+    /**
+     * This method create the Test environment, it creates a test ellipse with
+     * red stroke and black fill and istances a ShapeSelectionTool.
+     */
     @Before
     public void setUp() {
         //Set up of a temporary pane and a temporary drawing tool for an ellipse
@@ -60,7 +58,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of onMousePressed method, of class SelectedShapeManager.
+     * This method simulate the click of the mouse in a point of the paper where
+     * the test shape had been drawn and check if that shape has been selected.     
      */
     @Test
     public void testOnMousePressed() {
@@ -90,7 +89,9 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of onMouseDragged method, of class SelectedShapeManager.
+     * This method simulate the click of the mouse in a point of the paper where
+     * the test shape had been drawn and simulate the drag of the mouse, checks
+     * if the bounds at the end of the drag is the same
      */
     @Test
     public void testOnMouseDragged() {

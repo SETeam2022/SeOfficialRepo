@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
+
 package seproject;
 
 import seproject.tools.EllipseTool;
@@ -17,10 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author teodo
- */
+
 public class EllipseToolTest {
     
     private Pane paper;
@@ -34,9 +28,9 @@ public class EllipseToolTest {
     
     
     
-        /**
-     * This methods create the Test environment, it makes a Blue rectangole (shape and fill)
-     * and istances an EllipseTool
+    /**
+     * This methods create the Test environment, it creates a test Ellipse with
+     * red stroke and black fill, and istances an EllipseTool.     
      */
     @Before
     public void setUp() {
@@ -46,12 +40,10 @@ public class EllipseToolTest {
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
         paper = new Pane();
-        // Da refactorizzare
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();        
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        //
         t = new EllipseTool(paper,borderColorProperty,fillColorProperty);
     }
     
@@ -59,7 +51,7 @@ public class EllipseToolTest {
 
     /**
      * Simulate a mouse click and check if the ellipse added to the paper is in the same position of
-     * a test elipse.
+     * a test ellipse and has the same stroke and fill color attribute
      */
     @Test
     public void testMousePressed() {
@@ -84,6 +76,9 @@ public class EllipseToolTest {
         
     }
     
+    /**
+     * Simulate a mouse press and the drag. Checks if the added ellipse has the same radius (due to the drag effect)
+     */
     @Test
     public void testOnMouseDragged(){
         System.out.println("mouseDragged");

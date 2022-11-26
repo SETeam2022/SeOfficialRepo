@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package seproject.tools;
 
 import static java.lang.Math.abs;
@@ -46,6 +42,7 @@ public class EllipseTool extends Tool {
         ell = new Ellipse(event.getX(), event.getY(), 0,0);
         ell.setStroke(this.getStrokeColor());
         ell.setFill(this.getFillColor());
+        ell.setStrokeWidth(Tool.widthStroke);
         this.getPaper().getChildren().add(ell);
     }
     
@@ -53,7 +50,7 @@ public class EllipseTool extends Tool {
     *   This function will be called when I click the mouse on the paper and 
     *   move it on the paper and it will draw on the screen an update ellipse.
     *   @param event is the event that generated the call to this method its X 
-    *   and Y coordinates will be used for the center of the ellipse
+    *   and Y coordinates will be used for ellipse's radius managing. 
     */
     @Override
     public void onMouseDragged(MouseEvent event){

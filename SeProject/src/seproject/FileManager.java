@@ -1,4 +1,4 @@
-package seproject;
+ package seproject;
 
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;

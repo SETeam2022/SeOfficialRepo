@@ -10,14 +10,24 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
- * This class allows to select a shape on the screen.
+ * This class is the rappresentation of a specialized tool that can draw
+ * SelectedShapeManager on the screen.
  */
 public class SelectedShapeManager extends Tool {
 
     private Shape selectedShape = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
-
+    
+     /**
+     * Create a new SelectedShapeManager.
+     *
+     * @param paper is the pane on witch the new ellipses nodes will be added
+     * @param strokeColorProperty is the associated ObjectProperty of Stroke
+     * Interior Picker's value.
+     * @param fillColorProperty is the associated ObjectProperty of Fill
+     * Interior Picker's value.
+     */ 
     public SelectedShapeManager(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
         shapeIsSelected = new SimpleBooleanProperty(false);
@@ -51,7 +61,8 @@ public class SelectedShapeManager extends Tool {
     @Override
     public void onMouseDragged(MouseEvent event) {
         if (this.getSelectedShape() != null) {
-            this.selectedShape.relocate(event.getX(), event.getY());
+            this.selectedShape.setLayoutX(event.getX()-((selectedShape.getLayoutBounds().getMaxX()+selectedShape.getLayoutBounds().getMinX())/2));
+            this.selectedShape.setLayoutY(event.getY()-((selectedShape.getLayoutBounds().getMaxY()+selectedShape.getLayoutBounds().getMinY())/2));
 
         }
     }
@@ -78,7 +89,10 @@ public class SelectedShapeManager extends Tool {
         setNodeShadow(this.selectedShape);
         this.shapeIsSelected.setValue(true);
     }
-
+    
+     /**
+     * Unselect the current selected shape in SSM class if it isn't NULL.
+     */
     public void unsetSelectedShape() {
         if (this.selectedShape == null) {
             return;
