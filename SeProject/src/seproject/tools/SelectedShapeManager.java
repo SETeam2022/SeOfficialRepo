@@ -1,6 +1,5 @@
 package seproject.tools;
 
-import static java.lang.Math.abs;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
@@ -28,8 +27,7 @@ public class SelectedShapeManager extends Tool {
      * Interior Picker's value.
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * Interior Picker's value.
-     */
-    
+     */ 
     public SelectedShapeManager(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
         shapeIsSelected = new SimpleBooleanProperty(false);

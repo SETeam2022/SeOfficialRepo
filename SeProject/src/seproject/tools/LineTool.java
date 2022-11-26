@@ -28,7 +28,7 @@ public class LineTool extends Tool {
     }
 
     /**
-     * onMouseDragged method. It refreshes the creation of the line before
+     * This method refreshes the creation of the line before
      * dropping it on the paper.
      *
      * @param event is the dragging movement around the pane.
@@ -40,7 +40,7 @@ public class LineTool extends Tool {
     }
 
     /**
-     * onMouseClick method. It starts the creation of the line setting up an
+     * This method starts the creation of the line setting up an
      * initial position.
      *
      * @param event is the dragging movement around the pane.
