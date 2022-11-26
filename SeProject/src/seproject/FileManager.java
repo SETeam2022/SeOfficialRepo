@@ -1,4 +1,4 @@
-package seproject;
+ package seproject;
 
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 /**
  * This class is used to model a FileManager able to save the drawn shapes to an
  * xml file and get the saved shapes from an xml file.
+ * 
  */
 public class FileManager {
 

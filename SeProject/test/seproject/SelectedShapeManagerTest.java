@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package seproject;
 
+import seproject.tools.SelectedShapeManager;
+import seproject.tools.EllipseTool;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
@@ -17,10 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author bvs
- */
+
 public class SelectedShapeManagerTest {
 
     private Pane paper;
@@ -28,7 +23,12 @@ public class SelectedShapeManagerTest {
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private SelectedShapeManager ssm;
-
+    private Ellipse instancedEllipse;
+    
+    /**
+     * This method create the Test environment, it creates a test ellipse with
+     * red stroke and black fill and istances a ShapeSelectionTool.
+     */
     @Before
     public void setUp() {
         //Set up of a temporary pane and a temporary drawing tool for an ellipse
@@ -38,37 +38,42 @@ public class SelectedShapeManagerTest {
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         ell = new EllipseTool(paper, borderColorProperty, fillColorProperty);
-        
         // Creation of the SelectedShapeManager under test
         ssm = new SelectedShapeManager(paper, borderColorProperty, fillColorProperty);
 
         // We draw an ellipse on the pane so that we can test the selection
         // and all methods on it
-        ell.onMousePressed(new MouseEvent(MouseEvent.MOUSE_CLICKED, 0,
-                0, 0, 0, MouseButton.PRIMARY, 1,
+        ell.onMousePressed(new MouseEvent(paper,paper,MouseEvent.MOUSE_CLICKED, 100,
+                200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
-        ell.onMouseDragged(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 10, 10,
+        
+        ell.onMouseDragged(new MouseEvent(paper,paper,MouseEvent.MOUSE_DRAGGED, 200, 300,
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
+        Node instancedNode = paper.getChildren().get(0);
+        Assert.assertTrue("Instanced Node is not an Ellipse", instancedNode instanceof Ellipse);
+        instancedEllipse = (Ellipse) instancedNode;
     }
 
     /**
-     * Test of onMousePressed method, of class SelectedShapeManager.
+     * This method simulate the click of the mouse in a point of the paper where
+     * the test shape had been drawn and check if that shape has been selected.     
      */
     @Test
     public void testOnMousePressed() {
         System.out.println("onMousePressed");
-
-        ssm.onMousePressed(new MouseEvent(MouseEvent.MOUSE_CLICKED, 2,
-                2, 0, 0, MouseButton.PRIMARY, 1,
+        
+        ssm.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+                200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
 
         Ellipse selectedEllipse = (Ellipse) ssm.getSelectedShape();
-
+        
         for (Node elem : paper.getChildren()) {
+            
             if (elem instanceof Ellipse) {
                 Ellipse casted = (Ellipse) elem;
                 // Checking for Positions
@@ -84,18 +89,20 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of onMouseDragged method, of class SelectedShapeManager.
+     * This method simulate the click of the mouse in a point of the paper where
+     * the test shape had been drawn and simulate the drag of the mouse, checks
+     * if the bounds at the end of the drag is the same
      */
     @Test
     public void testOnMouseDragged() {
         System.out.println("onMouseDragged");
         // Selecting a shape
-        ssm.onMousePressed(new MouseEvent(MouseEvent.MOUSE_CLICKED, 2,
-                2, 0, 0, MouseButton.PRIMARY, 1,
+        ssm.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+                200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
         //Dragging the selected shape
-        ssm.onMouseDragged(new MouseEvent(MouseEvent.MOUSE_DRAGGED, 40, 40,
+        ssm.onMouseDragged(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_DRAGGED, 40, 40,
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
@@ -124,8 +131,8 @@ public class SelectedShapeManagerTest {
     public void testDeleteSelectedShape() {
         System.out.println("deleteSelectedShape");
         // try to delete a selected shape, it first select something
-        ssm.onMousePressed(new MouseEvent(MouseEvent.MOUSE_CLICKED, 2,
-                2, 0, 0, MouseButton.PRIMARY, 1,
+        ssm.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+                200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
 

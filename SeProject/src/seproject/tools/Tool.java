@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package seproject;
+package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
@@ -11,12 +7,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 /**
- *
- * @author teodo
+ * This class is the rappresentation of a unspecialized abstract tool. In order
+ * to allow concrete shape creations this class must be concretized.
  */
 public abstract class Tool {
-
-     Pane paper;
+    
+    Pane paper;
+    static final double widthStroke = 2.5;
 
     private final ObjectProperty<Color> strokeColorProperty;
 
@@ -48,14 +45,13 @@ public abstract class Tool {
      *
      * @param event the JavaFx event associated with the mouse click
      */
-    public void onMousePressed(MouseEvent event) {
-    }
+    public void onMousePressed(MouseEvent event) {}
 
-    ;
     
     /**
      * This method provides an empty implementation, the class that extends
      * Tool can provides a conrete implementation by overriding the method
+     * 
      * @param event the JavaFx event associated with the mouse click
      */
     public void onMouseDragged(MouseEvent event) {
@@ -78,20 +74,12 @@ public abstract class Tool {
     }
 
     /**
-     * @param paint the color that will be used by the concrete tool for working
-     * on the shapes stroke
-     */
-    /**
      * @return strokeColor the strokeColor setted for the tool
      */
     public Paint getStrokeColor() {
         return this.strokeColorProperty.getValue();
     }
 
-    /**
-     * @param paint the color that will be used by the concrete tool for working
-     * on the shapes fill
-     */
     /**
      * @return fillColor the fillColor setted for the tool
      */

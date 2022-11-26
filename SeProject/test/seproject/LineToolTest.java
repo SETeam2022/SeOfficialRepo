@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package seproject;
 
+import seproject.tools.LineTool;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -12,15 +9,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author alewi
- */
 public class LineToolTest {
     
     private Pane paper;
@@ -33,31 +25,29 @@ public class LineToolTest {
     public LineToolTest() {
     }
     
-    
+    /**
+     * This method create the Test environment, it creates a test line with
+     * red stroke and black fill, and istances a line tool.
+     */
     @Before
     public void setUp() {
         
         testShape = new Line(443,308,471,308);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
-        
-        
         paper = new Pane();
-        
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();        
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        
-        
-        
         t = new LineTool(paper,borderColorProperty,fillColorProperty);
+        
     }
     
-    @After
-    public void tearDown() {
-    }
-
+    /**
+     * Simulate a mouse click and check if the line added to the paper is in the same start position of
+     * a test line and has the same stroke and fill color attribute
+     */
     @Test
     public void testMousePressed() {
         System.out.println("mousePressed");
@@ -80,6 +70,10 @@ public class LineToolTest {
         
     }
     
+    /**
+     * Simulate a mouse press and the drag. Checks if the line added to the paper  
+     * has the same length (due to the drag effect)
+     */
     @Test
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");

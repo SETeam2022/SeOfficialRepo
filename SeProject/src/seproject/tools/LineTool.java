@@ -1,26 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package seproject;
+package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
- *
- * @author alewi
+ * This class is the rappresentation of a specialized tool that can draw
+ * Lines on the screen.
  */
 public class LineTool extends Tool {
 
     private Line line;
 
     /**
-     * Create a LineTool
+     * Create a new LineTool
      *
      * @param paper is the pane on witch the new line nodes will be added
      * @param strokeColorProperty is the associated ObjectProperty of Stroke
@@ -33,7 +28,7 @@ public class LineTool extends Tool {
     }
 
     /**
-     * onMouseDragghed method. It refreshes the creation of the line before
+     * This method refreshes the creation of the line before
      * dropping it on the paper.
      *
      * @param event is the dragging movement around the pane.
@@ -45,7 +40,7 @@ public class LineTool extends Tool {
     }
 
     /**
-     * onMouseClick method. It starts the creation of the line setting up an
+     * This method starts the creation of the line setting up an
      * initial position.
      *
      * @param event is the dragging movement around the pane.
@@ -58,6 +53,7 @@ public class LineTool extends Tool {
         line = new Line(startX, startY, startX, startY);
         line.setStroke(this.getStrokeColor());
         line.setFill(this.getFillColor());
+        line.setStrokeWidth(Tool.widthStroke);
         this.getPaper().getChildren().add(line);
     }
 
