@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import static java.lang.Math.abs;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
@@ -51,7 +52,8 @@ public class SelectedShapeManager extends Tool {
     @Override
     public void onMouseDragged(MouseEvent event) {
         if (this.getSelectedShape() != null) {
-            this.selectedShape.relocate(event.getX(), event.getY());
+            this.selectedShape.setLayoutX(event.getX()-((selectedShape.getLayoutBounds().getMaxX()+selectedShape.getLayoutBounds().getMinX())/2));
+            this.selectedShape.setLayoutY(event.getY()-((selectedShape.getLayoutBounds().getMaxY()+selectedShape.getLayoutBounds().getMinY())/2));
 
         }
     }

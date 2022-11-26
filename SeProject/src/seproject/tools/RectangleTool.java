@@ -44,6 +44,7 @@ public class RectangleTool extends Tool {
         rectangle = new Rectangle(startX, startY, 0, 0);
         rectangle.setStroke(this.getStrokeColor());
         rectangle.setFill(this.getFillColor());
+        rectangle.setStrokeWidth(Tool.widthStroke);
         this.getPaper().getChildren().add(rectangle);
 
     }

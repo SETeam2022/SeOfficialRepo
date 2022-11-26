@@ -7,8 +7,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public abstract class Tool {
-
-     Pane paper;
+    
+    Pane paper;
+    static final double widthStroke = 2.5;
 
     private final ObjectProperty<Color> strokeColorProperty;
 

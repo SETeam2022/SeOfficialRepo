@@ -42,6 +42,7 @@ public class EllipseTool extends Tool {
         ell = new Ellipse(event.getX(), event.getY(), 0,0);
         ell.setStroke(this.getStrokeColor());
         ell.setFill(this.getFillColor());
+        ell.setStrokeWidth(Tool.widthStroke);
         this.getPaper().getChildren().add(ell);
     }
     

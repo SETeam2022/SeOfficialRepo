@@ -51,6 +51,7 @@ public class LineTool extends Tool {
         line = new Line(startX, startY, startX, startY);
         line.setStroke(this.getStrokeColor());
         line.setFill(this.getFillColor());
+        line.setStrokeWidth(Tool.widthStroke);
         this.getPaper().getChildren().add(line);
     }
 
