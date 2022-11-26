@@ -30,9 +30,9 @@ public class RectangleToolTest {
     }
     
     
-    /**
-     * This methods create the Test environment, it makes a Blue rectangole (shape and fill)
-     * and istances a Drawing Tool
+   /**
+     * This method create the Test environment, it creates a test rectangle with
+     * red stroke and black fill, and istances a rectangle tool.
      */
     @Before
     public void setUp() {
@@ -49,12 +49,10 @@ public class RectangleToolTest {
         t = new RectangleTool(paper,borderColorProperty,fillColorProperty);
         
     }
-    
-
 
     /**
-     * Simulate a mouse click and check if the shape added to the paper is in the same position of
-     * a test shape.
+     * Simulate a mouse click and check if the rectangle added to the paper is in the same position of
+     * a test rectangle and has the same stroke and fill color attribute
      */
     @Test
     public void testOnMousePressed() {
@@ -78,7 +76,10 @@ public class RectangleToolTest {
         
     }
     
-    
+    /**
+     * Simulate a mouse press and the drag. Checks if the rectangle added has the 
+     * same width and height of the testShape
+     */
     @Test
     public void testOnMouseDragged(){
         System.out.println("mouseDragged");
@@ -100,6 +101,5 @@ public class RectangleToolTest {
     }
 
 
-
-    
+  
 }
