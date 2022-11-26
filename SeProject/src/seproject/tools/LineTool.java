@@ -7,13 +7,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-
+/**
+ * This class is the rappresentation of a specialized tool that can draw
+ * Lines on the screen.
+ */
 public class LineTool extends Tool {
 
     private Line line;
 
     /**
-     * Create a LineTool
+     * Create a new LineTool
      *
      * @param paper is the pane on witch the new line nodes will be added
      * @param strokeColorProperty is the associated ObjectProperty of Stroke
