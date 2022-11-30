@@ -4,11 +4,8 @@
  */
 package seproject.commands;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,9 +17,9 @@ import static org.junit.Assert.*;
  *
  * @author bvs
  */
-public class ChangeFillColorCommandTest {
-
-    private ChangeFillColorCommand com;
+public class ChangeStrokeColorCommandTest {
+    
+    private ChangeStrokeColorCommand com;
     
     
     /**
@@ -32,9 +29,9 @@ public class ChangeFillColorCommandTest {
     public void testExecute() {
         System.out.println("execute");
         Rectangle rect = new Rectangle();
-        com = new ChangeFillColorCommand(Color.RED,rect.getFill(),rect);
+        com = new ChangeStrokeColorCommand(Color.RED,rect.getStroke(),rect);
         com.execute();
-        assertEquals(rect.getFill(), Color.RED);
+        assertEquals(rect.getStroke(), Color.RED);
         
     }
 
@@ -45,11 +42,11 @@ public class ChangeFillColorCommandTest {
     public void testUndo() {
         System.out.println("undo");
         Rectangle rect = new Rectangle();
-        rect.setFill(Color.BLACK);
-        com = new ChangeFillColorCommand(Color.RED,rect.getFill(),rect);
+        rect.setStroke(Color.BLACK);
+        com = new ChangeStrokeColorCommand(Color.RED,rect.getStroke(),rect);
         com.execute();
         com.undo();
-        assertEquals(rect.getFill(), Color.BLACK);
+        assertEquals(rect.getStroke(), Color.BLACK);
     }
     
 }
