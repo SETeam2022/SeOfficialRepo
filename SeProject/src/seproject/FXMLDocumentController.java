@@ -49,10 +49,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private RadioButton addEllipsesButton;
     @FXML
-    private ColorPicker interiorColorPicker;
-    @FXML
-    private ColorPicker borderColorPicker;
-    @FXML
     private Pane drawingPane;
 
     private Tool selectedTool;
@@ -62,6 +58,10 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar toolBar;
     @FXML
     private ToggleGroup g1;
+    @FXML
+    private ColorPicker fillColorPicker;
+    @FXML
+    private ColorPicker strokeColorPicker;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,8 +76,8 @@ public class FXMLDocumentController implements Initializable {
         fm = new FileManager(drawingPane);
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
         /*Default color picker values*/
-        interiorColorPicker.setValue(Color.BLACK);
-        borderColorPicker.setValue(Color.BLACK);
+        fillColorPicker.setValue(Color.BLACK);
+        strokeColorPicker.setValue(Color.BLACK);
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
         // selecting an initial tool
         selectedTool = new SelectionTool(drawingPane);
@@ -89,8 +89,6 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-        
-        
     }
 
     @FXML
@@ -136,17 +134,17 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addLine(ActionEvent event) {
-        selectedTool = new LineTool(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
+        selectedTool = new LineTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
     @FXML
     private void addRectangle(ActionEvent event) {
-        selectedTool = new RectangleTool(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
+        selectedTool = new RectangleTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
     @FXML
     private void addEllipses(ActionEvent event) {
-        selectedTool = new EllipseTool(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
+        selectedTool = new EllipseTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
     @FXML
@@ -157,6 +155,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
         selectedTool.onMouseDragged(event);
+    }
+
+    @FXML
+    private void changeFillColor(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeFillColor(fillColorPicker.getValue());  
+    }
+    
+    @FXML
+    private void changeStrokeColor(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeStrokeColor(strokeColorPicker.getValue());
     }
 
 }

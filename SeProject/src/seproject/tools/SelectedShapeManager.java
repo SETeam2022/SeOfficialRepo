@@ -16,59 +16,52 @@ public class SelectedShapeManager {
     private Shape selectedShape = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
-    
+
     private static Pane paper;
-    
+
     private static SelectedShapeManager ssm = null;
-    
-     /**
-     * Create a new SelectedShapeManager.
-     *
-     * @param paper is the pane on witch the new ellipses nodes will be added
-     */ 
+
     private SelectedShapeManager() {
         this.shapeIsSelected = new SimpleBooleanProperty(false);
     }
 
     /**
-     *  This static metods returns the 
+     * This methods returns the only istnace of the selectedShapeManager
      */
-    public static SelectedShapeManager getSelectedShapeManager(){
-        if (ssm == null){
-            ssm = new SelectedShapeManager(); 
-        } 
-        return ssm;   
+    public static SelectedShapeManager getSelectedShapeManager() {
+        if (ssm == null) {
+            ssm = new SelectedShapeManager();
+        }
+        return ssm;
     }
-    
+
     /**
-     * @param paper the pane on witch the shape will be selected 
+     * This method must be called before the use of the SelectedShapeManager
+     * @param paper the pane on witch the shape will be selected
      */
-    public static void setSelectedShapeManagerPaper(Pane paper){
+    public static void setSelectedShapeManagerPaper(Pane paper) {
         SelectedShapeManager.paper = paper;
     }
-    
+
     /**
-    * 
-    * @return selected shape
-    */
+     *
+     * @return selected shape
+     */
     public Shape getSelectedShape() {
         return selectedShape;
     }
 
     /**
      *
-     * @param selectedShape set the selected shape an bind the tool color
-     * properties with the shapes stroke and fill properties. This enables
-     * the change of the color.
-     * 
+     * @param selectedShape set the selected shape an adds the selection effect
      */
     public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
         setNodeShadow(this.selectedShape);
         ssm.shapeIsSelected.setValue(true);
     }
-    
-     /**
+
+    /**
      * Unselect the current selected shape in SSM class if it isn't NULL.
      */
     public void unsetSelectedShape() {
@@ -101,17 +94,30 @@ public class SelectedShapeManager {
         ssm.paper.getChildren().remove(this.selectedShape);
         ssm.selectedShape = null;
         ssm.shapeIsSelected.setValue(false);
-        
+
     }
     
-    public void changeSelectedShapeFillColor(Color color){
+    /**
+     * Change the fill color of the selected shape to a given color
+     * @param color the new color for the fill of the shape
+     */
+    public void changeSelectedShapeFillColor(Color color) {
+        if (ssm.selectedShape == null) {
+            return;
+        }
         ssm.selectedShape.setFill(color);
     }
     
-    public void changeSelectedShapeStrokeColor(Color color){
+    /**
+     * Change the stroke color of the selected shape to a given color
+     * @param color 
+     */
+    public void changeSelectedShapeStrokeColor(Color color) {
+        if (ssm.selectedShape == null) {
+            return;
+        }
         ssm.selectedShape.setStroke(color);
     }
-
 
     private void setNodeShadow(Node node) {
         if (node == null) {
