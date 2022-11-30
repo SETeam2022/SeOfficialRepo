@@ -36,6 +36,7 @@ public class SelectionToolTest {
         ell = new EllipseTool(paper, borderColorProperty, fillColorProperty);
         
         st = new SelectionTool(paper);
+        SelectedShapeManager.setSelectedShapeManagerPaper(paper);
         
         ell.onMousePressed(new MouseEvent(paper,paper,MouseEvent.MOUSE_CLICKED, 100,
                 200, 0, 0, MouseButton.PRIMARY, 1,
