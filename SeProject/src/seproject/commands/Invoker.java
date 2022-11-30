@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package seproject.commands;
 
 import java.util.Stack;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  *
@@ -14,28 +11,37 @@ public class Invoker {
     
     private final Stack<Command> stack;
     
-    private static Invoker invoker;
+    private static Invoker invoker = null;
     
+    private SimpleBooleanProperty undoIsEnabled;
     
     
     /**
      * This method let the Invoker execute the command passed as a parameter
-     * @param com 
+     * @param com the command object that represent the action that must be executed 
      */
     public void executeCommand(Command com){
         stack.push(com);
         com.execute();
+        undoIsEnabled.setValue(true);
     }
     /**
      * This method let the Invoker execute the undo of the last command 
      */
     public void undoLastCommand(){
-        Command com = stack.pop();
-        com.undo();
+        if (!stack.isEmpty()){
+            Command com = stack.pop();
+            com.undo();
+            if (stack.isEmpty()){
+                undoIsEnabled.setValue(false);
+            }
+        }
     }
     
     private Invoker(){
-        stack = new Stack();
+        stack = new Stack<>();
+        undoIsEnabled = new SimpleBooleanProperty();
+        undoIsEnabled.setValue(false);
     }
     
     /**
@@ -44,9 +50,13 @@ public class Invoker {
      * @return invoker the only istance of the invoker object
      */
     public static Invoker getInvoker(){
-        if (invoker == null){
-            invoker = new Invoker();
+        if (Invoker.invoker == null){
+            Invoker.invoker = new Invoker();
         }
         return invoker;
+    }
+    
+    public SimpleBooleanProperty getUndoIsEnabledProperty(){
+        return invoker.undoIsEnabled;
     }
 }
