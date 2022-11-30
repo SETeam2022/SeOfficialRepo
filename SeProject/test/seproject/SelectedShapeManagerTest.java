@@ -1,18 +1,16 @@
 package seproject;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import seproject.tools.SelectedShapeManager;
 import static org.junit.Assert.*;
-import seproject.tools.EllipseTool;
 
 /**
  *
@@ -22,8 +20,6 @@ public class SelectedShapeManagerTest {
     private SelectedShapeManager selectedShapeManager;
     private static Pane testPaper;
     private Shape testShape;
-    private EllipseTool ell;
-    private Ellipse instancedEllipse;
 
     public SelectedShapeManagerTest() {
     }
@@ -37,6 +33,9 @@ public class SelectedShapeManagerTest {
     @Before
     public void setUp() {
         selectedShapeManager = SelectedShapeManager.getSelectedShapeManager();
+        testShape = new Ellipse();
+        testPaper.getChildren().add(testShape);
+        
     }
 
     /**
@@ -65,12 +64,10 @@ public class SelectedShapeManagerTest {
     @Test
     public void testGetSelectedShape() {
         System.out.println("getSelectedShape");
-        SelectedShapeManager instance = null;
-        Shape expResult = null;
-        Shape result = instance.getSelectedShape();
+        Shape expResult = testShape;
+        selectedShapeManager.setSelectedShape(testShape);
+        Shape result = selectedShapeManager.getSelectedShape();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -79,11 +76,12 @@ public class SelectedShapeManagerTest {
     @Test
     public void testSetSelectedShape() {
         System.out.println("setSelectedShape");
-        Shape selectedShape = null;
-        SelectedShapeManager instance = null;
-        instance.setSelectedShape(selectedShape);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Shape expResult = testShape;
+        selectedShapeManager.setSelectedShape(expResult);
+        
+        Shape result = selectedShapeManager.getSelectedShape();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -92,10 +90,10 @@ public class SelectedShapeManagerTest {
     @Test
     public void testUnsetSelectedShape() {
         System.out.println("unsetSelectedShape");
-        SelectedShapeManager instance = null;
-        instance.unsetSelectedShape();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.unsetSelectedShape();
+        assertNull("Called unsetSelectedShape but shape in selectShapeManager is not null", selectedShapeManager.getSelectedShape());
+        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false",selectedShapeManager.getShapeIsSelectedProperty().get());   
     }
 
     /**
@@ -104,12 +102,11 @@ public class SelectedShapeManagerTest {
     @Test
     public void testGetShapeIsSelectedProperty() {
         System.out.println("getShapeIsSelectedProperty");
-        SelectedShapeManager instance = null;
-        SimpleBooleanProperty expResult = null;
-        SimpleBooleanProperty result = instance.getShapeIsSelectedProperty();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        selectedShapeManager.unsetSelectedShape();
+        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false",selectedShapeManager.getShapeIsSelectedProperty().get());
+        selectedShapeManager.setSelectedShape(testShape);
+        assertTrue("Called setSelectedShape but shapeIsSelectedProperty in selectShapeManager is not true",selectedShapeManager.getShapeIsSelectedProperty().get());
+
     }
 
     /**
@@ -118,10 +115,14 @@ public class SelectedShapeManagerTest {
     @Test
     public void testDeleteSelectedShape() {
         System.out.println("deleteSelectedShape");
-        SelectedShapeManager instance = null;
-        instance.deleteSelectedShape();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.deleteSelectedShape();
+        boolean flag = true;
+        for(Node n : testPaper.getChildren()){
+            if (n.equals(testShape)) flag = true;
+        }
+        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.",flag);
+        
     }
 
     /**
@@ -131,11 +132,11 @@ public class SelectedShapeManagerTest {
     @Test
     public void testChangeSelectedShapeFillColor() {
         System.out.println("changeSelectedShapeFillColor");
-        Color color = null;
-        SelectedShapeManager instance = null;
-        instance.changeSelectedShapeFillColor(color);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Paint expResult = (Paint) Color.MAGENTA;
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.changeSelectedShapeFillColor(Color.MAGENTA);
+        Paint result = selectedShapeManager.getSelectedShape().getFill();
+        assertEquals(expResult,result);
     }
 
     /**
@@ -145,11 +146,11 @@ public class SelectedShapeManagerTest {
     @Test
     public void testChangeSelectedShapeStrokeColor() {
         System.out.println("changeSelectedShapeStrokeColor");
-        Color color = null;
-        SelectedShapeManager instance = null;
-        instance.changeSelectedShapeStrokeColor(color);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Paint expResult = (Paint) Color.MAGENTA;
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.changeSelectedShapeStrokeColor(Color.MAGENTA);
+        Paint result = selectedShapeManager.getSelectedShape().getStroke();
+        assertEquals(expResult,result);
     }
 
 }
