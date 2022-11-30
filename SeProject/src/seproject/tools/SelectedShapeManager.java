@@ -2,7 +2,6 @@ package seproject.tools;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -29,7 +28,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * This methods returns the only istnace of the selectedShapeManager
+     * This methods returns the only instance of the selectedShapeManager
      * @return ssm
      */
     public static SelectedShapeManager getSelectedShapeManager() {
@@ -74,7 +73,6 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.selectedShape.setEffect(null);
         ssm.shapeIsSelected.setValue(false);
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         ssm.selectedShape = null;
@@ -103,7 +101,6 @@ public class SelectedShapeManager {
         }
 
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
-
         SelectedShapeManager.paper.getChildren().remove(this.selectedShape);
         ssm.selectedShape = null;
         ssm.shapeIsSelected.setValue(false);

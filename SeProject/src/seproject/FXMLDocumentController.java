@@ -63,6 +63,8 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
+    @FXML
+    private ToolBar sideBar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -90,6 +92,9 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
+        
+        sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
+        
     }
 
     @FXML
