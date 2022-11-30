@@ -35,7 +35,8 @@ public class RectangleTool extends Tool {
      * the Pane that works as a Paper
      *
      * @param event is the event that generated the call to this method its X
-     * and Y coordinates will be used for setting up the top left cornet of the shape
+     * and Y coordinates will be used for setting up the top left cornet of the
+     * shape
      */
     @Override
     public void onMousePressed(MouseEvent event) {
@@ -48,17 +49,26 @@ public class RectangleTool extends Tool {
         this.getPaper().getChildren().add(rectangle);
 
     }
-    
-    
+
     /**
-    *   This function will be called when I click the mouse on the paper and 
-    *   move it on the paper and it will draw on the screen an update rectangle.
-    *   @param event is the event that generated the call to this method its X 
-    *   and Y coordinates will be used for rectangle's width and height managing. 
-    */
+     * This function will be called when I click the mouse on the paper and move
+     * it on the paper and it will draw on the screen an update rectangle.
+     *
+     * @param event is the event that generated the call to this method its X
+     * and Y coordinates will be used for rectangle's width and height managing.
+     */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        rectangle.setWidth(abs(startX - event.getX()));
-        rectangle.setHeight(abs(startY - event.getY()));
+        
+        double newWidth = abs(startX - event.getX());
+        double newHeight = abs(startY - event.getY());
+        
+        double newStartX = Math.min(startX, event.getX());
+        double newStartY = Math.min(startY, event.getY());
+        
+        rectangle.setX(newStartX);
+        rectangle.setY(newStartY);
+        rectangle.setWidth(newWidth);
+        rectangle.setHeight(newHeight);
     }
 }
