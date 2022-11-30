@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -14,6 +15,8 @@ import javafx.scene.shape.Shape;
 public class SelectedShapeManager {
 
     private Shape selectedShape = null;
+    
+    private Rectangle selectionRectangle = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
 
@@ -27,6 +30,7 @@ public class SelectedShapeManager {
 
     /**
      * This methods returns the only istnace of the selectedShapeManager
+     * @return ssm
      */
     public static SelectedShapeManager getSelectedShapeManager() {
         if (ssm == null) {
@@ -54,10 +58,12 @@ public class SelectedShapeManager {
     /**
      *
      * @param selectedShape set the selected shape an adds the selection effect
+     * @param selectionRectangle
      */
-    public void setSelectedShape(Shape selectedShape) {
+    public void setSelectedShape(Shape selectedShape, Rectangle selectionRectangle) {
         ssm.selectedShape = selectedShape;
-        setNodeShadow(this.selectedShape);
+        ssm.selectionRectangle = selectionRectangle;
+        showSelectionBox(this.selectedShape);
         ssm.shapeIsSelected.setValue(true);
     }
 
@@ -70,6 +76,7 @@ public class SelectedShapeManager {
         }
         ssm.selectedShape.setEffect(null);
         ssm.shapeIsSelected.setValue(false);
+        SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         ssm.selectedShape = null;
     }
 
@@ -91,7 +98,8 @@ public class SelectedShapeManager {
             return;
         }
 
-        ssm.paper.getChildren().remove(this.selectedShape);
+        SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
+        SelectedShapeManager.paper.getChildren().remove(this.selectedShape);
         ssm.selectedShape = null;
         ssm.shapeIsSelected.setValue(false);
 
@@ -119,13 +127,16 @@ public class SelectedShapeManager {
         ssm.selectedShape.setStroke(color);
     }
 
-    private void setNodeShadow(Node node) {
+    private void showSelectionBox(Node node) {
         if (node == null) {
             return;
         }
-        DropShadow ds1 = new DropShadow();
-        ds1.setOffsetY(4.0f);
-        ds1.setOffsetX(2.0f);
-        node.setEffect(ds1);
+        this.selectionRectangle.setX(this.selectedShape.getBoundsInParent().getMinX());
+        this.selectionRectangle.setY(this.selectedShape.getBoundsInParent().getMinY());
+        this.selectionRectangle.setWidth(this.selectedShape.getBoundsInParent().getWidth());
+        this.selectionRectangle.setHeight(this.selectedShape.getBoundsInParent().getHeight());
+        this.selectionRectangle.setMouseTransparent(true);
+        SelectedShapeManager.paper.getChildren().add(selectionRectangle);
+        this.selectionRectangle.toBack();
     }
 }

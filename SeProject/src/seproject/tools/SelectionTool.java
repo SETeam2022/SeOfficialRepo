@@ -6,7 +6,8 @@ package seproject.tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 
 /**
  *
@@ -15,9 +16,15 @@ import javafx.scene.shape.Shape;
 public class SelectionTool extends Tool{
     
     private Shape selectedShape;
+    private Rectangle selectionRectangle;
     
     public SelectionTool(Pane paper) {
         super(paper);
+        selectionRectangle = new Rectangle();
+        this.selectionRectangle.setStroke(Color.CORNFLOWERBLUE);
+        this.selectionRectangle.setStrokeWidth(3);
+        this.selectionRectangle.setFill(Color.TRANSPARENT);
+        this.selectionRectangle.getStrokeDashArray().addAll(3.0, 5.0);
     }
 
     /**
@@ -34,7 +41,7 @@ public class SelectionTool extends Tool{
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 this.selectedShape = tmp;
-                SelectedShapeManager.getSelectedShapeManager().setSelectedShape(tmp);
+                SelectedShapeManager.getSelectedShapeManager().setSelectedShape(tmp, this.selectionRectangle);
             }
         }
     }
@@ -48,9 +55,11 @@ public class SelectionTool extends Tool{
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        if (this.selectedShape != null) {
+        if (SelectedShapeManager.getSelectedShapeManager().getSelectedShape() != null) {
             this.selectedShape.setLayoutX(event.getX()-((selectedShape.getLayoutBounds().getMaxX()+selectedShape.getLayoutBounds().getMinX())/2));
             this.selectedShape.setLayoutY(event.getY()-((selectedShape.getLayoutBounds().getMaxY()+selectedShape.getLayoutBounds().getMinY())/2));
+            this.selectionRectangle.setX(this.selectedShape.getBoundsInParent().getMinX());
+            this.selectionRectangle.setY(this.selectedShape.getBoundsInParent().getMinY());
         }
     }
     
