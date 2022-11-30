@@ -72,7 +72,7 @@ public class FXMLDocumentController implements Initializable {
                 child.getStyleClass().add("toggle-button");
             }
         }
-
+        
         fm = new FileManager(drawingPane);
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
         /*Default color picker values*/

@@ -92,13 +92,18 @@ public class SelectedShapeManager {
      * When this method is called if a shape has been selected it will be
      * deleted from the paper
      */
-    public void deleteSelectedShape() {
+    public void deleteSelectedShape() throws RuntimeException{
 
         if (this.selectedShape == null) {
             return;
         }
+        
+        if (SelectedShapeManager.paper == null){
+            throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
+        }
 
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
+
         SelectedShapeManager.paper.getChildren().remove(this.selectedShape);
         ssm.selectedShape = null;
         ssm.shapeIsSelected.setValue(false);
@@ -107,7 +112,7 @@ public class SelectedShapeManager {
     
     /**
      * Change the fill color of the selected shape to a given color
-     * @param color the new color for the fill of the shape
+     * @param color the new color for filling the shape
      */
     public void changeSelectedShapeFillColor(Color color) {
         if (ssm.selectedShape == null) {
@@ -118,7 +123,7 @@ public class SelectedShapeManager {
     
     /**
      * Change the stroke color of the selected shape to a given color
-     * @param color 
+     * @param color the new color for the stroke of the shape
      */
     public void changeSelectedShapeStrokeColor(Color color) {
         if (ssm.selectedShape == null) {
