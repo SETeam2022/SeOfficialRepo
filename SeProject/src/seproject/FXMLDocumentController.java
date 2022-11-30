@@ -29,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import seproject.commands.Invoker;
 import seproject.tools.SelectionTool;
 
 public class FXMLDocumentController implements Initializable {
@@ -84,6 +85,7 @@ public class FXMLDocumentController implements Initializable {
         fillColorPicker.setValue(Color.BLACK);
         strokeColorPicker.setValue(Color.BLACK);
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
+        undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());
         // selecting an initial tool
         selectedTool = new SelectionTool(drawingPane);
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -178,6 +180,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void undo(ActionEvent event) {
+        Invoker.getInvoker().undoLastCommand();
     }
 
 }
