@@ -55,12 +55,17 @@ public class SelectionTool extends Tool{
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        if (SelectedShapeManager.getSelectedShapeManager().getSelectedShape() != null) {
+        if (SelectedShapeManager.getSelectedShapeManager().getSelectedShape()!=null) {
             this.selectedShape.setLayoutX(event.getX()-((selectedShape.getLayoutBounds().getMaxX()+selectedShape.getLayoutBounds().getMinX())/2));
             this.selectedShape.setLayoutY(event.getY()-((selectedShape.getLayoutBounds().getMaxY()+selectedShape.getLayoutBounds().getMinY())/2));
             this.selectionRectangle.setX(this.selectedShape.getBoundsInParent().getMinX());
             this.selectionRectangle.setY(this.selectedShape.getBoundsInParent().getMinY());
         }
     }
+
+
+    
+    
+    
     
 }

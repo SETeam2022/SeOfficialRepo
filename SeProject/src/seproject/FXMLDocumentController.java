@@ -8,6 +8,7 @@ import seproject.tools.EllipseTool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,7 +85,7 @@ public class FXMLDocumentController implements Initializable {
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
-                if (newVal != oldVal && newVal == false) {
+                if (!Objects.equals(newVal, oldVal) && newVal == false) {
                     SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                 }
             }
