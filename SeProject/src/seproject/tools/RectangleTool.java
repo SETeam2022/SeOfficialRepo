@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
  * This class is the rappresentation of a specialized tool that can draw
  * Rectangle on the screen.
  */
-public class RectangleTool extends Tool {
+public class RectangleTool extends DrawingTool {
 
     private Rectangle rectangle;
     private double startX, startY;
@@ -42,9 +42,9 @@ public class RectangleTool extends Tool {
         startX = event.getX();
         startY = event.getY();
         rectangle = new Rectangle(startX, startY, 0, 0);
-        rectangle.setStroke(this.getStrokeColor());
-        rectangle.setFill(this.getFillColor());
-        rectangle.setStrokeWidth(Tool.widthStroke);
+        rectangle.setStroke(this.getStrokeColorProperty().getValue());
+        rectangle.setFill(this.getFillColorProperty().getValue());
+        rectangle.setStrokeWidth(DrawingTool.widthStroke);
         this.getPaper().getChildren().add(rectangle);
 
     }
@@ -58,7 +58,15 @@ public class RectangleTool extends Tool {
     */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        rectangle.setWidth(abs(startX - event.getX()));
-        rectangle.setHeight(abs(startY - event.getY()));
+        double newWidth = abs(startX - event.getX());
+        double newHeight = abs(startY - event.getY());
+        
+        double newStartX = Math.min(startX, event.getX());
+        double newStartY = Math.min(startY, event.getY());
+        
+        rectangle.setX(newStartX);
+        rectangle.setY(newStartY);
+        rectangle.setWidth(newWidth);
+        rectangle.setHeight(newHeight);
     }
 }

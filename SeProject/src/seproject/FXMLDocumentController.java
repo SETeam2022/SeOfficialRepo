@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import seproject.tools.SelectionTool;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -56,7 +57,6 @@ public class FXMLDocumentController implements Initializable {
 
     private Tool selectedTool;
     private FileManager fm;
-    private SelectedShapeManager ssm;
 
     @FXML
     private ToolBar toolBar;
@@ -74,21 +74,23 @@ public class FXMLDocumentController implements Initializable {
         }
 
         fm = new FileManager(drawingPane);
+        SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
         /*Default color picker values*/
         interiorColorPicker.setValue(Color.BLACK);
         borderColorPicker.setValue(Color.BLACK);
-        ssm = new SelectedShapeManager(drawingPane, borderColorPicker.valueProperty(), interiorColorPicker.valueProperty());
-        ereaseButton.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
         // selecting an initial tool
-        selectedTool = ssm;
+        selectedTool = new SelectionTool(drawingPane);
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
                 if (newVal != oldVal && newVal == false) {
-                    ssm.unsetSelectedShape();
+                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                 }
             }
         });
+        
+        
     }
 
     @FXML
@@ -124,12 +126,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-        selectedTool = ssm;
+        selectedTool = new SelectionTool(drawingPane);
     }
 
     @FXML
     private void ereaseShape(ActionEvent event) {
-        ssm.deleteSelectedShape();
+        SelectedShapeManager.getSelectedShapeManager().deleteSelectedShape();
     }
 
     @FXML

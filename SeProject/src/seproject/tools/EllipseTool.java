@@ -11,7 +11,7 @@ import javafx.scene.shape.Ellipse;
  * This class is the rappresentation of a specialized tool that can draw
  * Ellipses on the screen.
  */
-public class EllipseTool extends Tool {
+public class EllipseTool extends DrawingTool {
     private Ellipse ell;
     private double startX, startY;
     /**
@@ -40,9 +40,9 @@ public class EllipseTool extends Tool {
         startX = event.getX();
         startY = event.getY();
         ell = new Ellipse(event.getX(), event.getY(), 0,0);
-        ell.setStroke(this.getStrokeColor());
-        ell.setFill(this.getFillColor());
-        ell.setStrokeWidth(Tool.widthStroke);
+        ell.setStroke(this.getStrokeColorProperty().getValue());
+        ell.setFill(this.getFillColorProperty().getValue());
+        ell.setStrokeWidth(DrawingTool.widthStroke);
         this.getPaper().getChildren().add(ell);
     }
     

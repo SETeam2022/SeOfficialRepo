@@ -10,7 +10,7 @@ import javafx.scene.shape.Line;
  * This class is the rappresentation of a specialized tool that can draw
  * Lines on the screen.
  */
-public class LineTool extends Tool {
+public class LineTool extends DrawingTool {
 
     private Line line;
 
@@ -51,10 +51,11 @@ public class LineTool extends Tool {
         double startX = event.getX();
         double startY = event.getY();
         line = new Line(startX, startY, startX, startY);
-        line.setStroke(this.getStrokeColor());
-        line.setFill(this.getFillColor());
-        line.setStrokeWidth(Tool.widthStroke);
+        line.setStroke(this.getStrokeColorProperty().getValue());
+        line.setFill(this.getFillColorProperty().getValue());
+        line.setStrokeWidth(DrawingTool.widthStroke);
         this.getPaper().getChildren().add(line);
+        
     }
 
 }

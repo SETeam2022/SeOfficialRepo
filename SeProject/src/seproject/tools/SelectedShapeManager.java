@@ -1,10 +1,8 @@
 package seproject.tools;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -13,61 +11,42 @@ import javafx.scene.shape.Shape;
  * This class is the rappresentation of a specialized tool that can draw
  * SelectedShapeManager on the screen.
  */
-public class SelectedShapeManager extends Tool {
+public class SelectedShapeManager {
 
     private Shape selectedShape = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
     
+    private static Pane paper;
+    
+    private static SelectedShapeManager ssm = null;
+    
      /**
      * Create a new SelectedShapeManager.
      *
      * @param paper is the pane on witch the new ellipses nodes will be added
-     * @param strokeColorProperty is the associated ObjectProperty of Stroke
-     * Interior Picker's value.
-     * @param fillColorProperty is the associated ObjectProperty of Fill
-     * Interior Picker's value.
      */ 
-    public SelectedShapeManager(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
-        super(paper, strokeColorProperty, fillColorProperty);
-        shapeIsSelected = new SimpleBooleanProperty(false);
+    private SelectedShapeManager() {
+        this.shapeIsSelected = new SimpleBooleanProperty(false);
     }
 
     /**
-     * This function will be called after a click with the mouse on the paper it
-     * will select a shape on the screen.
-     *
-     * @param event is the event that generated the call to this method
+     *  This static metods returns the 
      */
-    @Override
-    public void onMousePressed(MouseEvent event) {
-        this.unsetSelectedShape();
-        Object eventNode = event.getTarget();
-        if (eventNode instanceof Shape) {
-            Shape tmp = (Shape) eventNode;
-            if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
-                this.setSelectedShape(tmp);
-            }
-        }
+    public static SelectedShapeManager getSelectedShapeManager(){
+        if (ssm == null){
+            ssm = new SelectedShapeManager(); 
+        } 
+        return ssm;   
     }
-
+    
     /**
-     * This function will be called after a click with the mouse on the paper
-     * and, while the mouse is pressed, the users performs a dragging. This
-     * fuction allows the user to drag a selected shape on the screen.
-     *
-     * @param event is the event that generated the call to this method
+     * @param paper the pane on witch the shape will be selected 
      */
-    @Override
-    public void onMouseDragged(MouseEvent event) {
-        if (this.getSelectedShape() != null) {
-            this.selectedShape.setLayoutX(event.getX()-((selectedShape.getLayoutBounds().getMaxX()+selectedShape.getLayoutBounds().getMinX())/2));
-            this.selectedShape.setLayoutY(event.getY()-((selectedShape.getLayoutBounds().getMaxY()+selectedShape.getLayoutBounds().getMinY())/2));
-
-        }
+    public static void setSelectedShapeManagerPaper(Pane paper){
+        SelectedShapeManager.paper = paper;
     }
-
-    ;
+    
     /**
     * 
     * @return selected shape
@@ -83,24 +62,22 @@ public class SelectedShapeManager extends Tool {
      * the change of the color.
      * 
      */
-    private void setSelectedShape(Shape selectedShape) {
-        this.selectedShape = selectedShape;
-        this.bindShapePaintProperty();
+    public void setSelectedShape(Shape selectedShape) {
+        ssm.selectedShape = selectedShape;
         setNodeShadow(this.selectedShape);
-        this.shapeIsSelected.setValue(true);
+        ssm.shapeIsSelected.setValue(true);
     }
     
      /**
      * Unselect the current selected shape in SSM class if it isn't NULL.
      */
     public void unsetSelectedShape() {
-        if (this.selectedShape == null) {
+        if (ssm.selectedShape == null) {
             return;
         }
-        unbindShapePaintProperty(this.selectedShape);
-        this.selectedShape.setEffect(null);
-        this.shapeIsSelected.setValue(false);
-        this.selectedShape = null;
+        ssm.selectedShape.setEffect(null);
+        ssm.shapeIsSelected.setValue(false);
+        ssm.selectedShape = null;
     }
 
     /**
@@ -108,7 +85,7 @@ public class SelectedShapeManager extends Tool {
      * something selected else is false
      */
     public SimpleBooleanProperty getShapeIsSelectedProperty() {
-        return shapeIsSelected;
+        return ssm.shapeIsSelected;
     }
 
     /**
@@ -121,30 +98,22 @@ public class SelectedShapeManager extends Tool {
             return;
         }
 
-        this.getPaper().getChildren().remove(this.selectedShape);
-        this.selectedShape = null;
-        this.shapeIsSelected.setValue(false);
+        ssm.paper.getChildren().remove(this.selectedShape);
+        ssm.selectedShape = null;
+        ssm.shapeIsSelected.setValue(false);
+        
+    }
+    
+    public void changeSelectedShapeFillColor(Color color){
+        ssm.selectedShape.setFill(color);
+    }
+    
+    public void changeSelectedShapeStrokeColor(Color color){
+        ssm.selectedShape.setStroke(color);
     }
 
-    private static void unbindShapePaintProperty(Shape shape) {
-        if (shape == null) {
-            return;
-        }
-        shape.strokeProperty().unbind();
-        shape.fillProperty().unbind();
-    }
 
-    private void bindShapePaintProperty() {
-        if (this.selectedShape == null) {
-            return;
-        }
-        this.getFillColorProperty().setValue(Color.valueOf(this.selectedShape.getFill().toString()));
-        this.getStrokeColorProperty().setValue(Color.valueOf(this.selectedShape.getStroke().toString()));
-        this.selectedShape.strokeProperty().bind(this.getStrokeColorProperty());
-        this.selectedShape.fillProperty().bind(this.getFillColorProperty());
-    }
-
-    private static void setNodeShadow(Node node) {
+    private void setNodeShadow(Node node) {
         if (node == null) {
             return;
         }
