@@ -6,6 +6,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -43,7 +45,7 @@ public class EllipseTool extends DrawingTool {
         ell.setStroke(this.getStrokeColorProperty().getValue());
         ell.setFill(this.getFillColorProperty().getValue());
         ell.setStrokeWidth(DrawingTool.widthStroke);
-        this.getPaper().getChildren().add(ell);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(ell,paper));
     }
     
     /**
