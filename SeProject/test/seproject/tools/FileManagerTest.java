@@ -1,4 +1,4 @@
-package seproject;
+package seproject.tools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import seproject.FileManager;
 
 /**
  * This class' aim is the testing of the save and load methods of the 

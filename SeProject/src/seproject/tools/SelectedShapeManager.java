@@ -2,7 +2,6 @@ package seproject.tools;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,7 +14,7 @@ import javafx.scene.shape.Shape;
 public class SelectedShapeManager {
 
     private Shape selectedShape = null;
-    
+
     private Rectangle selectionRectangle = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
@@ -30,6 +29,7 @@ public class SelectedShapeManager {
 
     /**
      * This methods returns the only istnace of the selectedShapeManager
+     *
      * @return ssm
      */
     public static SelectedShapeManager getSelectedShapeManager() {
@@ -41,6 +41,7 @@ public class SelectedShapeManager {
 
     /**
      * This method must be called before the use of the SelectedShapeManager
+     *
      * @param paper the pane on witch the shape will be selected
      */
     public static void setSelectedShapeManagerPaper(Pane paper) {
@@ -92,13 +93,13 @@ public class SelectedShapeManager {
      * When this method is called if a shape has been selected it will be
      * deleted from the paper
      */
-    public void deleteSelectedShape() throws RuntimeException{
+    public void deleteSelectedShape() throws RuntimeException {
 
         if (this.selectedShape == null) {
             return;
         }
-        
-        if (SelectedShapeManager.paper == null){
+
+        if (SelectedShapeManager.paper == null) {
             throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
         }
 
@@ -109,9 +110,10 @@ public class SelectedShapeManager {
         ssm.shapeIsSelected.setValue(false);
 
     }
-    
+
     /**
      * Change the fill color of the selected shape to a given color
+     *
      * @param color the new color for filling the shape
      */
     public void changeSelectedShapeFillColor(Color color) {
@@ -120,9 +122,10 @@ public class SelectedShapeManager {
         }
         ssm.selectedShape.setFill(color);
     }
-    
+
     /**
      * Change the stroke color of the selected shape to a given color
+     *
      * @param color the new color for the stroke of the shape
      */
     public void changeSelectedShapeStrokeColor(Color color) {

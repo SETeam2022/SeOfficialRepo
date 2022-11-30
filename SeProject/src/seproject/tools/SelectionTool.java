@@ -13,11 +13,11 @@ import javafx.scene.shape.*;
  *
  * @author teodo
  */
-public class SelectionTool extends Tool{
-    
-    private Shape selectedShape;
+public class SelectionTool extends Tool {
+
     private Rectangle selectionRectangle;
-    
+    private final SelectedShapeManager manager;
+
     public SelectionTool(Pane paper) {
         super(paper);
         selectionRectangle = new Rectangle();
@@ -25,6 +25,7 @@ public class SelectionTool extends Tool{
         this.selectionRectangle.setStrokeWidth(3);
         this.selectionRectangle.setFill(Color.TRANSPARENT);
         this.selectionRectangle.getStrokeDashArray().addAll(3.0, 5.0);
+        this.manager = SelectedShapeManager.getSelectedShapeManager();
     }
 
     /**
@@ -40,8 +41,7 @@ public class SelectionTool extends Tool{
         if (eventNode instanceof Shape) {
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
-                this.selectedShape = tmp;
-                SelectedShapeManager.getSelectedShapeManager().setSelectedShape(tmp, this.selectionRectangle);
+                manager.setSelectedShape(tmp, this.selectionRectangle);
             }
         }
     }
@@ -55,17 +55,14 @@ public class SelectionTool extends Tool{
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        if (SelectedShapeManager.getSelectedShapeManager().getSelectedShape()!=null) {
-            this.selectedShape.setLayoutX(event.getX()-((selectedShape.getLayoutBounds().getMaxX()+selectedShape.getLayoutBounds().getMinX())/2));
-            this.selectedShape.setLayoutY(event.getY()-((selectedShape.getLayoutBounds().getMaxY()+selectedShape.getLayoutBounds().getMinY())/2));
-            this.selectionRectangle.setX(this.selectedShape.getBoundsInParent().getMinX());
-            this.selectionRectangle.setY(this.selectedShape.getBoundsInParent().getMinY());
+        Shape selectedShape = manager.getSelectedShape();
+
+        if (selectedShape != null) {
+            selectedShape.setLayoutX(event.getX() - ((selectedShape.getLayoutBounds().getMaxX() + selectedShape.getLayoutBounds().getMinX()) / 2));
+            selectedShape.setLayoutY(event.getY() - ((selectedShape.getLayoutBounds().getMaxY() + selectedShape.getLayoutBounds().getMinY()) / 2));
+            this.selectionRectangle.setX(selectedShape.getBoundsInParent().getMinX());
+            this.selectionRectangle.setY(selectedShape.getBoundsInParent().getMinY());
         }
     }
 
-
-    
-    
-    
-    
 }
