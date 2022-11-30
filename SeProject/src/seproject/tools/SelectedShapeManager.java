@@ -1,6 +1,10 @@
 package seproject.tools;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -18,6 +22,7 @@ public class SelectedShapeManager {
     private Rectangle selectionRectangle = null;
 
     private final SimpleBooleanProperty shapeIsSelected;
+    private final DoubleProperty widthProperty, heightProperty;
 
     private static Pane paper;
 
@@ -25,6 +30,8 @@ public class SelectedShapeManager {
 
     private SelectedShapeManager() {
         this.shapeIsSelected = new SimpleBooleanProperty(false);
+        this.widthProperty = new SimpleDoubleProperty();
+        this.heightProperty = new SimpleDoubleProperty();
     }
 
     /**
@@ -65,6 +72,8 @@ public class SelectedShapeManager {
         ssm.selectionRectangle = selectionRectangle;
         showSelectionBox(this.selectedShape);
         ssm.shapeIsSelected.setValue(true);
+        ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
+        ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
     }
 
     /**
@@ -85,6 +94,24 @@ public class SelectedShapeManager {
      */
     public SimpleBooleanProperty getShapeIsSelectedProperty() {
         return ssm.shapeIsSelected;
+    }
+    
+    /**
+     * 
+     * @return widthProperty an observable property which contains the width of
+     * the current shape's bounds
+     */
+    public DoubleProperty getWidthProperty(){
+        return ssm.widthProperty;
+    }
+    
+    /**
+     * 
+     * @return widthProperty an observable property which contains the height of
+     * the current shape's bounds
+     */
+    public DoubleProperty getHeightProperty(){
+        return ssm.heightProperty;
     }
 
     /**

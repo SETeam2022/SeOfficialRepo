@@ -136,10 +136,12 @@
          <right>
             <ToolBar fx:id="sideBar" prefHeight="691.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="627.0" prefWidth="186.0" spacing="10.0">
                      <children>
-                        <TextField />
-                        <TextField />
+                        <Label text="Width" />
+                        <TextField fx:id="widthTextField" onKeyPressed="#setNewWidth" />
+                        <Label layoutX="10.0" layoutY="10.0" text="Height" />
+                        <TextField fx:id="heightTextField" onKeyPressed="#setNewHeight" />
                      </children>
                   </VBox>
                </items></ToolBar>

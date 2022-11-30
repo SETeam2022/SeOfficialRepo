@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -23,12 +24,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import seproject.tools.SelectionTool;
 
 public class FXMLDocumentController implements Initializable {
@@ -67,6 +74,10 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar sideBar;
     @FXML
     private Button undoButton;
+    @FXML
+    private TextField widthTextField;
+    @FXML
+    private TextField heightTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,18 +97,12 @@ public class FXMLDocumentController implements Initializable {
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
         // selecting an initial tool
         selectedTool = new SelectionTool(drawingPane);
-        selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
-                if (!Objects.equals(newVal, oldVal) && newVal == false) {
-                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-                }
-            }
-        });
         
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         
+        Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter());
     }
 
     @FXML
@@ -179,5 +184,22 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void undo(ActionEvent event) {
     }
+
+    @FXML
+    private void setNewWidth(KeyEvent event) {
+        if(event.getCode()== KeyCode.ENTER){
+            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+            s.resize(Double.parseDouble(widthTextField.getText()), s.getLayoutBounds().getHeight());
+        }
+    }
+
+    @FXML
+    private void setNewHeight(KeyEvent event) {
+        if(event.getCode()== KeyCode.ENTER){
+            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+            s.resize(s.getLayoutBounds().getWidth(), Double.parseDouble(heightTextField.getText()));
+        }
+    }
+
 
 }
