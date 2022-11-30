@@ -65,6 +65,8 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker strokeColorPicker;
     @FXML
     private ToolBar sideBar;
+    @FXML
+    private Button undoButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -94,6 +96,7 @@ public class FXMLDocumentController implements Initializable {
         });
         
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
+        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         
     }
 
@@ -171,6 +174,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void changeStrokeColor(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeStrokeColor(strokeColorPicker.getValue());
+    }
+
+    @FXML
+    private void undo(ActionEvent event) {
     }
 
 }
