@@ -77,11 +77,9 @@ public class SelectionToolTest {
                 true, true, true, true, null));
 
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-        
+     
         for (Node elem : paper.getChildren()) {
-            
             if (elem instanceof Ellipse) {
-               
                 Ellipse casted = (Ellipse) elem;
                 // Checking for Positions
                 Assert.assertEquals(casted.getCenterX(),
