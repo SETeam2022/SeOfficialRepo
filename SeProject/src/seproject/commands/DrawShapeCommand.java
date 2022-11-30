@@ -7,6 +7,7 @@ package seproject.commands;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import seproject.tools.SelectedShapeManager;
 
 /**
  *
@@ -41,6 +42,7 @@ public class DrawShapeCommand implements Command{
      */
     @Override
     public void undo() {
+        SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
         paper.getChildren().remove(shape);
     }
     
