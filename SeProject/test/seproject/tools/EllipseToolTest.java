@@ -1,7 +1,5 @@
+package seproject.tools;
 
-package seproject;
-
-import seproject.tools.EllipseTool;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;

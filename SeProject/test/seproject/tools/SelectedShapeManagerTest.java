@@ -1,15 +1,15 @@
-package seproject;
+package seproject.tools;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import seproject.tools.SelectedShapeManager;
 import static org.junit.Assert.*;
 
 /**
@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  * @author alewi
  */
 public class SelectedShapeManagerTest {
+
     private SelectedShapeManager selectedShapeManager;
     private static Pane testPaper;
     private Shape testShape;
@@ -35,7 +36,7 @@ public class SelectedShapeManagerTest {
         selectedShapeManager = SelectedShapeManager.getSelectedShapeManager();
         testShape = new Ellipse();
         testPaper.getChildren().add(testShape);
-        
+
     }
 
     /**
@@ -65,7 +66,7 @@ public class SelectedShapeManagerTest {
     public void testGetSelectedShape() {
         System.out.println("getSelectedShape");
         Shape expResult = testShape;
-        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.setSelectedShape(testShape, new Rectangle());
         Shape result = selectedShapeManager.getSelectedShape();
         assertEquals(expResult, result);
     }
@@ -76,10 +77,10 @@ public class SelectedShapeManagerTest {
     @Test
     public void testSetSelectedShape() {
         System.out.println("setSelectedShape");
-        
+
         Shape expResult = testShape;
-        selectedShapeManager.setSelectedShape(expResult);
-        
+        selectedShapeManager.setSelectedShape(expResult, new Rectangle());
+
         Shape result = selectedShapeManager.getSelectedShape();
         assertEquals(expResult, result);
     }
@@ -90,10 +91,10 @@ public class SelectedShapeManagerTest {
     @Test
     public void testUnsetSelectedShape() {
         System.out.println("unsetSelectedShape");
-        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.setSelectedShape(testShape, new Rectangle());
         selectedShapeManager.unsetSelectedShape();
         assertNull("Called unsetSelectedShape but shape in selectShapeManager is not null", selectedShapeManager.getSelectedShape());
-        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false",selectedShapeManager.getShapeIsSelectedProperty().get());   
+        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false", selectedShapeManager.getShapeIsSelectedProperty().get());
     }
 
     /**
@@ -103,9 +104,9 @@ public class SelectedShapeManagerTest {
     public void testGetShapeIsSelectedProperty() {
         System.out.println("getShapeIsSelectedProperty");
         selectedShapeManager.unsetSelectedShape();
-        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false",selectedShapeManager.getShapeIsSelectedProperty().get());
-        selectedShapeManager.setSelectedShape(testShape);
-        assertTrue("Called setSelectedShape but shapeIsSelectedProperty in selectShapeManager is not true",selectedShapeManager.getShapeIsSelectedProperty().get());
+        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false", selectedShapeManager.getShapeIsSelectedProperty().get());
+        selectedShapeManager.setSelectedShape(testShape, new Rectangle());
+        assertTrue("Called setSelectedShape but shapeIsSelectedProperty in selectShapeManager is not true", selectedShapeManager.getShapeIsSelectedProperty().get());
 
     }
 
@@ -115,14 +116,16 @@ public class SelectedShapeManagerTest {
     @Test
     public void testDeleteSelectedShape() {
         System.out.println("deleteSelectedShape");
-        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.setSelectedShape(testShape, new Rectangle());
         selectedShapeManager.deleteSelectedShape();
         boolean flag = true;
-        for(Node n : testPaper.getChildren()){
-            if (n.equals(testShape)) flag = true;
+        for (Node n : testPaper.getChildren()) {
+            if (n.equals(testShape)) {
+                flag = true;
+            }
         }
-        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.",flag);
-        
+        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", flag);
+
     }
 
     /**
@@ -133,10 +136,10 @@ public class SelectedShapeManagerTest {
     public void testChangeSelectedShapeFillColor() {
         System.out.println("changeSelectedShapeFillColor");
         Paint expResult = (Paint) Color.MAGENTA;
-        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.setSelectedShape(testShape, new Rectangle());
         selectedShapeManager.changeSelectedShapeFillColor(Color.MAGENTA);
         Paint result = selectedShapeManager.getSelectedShape().getFill();
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -147,10 +150,10 @@ public class SelectedShapeManagerTest {
     public void testChangeSelectedShapeStrokeColor() {
         System.out.println("changeSelectedShapeStrokeColor");
         Paint expResult = (Paint) Color.MAGENTA;
-        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.setSelectedShape(testShape, new Rectangle());
         selectedShapeManager.changeSelectedShapeStrokeColor(Color.MAGENTA);
         Paint result = selectedShapeManager.getSelectedShape().getStroke();
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
 }
