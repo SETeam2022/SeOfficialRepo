@@ -59,8 +59,11 @@ public class EllipseTool extends DrawingTool {
         ell.setRadiusX(abs(startX-event.getX()));
         ell.setRadiusY(abs(startY-event.getY()));
     }
-
     
-    
+    @Override
+    public void onMouseReleased(MouseEvent event){
+        ell.setRadiusX(abs(startX-event.getX()));
+        ell.setRadiusY(abs(startY-event.getY()));
+    }
 
 }

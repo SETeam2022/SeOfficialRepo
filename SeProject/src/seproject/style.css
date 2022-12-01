@@ -90,28 +90,30 @@
     -fx-cursor: CLOSED_HAND;
 }
 
-.menu-item:pressed:hover {
+/*.menu-item:pressed:hover {
     -fx-scale-y: 0.9;
     -fx-scale-x: 0.9;
     -fx-background-radius: 10px;
     -fx-background-color: lightblue;
     -fx-cursor: CLOSED_HAND;
-}
+}*/
 
-.menu-item:hover{
+/*.menu-item:hover{
     -fx-background-color: lightblue;
     -fx-scale-y: 1.1;
     -fx-background-radius: 10px;
     -fx-cursor: hand;
-}
+}*/
 
-.menu-item{
+/*.menu-item{
     -fx-background-radius: 10px;
 }
 
 .context-menu {
     -fx-background-color: whitesmoke;
     -fx-border-color: whitesmoke;
-    -fx-background-radius: 10px;
+    /*-fx-background-radius: 10px;
     -fx-border-radius: 10px;
+    
 }
+*/

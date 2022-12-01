@@ -181,7 +181,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.selectedShape.setFill(color);
+        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color,ssm.selectedShape.getFill(),ssm.selectedShape));
     }
 
     /**
@@ -193,7 +193,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.selectedShape.setStroke(color);
+        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color,ssm.selectedShape.getStroke(),ssm.selectedShape));
     }
 
     private void showSelectionBox(Node node) {

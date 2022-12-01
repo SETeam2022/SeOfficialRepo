@@ -160,12 +160,21 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
-        selectedTool.onMousePressed(event);
+        if (event.isPrimaryButtonDown()){
+            selectedTool.onMousePressed(event);
+        }
     }
 
     @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        selectedTool.onMouseDragged(event);
+        if (event.isPrimaryButtonDown()){
+            selectedTool.onMouseDragged(event);
+        }
+    }
+    
+    @FXML
+    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
+        selectedTool.onMouseReleased(event);
     }
 
     @FXML

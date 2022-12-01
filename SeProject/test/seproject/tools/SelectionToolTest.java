@@ -112,4 +112,29 @@ public class SelectionToolTest {
         }
     }
     
+    @Test
+    public void testOnMouseReleased() {
+        System.out.println("onMouseReleased");
+        st.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+                200, 0, 0, MouseButton.PRIMARY, 1,
+                true, true, true, true, true, true,
+                true, true, true, true, null));
+        //Dragging the selected shape
+        st.onMouseReleased(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_RELEASED, 40, 40,
+                0, 0, MouseButton.PRIMARY, 1,
+                true, true, true, true, true, true,
+                true, true, true, true, null));
+
+        Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+
+        for (Node elem : paper.getChildren()) {
+            if (elem instanceof Ellipse) {
+                Ellipse casted = (Ellipse) elem;
+                Bounds newShape = casted.getBoundsInParent();
+                Bounds selectedShape = selectedEllipse.getBoundsInParent();
+                Assert.assertEquals(newShape, selectedShape);
+            }
+        }
+    }
+    
 }

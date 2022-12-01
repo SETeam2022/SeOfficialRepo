@@ -36,8 +36,9 @@ public abstract class Tool {
      */
     public void onMouseDragged(MouseEvent event) {
     }
-
-    ;
+    
+    public void onMouseReleased(MouseEvent event){
+    }
     
     /**
      * @return the pane that works as a paper witch the tool is working

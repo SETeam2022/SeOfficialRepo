@@ -71,4 +71,18 @@ public class RectangleTool extends DrawingTool {
         rectangle.setWidth(newWidth);
         rectangle.setHeight(newHeight);
     }
+    
+    @Override
+    public void onMouseReleased(MouseEvent event){
+        double newWidth = abs(startX - event.getX());
+        double newHeight = abs(startY - event.getY());
+        
+        double newStartX = Math.min(startX, event.getX());
+        double newStartY = Math.min(startY, event.getY());
+        
+        rectangle.setX(newStartX);
+        rectangle.setY(newStartY);
+        rectangle.setWidth(newWidth);
+        rectangle.setHeight(newHeight);
+    }
 }
