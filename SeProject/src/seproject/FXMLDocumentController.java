@@ -185,6 +185,11 @@ public class FXMLDocumentController implements Initializable {
             selectedTool.onMouseDragged(event);
         }
     }
+    
+    @FXML
+    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
+        selectedTool.onMouseReleased(event);
+    }
 
     @FXML
     private void changeFillColor(ActionEvent event) {
@@ -204,20 +209,19 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void setNewWidth(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            //Ellipse s = (Rectangle) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            //s.resize(Double.parseDouble(widthTextField.getText()), s.getLayoutBounds().getHeight());
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getHeight());
+            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+            Double scaleFactor = Double.parseDouble(widthTextField.getText())/s.getLayoutBounds().getWidth();
+            s.setScaleX(scaleFactor);
         }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            //Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            // s.setScaleY(Double.parseDouble(heightTextField.getText())/s.getLayoutBounds().getWidth());
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getWidth(), Double.parseDouble(heightTextField.getText()));
+            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+            Double scaleFactor = Double.parseDouble(heightTextField.getText())/s.getLayoutBounds().getHeight();
+            s.setScaleY(scaleFactor);
         }
     }
-
 
 }

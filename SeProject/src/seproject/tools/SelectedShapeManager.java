@@ -133,7 +133,7 @@ public class SelectedShapeManager {
         }
 
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
-        SelectedShapeManager.paper.getChildren().remove(this.selectedShape);
+        Invoker.getInvoker().executeCommand(new DeleteShapeCommand(selectedShape,paper));
         ssm.selectedShape = null;
         ssm.shapeIsSelected.setValue(false);
 

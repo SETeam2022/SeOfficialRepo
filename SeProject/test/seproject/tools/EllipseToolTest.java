@@ -89,9 +89,27 @@ public class EllipseToolTest {
                 Assert.assertEquals(testShape.getRadiusX(),casted.getRadiusX(),0);
                 Assert.assertEquals(testShape.getRadiusY(),casted.getRadiusY(),0);
             }
-        }
+        } 
         
-        
+    }
+    
+    @Test
+    public void testOnMouseReleased(){
+        System.out.println("mouseReleased");
+        MouseEvent e2 = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getCenterX(),testShape.getCenterY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,true, true, true, true, true, true, null); 
+
+       
+        MouseEvent e3 = new MouseEvent(  MouseEvent.MOUSE_RELEASED, testShape.getRadiusX(),testShape.getRadiusY(), 0, 0, MouseButton.PRIMARY, 1,
+                                        true, true, true, true,true, true, true, true, true, true, null);
+        t.onMousePressed(e2);
+        t.onMouseReleased(e3);
+        for (Node elem : paper.getChildren()){
+             if (elem instanceof Ellipse ){
+                Ellipse casted = (Ellipse) elem;
+                Assert.assertEquals(testShape.getRadiusX(),casted.getRadiusX(),0);
+                Assert.assertEquals(testShape.getRadiusY(),casted.getRadiusY(),0);
+            }
+        } 
     }
     
 }
