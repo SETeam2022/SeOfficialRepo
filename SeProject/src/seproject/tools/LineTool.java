@@ -59,5 +59,10 @@ public class LineTool extends DrawingTool {
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(line,paper));
         
     }
-
+    
+    @Override
+    public void onMouseReleased(MouseEvent event){
+        line.setEndY(event.getY());
+        line.setEndX(event.getX());
+    }
 }

@@ -171,6 +171,11 @@ public class FXMLDocumentController implements Initializable {
             selectedTool.onMouseDragged(event);
         }
     }
+    
+    @FXML
+    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
+        selectedTool.onMouseReleased(event);
+    }
 
     @FXML
     private void changeFillColor(ActionEvent event) {

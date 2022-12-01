@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import seproject.commands.*;
 
 /**
  *
@@ -17,6 +18,7 @@ public class SelectionTool extends Tool {
 
     private Rectangle selectionRectangle;
     private final SelectedShapeManager manager;
+    private double startX,startY,offsetX,offsetY;
 
     public SelectionTool(Pane paper) {
         super(paper);
@@ -42,6 +44,11 @@ public class SelectionTool extends Tool {
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 manager.setSelectedShape(tmp, this.selectionRectangle);
+                // nuovo codice
+                startX = tmp.getTranslateX();
+                startY = tmp.getTranslateY();
+                offsetX = event.getSceneX()- tmp.getTranslateX();
+                offsetY = event.getSceneY()-tmp.getTranslateY();
             }
         }
     }
@@ -56,13 +63,19 @@ public class SelectionTool extends Tool {
     @Override
     public void onMouseDragged(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
-
         if (selectedShape != null) {
-            selectedShape.setLayoutX(event.getX() - ((selectedShape.getLayoutBounds().getMaxX() + selectedShape.getLayoutBounds().getMinX()) / 2));
-            selectedShape.setLayoutY(event.getY() - ((selectedShape.getLayoutBounds().getMaxY() + selectedShape.getLayoutBounds().getMinY()) / 2));
+            selectedShape.setTranslateX(event.getSceneX()-offsetX);
+            selectedShape.setTranslateY(event.getSceneY()-offsetY);
             this.selectionRectangle.setX(selectedShape.getBoundsInParent().getMinX());
             this.selectionRectangle.setY(selectedShape.getBoundsInParent().getMinY());
         }
     }
-
+    
+    @Override
+    public void onMouseReleased(MouseEvent event){
+        Shape selectedShape = manager.getSelectedShape();
+        if (selectedShape != null) {
+            Invoker.getInvoker().executeCommand(new TraslationCommand(selectedShape,offsetX,offsetY,startX,startY,event,selectionRectangle));
+        }
+    }
 }

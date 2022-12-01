@@ -92,5 +92,23 @@ public class LineToolTest {
         }
         
     }
+    @Test
+    public void testOnMouseReleased(){
+        System.out.println("mouseReleased");
+        MouseEvent e2 = new MouseEvent(  MouseEvent.MOUSE_CLICKED, testShape.getStartX(),testShape.getStartY(), 0, 0, MouseButton.PRIMARY, 1,
+                                        true, true, true, true,true, true, true, true, true, true, null);
+        
+        MouseEvent e = new MouseEvent(  MouseEvent.MOUSE_RELEASED, testShape.getEndX(),testShape.getEndY(), 0, 0, MouseButton.PRIMARY, 1,
+                                     true, true, true, true,true, true, true, true, true, true, null);
+        t.onMousePressed(e2);
+        t.onMouseReleased(e);
+        for (Node elem : paper.getChildren()){
+             if (elem instanceof Line ){
+                Line casted = (Line) elem;
+                Assert.assertEquals(testShape.getEndX(),casted.getEndX(),0);
+                Assert.assertEquals(testShape.getEndY(),casted.getEndY(),0);
+            }
+        } 
+    }
     
 }

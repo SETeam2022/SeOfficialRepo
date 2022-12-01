@@ -94,6 +94,26 @@ public class RectangleToolTest {
     
         
     }
+    
+    @Test
+    public void testOnMouseReleased(){
+        System.out.println("mouseReleased");
+        MouseEvent e2 = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getX(),testShape.getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,true, true, true, true, true, true, null); 
+
+        MouseEvent e = new MouseEvent(  MouseEvent.MOUSE_RELEASED, testShape.getWidth(),testShape.getHeight(), 0, 0, MouseButton.PRIMARY, 1,
+                                        true, true, true, true,true, true, true, true, true, true, null);
+        t.onMousePressed(e2);
+        t.onMouseReleased(e);
+        for (Node elem : paper.getChildren()){
+             if (elem instanceof Rectangle ){
+                Rectangle casted = (Rectangle) elem;
+                Assert.assertEquals(testShape.getWidth(),casted.getWidth(),0);
+                Assert.assertEquals(testShape.getHeight(),casted.getHeight(),0);
+            }
+        }
+    
+        
+    }
 
 
   
