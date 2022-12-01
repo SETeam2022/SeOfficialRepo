@@ -6,17 +6,15 @@ package seproject.commands;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
-import seproject.tools.SelectedShapeManager;
 
 /**
  *
- * @author teodo
+ * @author alewi
  */
-public class DeleteShapeCommand implements Command {
+public class DeleteShapeCommand implements Command{
     
-    private Shape shape;
-    
-    private Pane paper;
+    private final Shape shape;
+    private final Pane paper;
     
     public DeleteShapeCommand(Shape shape, Pane paper){
         this.shape = shape;
@@ -26,6 +24,7 @@ public class DeleteShapeCommand implements Command {
     @Override
     public void execute() {
         paper.getChildren().remove(shape);
+        
     }
 
     @Override

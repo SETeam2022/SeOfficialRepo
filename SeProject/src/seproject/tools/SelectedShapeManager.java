@@ -1,19 +1,24 @@
 package seproject.tools;
 
+import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
+import java.io.ByteArrayOutputStream;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import seproject.commands.*;
+import seproject.commands.ChangeFillColorCommand;
+import seproject.commands.ChangeStrokeColorCommand;
+import seproject.commands.DeleteShapeCommand;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -25,21 +30,29 @@ public class SelectedShapeManager {
 
     private Rectangle selectionRectangle = null;
 
-    private final SimpleBooleanProperty shapeIsSelected;
     private final DoubleProperty widthProperty, heightProperty;
+
+    private final SimpleBooleanProperty shapeIsSelectedProperty;
+    
+    private final SimpleBooleanProperty shapeIsCopiedProperty;
 
     private static Pane paper;
 
     private static SelectedShapeManager ssm = null;
 
+    private Shape copiedShape = null;
+
     private SelectedShapeManager() {
-        this.shapeIsSelected = new SimpleBooleanProperty(false);
+
         this.widthProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
+        this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
+        this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
     }
 
     /**
      * This methods returns the only instance of the selectedShapeManager
+     *
      * @return ssm
      */
     public static SelectedShapeManager getSelectedShapeManager() {
@@ -75,9 +88,9 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
         ssm.selectionRectangle = selectionRectangle;
         showSelectionBox(this.selectedShape);
-        ssm.shapeIsSelected.setValue(true);
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
+        ssm.shapeIsSelectedProperty.setValue(true);
     }
 
     /**
@@ -87,17 +100,17 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.shapeIsSelected.setValue(false);
+        ssm.shapeIsSelectedProperty.setValue(false);
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         ssm.selectedShape = null;
     }
 
     /**
-     * @return shapeIsSelected an observable property that is true if there is
-     * something selected else is false
+     * @return shapeIsSelectedProperty an observable property that is true if there is
+ something selected else is false
      */
     public SimpleBooleanProperty getShapeIsSelectedProperty() {
-        return ssm.shapeIsSelected;
+        return ssm.shapeIsSelectedProperty;
     }
     
     /**
@@ -133,9 +146,9 @@ public class SelectedShapeManager {
         }
 
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
-        Invoker.getInvoker().executeCommand(new DeleteShapeCommand(selectedShape,paper));
+        Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
         ssm.selectedShape = null;
-        ssm.shapeIsSelected.setValue(false);
+        ssm.shapeIsSelectedProperty.setValue(false);
 
     }
 
@@ -162,6 +175,43 @@ public class SelectedShapeManager {
         }
         Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color,ssm.selectedShape.getStroke(),ssm.selectedShape));
     }
+    
+    
+    /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
+    
+    public void copySelectedShape(){
+        if (ssm.selectedShape == null) return;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (XMLEncoder encoder = new XMLEncoder(baos)) {
+            encoder.setPersistenceDelegate(Color.class, new DefaultPersistenceDelegate(new String[]{"red", "green", "blue", "opacity"}));
+            encoder.writeObject(ssm.selectedShape);
+        }
+        String codedShape = new String(baos.toByteArray());
+        try (XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(codedShape.getBytes()))) {
+            this.copiedShape  = (Shape) decoder.readObject();
+            this.shapeIsCopiedProperty.setValue(true);
+        }
+        
+    }
+    
+    public void pasteShape(){
+        if (copiedShape != null){
+            Bounds paperBounds = paper.getLayoutBounds();
+            copiedShape.relocate((paperBounds.getWidth() - copiedShape.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - copiedShape.getLayoutBounds().getHeight()) / 2);
+            Invoker.getInvoker().executeCommand(new DrawShapeCommand(copiedShape,paper));
+        }
+    }
+    
+    public void cutShape(){
+        this.copySelectedShape();
+        ssm.deleteSelectedShape();
+    }
+    
+    public SimpleBooleanProperty getShapeIsCopiedProperty(){
+        return this.shapeIsCopiedProperty;
+    }
+    
+    /*-------------------------------------------------------------------------------------------------------------------------------*/
 
     /**
      * 
@@ -179,7 +229,7 @@ public class SelectedShapeManager {
         SelectedShapeManager.paper.getChildren().add(selectionRectangle);
         this.selectionRectangle.toBack();
     }
-    
+
     /**
      * 
      * @param width
