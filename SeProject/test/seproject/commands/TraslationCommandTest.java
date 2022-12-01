@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package seproject.commands;
 
 import javafx.beans.property.ObjectProperty;
@@ -12,18 +8,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
-import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import seproject.tools.EllipseTool;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.SelectionTool;
 
-/**
- *
- * @author bvs
- */
 public class TraslationCommandTest {
     
     private Pane paper;
@@ -55,10 +46,13 @@ public class TraslationCommandTest {
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
-        Node instancedNode = paper.getChildren().get(0);
-        Assert.assertTrue("Instanced Node is not an Ellipse", instancedNode instanceof Ellipse);
-        instancedEllipse = (Ellipse) instancedNode;
         
+        for (Node node : paper.getChildren()){
+            if (node instanceof Ellipse){
+                instancedEllipse = (Ellipse) node;
+                break;
+            }
+        }
     }
     
 
@@ -75,6 +69,8 @@ public class TraslationCommandTest {
         
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
         
+        assertTrue(selectedEllipse != null);
+        
         MouseEvent event = new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_DRAGGED, 40, 40,
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
@@ -88,7 +84,7 @@ public class TraslationCommandTest {
         
         System.out.println(selectedEllipse.getTranslateX()); 
         
-        cmd = new TraslationCommand(selectedEllipse,offsetX,offsetY,startX,startY,event,new Rectangle());
+        cmd = new TraslationCommand(selectedEllipse,offsetX,offsetY,startX,startY,event);
         
         selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
         

@@ -7,9 +7,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -28,12 +31,10 @@ public class SelectedShapeManager {
 
     private Shape selectedShape = null;
 
-    private Rectangle selectionRectangle = null;
-
     private final DoubleProperty widthProperty, heightProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
-    
+
     private final SimpleBooleanProperty shapeIsCopiedProperty;
 
     private static Pane paper;
@@ -42,12 +43,18 @@ public class SelectedShapeManager {
 
     private Shape copiedShape = null;
 
+    private Group group;
+    
+    private Overlay overlay;
+
     private SelectedShapeManager() {
 
         this.widthProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
         this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
         this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
+        group = new Group();
+        group.setMouseTransparent(true);
     }
 
     /**
@@ -68,6 +75,7 @@ public class SelectedShapeManager {
      * @param paper the pane on witch the shape will be selected
      */
     public static void setSelectedShapeManagerPaper(Pane paper) {
+        paper.getChildren().add(SelectedShapeManager.getSelectedShapeManager().group);
         SelectedShapeManager.paper = paper;
     }
 
@@ -82,12 +90,11 @@ public class SelectedShapeManager {
     /**
      *
      * @param selectedShape set the selected shape an adds the selection effect
-     * @param selectionRectangle
      */
-    public void setSelectedShape(Shape selectedShape, Rectangle selectionRectangle) {
+    public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
-        ssm.selectionRectangle = selectionRectangle;
-        showSelectionBox(this.selectedShape);
+        overlay = new Overlay(selectedShape);
+        group.getChildren().add(overlay);
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
@@ -100,34 +107,34 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
+        group.getChildren().remove(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
-        SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         ssm.selectedShape = null;
     }
 
     /**
-     * @return shapeIsSelectedProperty an observable property that is true if there is
- something selected else is false
+     * @return shapeIsSelectedProperty an observable property that is true if
+     * there is something selected else is false
      */
     public SimpleBooleanProperty getShapeIsSelectedProperty() {
         return ssm.shapeIsSelectedProperty;
     }
-    
+
     /**
-     * 
+     *
      * @return widthProperty an observable property which contains the width of
      * the current shape's bounds
      */
-    public DoubleProperty getWidthProperty(){
+    public DoubleProperty getWidthProperty() {
         return ssm.widthProperty;
     }
-    
+
     /**
-     * 
+     *
      * @return widthProperty an observable property which contains the height of
      * the current shape's bounds
      */
-    public DoubleProperty getHeightProperty(){
+    public DoubleProperty getHeightProperty() {
         return ssm.heightProperty;
     }
 
@@ -145,8 +152,8 @@ public class SelectedShapeManager {
             throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
         }
 
-        SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
+        group.getChildren().remove(overlay);
         ssm.selectedShape = null;
         ssm.shapeIsSelectedProperty.setValue(false);
 
@@ -161,7 +168,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color,ssm.selectedShape.getFill(),ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color, ssm.selectedShape.getFill(), ssm.selectedShape));
     }
 
     /**
@@ -173,75 +180,94 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color,ssm.selectedShape.getStroke(),ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape.getStroke(), ssm.selectedShape));
     }
-    
-    
+
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
-    
-    public void copySelectedShape(){
-        if (ssm.selectedShape == null) return;
+    public void copySelectedShape() {
+        if (ssm.selectedShape == null) {
+            return;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (XMLEncoder encoder = new XMLEncoder(baos)) {
+        try ( XMLEncoder encoder = new XMLEncoder(baos)) {
             encoder.setPersistenceDelegate(Color.class, new DefaultPersistenceDelegate(new String[]{"red", "green", "blue", "opacity"}));
             encoder.writeObject(ssm.selectedShape);
         }
         String codedShape = new String(baos.toByteArray());
-        try (XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(codedShape.getBytes()))) {
-            this.copiedShape  = (Shape) decoder.readObject();
+        try ( XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(codedShape.getBytes()))) {
+            this.copiedShape = (Shape) decoder.readObject();
             this.shapeIsCopiedProperty.setValue(true);
         }
-        
+
     }
-    
-    public void pasteShape(){
-        if (copiedShape != null){
+
+    public void pasteShape() {
+        if (copiedShape != null) {
             Bounds paperBounds = paper.getLayoutBounds();
             copiedShape.relocate((paperBounds.getWidth() - copiedShape.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - copiedShape.getLayoutBounds().getHeight()) / 2);
-            Invoker.getInvoker().executeCommand(new DrawShapeCommand(copiedShape,paper));
+            Invoker.getInvoker().executeCommand(new DrawShapeCommand(copiedShape, paper));
         }
     }
-    
-    public void cutShape(){
+
+    public void cutShape() {
         this.copySelectedShape();
         ssm.deleteSelectedShape();
     }
-    
-    public SimpleBooleanProperty getShapeIsCopiedProperty(){
+
+    public SimpleBooleanProperty getShapeIsCopiedProperty() {
         return this.shapeIsCopiedProperty;
     }
-    
-    /*-------------------------------------------------------------------------------------------------------------------------------*/
+
+    /*--------------------------------------------------------------------RESIZE-----------------------------------------------------*/
 
     /**
-     * 
-     * @param node 
+     *
+     * @param width
+     * @param height
      */
-    private void showSelectionBox(Node node) {
-        if (node == null) {
-            return;
-        }
-        this.selectionRectangle.setX(this.selectedShape.getBoundsInParent().getMinX());
-        this.selectionRectangle.setY(this.selectedShape.getBoundsInParent().getMinY());
-        this.selectionRectangle.setWidth(this.selectedShape.getBoundsInParent().getWidth());
-        this.selectionRectangle.setHeight(this.selectedShape.getBoundsInParent().getHeight());
-        this.selectionRectangle.setMouseTransparent(true);
-        SelectedShapeManager.paper.getChildren().add(selectionRectangle);
-        this.selectionRectangle.toBack();
+    public void resizeSelectedShape(double width, double height) {
+        Double scaleFactorX = width / ssm.selectedShape.getLayoutBounds().getWidth(),
+               scaleFactorY = height / ssm.selectedShape.getLayoutBounds().getHeight();
+        ssm.selectedShape.setScaleX(scaleFactorX);
+        ssm.selectedShape.setScaleY(scaleFactorY);
+    }
+}
+
+class Overlay extends Rectangle {
+
+    final Shape selectedShape;
+    private ChangeListener<Bounds> overlayChangeListener;
+
+    Overlay(Shape selectedShape) {
+        setX(selectedShape.getLayoutBounds().getMinX());
+        setY(selectedShape.getLayoutBounds().getMinY());
+        setWidth(selectedShape.getLayoutBounds().getWidth());
+        setHeight(selectedShape.getLayoutBounds().getHeight());
+        setFill(Color.TRANSPARENT);
+        setStroke(Color.CORNFLOWERBLUE);
+        setStrokeWidth(3);
+        getStrokeDashArray().addAll(3.0, 5.0);
+        this.selectedShape = selectedShape;
+        monitorOverlay();
+    }
+    
+    void monitorOverlay(){
+        final ReadOnlyObjectProperty<Bounds> bounds;
+        bounds = selectedShape.boundsInParentProperty();
+        updateOverlay(bounds.get());
+        overlayChangeListener = new ChangeListener<Bounds>(){
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
+                updateOverlay(newValue);
+            }
+        };
+        bounds.addListener(overlayChangeListener);
     }
 
-    /**
-     * 
-     * @param width
-     * @param height 
-     */
-    public void resizeSelectedShape(double width, double height){
-        // read shape as string
-        String s = "";
-        try (XMLEncoder encoder = new XMLEncoder(System.out.append(s))) {
-            encoder.writeObject(ssm.selectedShape);
-        }
-        System.out.println(s);
-
+    private void updateOverlay(Bounds newBounds) {
+        setX(newBounds.getMinX());
+        setY(newBounds.getMinY());
+        setWidth(newBounds.getWidth());
+        setHeight(newBounds.getHeight());
     }
 }

@@ -3,17 +3,13 @@ package seproject.commands;
 import java.util.Stack;
 import javafx.beans.property.SimpleBooleanProperty;
 
-/**
- *
- * @author teodo
- */
 public class Invoker {
     
     private final Stack<Command> stack;
     
     private static Invoker invoker = null;
     
-    private SimpleBooleanProperty undoIsEnabled;
+    private final SimpleBooleanProperty undoIsEnabled;
     
     
     /**

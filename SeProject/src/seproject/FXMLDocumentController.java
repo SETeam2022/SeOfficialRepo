@@ -17,7 +17,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -35,8 +34,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
@@ -62,10 +59,6 @@ public class FXMLDocumentController implements Initializable {
     private RadioButton addEllipsesButton;
     @FXML
     private Pane drawingPane;
-
-    private Tool selectedTool;
-    private FileManager fm;
-
     @FXML
     private ToolBar toolBar;
     @FXML
@@ -90,6 +83,10 @@ public class FXMLDocumentController implements Initializable {
     private  MenuItem paste;
     
     private  MenuItem cut;
+    
+    private Tool selectedTool;
+    
+    private FileManager fm;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -258,18 +255,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void setNewWidth(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            Double scaleFactor = Double.parseDouble(widthTextField.getText())/s.getLayoutBounds().getWidth();
-            s.setScaleX(scaleFactor);
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getHeight());
         }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            Double scaleFactor = Double.parseDouble(heightTextField.getText())/s.getLayoutBounds().getHeight();
-            s.setScaleY(scaleFactor);
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getWidth(), Double.parseDouble(heightTextField.getText()));
         }
     }
 
