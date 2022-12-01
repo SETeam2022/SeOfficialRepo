@@ -1,5 +1,7 @@
 package seproject.tools;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -35,6 +37,7 @@ public class SelectedShapeManagerTest {
     public void setUp() {
         selectedShapeManager = SelectedShapeManager.getSelectedShapeManager();
         testShape = new Ellipse();
+        testPaper.getChildren().clear();
         testPaper.getChildren().add(testShape);
 
     }
@@ -154,6 +157,111 @@ public class SelectedShapeManagerTest {
         selectedShapeManager.changeSelectedShapeStrokeColor(Color.MAGENTA);
         Paint result = selectedShapeManager.getSelectedShape().getStroke();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getWidthProperty method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testGetWidthProperty() {
+        System.out.println("getWidthProperty");
+        Double expResult = 549.0;
+        selectedShapeManager.getWidthProperty().set(549.0);
+        Double result = selectedShapeManager.getWidthProperty().get();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getHeightProperty method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testGetHeightProperty() {
+        System.out.println("getWidthProperty");
+        Double expResult = 549.0;
+        selectedShapeManager.getHeightProperty().set(549.0);
+        Double result = selectedShapeManager.getHeightProperty().get();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of copySelectedShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testCopySelectedShape() {
+        System.out.println("copySelectedShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.copySelectedShape();
+        selectedShapeManager.pasteShape();
+        Integer expectedNumberOfShapes = 2;
+        Integer realNumberOfShapes = 0;
+        for (Node n : testPaper.getChildren()) {
+            if (n instanceof Ellipse) {
+                Ellipse foundedEllipse = (Ellipse) n;
+                Ellipse testEllipse = (Ellipse) testShape;
+                realNumberOfShapes++;
+                assertEquals(testEllipse.getCenterX(), foundedEllipse.getCenterX(), 0);
+                assertEquals(testEllipse.getCenterY(), foundedEllipse.getCenterY(), 0);
+                assertEquals(testEllipse.getRadiusX(), foundedEllipse.getRadiusX(), 0);
+                assertEquals(testEllipse.getRadiusY(), foundedEllipse.getRadiusY(), 0);
+            }
+        }
+        assertEquals(expectedNumberOfShapes, realNumberOfShapes);
+    }
+
+    /**
+     * Test of pasteShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testPasteShape() {
+        System.out.println("pasteShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.copySelectedShape();
+        selectedShapeManager.pasteShape();
+        Integer expectedNumberOfShapes = 2;
+        Integer realNumberOfShapes = 0;
+        for (Node n : testPaper.getChildren()) {
+            if (n instanceof Ellipse) {
+                Ellipse foundedEllipse = (Ellipse) n;
+                Ellipse testEllipse = (Ellipse) testShape;
+                realNumberOfShapes++;
+                System.out.println(foundedEllipse);
+                assertEquals(testEllipse.getCenterX(), foundedEllipse.getCenterX(), 0);
+                assertEquals(testEllipse.getCenterY(), foundedEllipse.getCenterY(), 0);
+                assertEquals(testEllipse.getRadiusX(), foundedEllipse.getRadiusX(), 0);
+                assertEquals(testEllipse.getRadiusY(), foundedEllipse.getRadiusY(), 0);
+            }
+        }
+        assertEquals(expectedNumberOfShapes, realNumberOfShapes);
+    }
+
+    /**
+     * Test of cutShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testCutShape() {
+        System.out.println("cutShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.cutShape();
+        boolean flag = true;
+        for (Node n : testPaper.getChildren()) {
+            if (n.equals(testShape)) {
+                flag = true;
+            }
+        }
+        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", flag);
+        assertTrue("The shape is cutted but the ShapeIsCopiedProperty is false.", selectedShapeManager.getShapeIsCopiedProperty().get());
+
+    }
+
+    /**
+     * Test of getShapeIsCopiedProperty method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testGetShapeIsCopiedProperty() {
+        System.out.println("getShapeIsCopiedProperty");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.copySelectedShape();
+        assertTrue(selectedShapeManager.getShapeIsCopiedProperty().get());
     }
 
 }
