@@ -59,8 +59,6 @@ public class TraslationCommandTest {
         Assert.assertTrue("Instanced Node is not an Ellipse", instancedNode instanceof Ellipse);
         instancedEllipse = (Ellipse) instancedNode;
         
-        
-        
     }
     
 
