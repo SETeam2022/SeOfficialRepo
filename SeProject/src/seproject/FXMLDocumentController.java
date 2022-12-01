@@ -25,6 +25,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -174,7 +175,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void onMouseReleasedOnDrawingPane(MouseEvent event) {
-        selectedTool.onMouseReleased(event);
+         if (event.getButton().equals(MouseButton.PRIMARY)){
+            selectedTool.onMouseReleased(event);
+         }
     }
 
     @FXML
