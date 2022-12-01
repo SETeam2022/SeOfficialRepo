@@ -1,5 +1,7 @@
 package seproject;
 
+import editor.ShapeEditor;
+import editor.ShapeEditorFactory;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
 import seproject.tools.LineTool;
@@ -259,18 +261,26 @@ public class FXMLDocumentController implements Initializable {
     private void setNewWidth(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
             Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            Double scaleFactor = Double.parseDouble(widthTextField.getText())/s.getLayoutBounds().getWidth();
-            s.setScaleX(scaleFactor);
-        }
+            ShapeEditorFactory.getInstance(s.getClass()).setWidth(s, Double.parseDouble(widthTextField.getText()));
+            
+            /*
+            ShapeEditor editor = ShapeEditorFactory.getInstance(s.getClass());
+            editor.setWidth(s, Double.parseDouble(widthTextField.getText()));
+            */
+            }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
             Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            Double scaleFactor = Double.parseDouble(heightTextField.getText())/s.getLayoutBounds().getHeight();
-            s.setScaleY(scaleFactor);
-        }
+            ShapeEditorFactory.getInstance(s.getClass()).setHeight(s, Double.parseDouble(heightTextField.getText()));
+            
+            /*
+            ShapeEditor editor = ShapeEditorFactory.getInstance(s.getClass());
+            editor.setHeight(s, Double.parseDouble(heightTextField.getText()));
+            */
+}
     }
 
 }

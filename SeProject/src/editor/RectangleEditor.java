@@ -1,5 +1,6 @@
 package editor;
 
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -10,24 +11,26 @@ public class RectangleEditor implements ShapeEditor {
 
     @Override
     public void setWidth(Shape shape, double width) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Rectangle rectangle = (Rectangle) shape;
+        rectangle.setWidth(width);
     }
 
     @Override
     public void setHeight(Shape shape, double height) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Rectangle rectangle = (Rectangle) shape;
+        rectangle.setHeight(height);
     }
 
     @Override
-    public void setX(Shape shape, double width) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setX(Shape shape, double newX) {
+        Rectangle rectangle = (Rectangle) shape;
+        rectangle.setX(newX);
     }
 
     @Override
-    public void setY(Shape shape, double height) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setY(Shape shape, double newY) {
+        Rectangle rectangle = (Rectangle) shape;
+        rectangle.setX(newY);
     }
 
-
-    
 }
