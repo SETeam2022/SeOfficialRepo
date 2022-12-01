@@ -21,6 +21,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.xml.sax.InputSource;
+import seproject.commands.ChangeFillColorCommand;
 import seproject.commands.DeleteShapeCommand;
 import seproject.commands.Invoker;
 
