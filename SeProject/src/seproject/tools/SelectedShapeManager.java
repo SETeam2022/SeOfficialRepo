@@ -3,26 +3,19 @@ package seproject.tools;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
-import java.nio.file.Files;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import org.xml.sax.InputSource;
 import seproject.commands.ChangeFillColorCommand;
+import seproject.commands.ChangeStrokeColorCommand;
 import seproject.commands.DeleteShapeCommand;
+import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
 /**
@@ -35,60 +28,19 @@ public class SelectedShapeManager {
 
     private Rectangle selectionRectangle = null;
 
-    private final SimpleBooleanProperty shapeIsSelected;
+    private final SimpleBooleanProperty shapeIsSelectedProperty;
+    
+    private final SimpleBooleanProperty shapeIsCopiedProperty;
 
     private static Pane paper;
 
     private static SelectedShapeManager ssm = null;
 
-    private ContextMenu contextMenu;
-    private MenuItem copy, paste, cut;
-    private Shape copiedShape;
-    private SimpleBooleanProperty copiedProperty;
+    private Shape copiedShape = null;
 
     private SelectedShapeManager() {
-        this.shapeIsSelected = new SimpleBooleanProperty(false);
-        this.contextMenu = new ContextMenu();
-        this.copiedProperty = new SimpleBooleanProperty(false);
-        copy = new MenuItem("Copy");
-        cut = new MenuItem("Cut");
-        paste = new MenuItem("Paste");
-        paste.disableProperty().bind(copiedProperty.not());
-        contextMenu.getItems().addAll(copy, cut, paste);
-
-        copy.setOnAction(eh -> {
-            setCopiedShape(selectedShape);
-        });
-        
-        cut.setOnAction(eh -> {
-            setCopiedShape(selectedShape);
-            paper.getChildren().remove(selectedShape);
-        });
-        
-        
-        paste.setOnAction(eh -> {
-            Shape clone = duplicateShape(copiedShape);
-            Bounds paperBounds = paper.getLayoutBounds();
-            clone.relocate((paperBounds.getWidth() - clone.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - clone.getLayoutBounds().getHeight()) / 2);
-            paper.getChildren().add(clone);
-        });
-
-        paper.setOnMouseClicked(eh -> {
-            if (eh.getButton().equals(MouseButton.SECONDARY)) {
-                contextMenu.show(paper, eh.getScreenX(), eh.getScreenY());
-            }
-        });
-
-    }
-
-    private void setCopiedShape(Shape shape) {
-        this.copiedShape = shape;
-        copiedProperty.set(true);
-    }
-
-    private void unsetCopiedShape() {
-        this.copiedShape = null;
-        copiedProperty.set(false);
+        this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
+        this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
     }
 
     /**
@@ -129,7 +81,7 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
         ssm.selectionRectangle = selectionRectangle;
         showSelectionBox(this.selectedShape);
-        ssm.shapeIsSelected.setValue(true);
+        ssm.shapeIsSelectedProperty.setValue(true);
     }
 
     /**
@@ -139,17 +91,17 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.shapeIsSelected.setValue(false);
+        ssm.shapeIsSelectedProperty.setValue(false);
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         ssm.selectedShape = null;
     }
 
     /**
-     * @return shapeIsSelected an observable property that is true if there is
-     * something selected else is false
+     * @return shapeIsSelectedProperty an observable property that is true if there is
+ something selected else is false
      */
     public SimpleBooleanProperty getShapeIsSelectedProperty() {
-        return ssm.shapeIsSelected;
+        return ssm.shapeIsSelectedProperty;
     }
 
     /**
@@ -169,7 +121,7 @@ public class SelectedShapeManager {
         SelectedShapeManager.paper.getChildren().remove(ssm.selectionRectangle);
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
         ssm.selectedShape = null;
-        ssm.shapeIsSelected.setValue(false);
+        ssm.shapeIsSelectedProperty.setValue(false);
 
     }
 
@@ -196,6 +148,43 @@ public class SelectedShapeManager {
         }
         Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color,ssm.selectedShape.getStroke(),ssm.selectedShape));
     }
+    
+    
+    /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
+    
+    public void copySelectedShape(){
+        if (ssm.selectedShape == null) return;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (XMLEncoder encoder = new XMLEncoder(baos)) {
+            encoder.setPersistenceDelegate(Color.class, new DefaultPersistenceDelegate(new String[]{"red", "green", "blue", "opacity"}));
+            encoder.writeObject(ssm.selectedShape);
+        }
+        String codedShape = new String(baos.toByteArray());
+        try (XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(codedShape.getBytes()))) {
+            this.copiedShape  = (Shape) decoder.readObject();
+            this.shapeIsCopiedProperty.setValue(true);
+        }
+        
+    }
+    
+    public void pasteShape(){
+        if (copiedShape != null){
+            Bounds paperBounds = paper.getLayoutBounds();
+            copiedShape.relocate((paperBounds.getWidth() - copiedShape.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - copiedShape.getLayoutBounds().getHeight()) / 2);
+            Invoker.getInvoker().executeCommand(new DrawShapeCommand(copiedShape,paper));
+        }
+    }
+    
+    public void cutShape(){
+        this.copySelectedShape();
+        ssm.deleteSelectedShape();
+    }
+    
+    public SimpleBooleanProperty getShapeIsCopiedProperty(){
+        return this.shapeIsCopiedProperty;
+    }
+    
+    /*-------------------------------------------------------------------------------------------------------------------------------*/
 
     private void showSelectionBox(Node node) {
         if (node == null) {
@@ -210,20 +199,5 @@ public class SelectedShapeManager {
         this.selectionRectangle.toBack();
     }
 
-    private static Shape duplicateShape(Shape shape) {
-        String codedShape = "";
-        Shape clone = null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLEncoder encoder = new XMLEncoder(baos);
-        encoder.setPersistenceDelegate(Color.class, new DefaultPersistenceDelegate(new String[]{"red", "green", "blue", "opacity"}));
-        encoder.writeObject(shape);
-        encoder.close();
-        codedShape = new String(baos.toByteArray());
-        
-        try ( XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(codedShape.getBytes()))) {
-            clone = (Shape) decoder.readObject();
-        }
 
-        return clone;
-    }
 }

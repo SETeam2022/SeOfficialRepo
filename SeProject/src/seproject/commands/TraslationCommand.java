@@ -34,7 +34,7 @@ public class TraslationCommand implements Command{
     public void execute() {
         shape.setTranslateX(event.getSceneX()-posX);
         shape.setTranslateY(event.getSceneY()-posY);
-        System.out.println("1-> " + (event.getSceneX()-posX));
+        //System.out.println("1-> " + (event.getSceneX()-posX));
         this.selectionRectangle.setX(shape.getBoundsInParent().getMinX());
         this.selectionRectangle.setY(shape.getBoundsInParent().getMinY());
     }

@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -69,10 +70,20 @@ public class FXMLDocumentController implements Initializable {
     private ToolBar sideBar;
     @FXML
     private Button undoButton;
+    
+    private  ContextMenu contextMenu;
+    
+    private  MenuItem copy;
+    
+    private  MenuItem paste;
+    
+    private  MenuItem cut;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+        contextMenuInit();
+        
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
@@ -163,6 +174,8 @@ public class FXMLDocumentController implements Initializable {
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()){
             selectedTool.onMousePressed(event);
+        } else if (event.isSecondaryButtonDown()){
+            contextMenu.show(drawingPane,event.getScreenX(), event.getScreenY());
         }
     }
 
@@ -193,6 +206,39 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
+    }
+    
+    
+    private void contextMenuInit(){
+        
+        this.contextMenu = new ContextMenu();
+        this.copy = new MenuItem("Copy");
+        this.cut = new MenuItem("Cut");
+        this.paste = new MenuItem("Paste");
+        contextMenu.getItems().addAll(copy, cut, paste);
+        
+        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
+        
+        /*If nothing is selected no option will be avilable*/
+        
+        copy.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        cut.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        
+        /*If something has been copied the paste button will be unlocked*/
+        paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
+        
+        copy.setOnAction(eh -> {
+            ssm.copySelectedShape();
+        });
+
+        cut.setOnAction(eh -> {
+            ssm.cutShape();
+        });
+
+        paste.setOnAction(eh -> {
+            ssm.pasteShape();
+        });
+        
     }
 
 }
