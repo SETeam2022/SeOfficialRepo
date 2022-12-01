@@ -17,6 +17,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -32,9 +33,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
-import javafx.util.converter.DoubleStringConverter;
+import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.SelectionTool;
 
@@ -95,8 +97,17 @@ public class FXMLDocumentController implements Initializable {
         fillColorPicker.setValue(Color.BLACK);
         strokeColorPicker.setValue(Color.BLACK);
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
+        undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());
         // selecting an initial tool
         selectedTool = new SelectionTool(drawingPane);
+        selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
+                if (!Objects.equals(newVal, oldVal) && newVal == false) {
+                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
+                }
+            }
+        });
         
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
@@ -163,12 +174,16 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
-        selectedTool.onMousePressed(event);
+        if (event.isPrimaryButtonDown()){
+            selectedTool.onMousePressed(event);
+        }
     }
 
     @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        selectedTool.onMouseDragged(event);
+        if (event.isPrimaryButtonDown()){
+            selectedTool.onMouseDragged(event);
+        }
     }
 
     @FXML
@@ -183,21 +198,24 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void undo(ActionEvent event) {
+        Invoker.getInvoker().undoLastCommand();
     }
 
     @FXML
     private void setNewWidth(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            s.resize(Double.parseDouble(widthTextField.getText()), s.getLayoutBounds().getHeight());
+            //Ellipse s = (Rectangle) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+            //s.resize(Double.parseDouble(widthTextField.getText()), s.getLayoutBounds().getHeight());
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getHeight());
         }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            s.resize(s.getLayoutBounds().getWidth(), Double.parseDouble(heightTextField.getText()));
+            //Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+            // s.setScaleY(Double.parseDouble(heightTextField.getText())/s.getLayoutBounds().getWidth());
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getWidth(), Double.parseDouble(heightTextField.getText()));
         }
     }
 

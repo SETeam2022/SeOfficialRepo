@@ -67,6 +67,8 @@ public class FileManager {
 
             paper.getChildren().setAll((Node[]) decoder.readObject());
         }
+        
+        
     }
 
 }

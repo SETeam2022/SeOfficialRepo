@@ -5,6 +5,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -54,7 +56,7 @@ public class LineTool extends DrawingTool {
         line.setStroke(this.getStrokeColorProperty().getValue());
         line.setFill(this.getFillColorProperty().getValue());
         line.setStrokeWidth(DrawingTool.widthStroke);
-        this.getPaper().getChildren().add(line);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(line,paper));
         
     }
 

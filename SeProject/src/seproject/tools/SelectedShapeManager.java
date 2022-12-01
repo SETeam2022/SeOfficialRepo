@@ -1,15 +1,19 @@
 package seproject.tools;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import seproject.commands.*;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -144,7 +148,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.selectedShape.setFill(color);
+        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color,ssm.selectedShape.getFill(),ssm.selectedShape));
     }
 
     /**
@@ -156,9 +160,13 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        ssm.selectedShape.setStroke(color);
+        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color,ssm.selectedShape.getStroke(),ssm.selectedShape));
     }
 
+    /**
+     * 
+     * @param node 
+     */
     private void showSelectionBox(Node node) {
         if (node == null) {
             return;
@@ -170,5 +178,20 @@ public class SelectedShapeManager {
         this.selectionRectangle.setMouseTransparent(true);
         SelectedShapeManager.paper.getChildren().add(selectionRectangle);
         this.selectionRectangle.toBack();
+    }
+    
+    /**
+     * 
+     * @param width
+     * @param height 
+     */
+    public void resizeSelectedShape(double width, double height){
+        // read shape as string
+        String s = "";
+        try (XMLEncoder encoder = new XMLEncoder(System.out.append(s))) {
+            encoder.writeObject(ssm.selectedShape);
+        }
+        System.out.println(s);
+
     }
 }
