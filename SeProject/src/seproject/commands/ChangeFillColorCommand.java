@@ -14,9 +14,9 @@ import javafx.scene.shape.Shape;
  */
 public class ChangeFillColorCommand implements Command{
     
-    private Color newColor;
-    private Paint oldColor;
-    private Shape shape;
+    private final Color newColor;
+    private final Paint oldColor;
+    private final Shape shape;
 
     public ChangeFillColorCommand(Color newColor, Paint oldColor, Shape shape) {
         this.newColor = newColor;

@@ -6,10 +6,6 @@ package seproject.commands;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

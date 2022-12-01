@@ -15,10 +15,13 @@ import javafx.scene.shape.Shape;
  */
 public class TraslationCommand implements Command{
     
-    private Shape shape;
-    private double posX,posY,startX,startY;
-    private MouseEvent event;
-    private Rectangle selectionRectangle;
+    private final Shape shape;
+    private final double posX;
+    private final double posY;
+    private final double startX;
+    private final double startY;
+    private final MouseEvent event;
+    private final Rectangle selectionRectangle;
 
     public TraslationCommand(Shape shape, double posX,double posY,double startX,double startY, MouseEvent event, Rectangle selectionRectangle) {
         this.shape = shape;
