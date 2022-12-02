@@ -4,6 +4,9 @@
  */
 package editor;
 
+import java.security.SecureRandom;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +19,10 @@ import static org.junit.Assert.*;
  * @author alewi
  */
 public class EllipseEditorTest {
+    private Ellipse testShape;
+    private ShapeEditor editor;
+    private SecureRandom random;
+    private static final int maxValue = 10000;
     
     public EllipseEditorTest() {
     }
@@ -26,6 +33,9 @@ public class EllipseEditorTest {
     
     @Before
     public void setUp() {
+        this.testShape = new Ellipse();
+        this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
+        this.random = new SecureRandom();
     }
     
     @After
