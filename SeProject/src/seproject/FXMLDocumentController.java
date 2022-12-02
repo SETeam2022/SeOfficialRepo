@@ -91,8 +91,9 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DecimalFormat df = new DecimalFormat();
+        DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
+        df.setDecimalSeparatorAlwaysShown(false);
         
         contextMenuInit();
         
