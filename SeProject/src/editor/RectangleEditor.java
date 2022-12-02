@@ -31,12 +31,14 @@ public class RectangleEditor implements ShapeEditor {
 
     @Override
     public double getWidth(Shape shape) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       Rectangle rectangle = (Rectangle) shape;
+       return rectangle.getWidth();
     }
 
     @Override
     public double getHeight(Shape shape) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       Rectangle rectangle = (Rectangle) shape;
+       return rectangle.getHeight();
     }
 
 }
