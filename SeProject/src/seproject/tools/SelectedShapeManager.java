@@ -24,6 +24,7 @@ import seproject.commands.ChangeStrokeColorCommand;
 import seproject.commands.DeleteShapeCommand;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.commands.ResizeCommand;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -45,7 +46,7 @@ public class SelectedShapeManager {
 
     private Shape copiedShape = null;
 
-    private Group group;
+    private final Group group;
     
     private Overlay overlay;
 
@@ -173,7 +174,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color, ssm.selectedShape.getFill(), ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color,ssm.selectedShape));
     }
 
     /**
@@ -185,8 +186,29 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape.getStroke(), ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape));
     }
+    
+    /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
+    /**
+     * Bring the selected shape on top layer
+     */
+    public void bringToFrontShape(){
+        if(ssm.selectedShape == null){
+            return;
+        }
+        ssm.selectedShape.toFront();
+    }
+    /**
+     * Bring the selected shape on down layer
+     */
+    public void bringToBackShape(){
+        if(ssm.selectedShape == null){
+            return;
+        }
+        ssm.selectedShape.toBack();
+    }
+    
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
     /**
@@ -247,10 +269,7 @@ public class SelectedShapeManager {
      */
     public void resizeSelectedShape(double width, double height) {
         if(selectedShape == null) return;
-        
-        ShapeEditor shapeEditor = ShapeEditorFactory.getInstance(selectedShape.getClass());
-        shapeEditor.setHeight(selectedShape,height);
-        shapeEditor.setWidth(selectedShape,width);
+        Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape,width,height));
     }
 }
 

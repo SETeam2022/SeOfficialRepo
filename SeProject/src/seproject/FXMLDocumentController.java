@@ -85,6 +85,10 @@ public class FXMLDocumentController implements Initializable {
     
     private  MenuItem cut;
     
+    private  MenuItem bringToFront;
+    
+    private  MenuItem bringToBack;
+    
     private Tool selectedTool;
     
     private FileManager fm;
@@ -92,6 +96,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DecimalFormat df = new DecimalFormat("##,####,####");
+        df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
         
         contextMenuInit();
@@ -229,7 +234,9 @@ public class FXMLDocumentController implements Initializable {
         this.copy = new MenuItem("Copy");
         this.cut = new MenuItem("Cut");
         this.paste = new MenuItem("Paste");
-        contextMenu.getItems().addAll(copy, cut, paste);
+        this.bringToFront = new MenuItem("Bring to Front");
+        this.bringToBack = new MenuItem("Bring to Back");
+        contextMenu.getItems().addAll(copy, cut, paste,bringToFront,bringToBack);
         
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
         
@@ -237,20 +244,30 @@ public class FXMLDocumentController implements Initializable {
         
         copy.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         cut.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        bringToFront.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        bringToBack.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         
         /*If something has been copied the paste button will be unlocked*/
         paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
         
-        copy.setOnAction(eh -> {
+        copy.setOnAction(e -> {
             ssm.copySelectedShape();
         });
 
-        cut.setOnAction(eh -> {
+        cut.setOnAction(e -> {
             ssm.cutShape();
         });
 
-        paste.setOnAction(eh -> {
+        paste.setOnAction(e -> {
             ssm.pasteShape();
+        });
+        
+        bringToFront.setOnAction(e-> {
+            ssm.bringToFrontShape();
+        });
+        
+        bringToBack.setOnAction(e->{
+            ssm.bringToBackShape();
         });
         
     }
