@@ -1,23 +1,16 @@
 package seproject.tools;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author alewi
- */
 public class SelectedShapeManagerTest {
 
     private SelectedShapeManager selectedShapeManager;
@@ -262,6 +255,25 @@ public class SelectedShapeManagerTest {
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.copySelectedShape();
         assertTrue(selectedShapeManager.getShapeIsCopiedProperty().get());
+    }
+
+    /**
+     * Test of the resizeSelectedShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testResizeSelectedShape() {
+        System.out.println("resizeSelectedShape");
+        /* Values inserted by the user in the text fields */
+        Double inputWidth = 200.23, inputHeight = 150.12;
+        selectedShapeManager.setSelectedShape(testShape);
+        /* This properties are bidirectional binded to the textProperties of the
+         * text fields, so they contain the same values */
+        selectedShapeManager.getWidthProperty().setValue(inputWidth);
+        selectedShapeManager.getHeightProperty().setValue(inputHeight);
+
+        selectedShapeManager.resizeSelectedShape(inputWidth, inputHeight);
+        assertEquals(200.23, selectedShapeManager.getWidthProperty().getValue(), 0);
+        assertEquals(150.12, selectedShapeManager.getHeightProperty().getValue(), 0);
     }
 
 }

@@ -29,7 +29,6 @@ public class SelectionTool extends Tool {
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 manager.setSelectedShape(tmp);
-                // nuovo codice
                 startX = tmp.getTranslateX();
                 startY = tmp.getTranslateY();
                 offsetX = event.getSceneX()- tmp.getTranslateX();

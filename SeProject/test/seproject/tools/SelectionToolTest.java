@@ -13,10 +13,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author bvs
- */
 public class SelectionToolTest {
     
     private Pane paper;

@@ -8,6 +8,7 @@ import seproject.tools.EllipseTool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -121,8 +122,8 @@ public class FXMLDocumentController implements Initializable {
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         
-        Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(Locale.US));
+        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(Locale.US));
     }
 
     @FXML
@@ -255,14 +256,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void setNewWidth(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getHeight());
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
         }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getLayoutBounds().getWidth(), Double.parseDouble(heightTextField.getText()));
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
         }
     }
 

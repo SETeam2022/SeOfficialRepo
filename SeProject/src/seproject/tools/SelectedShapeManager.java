@@ -5,6 +5,7 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -12,6 +13,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -30,6 +32,8 @@ import seproject.commands.Invoker;
 public class SelectedShapeManager {
 
     private Shape selectedShape = null;
+    
+    private HashMap<Shape, Point2D> sizes = new HashMap<Shape, Point2D>();
 
     private final DoubleProperty widthProperty, heightProperty;
 
@@ -95,8 +99,16 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
         overlay = new Overlay(selectedShape);
         group.getChildren().add(overlay);
-        ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
-        ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
+        
+        if (!ssm.sizes.containsKey(ssm.selectedShape)) {
+            ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
+            ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
+            ssm.sizes.put(ssm.selectedShape, new Point2D(ssm.widthProperty.getValue(), ssm.heightProperty.getValue()));
+        }else{
+            ssm.widthProperty.setValue(ssm.sizes.get(ssm.selectedShape).getX());
+            ssm.heightProperty.setValue(ssm.sizes.get(ssm.selectedShape).getY());
+        }
+        
         ssm.shapeIsSelectedProperty.setValue(true);
     }
 
@@ -153,6 +165,8 @@ public class SelectedShapeManager {
         }
 
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
+        
+        /* TODO: I have to delete the shape from the map too */
         group.getChildren().remove(overlay);
         ssm.selectedShape = null;
         ssm.shapeIsSelectedProperty.setValue(false);
@@ -184,6 +198,9 @@ public class SelectedShapeManager {
     }
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
+    /**
+     * This method performs the copy of the selected shape.
+     */
     public void copySelectedShape() {
         if (ssm.selectedShape == null) {
             return;
@@ -201,6 +218,9 @@ public class SelectedShapeManager {
 
     }
 
+    /**
+     * This method performs the paste of the selected shape.
+     */
     public void pasteShape() {
         if (copiedShape != null) {
             Bounds paperBounds = paper.getLayoutBounds();
@@ -209,11 +229,19 @@ public class SelectedShapeManager {
         }
     }
 
+    /**
+     * This method performs the cut of the selected shape.
+     */
     public void cutShape() {
         this.copySelectedShape();
         ssm.deleteSelectedShape();
     }
 
+    /**
+     * 
+     * @return shapeIsCopiedProperty which allows to know if the selected shape 
+     * has been copied
+     */
     public SimpleBooleanProperty getShapeIsCopiedProperty() {
         return this.shapeIsCopiedProperty;
     }
@@ -221,7 +249,8 @@ public class SelectedShapeManager {
     /*--------------------------------------------------------------------RESIZE-----------------------------------------------------*/
 
     /**
-     *
+     * This method performs the resize of the selected shape.
+     * 
      * @param width
      * @param height
      */
@@ -230,9 +259,20 @@ public class SelectedShapeManager {
                scaleFactorY = height / ssm.selectedShape.getLayoutBounds().getHeight();
         ssm.selectedShape.setScaleX(scaleFactorX);
         ssm.selectedShape.setScaleY(scaleFactorY);
+        sizes.put(ssm.selectedShape, new Point2D(width,height));
+        ssm.widthProperty.setValue(ssm.sizes.get(ssm.selectedShape).getX());
+        ssm.heightProperty.setValue(ssm.sizes.get(ssm.selectedShape).getY());
+        
     }
 }
 
+/*--------------------------------------------------------------------OVERLAY-----------------------------------------------------*/
+
+/**
+ * This class represents the overlay shown when a shape is selected, that is a 
+ * selection box.
+ * 
+ */
 class Overlay extends Rectangle {
 
     final Shape selectedShape;
@@ -251,6 +291,11 @@ class Overlay extends Rectangle {
         monitorOverlay();
     }
     
+    /**
+     * This method adds an observer on the boundsInParent of the selected shape, 
+     * in order to detect a change and consequently resize tha overlay according 
+     * to it.
+     */
     void monitorOverlay(){
         final ReadOnlyObjectProperty<Bounds> bounds;
         bounds = selectedShape.boundsInParentProperty();
@@ -264,6 +309,12 @@ class Overlay extends Rectangle {
         bounds.addListener(overlayChangeListener);
     }
 
+    /**
+     * This method, takes in input the newBounds on the selected shape and resizes
+     * the selection overlay according to them.
+     * 
+     * @param newBounds 
+     */
     private void updateOverlay(Bounds newBounds) {
         setX(newBounds.getMinX());
         setY(newBounds.getMinY());

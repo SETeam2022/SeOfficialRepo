@@ -15,8 +15,7 @@ public class ChangeFillColorCommand implements Command{
         this.oldColor = oldColor;
         this.shape = shape;
     }
-    
-
+   
     @Override
     public void execute() {
         shape.setFill(newColor);
