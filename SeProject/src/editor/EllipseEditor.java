@@ -18,12 +18,12 @@ public class EllipseEditor implements ShapeEditor {
 
     @Override
     public void setWidth(Shape shape, double width) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       ((Ellipse) shape).setRadiusX(width/2);
     }
 
     @Override
     public void setHeight(Shape shape, double height) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       ((Ellipse) shape).setRadiusY(height/2); 
     }
 
     @Override
@@ -33,7 +33,17 @@ public class EllipseEditor implements ShapeEditor {
 
     @Override
     public void setY(Shape shape, double newY) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ((Ellipse) shape).setCenterY(newY);
+    }
+
+    @Override
+    public double getWidth(Shape shape) {
+        return ((Ellipse) shape).layoutBoundsProperty().get().getWidth();
+    }
+
+    @Override
+    public double getHeight(Shape shape) {
+        return ((Ellipse) shape).layoutBoundsProperty().get().getHeight();
     }
     
 }

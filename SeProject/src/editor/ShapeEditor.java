@@ -1,6 +1,5 @@
 package editor;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
