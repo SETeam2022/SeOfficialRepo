@@ -6,10 +6,7 @@
 package seproject.commands;
 
 import javafx.scene.shape.Rectangle;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,6 +29,10 @@ public class ResizeCommandTest {
     @Before
     public void setUp() {
         testShape = new Rectangle();
+        previousWidth = 500;
+        previousHeight = 500;
+        newWidth = 1000;
+        newHeight = 1000;
         testShape.setWidth(previousWidth);
         testShape.setHeight(previousHeight);
         resize = new ResizeCommand(testShape,newWidth,newHeight);
