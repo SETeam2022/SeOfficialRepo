@@ -188,6 +188,23 @@ public class SelectedShapeManager {
         }
         Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape.getStroke(), ssm.selectedShape));
     }
+    
+    /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
+    
+    public void bringToFrontShape(){
+        if(ssm.selectedShape == null){
+            return;
+        }
+        ssm.selectedShape.toFront();
+    }
+    
+    public void bringToBackShape(){
+        if(ssm.selectedShape == null){
+            return;
+        }
+        ssm.selectedShape.toBack();
+    }
+    
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
     /**
