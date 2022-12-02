@@ -7,7 +7,6 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -15,7 +14,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -102,6 +100,7 @@ public class SelectedShapeManager {
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
+        System.out.println("Width "+ ssm.widthProperty.getValue() + " Height "+ ssm.heightProperty.getValue());
     }
 
     /**
@@ -250,7 +249,7 @@ public class SelectedShapeManager {
         if(selectedShape == null) return;
         
         ShapeEditor shapeEditor = ShapeEditorFactory.getInstance(selectedShape.getClass());
-        shapeEditor.setHeight(selectedShape, height);
+        shapeEditor.setHeight(selectedShape,height);
         shapeEditor.setWidth(selectedShape,width);
     }
 }

@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -91,8 +93,8 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DecimalFormat df = new DecimalFormat();
-        df.setGroupingUsed(true);
+        DecimalFormat df = new DecimalFormat("##,####,####");
+        df.setDecimalSeparatorAlwaysShown(false);
         
         contextMenuInit();
         

@@ -30,7 +30,17 @@ public class RectangleEditor implements ShapeEditor {
     @Override
     public void setY(Shape shape, double newY) {
         Rectangle rectangle = (Rectangle) shape;
-        rectangle.setX(newY);
+        rectangle.setY(newY);
+    }
+
+    @Override
+    public double getWidth(Shape shape) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public double getHeight(Shape shape) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
