@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seproject.commands;
 
 import editor.ShapeEditor;
@@ -10,8 +5,8 @@ import editor.ShapeEditorFactory;
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author teodoroadinolfi
+ * An object of this class represent the action of resaizeing  a shape, the object 
+ * also stores all the information neded for the undo of its operation
  */
 public class ResizeCommand implements Command {
     
@@ -21,12 +16,21 @@ public class ResizeCommand implements Command {
     private double oldWidth;
     private double oldHeight;
 
+    /**
+     * Create a ResizeCommand
+     * @param shape the shape to resize
+     * @param width the shape's new width
+     * @param height the shape's new height
+     */
     public ResizeCommand(Shape shape, double width, double height) {
         this.shape = shape;
         this.width = width;
         this.height = height;
     }
-
+    
+    /**
+     *  Effectively resize the shape
+     */
     @Override
     public void execute() {
         ShapeEditor editor = ShapeEditorFactory.getInstance(shape.getClass());
@@ -35,7 +39,9 @@ public class ResizeCommand implements Command {
         editor.setWidth(shape, width);
         editor.setHeight(shape, height);
     }
-
+    /**
+     * Resize the shape to it's original size
+     */
     @Override
     public void undo() {
         ShapeEditor editor = ShapeEditorFactory.getInstance(shape.getClass());

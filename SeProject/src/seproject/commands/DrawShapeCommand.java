@@ -4,6 +4,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import seproject.tools.SelectedShapeManager;
 
+
+/**
+ * An object of this class represent the action of drawing a shape on the paper
+ * the object also stores all the information neded for the undo of its operation
+ */
 public class DrawShapeCommand implements Command{
     
     private final Shape shape;
@@ -11,7 +16,7 @@ public class DrawShapeCommand implements Command{
     private final Pane paper;
     
     /**
-     * This class is the rappresentation of the 
+     * Create a DrawShapeCommand 
      * @param shape the shape that will be added to the paper
      * @param paper the paper on witch the shape will be added
      */
