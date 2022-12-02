@@ -95,7 +95,6 @@
     -fx-scale-x: 0.9;
     -fx-background-radius: 10px;
     -fx-background-color: lightblue;
-    -fx-cursor: CLOSED_HAND;
 }
 
 .menu-item:hover{

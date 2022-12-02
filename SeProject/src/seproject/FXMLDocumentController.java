@@ -34,6 +34,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
@@ -68,8 +69,7 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
-    @FXML
-    private ToolBar sideBar;
+
     @FXML
     private Button undoButton;
     @FXML
@@ -96,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
     private Button zoomIn;
     @FXML
     private Button zoomOut;
+    @FXML
+    private ToolBar sideBar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -196,6 +198,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()){
+            contextMenu.hide();
             selectedTool.onMousePressed(event);
         } else if (event.isSecondaryButtonDown()){
             contextMenu.show(drawingPane,event.getScreenX(), event.getScreenY());
