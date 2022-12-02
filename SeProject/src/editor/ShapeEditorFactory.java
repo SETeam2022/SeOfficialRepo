@@ -20,6 +20,7 @@ public class ShapeEditorFactory {
     static {
         try {
             editors.put(Class.forName("javafx.scene.shape.Rectangle"), new RectangleEditor());
+            editors.put(Class.forName("javafx.scene.shape.Ellipse"), new EllipseEditor());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ShapeEditorFactory.class.getName()).log(Level.SEVERE, null, ex);
         }

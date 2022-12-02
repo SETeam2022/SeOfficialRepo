@@ -175,7 +175,45 @@ public class SelectedShapeManagerTest {
         Double result = selectedShapeManager.getHeightProperty().get();
         assertEquals(expResult, result);
     }
-
+    
+    /*---------------------------------------------- TEST BRING TO FRONT AND TO BACK ------------------------------------------------*/
+    /**
+     * Test of testBringToFrontShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testBringToFrontShape(){
+        System.out.println("bringToFrontShape");
+        int beforeBringToFront, afterBringToFront;
+        SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
+        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
+        ssm.setSelectedShape(testShape);
+        beforeBringToFront = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        ssm.bringToFrontShape();
+        afterBringToFront = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        assertTrue(afterBringToFront > beforeBringToFront);
+    }
+    
+    /**
+     * Test of testBringToBackShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testBringToBackShape(){
+        System.out.println("bringToBackShape");
+        int beforeBringToBack, afterBringToBack;
+        SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
+        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
+        ssm.setSelectedShape(testShape);
+        ssm.bringToFrontShape();
+        beforeBringToBack = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        ssm.bringToBackShape();
+        afterBringToBack = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        assertTrue(afterBringToBack < beforeBringToBack);
+    }
+    
+    
+    
+    
+    
     /**
      * Test of copySelectedShape method, of class SelectedShapeManager.
      */
