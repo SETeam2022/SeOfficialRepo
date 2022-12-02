@@ -7,7 +7,6 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -15,7 +14,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -26,6 +24,7 @@ import seproject.commands.ChangeStrokeColorCommand;
 import seproject.commands.DeleteShapeCommand;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.commands.ResizeCommand;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -47,7 +46,7 @@ public class SelectedShapeManager {
 
     private Shape copiedShape = null;
 
-    private Group group;
+    private final Group group;
     
     private Overlay overlay;
 
@@ -265,10 +264,7 @@ public class SelectedShapeManager {
      */
     public void resizeSelectedShape(double width, double height) {
         if(selectedShape == null) return;
-        
-        ShapeEditor shapeEditor = ShapeEditorFactory.getInstance(selectedShape.getClass());
-        shapeEditor.setHeight(selectedShape, height);
-        shapeEditor.setWidth(selectedShape,width);
+        Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape,width,height));
     }
 }
 
