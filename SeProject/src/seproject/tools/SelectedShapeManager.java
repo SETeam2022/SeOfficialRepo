@@ -189,14 +189,18 @@ public class SelectedShapeManager {
     }
     
     /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
-    
+    /**
+     * Bring the selected shape on top layer
+     */
     public void bringToFrontShape(){
         if(ssm.selectedShape == null){
             return;
         }
         ssm.selectedShape.toFront();
     }
-    
+    /**
+     * Bring the selected shape on down layer
+     */
     public void bringToBackShape(){
         if(ssm.selectedShape == null){
             return;
