@@ -27,16 +27,6 @@ public class EllipseEditor implements ShapeEditor {
     }
 
     @Override
-    public void setX(Shape shape, double newX) {
-        ((Ellipse) shape).setCenterX(newX);
-    }
-
-    @Override
-    public void setY(Shape shape, double newY) {
-        ((Ellipse) shape).setCenterY(newY);
-    }
-
-    @Override
     public double getWidth(Shape shape) {
         return ((Ellipse) shape).layoutBoundsProperty().get().getWidth();
     }

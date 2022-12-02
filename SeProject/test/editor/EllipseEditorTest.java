@@ -53,26 +53,6 @@ public class EllipseEditorTest {
     }
 
     @Test
-    public void testSetX() {
-        System.out.println("setX");
-        Shape shape = null;
-        double newX = 0.0;
-        EllipseEditor instance = new EllipseEditor();
-        instance.setX(shape, newX);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSetY() {
-        System.out.println("setY");
-        Shape shape = null;
-        double newY = 0.0;
-        EllipseEditor instance = new EllipseEditor();
-        instance.setY(shape, newY);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
     public void testGetWidth() {
         System.out.println("getWidth");
         Shape shape = null;

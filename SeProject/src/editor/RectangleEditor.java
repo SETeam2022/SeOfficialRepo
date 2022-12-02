@@ -20,16 +20,6 @@ public class RectangleEditor implements ShapeEditor {
     }
 
     @Override
-    public void setX(Shape shape, double newX) {
-        ((Rectangle) shape).setX(newX);
-    }
-
-    @Override
-    public void setY(Shape shape, double newY) {
-        ((Rectangle) shape).setY(newY);
-    }
-
-    @Override
     public double getWidth(Shape shape) {
        Rectangle rectangle = (Rectangle) shape;
        return rectangle.getWidth();

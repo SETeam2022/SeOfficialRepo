@@ -74,24 +74,5 @@ public class LineEditorTest {
         fail("The test case is a prototype.");
     }
 
-    @Test
-    public void testSetX() {
-        System.out.println("setX");
-        Shape shape = null;
-        double newX = 0.0;
-        LineEditor instance = new LineEditor();
-        instance.setX(shape, newX);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testSetY() {
-        System.out.println("setY");
-        Shape shape = null;
-        double newY = 0.0;
-        LineEditor instance = new LineEditor();
-        instance.setY(shape, newY);
-        fail("The test case is a prototype.");
-    }
     
 }

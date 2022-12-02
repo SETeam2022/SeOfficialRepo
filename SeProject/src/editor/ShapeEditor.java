@@ -11,6 +11,4 @@ public interface ShapeEditor {
     public void setHeight(Shape shape, double height);
     public double getWidth(Shape shape);
     public double getHeight(Shape shape);
-    public void setX(Shape shape, double newX);
-    public void setY(Shape shape, double newY);
 }

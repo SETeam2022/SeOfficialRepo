@@ -31,17 +31,5 @@ public class LineEditor implements ShapeEditor {
     public double getHeight(Shape shape) {
         return ((Line) shape).getLayoutBounds().getHeight();
     }
-
-    @Override
-    public void setX(Shape shape, double newX) {
-        ((Line) shape).setStartX(((Line) shape).getStartX()+newX);
-        ((Line) shape).setEndX(((Line) shape).getEndX()+newX);
-    }
-
-    @Override
-    public void setY(Shape shape, double newY) {
-        ((Line) shape).setStartY(((Line) shape).getStartX()+newY);
-        ((Line) shape).setEndY(((Line) shape).getEndX()+newY);
-    }
     
 }
