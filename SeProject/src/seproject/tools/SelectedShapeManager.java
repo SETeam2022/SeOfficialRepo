@@ -101,6 +101,7 @@ public class SelectedShapeManager {
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
+        System.out.println("Width "+ ssm.widthProperty.getValue() + " Height "+ ssm.heightProperty.getValue());
     }
 
     /**
