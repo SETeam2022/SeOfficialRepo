@@ -263,17 +263,6 @@ public class SelectedShapeManagerTest {
     @Test
     public void testResizeSelectedShape() {
         System.out.println("resizeSelectedShape");
-        /* Values inserted by the user in the text fields */
-        Double inputWidth = 200.23, inputHeight = 150.12;
-        selectedShapeManager.setSelectedShape(testShape);
-        /* This properties are bidirectional binded to the textProperties of the
-         * text fields, so they contain the same values */
-        selectedShapeManager.getWidthProperty().setValue(inputWidth);
-        selectedShapeManager.getHeightProperty().setValue(inputHeight);
-
-        selectedShapeManager.resizeSelectedShape(inputWidth, inputHeight);
-        assertEquals(200.23, selectedShapeManager.getWidthProperty().getValue(), 0);
-        assertEquals(150.12, selectedShapeManager.getHeightProperty().getValue(), 0);
     }
 
 }

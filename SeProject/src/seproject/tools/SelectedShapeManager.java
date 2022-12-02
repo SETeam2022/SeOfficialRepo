@@ -1,5 +1,7 @@
 package seproject.tools;
 
+import editor.ShapeEditor;
+import editor.ShapeEditorFactory;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -33,8 +35,6 @@ public class SelectedShapeManager {
 
     private Shape selectedShape = null;
     
-    private HashMap<Shape, Point2D> sizes = new HashMap<Shape, Point2D>();
-
     private final DoubleProperty widthProperty, heightProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
@@ -99,16 +99,8 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
         overlay = new Overlay(selectedShape);
         group.getChildren().add(overlay);
-        
-        if (!ssm.sizes.containsKey(ssm.selectedShape)) {
-            ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
-            ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
-            ssm.sizes.put(ssm.selectedShape, new Point2D(ssm.widthProperty.getValue(), ssm.heightProperty.getValue()));
-        }else{
-            ssm.widthProperty.setValue(ssm.sizes.get(ssm.selectedShape).getX());
-            ssm.heightProperty.setValue(ssm.sizes.get(ssm.selectedShape).getY());
-        }
-        
+        ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
+        ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
     }
 
@@ -255,14 +247,11 @@ public class SelectedShapeManager {
      * @param height
      */
     public void resizeSelectedShape(double width, double height) {
-        Double scaleFactorX = width / ssm.selectedShape.getLayoutBounds().getWidth(),
-               scaleFactorY = height / ssm.selectedShape.getLayoutBounds().getHeight();
-        ssm.selectedShape.setScaleX(scaleFactorX);
-        ssm.selectedShape.setScaleY(scaleFactorY);
-        sizes.put(ssm.selectedShape, new Point2D(width,height));
-        ssm.widthProperty.setValue(ssm.sizes.get(ssm.selectedShape).getX());
-        ssm.heightProperty.setValue(ssm.sizes.get(ssm.selectedShape).getY());
+        if(selectedShape == null) return;
         
+        ShapeEditor shapeEditor = ShapeEditorFactory.getInstance(selectedShape.getClass());
+        shapeEditor.setHeight(selectedShape, height);
+        shapeEditor.setWidth(selectedShape,width);
     }
 }
 
