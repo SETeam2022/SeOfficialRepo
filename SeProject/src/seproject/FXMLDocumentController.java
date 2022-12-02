@@ -92,6 +92,10 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
     
     private FileManager fm;
+    @FXML
+    private Button zoomIn;
+    @FXML
+    private Button zoomOut;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -284,6 +288,14 @@ public class FXMLDocumentController implements Initializable {
         if(event.getCode()== KeyCode.ENTER){
             SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
         }
+    }
+
+    @FXML
+    private void zoomIn(ActionEvent event) {
+    }
+
+    @FXML
+    private void zoomOut(ActionEvent event) {
     }
 
 }
