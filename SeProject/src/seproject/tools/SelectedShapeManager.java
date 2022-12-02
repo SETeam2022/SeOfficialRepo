@@ -1,7 +1,5 @@
 package seproject.tools;
 
-import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -98,10 +96,10 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
         overlay = new Overlay(selectedShape);
         group.getChildren().add(overlay);
+        group.toFront();
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
-        System.out.println("Width "+ ssm.widthProperty.getValue() + " Height "+ ssm.heightProperty.getValue());
     }
 
     /**
@@ -197,6 +195,7 @@ public class SelectedShapeManager {
         if(ssm.selectedShape == null){
             return;
         }
+        ssm.group.toFront();
         ssm.selectedShape.toFront();
     }
     /**
@@ -206,6 +205,7 @@ public class SelectedShapeManager {
         if(ssm.selectedShape == null){
             return;
         }
+        ssm.group.toBack();
         ssm.selectedShape.toBack();
     }
     
