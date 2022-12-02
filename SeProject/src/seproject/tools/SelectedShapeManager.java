@@ -23,6 +23,7 @@ import seproject.commands.DeleteShapeCommand;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.commands.ResizeCommand;
+import seproject.commands.*;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -195,8 +196,7 @@ public class SelectedShapeManager {
         if(ssm.selectedShape == null){
             return;
         }
-        ssm.group.toFront();
-        ssm.selectedShape.toFront();
+        Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape,paper));
     }
     /**
      * Bring the selected shape on down layer
@@ -205,8 +205,7 @@ public class SelectedShapeManager {
         if(ssm.selectedShape == null){
             return;
         }
-        ssm.group.toBack();
-        ssm.selectedShape.toBack();
+        Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape,paper));
     }
     
 
