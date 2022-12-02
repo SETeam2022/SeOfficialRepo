@@ -17,7 +17,7 @@ public class ChangeStrokeColorCommandTest {
     public void testExecute() {
         System.out.println("execute");
         Rectangle rect = new Rectangle();
-        com = new ChangeStrokeColorCommand(Color.RED,rect.getStroke(),rect);
+        com = new ChangeStrokeColorCommand(Color.RED,rect);
         com.execute();
         assertEquals(rect.getStroke(), Color.RED);
         
@@ -31,7 +31,7 @@ public class ChangeStrokeColorCommandTest {
         System.out.println("undo");
         Rectangle rect = new Rectangle();
         rect.setStroke(Color.BLACK);
-        com = new ChangeStrokeColorCommand(Color.RED,rect.getStroke(),rect);
+        com = new ChangeStrokeColorCommand(Color.RED,rect);
         com.execute();
         com.undo();
         assertEquals(rect.getStroke(), Color.BLACK);

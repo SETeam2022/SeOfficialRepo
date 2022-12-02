@@ -173,7 +173,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color, ssm.selectedShape.getFill(), ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color,ssm.selectedShape));
     }
 
     /**
@@ -185,7 +185,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape.getStroke(), ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape));
     }
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
