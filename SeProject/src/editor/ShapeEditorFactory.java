@@ -32,7 +32,7 @@ public class ShapeEditorFactory {
      * @param shapeClass is the is the shape's class you want to edit.
      *
      * @return the ShapeEditor for your shape. Indeed, it is easy to see that
-     * you can use for shape editing.
+     * you can use it for shape editing.
      */
     public static ShapeEditor getInstance(Class<?> shapeClass) {
         return editors.get(shapeClass);
