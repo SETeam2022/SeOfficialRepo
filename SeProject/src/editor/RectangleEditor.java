@@ -33,4 +33,16 @@ public class RectangleEditor implements ShapeEditor {
         rectangle.setX(newY);
     }
 
+    @Override
+    public double getWidth(Shape shape) {
+       Rectangle rectangle = (Rectangle) shape;
+       return rectangle.getWidth();
+    }
+
+    @Override
+    public double getHeight(Shape shape) {
+       Rectangle rectangle = (Rectangle) shape;
+       return rectangle.getHeight();
+    }
+
 }
