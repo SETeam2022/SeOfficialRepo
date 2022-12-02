@@ -1,32 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package seproject.tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import seproject.commands.*;
 
-/**
- *
- * @author teodo
- */
 public class SelectionTool extends Tool {
 
-    private Rectangle selectionRectangle;
     private final SelectedShapeManager manager;
     private double startX,startY,offsetX,offsetY;
 
     public SelectionTool(Pane paper) {
         super(paper);
-        selectionRectangle = new Rectangle();
-        this.selectionRectangle.setStroke(Color.CORNFLOWERBLUE);
-        this.selectionRectangle.setStrokeWidth(3);
-        this.selectionRectangle.setFill(Color.TRANSPARENT);
-        this.selectionRectangle.getStrokeDashArray().addAll(3.0, 5.0);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
     }
 
@@ -43,8 +28,7 @@ public class SelectionTool extends Tool {
         if (eventNode instanceof Shape) {
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
-                manager.setSelectedShape(tmp, this.selectionRectangle);
-                // nuovo codice
+                manager.setSelectedShape(tmp);
                 startX = tmp.getTranslateX();
                 startY = tmp.getTranslateY();
                 offsetX = event.getSceneX()- tmp.getTranslateX();
@@ -66,8 +50,6 @@ public class SelectionTool extends Tool {
         if (selectedShape != null) {
             selectedShape.setTranslateX(event.getSceneX()-offsetX);
             selectedShape.setTranslateY(event.getSceneY()-offsetY);
-            this.selectionRectangle.setX(selectedShape.getBoundsInParent().getMinX());
-            this.selectionRectangle.setY(selectedShape.getBoundsInParent().getMinY());
         }
     }
     
@@ -75,7 +57,7 @@ public class SelectionTool extends Tool {
     public void onMouseReleased(MouseEvent event){
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            Invoker.getInvoker().executeCommand(new TraslationCommand(selectedShape,offsetX,offsetY,startX,startY,event,selectionRectangle));
+            Invoker.getInvoker().executeCommand(new TraslationCommand(selectedShape,offsetX,offsetY,startX,startY,event));
         }
     }
 }

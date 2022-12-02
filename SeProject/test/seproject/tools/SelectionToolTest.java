@@ -13,10 +13,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author bvs
- */
 public class SelectionToolTest {
     
     private Pane paper;
@@ -47,10 +43,13 @@ public class SelectionToolTest {
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
-        Node instancedNode = paper.getChildren().get(0);
-        Assert.assertTrue("Instanced Node is not an Ellipse", instancedNode instanceof Ellipse);
-        instancedEllipse = (Ellipse) instancedNode;
         
+        for (Node node : paper.getChildren()){
+            if (node instanceof Ellipse){
+                instancedEllipse = (Ellipse) node;
+                break;
+            }
+        }
         
     }
     

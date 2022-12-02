@@ -10,6 +10,8 @@ import seproject.tools.EllipseTool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,7 +21,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -29,6 +30,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
@@ -37,8 +39,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
@@ -64,10 +64,6 @@ public class FXMLDocumentController implements Initializable {
     private RadioButton addEllipsesButton;
     @FXML
     private Pane drawingPane;
-
-    private Tool selectedTool;
-    private FileManager fm;
-
     @FXML
     private ToolBar toolBar;
     @FXML
@@ -92,9 +88,15 @@ public class FXMLDocumentController implements Initializable {
     private  MenuItem paste;
     
     private  MenuItem cut;
+    
+    private Tool selectedTool;
+    
+    private FileManager fm;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        DecimalFormat df = new DecimalFormat();
+        df.setGroupingUsed(true);
         
         contextMenuInit();
         
@@ -126,8 +128,8 @@ public class FXMLDocumentController implements Initializable {
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         
-        Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
+        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
     }
 
     @FXML
@@ -260,27 +262,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void setNewWidth(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            ShapeEditorFactory.getInstance(s.getClass()).setWidth(s, Double.parseDouble(widthTextField.getText()));
-            
-            /*
-            ShapeEditor editor = ShapeEditorFactory.getInstance(s.getClass());
-            editor.setWidth(s, Double.parseDouble(widthTextField.getText()));
-            */
-            }
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
+        }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
         if(event.getCode()== KeyCode.ENTER){
-            Shape s = SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-            ShapeEditorFactory.getInstance(s.getClass()).setHeight(s, Double.parseDouble(heightTextField.getText()));
-            
-            /*
-            ShapeEditor editor = ShapeEditorFactory.getInstance(s.getClass());
-            editor.setHeight(s, Double.parseDouble(heightTextField.getText()));
-            */
-}
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
+        }
     }
 
 }
