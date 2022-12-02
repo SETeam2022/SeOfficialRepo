@@ -3,13 +3,13 @@ package seproject.commands;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
-public class TraslationCommand implements Command{
+public class TranslationCommand implements Command{
     
     private final Shape shape;
     private final double posX,posY,startX,startY;
     private final MouseEvent event;
 
-    public TraslationCommand(Shape shape, double posX,double posY,double startX,double startY, MouseEvent event) {
+    public TranslationCommand(Shape shape, double posX,double posY,double startX,double startY, MouseEvent event) {
         this.shape = shape;
         this.posX = posX;
         this.posY = posY;

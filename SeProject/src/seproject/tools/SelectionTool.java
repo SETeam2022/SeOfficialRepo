@@ -57,7 +57,7 @@ public class SelectionTool extends Tool {
     public void onMouseReleased(MouseEvent event){
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            Invoker.getInvoker().executeCommand(new TraslationCommand(selectedShape,offsetX,offsetY,startX,startY,event));
+            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape,offsetX,offsetY,startX,startY,event));
         }
     }
 }
