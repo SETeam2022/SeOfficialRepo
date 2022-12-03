@@ -56,14 +56,12 @@ public class BringToBackCommandTest {
         
         /* Test 1: undo of the BringToBackCommand on the line */
         this.cmdLine.undo();
-        assertEquals(2, this.paper.getChildren().indexOf(this.line), 0);
-        assertEquals(0, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(1, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.ell));
+        assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 2: undo of the BringToBackCommand on the ellipse */
         this.cmdEll.undo();
-        assertEquals(1, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.rect));
         
         /* Test 3: undo of the BringToBackCommand on the rectangle */
         this.cmdRect.undo();
@@ -85,15 +83,13 @@ public class BringToBackCommandTest {
         /* Test 2: there are two shapes inside the pane */
         this.paper.getChildren().add(ell);
         this.cmdEll = createCommandAndExecute(this.ell, this.cmdEll);
-        assertEquals(0, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(1, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 3: there are three shapes inside the pane */
         this.paper.getChildren().add(line);
         this.cmdLine = createCommandAndExecute(this.line, this.cmdLine);
-        assertEquals(0, this.paper.getChildren().indexOf(this.line), 0);
-        assertEquals(1, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(2, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
+        assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.line));
     }
 
     /**

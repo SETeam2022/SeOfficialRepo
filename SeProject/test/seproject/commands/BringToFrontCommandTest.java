@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import seproject.TestConstants;
@@ -56,14 +57,12 @@ public class BringToFrontCommandTest {
         
         /* Test 1: undo of the BringToFrontCommand on the line */
         this.cmdLine.undo();
-        assertEquals(2, this.paper.getChildren().indexOf(this.line), 0);
-        assertEquals(0, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(1, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.rect));
+        assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 2: undo of the BringToFrontCommand on the ellipse */
         this.cmdEll.undo();
-        assertEquals(1, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.rect));
         
         /* Test 3: undo of the BringToFrontCommand on the rectangle */
         this.cmdRect.undo();
@@ -80,20 +79,18 @@ public class BringToFrontCommandTest {
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);
         this.cmdRect = createCommandAndExecute(this.rect, this.cmdRect);
-        assertEquals(0, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
+        assertEquals(1, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
         
         /* Test 2: there are two shapes inside the pane */
         this.paper.getChildren().add(ell);
         this.cmdEll = createCommandAndExecute(this.rect, this.cmdEll);
-        assertEquals(0, this.paper.getChildren().indexOf(this.ell), 0);
-        assertEquals(1, this.paper.getChildren().indexOf(this.rect), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 3: there are three shapes inside the pane */
         this.paper.getChildren().add(line);
         this.cmdLine = createCommandAndExecute(this.ell, this.cmdLine);
-        assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
-        assertEquals(1, this.paper.getChildren().indexOf(this.line), 0);
-        assertEquals(2, this.paper.getChildren().indexOf(this.ell), 0);
+        assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.line));
+        assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.rect));
     }
 
     /**
