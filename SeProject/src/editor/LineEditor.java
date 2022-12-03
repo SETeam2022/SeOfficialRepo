@@ -1,11 +1,15 @@
 package editor;
 
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class LineEditor implements ShapeEditor {
 
+    /**
+     *
+     * @param shape the line you want to edit Width
+     * @param width the new line width
+     */
     @Override
     public void setWidth(Shape shape, double width) {
         int old = (int) Math.round(this.getWidth(shape));
@@ -16,6 +20,11 @@ public class LineEditor implements ShapeEditor {
         ((Line) shape).setEndX(((Line) shape).getStartX() + width);
     }
 
+    /**
+     *
+     * @param shape
+     * @param height
+     */
     @Override
     public void setHeight(Shape shape, double height) {
         int old = (int) Math.round(this.getHeight(shape));
@@ -30,11 +39,21 @@ public class LineEditor implements ShapeEditor {
         }
     }
 
+    /**
+     *
+     * @param shape
+     * @return
+     */
     @Override
     public double getWidth(Shape shape) {
         return Math.abs(((Line) shape).getEndX() - ((Line) shape).getStartX());
     }
 
+    /**
+     *
+     * @param shape
+     * @return
+     */
     @Override
     public double getHeight(Shape shape) {
         return Math.abs(((Line) shape).getEndY() - ((Line) shape).getStartY());

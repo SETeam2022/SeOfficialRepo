@@ -66,7 +66,7 @@ public class SelectionTool extends Tool {
     public void onMouseReleased(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null && shapeHasBeenDragged) {
-            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),event));
+            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),event.getSceneX(),event.getSceneY()));
         }
         shapeHasBeenDragged = false;
     }

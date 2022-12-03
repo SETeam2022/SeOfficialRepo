@@ -31,7 +31,7 @@ public class EllipseEditor implements ShapeEditor {
     /**
      *
      * @param shape the ellipse you want to get width.
-     * @return
+     * @return the ellipse width.
      */
     @Override
     public double getWidth(Shape shape) {
@@ -40,8 +40,8 @@ public class EllipseEditor implements ShapeEditor {
 
     /**
      *
-     * @param shape
-     * @return
+     * @param shape the ellipse you want to get height.
+     * @return the ellipse height.
      */
     @Override
     public double getHeight(Shape shape) {
@@ -50,8 +50,8 @@ public class EllipseEditor implements ShapeEditor {
 
     /**
      *
-     * @param shape
-     * @return
+     * @param shape the ellipse you want to clone.
+     * @return the cloned ellipse (as Shape).
      */
     @Override
     public Shape clone(Shape shape) {

@@ -22,6 +22,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -42,6 +44,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
@@ -91,9 +95,9 @@ public class FXMLDocumentController implements Initializable {
     private ScrollPane scrollPane;
 
     private final static double MAX_SIZE = 10000;
-    
+
     private final static double MIN_ZOOM = 1;
-    
+
     private final static double MAX_ZOOM = 9;
 
     private ContextMenu contextMenu;
@@ -117,12 +121,9 @@ public class FXMLDocumentController implements Initializable {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-        
-        drawingPane.setMaxWidth(Screen.getMainScreen().getWidth());
-        drawingPane.setMaxHeight(Screen.getMainScreen().getHeight());
-                
+
         contextMenuInit();
-        
+
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
@@ -177,13 +178,18 @@ public class FXMLDocumentController implements Initializable {
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-        /*
-        scrollPane.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            drawingPane.setPrefSize(newBounds.getWidth(), newBounds.getHeight());
-        }); */
+
         drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
+
+        Group g = new Group(drawingPane);
+        g.maxWidth(Screen.getMainScreen().getWidth());
+        g.maxHeight(Screen.getMainScreen().getHeight());
+        g.requestLayout();
+
+        drawingPane.setClip(new Rectangle (0,0, drawingPane.getMaxWidth(),drawingPane.getMaxHeight()));
         
+        scrollPane.setContent(g);
     }
 
     @FXML
@@ -345,7 +351,6 @@ public class FXMLDocumentController implements Initializable {
             errorLabelSize.setVisible(true);
         }
     }
-
 
     /**
      * This method validates the width inserted by the user. It returns true if

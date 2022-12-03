@@ -46,7 +46,7 @@ public class SelectedShapeManager {
 
     private Shape copiedShape = null;
 
-    private final Group group;
+    private Group group;
 
     private Overlay overlay;
 
@@ -56,8 +56,7 @@ public class SelectedShapeManager {
         this.heightProperty = new SimpleDoubleProperty();
         this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
         this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
-        group = new Group();
-        group.setMouseTransparent(true);
+
     }
 
     /**
@@ -78,7 +77,6 @@ public class SelectedShapeManager {
      * @param paper the pane on witch the shape will be selected
      */
     public static void setSelectedShapeManagerPaper(Pane paper) {
-        paper.getChildren().add(SelectedShapeManager.getSelectedShapeManager().group);
         SelectedShapeManager.paper = paper;
     }
 
@@ -96,9 +94,12 @@ public class SelectedShapeManager {
      */
     public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
+        group = new Group();
+        group.setMouseTransparent(true);
         overlay = new Overlay(selectedShape);
         group.getChildren().add(overlay);
         group.toFront();
+        paper.getChildren().add(SelectedShapeManager.getSelectedShapeManager().group);
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
