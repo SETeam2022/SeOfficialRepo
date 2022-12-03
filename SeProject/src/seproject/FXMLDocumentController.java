@@ -87,6 +87,8 @@ public class FXMLDocumentController implements Initializable {
     private Label errorLabelSize;
     @FXML
     private Slider zoomSlider;
+    @FXML
+    private ScrollPane scrollPane;
 
     private final static double MAX_SIZE = 10000;
     
@@ -109,8 +111,6 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
-    @FXML
-    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -177,7 +177,9 @@ public class FXMLDocumentController implements Initializable {
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-        
+        scrollPane.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
+            drawingPane.setPrefSize(newBounds.getWidth(), newBounds.getHeight());
+        });
         drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
         

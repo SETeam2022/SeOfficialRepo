@@ -1,4 +1,4 @@
-package seproject.tools;
+package seproject;
 
 import java.io.File;
 import java.io.IOException;
