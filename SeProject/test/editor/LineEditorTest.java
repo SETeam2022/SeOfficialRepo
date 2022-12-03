@@ -1,7 +1,9 @@
 package editor;
 
 import java.security.SecureRandom;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -85,6 +87,19 @@ public class LineEditorTest {
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);
         return actualHeight == expectedHeight;
+    }
+
+    @Test
+    public void testClone() {
+        System.out.println("clone");
+        Line actualShape = (Line) editor.clone(testShape);
+        assertEquals(testShape.getStartX(),actualShape.getStartX(),0);
+        assertEquals(testShape.getStartY(),actualShape.getStartY(),0);
+        assertEquals(testShape.getEndX(),actualShape.getEndX(),0);
+        assertEquals(testShape.getEndY(),actualShape.getEndY(),0);
+        assertEquals(testShape.getFill(),actualShape.getFill());
+        assertEquals(testShape.getStroke(),actualShape.getStroke());
+        assertEquals(testShape.getStrokeWidth(),actualShape.getStrokeWidth(),0);
     }
 
 }

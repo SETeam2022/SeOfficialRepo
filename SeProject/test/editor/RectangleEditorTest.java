@@ -1,7 +1,9 @@
 package editor;
 
 import java.security.SecureRandom;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -85,6 +87,18 @@ public class RectangleEditorTest {
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);
         return actualHeight == expectedHeight;
+    }
+
+    @Test
+    public void testClone() {
+        System.out.println("clone");
+        Rectangle actualShape = (Rectangle) editor.clone(testShape);
+        assertEquals(testShape.getX(),actualShape.getX(),0);
+        assertEquals(testShape.getY(),actualShape.getY(),0);
+        assertEquals(testShape.getWidth(),actualShape.getWidth(),0);
+        assertEquals(testShape.getHeight(),actualShape.getHeight(),0);
+        assertEquals(testShape.getFill(),actualShape.getFill());
+        assertEquals(testShape.getStroke(),actualShape.getStroke());
     }
 
 }
