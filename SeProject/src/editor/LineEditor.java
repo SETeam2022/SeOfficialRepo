@@ -22,7 +22,7 @@ public class LineEditor implements ShapeEditor {
 
     /**
      *
-     * @param shape
+     * @param shape the line you want to edit Height
      * @param height
      */
     @Override
@@ -41,7 +41,7 @@ public class LineEditor implements ShapeEditor {
 
     /**
      *
-     * @param shape
+     * @param shape the line you want to get Width
      * @return
      */
     @Override
@@ -51,14 +51,19 @@ public class LineEditor implements ShapeEditor {
 
     /**
      *
-     * @param shape
+     * @param shape the line you want to get Height
      * @return
      */
     @Override
     public double getHeight(Shape shape) {
         return Math.abs(((Line) shape).getEndY() - ((Line) shape).getStartY());
     }
-
+    
+    /**
+     *
+     * @param shape the line you want to clone.
+     * @return the cloned line.
+     */
     @Override
     public Shape clone(Shape shape) {
         Line original = (Line) shape;

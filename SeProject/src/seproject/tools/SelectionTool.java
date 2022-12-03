@@ -9,7 +9,6 @@ public class SelectionTool extends Tool {
 
     private final SelectedShapeManager manager;
     private double startX, startY, offsetX, offsetY;
-    private double startXO, startYO, offsetXO, offsetYO;
     private boolean shapeHasBeenDragged;
 
     public SelectionTool(Pane paper) {
@@ -67,7 +66,7 @@ public class SelectionTool extends Tool {
     public void onMouseReleased(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null && shapeHasBeenDragged) {
-            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),event));
+            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),event.getSceneX(),event.getSceneY()));
         }
         shapeHasBeenDragged = false;
     }

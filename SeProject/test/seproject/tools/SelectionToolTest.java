@@ -4,14 +4,14 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.EventGenerator;
 
 public class SelectionToolTest {
 
@@ -25,32 +25,21 @@ public class SelectionToolTest {
     @Before
     public void setUp() {
         paper = new Pane();
+        
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         ell = new EllipseTool(paper, borderColorProperty, fillColorProperty);
-
         st = new SelectionTool(paper);
         SelectedShapeManager.setSelectedShapeManagerPaper(paper);
-
-        ell.onMousePressed(new MouseEvent(paper, paper, MouseEvent.MOUSE_CLICKED, 100,
-                200, 0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
-
-        ell.onMouseDragged(new MouseEvent(paper, paper, MouseEvent.MOUSE_DRAGGED, 200, 300,
-                0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
-
-        for (Node node : paper.getChildren()) {
-            if (node instanceof Ellipse) {
-                instancedEllipse = (Ellipse) node;
-                break;
-            }
-        }
-
+        
+        
+        ell.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, paper,100, 200));
+        ell.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,200,300));
+        
+        instancedEllipse = (Ellipse) paper.getChildren().get(0);
+        
     }
 
     /**
@@ -59,27 +48,19 @@ public class SelectionToolTest {
     @Test
     public void testOnMousePressed() {
         System.out.println("onMousePressed");
-        st.onMousePressed(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_CLICKED, 100,
-                200, 0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
-
+        st.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, instancedEllipse,100, 200));
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
+        Node elem = paper.getChildren().get(0);
+        assertTrue("The shape isn't of the same class of the testShape",elem instanceof Ellipse);
+        Ellipse casted = (Ellipse) elem;
+        // Checking for Positions
+        Assert.assertEquals(casted.getCenterX(),selectedEllipse.getCenterX(), 0);
+        Assert.assertEquals(casted.getCenterY(),selectedEllipse.getCenterY(), 0);
+        // Checking for Color
+        Assert.assertEquals(Color.RED, selectedEllipse.getStroke());
+        Assert.assertEquals(Color.BLACK, selectedEllipse.getFill());
 
-        for (Node elem : paper.getChildren()) {
-            if (elem instanceof Ellipse) {
-                Ellipse casted = (Ellipse) elem;
-                // Checking for Positions
-                Assert.assertEquals(casted.getCenterX(),
-                        selectedEllipse.getCenterX(), 0);
-                Assert.assertEquals(casted.getCenterY(),
-                        selectedEllipse.getCenterY(), 0);
-                // Checking for Color
-                Assert.assertEquals(Color.RED, selectedEllipse.getStroke());
-                Assert.assertEquals(Color.BLACK, selectedEllipse.getFill());
-
-            }
-        }
+     
     }
 
     /**
@@ -88,26 +69,18 @@ public class SelectionToolTest {
     @Test
     public void testOnMouseDragged() {
         System.out.println("onMouseDragged");
-        st.onMousePressed(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_CLICKED, 100,
-                200, 0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
+        //Clicking on the shape
+        st.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, instancedEllipse,100, 200));
         //Dragging the selected shape
-        st.onMouseDragged(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_DRAGGED, 40, 40,
-                0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
-
-        Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-
-        for (Node elem : paper.getChildren()) {
-            if (elem instanceof Ellipse) {
-                Ellipse casted = (Ellipse) elem;
-                Bounds newShape = casted.getBoundsInParent();
-                Bounds selectedShape = selectedEllipse.getBoundsInParent();
-                Assert.assertEquals(newShape, selectedShape);
-            }
-        }
+        st.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper, instancedEllipse,40, 40));
+        //Getting the selected shape
+        Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();        
+        Node elem = paper.getChildren().get(0);
+        assertTrue("The shape isn't of the same class of the testShape",elem instanceof Ellipse);
+        Ellipse casted = (Ellipse) elem;
+        Bounds newShape = casted.getBoundsInParent();
+        Bounds selectedShape = selectedEllipse.getBoundsInParent();
+        Assert.assertEquals(newShape, selectedShape);        
     }
 
     /**
@@ -116,26 +89,18 @@ public class SelectionToolTest {
     @Test
     public void testOnMouseReleased() {
         System.out.println("onMouseReleased");
-        st.onMousePressed(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_CLICKED, 100,
-                200, 0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
-        //Dragging the selected shape
-        st.onMouseReleased(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_RELEASED, 40, 40,
-                0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true,
-                true, true, true, true, null));
-
+        //Clicking on the shape
+        st.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, instancedEllipse,100, 200));
+        //Release the mouse in another position
+        st.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(paper,instancedEllipse, 40, 10));
+        //Getting the clicked shape
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-
-        for (Node elem : paper.getChildren()) {
-            if (elem instanceof Ellipse) {
-                Ellipse casted = (Ellipse) elem;
-                Bounds newShape = casted.getBoundsInParent();
-                Bounds selectedShape = selectedEllipse.getBoundsInParent();
-                Assert.assertEquals(newShape, selectedShape);
-            }
-        }
+        Node elem = paper.getChildren().get(0);
+        assertTrue("The shape isn't of the same class of the testShape",elem instanceof Ellipse);
+        Ellipse casted = (Ellipse) elem;
+        Bounds newShape = casted.getBoundsInParent();
+        Bounds selectedShape = selectedEllipse.getBoundsInParent();
+        Assert.assertEquals(newShape, selectedShape);   
     }
 
 }
