@@ -1,7 +1,6 @@
 package editor;
 
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class EllipseEditor implements ShapeEditor {
@@ -9,26 +8,51 @@ public class EllipseEditor implements ShapeEditor {
     public EllipseEditor() {
     }
 
+    /**
+     *
+     * @param shape the ellipse you want to modify.
+     * @param width you want to set.
+     */
     @Override
     public void setWidth(Shape shape, double width) {
         ((Ellipse) shape).setRadiusX(width / 2);
     }
 
+    /**
+     *
+     * @param shape the ellipse you want to modify.
+     * @param height you want to set.     
+     */
     @Override
     public void setHeight(Shape shape, double height) {
         ((Ellipse) shape).setRadiusY(height / 2);
     }
 
+    /**
+     *
+     * @param shape the ellipse you want to get width.
+     * @return
+     */
     @Override
     public double getWidth(Shape shape) {
         return ((Ellipse) shape).layoutBoundsProperty().get().getWidth();
     }
 
+    /**
+     *
+     * @param shape
+     * @return
+     */
     @Override
     public double getHeight(Shape shape) {
         return ((Ellipse) shape).layoutBoundsProperty().get().getHeight();
     }
 
+    /**
+     *
+     * @param shape
+     * @return
+     */
     @Override
     public Shape clone(Shape shape) {
         Ellipse original = (Ellipse) shape;
