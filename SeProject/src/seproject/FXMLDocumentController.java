@@ -120,6 +120,7 @@ public class FXMLDocumentController implements Initializable {
         
         drawingPane.setMaxWidth(Screen.getMainScreen().getWidth());
         drawingPane.setMaxHeight(Screen.getMainScreen().getHeight());
+        drawingPane.requestLayout();
                 
         contextMenuInit();
         
@@ -177,11 +178,10 @@ public class FXMLDocumentController implements Initializable {
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-        scrollPane.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            drawingPane.setPrefSize(newBounds.getWidth(), newBounds.getHeight());
-        });
+
         drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
+        
         
     }
 

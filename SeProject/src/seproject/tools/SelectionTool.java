@@ -9,6 +9,7 @@ public class SelectionTool extends Tool {
 
     private final SelectedShapeManager manager;
     private double startX, startY, offsetX, offsetY;
+    private double startXO, startYO, offsetXO, offsetYO;
     private boolean shapeHasBeenDragged;
 
     public SelectionTool(Pane paper) {
@@ -37,12 +38,13 @@ public class SelectionTool extends Tool {
                 offsetY = (event.getSceneY() - tmp.getTranslateY())/paper.getScaleY();
                 
                 paper.scaleXProperty().addListener(change ->{
-                    offsetX = (event.getSceneX() - tmp.getTranslateX())/paper.getScaleX();
+                    offsetX = event.getSceneX() - tmp.getTranslateX()/paper.getScaleX();
                 });
                 
                 paper.scaleYProperty().addListener(change -> {
-                    offsetY = (event.getSceneY() - tmp.getTranslateY())/paper.getScaleY();
+                    offsetY = event.getSceneY() - tmp.getTranslateY()/paper.getScaleY();
                 });
+                
             }
         }
     }
@@ -56,6 +58,7 @@ public class SelectionTool extends Tool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
+        System.out.println("EVENT-X: " + event.getSceneX() + "\nEVENT-Y: " + event.getSceneY());
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
             selectedShape.setTranslateX(event.getSceneX()/paper.getScaleX() - offsetX);
