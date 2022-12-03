@@ -12,7 +12,6 @@ public class EllipseEditorTest {
     private Ellipse testShape;
     private ShapeEditor editor;
     private SecureRandom random;
-    private static final int maxValue = 10000;
 
     public EllipseEditorTest() {
     }
@@ -67,7 +66,7 @@ public class EllipseEditorTest {
      * @return true or false
      */
     private boolean testWidthShape() {
-        double expectedWidth = random.nextInt(maxValue);
+        double expectedWidth = random.nextInt(EditorTestConstants.MAX_WIDTH);
         double actualWidth;
         editor.setWidth(testShape, expectedWidth);
         actualWidth = editor.getWidth(testShape);
@@ -81,24 +80,27 @@ public class EllipseEditorTest {
      * @return true or false
      */
     private boolean testHeightShape() {
-        double expectedHeight = random.nextInt(maxValue);
+        double expectedHeight = random.nextInt(EditorTestConstants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);
         return actualHeight == expectedHeight;
     }
 
+    /**
+     * Test of the EllipseEditor class' clone method.
+     */
     @Test
     public void testClone() {
         System.out.println("clone");
         Ellipse actualShape = (Ellipse) editor.clone(testShape);
-        assertEquals(testShape.getCenterX(),actualShape.getCenterX(),0);
-        assertEquals(testShape.getCenterY(),actualShape.getCenterY(),0);
-        assertEquals(testShape.getRadiusX(),actualShape.getRadiusX(),0);
-        assertEquals(testShape.getRadiusY(),actualShape.getRadiusY(),0);
-        assertEquals(testShape.getRadiusY(),actualShape.getRadiusY(),0);
-        assertEquals(testShape.getStroke(),actualShape.getStroke());
-        assertEquals(testShape.getFill(),actualShape.getFill());   
+        assertEquals(testShape.getCenterX(), actualShape.getCenterX(), 0);
+        assertEquals(testShape.getCenterY(), actualShape.getCenterY(), 0);
+        assertEquals(testShape.getRadiusX(), actualShape.getRadiusX(), 0);
+        assertEquals(testShape.getRadiusY(), actualShape.getRadiusY(), 0);
+        assertEquals(testShape.getRadiusY(), actualShape.getRadiusY(), 0);
+        assertEquals(testShape.getStroke(), actualShape.getStroke());
+        assertEquals(testShape.getFill(), actualShape.getFill());
     }
 
 }

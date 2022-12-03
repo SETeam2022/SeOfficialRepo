@@ -11,7 +11,6 @@ public class RectangleEditorTest {
     private Rectangle testShape;
     private ShapeEditor editor;
     private SecureRandom random;
-    private static final int maxValue = 10000;
 
     public RectangleEditorTest() {
     }
@@ -66,7 +65,7 @@ public class RectangleEditorTest {
      * @return true or false
      */
     private boolean testWidthShape() {
-        double expectedWidth = random.nextInt(maxValue);
+        double expectedWidth = random.nextInt(EditorTestConstants.MAX_WIDTH);
         double actualWidth;
         editor.setWidth(testShape, expectedWidth);
         actualWidth = editor.getWidth(testShape);
@@ -80,7 +79,7 @@ public class RectangleEditorTest {
      * @return true or false
      */
     private boolean testHeightShape() {
-        double expectedHeight = random.nextInt(maxValue);
+        double expectedHeight = random.nextInt(EditorTestConstants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);
