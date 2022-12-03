@@ -31,10 +31,18 @@ public class SelectionTool extends Tool {
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 manager.setSelectedShape(tmp);
-                startX = tmp.getTranslateX();
-                startY = tmp.getTranslateY();
-                offsetX = event.getSceneX() - tmp.getTranslateX();
-                offsetY = event.getSceneY() - tmp.getTranslateY();
+                startX = tmp.getTranslateX()/paper.getScaleX();
+                startY = tmp.getTranslateY()/paper.getScaleX();
+                offsetX = (event.getSceneX() - tmp.getTranslateX())/paper.getScaleX();
+                offsetY = (event.getSceneY() - tmp.getTranslateY())/paper.getScaleY();
+                
+                paper.scaleXProperty().addListener(change ->{
+                    offsetX = (event.getSceneX() - tmp.getTranslateX())/paper.getScaleX();
+                });
+                
+                paper.scaleYProperty().addListener(change -> {
+                    offsetY = (event.getSceneY() - tmp.getTranslateY())/paper.getScaleY();
+                });
             }
         }
     }
@@ -50,8 +58,8 @@ public class SelectionTool extends Tool {
     public void onMouseDragged(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            selectedShape.setTranslateX(event.getSceneX() - offsetX);
-            selectedShape.setTranslateY(event.getSceneY() - offsetY);
+            selectedShape.setTranslateX(event.getSceneX()/paper.getScaleX() - offsetX);
+            selectedShape.setTranslateY(event.getSceneY()/paper.getScaleY() - offsetY);
             shapeHasBeenDragged = true;
         }
     }
@@ -60,14 +68,13 @@ public class SelectionTool extends Tool {
      * This function will be called after the release of the mouse primary button
      * if the shape has been dragged a new TraslationCommand will be created in order to
      * register its older position.
-     * 
      * @param event is the event that generated the call to this method
      */
     @Override
     public void onMouseReleased(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null && shapeHasBeenDragged) {
-            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY, event));
+            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),event));
         }
         shapeHasBeenDragged = false;
     }
