@@ -1,5 +1,6 @@
 package seproject;
 
+import com.sun.glass.ui.Screen;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
 import seproject.tools.LineTool;
@@ -28,6 +29,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -107,15 +109,20 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-
+        
+        drawingPane.setMaxWidth(Screen.getMainScreen().getWidth());
+        drawingPane.setMaxHeight(Screen.getMainScreen().getHeight());
+                
         contextMenuInit();
-
+        
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
@@ -170,6 +177,7 @@ public class FXMLDocumentController implements Initializable {
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
+        
         drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
         

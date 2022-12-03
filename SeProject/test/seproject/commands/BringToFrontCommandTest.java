@@ -34,7 +34,7 @@ public class BringToFrontCommandTest {
         System.out.println("execute");
         beforeBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         cmd = new BringToFrontCommand(ssm.getSelectedShape(), paper);
-        cmd.execute();
+        cmd.execute();  // level 0 -> level 1
         afterBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToFront > beforeBringToFront);
     }
@@ -47,12 +47,14 @@ public class BringToFrontCommandTest {
         System.out.println("undo");
         beforeBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         cmd = new BringToFrontCommand(ssm.getSelectedShape(), paper);
-        cmd.execute();
+        cmd.execute();  // level 0 -> level 1
         afterBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToFront > beforeBringToFront);
-        cmd.undo();
+        
+        // undo
+        cmd.undo(); // level 1 -> level 0
         afterUndo = paper.getChildren().indexOf(ssm.getSelectedShape());
-        assertTrue(afterBringToFront > afterUndo);
+        assertTrue(afterUndo == beforeBringToFront);
     }
 
 }

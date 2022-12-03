@@ -12,7 +12,7 @@ public class BringToBackCommandTest {
     private SelectedShapeManager ssm;
     private Pane paper;
     private Rectangle rect;
-    int beforeBringToFront, afterBringToFront, afterUndo, afterBringToBack;
+    int beforeBringToFront, afterBringToFront, afterUndo, afterBringToBack,beforeBringToBack;
     private Command cmd;
 
     @Before
@@ -35,13 +35,13 @@ public class BringToBackCommandTest {
         System.out.println("execute");
         beforeBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         cmd = new BringToFrontCommand(ssm.getSelectedShape(), paper);
-        cmd.execute();
+        cmd.execute(); // bring to front  level 0 -> level 1
         afterBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToFront > beforeBringToFront);
         cmd = new BringToBackCommand(ssm.getSelectedShape(), paper);
-        cmd.execute();
+        cmd.execute(); // bring to back    level 1 -> level 0
         afterBringToBack = paper.getChildren().indexOf(ssm.getSelectedShape());
-        assertTrue(afterBringToBack < afterBringToFront);
+        assertTrue(afterBringToBack == 0);
     }
 
     /**
@@ -52,18 +52,19 @@ public class BringToBackCommandTest {
         System.out.println("undo");
         beforeBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         cmd = new BringToFrontCommand(ssm.getSelectedShape(), paper);
-        cmd.execute();
+        cmd.execute();   // bring to front  level 0 -> level 1
         afterBringToFront = paper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToFront > beforeBringToFront);
+        beforeBringToBack = afterBringToFront;
         cmd = new BringToBackCommand(ssm.getSelectedShape(), paper);
-        cmd.execute();
+        cmd.execute();  // bring to back    level 1 -> level 0
         afterBringToBack = paper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToBack < afterBringToFront);
-
+        
         // undo
-        cmd.undo();
+        cmd.undo();     // undo bring to back    level 0 -> level 1
         afterUndo = paper.getChildren().indexOf(ssm.getSelectedShape());
-        assertTrue(afterUndo > afterBringToBack);
+        assertTrue(afterUndo == beforeBringToBack);
 
     }
 
