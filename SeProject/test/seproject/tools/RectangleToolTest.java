@@ -4,13 +4,14 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.EventGenerator;
 
 public class RectangleToolTest {
 
@@ -19,7 +20,7 @@ public class RectangleToolTest {
     private RectangleTool t;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
-
+    private MouseEvent clickOnBlankPaper;
     public RectangleToolTest() {
     }
 
@@ -40,7 +41,7 @@ public class RectangleToolTest {
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         t = new RectangleTool(paper, borderColorProperty, fillColorProperty);
-
+        clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getX(), testShape.getY());
     }
 
     /**
@@ -51,22 +52,17 @@ public class RectangleToolTest {
     @Test
     public void testOnMousePressed() {
         System.out.println("mousePressed");
+        t.onMousePressed(clickOnBlankPaper);
+        Node elem = paper.getChildren().get(0);
+        assertTrue("The shape isn't of the same class of the testShape",elem instanceof Rectangle);
+        Rectangle casted = (Rectangle) elem;
+        //Checking for Position
+        Assert.assertEquals(casted.getX(), testShape.getX(), 0);
+        Assert.assertEquals(casted.getY(), testShape.getY(), 0);
+        //Checking for Color.
+        Assert.assertEquals(testShape.getStroke(), casted.getStroke());
+        Assert.assertEquals(testShape.getFill(), casted.getFill());
 
-        MouseEvent e = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getX(), testShape.getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null);
-
-        t.onMousePressed(e);
-
-        for (Node elem : paper.getChildren()) {
-            if (elem instanceof Rectangle) {
-                Rectangle casted = (Rectangle) elem;
-                //Checking for Position
-                Assert.assertEquals(casted.getX(), testShape.getX(), 0);
-                Assert.assertEquals(casted.getY(), testShape.getY(), 0);
-                //Checking for Color.
-                Assert.assertEquals(testShape.getStroke(), casted.getStroke());
-                Assert.assertEquals(testShape.getFill(), casted.getFill());
-            }
-        }
 
     }
 
@@ -77,20 +73,13 @@ public class RectangleToolTest {
     @Test
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");
-        MouseEvent e2 = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getX(), testShape.getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null);
-
-        MouseEvent e = new MouseEvent(MouseEvent.MOUSE_DRAGGED, testShape.getWidth(), testShape.getHeight(), 0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true, true, true, true, true, null);
-        t.onMousePressed(e2);
-        t.onMouseDragged(e);
-        for (Node elem : paper.getChildren()) {
-            if (elem instanceof Rectangle) {
-                Rectangle casted = (Rectangle) elem;
-                Assert.assertEquals(testShape.getWidth(), casted.getWidth(), 0);
-                Assert.assertEquals(testShape.getHeight(), casted.getHeight(), 0);
-            }
-        }
-
+        t.onMousePressed(clickOnBlankPaper);
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,testShape.getWidth(),testShape.getHeight()));
+        Node elem = paper.getChildren().get(0);
+        assertTrue("The shape isn't of the same class of the testShape",elem instanceof Rectangle);
+        Rectangle casted = (Rectangle) elem;
+        Assert.assertEquals(testShape.getWidth(), casted.getWidth(), 0);
+        Assert.assertEquals(testShape.getHeight(), casted.getHeight(), 0);
     }
 
     /**
@@ -100,19 +89,14 @@ public class RectangleToolTest {
     @Test
     public void testOnMouseReleased() {
         System.out.println("mouseReleased");
-        MouseEvent e2 = new MouseEvent(MouseEvent.MOUSE_CLICKED, testShape.getX(), testShape.getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null);
+        t.onMousePressed(clickOnBlankPaper);
+        t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(paper, paper, testShape.getWidth(),testShape.getHeight()));
+        Node elem = paper.getChildren().get(0);
+        assertTrue("The shape isn't of the same class of the testShape",elem instanceof Rectangle);
+        Rectangle casted = (Rectangle) elem;
+        Assert.assertEquals(testShape.getWidth(), casted.getWidth(), 0);
+        Assert.assertEquals(testShape.getHeight(), casted.getHeight(), 0);
 
-        MouseEvent e = new MouseEvent(MouseEvent.MOUSE_RELEASED, testShape.getWidth(), testShape.getHeight(), 0, 0, MouseButton.PRIMARY, 1,
-                true, true, true, true, true, true, true, true, true, true, null);
-        t.onMousePressed(e2);
-        t.onMouseReleased(e);
-        for (Node elem : paper.getChildren()) {
-            if (elem instanceof Rectangle) {
-                Rectangle casted = (Rectangle) elem;
-                Assert.assertEquals(testShape.getWidth(), casted.getWidth(), 0);
-                Assert.assertEquals(testShape.getHeight(), casted.getHeight(), 0);
-            }
-        }
 
     }
 

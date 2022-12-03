@@ -56,14 +56,6 @@ public class SelectedShapeManagerTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of setSelectedShapeManagerPaper method, of class
-     * SelectedShapeManager.
-     */
-    @Test
-    public void testSetSelectedShapeManagerPaper() {
-        System.out.println("setSelectedShapeManagerPaper");
-    }
 
     /**
      * Test of getSelectedShape method, of class SelectedShapeManager.
@@ -124,13 +116,7 @@ public class SelectedShapeManagerTest {
         System.out.println("deleteSelectedShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.deleteSelectedShape();
-        boolean flag = true;
-        for (Node n : testPaper.getChildren()) {
-            if (n.equals(testShape)) {
-                flag = true;
-            }
-        }
-        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", flag);
+        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", !testPaper.getChildren().contains(testShape));
 
     }
 
@@ -223,7 +209,7 @@ public class SelectedShapeManagerTest {
      * Test of copySelectedShape method, of class SelectedShapeManager.
      */
     @Test
-    public void testCopySelectedShape() {
+    public void testCopyPasteSelectedShape() {
         System.out.println("copySelectedShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.copySelectedShape();
@@ -245,32 +231,6 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of pasteShape method, of class SelectedShapeManager.
-     */
-    @Test
-    public void testPasteShape() {
-        System.out.println("pasteShape");
-        selectedShapeManager.setSelectedShape(testShape);
-        selectedShapeManager.copySelectedShape();
-        selectedShapeManager.pasteShape();
-        Integer expectedNumberOfShapes = 2;
-        Integer realNumberOfShapes = 0;
-        for (Node n : testPaper.getChildren()) {
-            if (n instanceof Ellipse) {
-                Ellipse foundedEllipse = (Ellipse) n;
-                Ellipse testEllipse = (Ellipse) testShape;
-                realNumberOfShapes++;
-                System.out.println(foundedEllipse);
-                assertEquals(testEllipse.getCenterX(), foundedEllipse.getCenterX(), 0);
-                assertEquals(testEllipse.getCenterY(), foundedEllipse.getCenterY(), 0);
-                assertEquals(testEllipse.getRadiusX(), foundedEllipse.getRadiusX(), 0);
-                assertEquals(testEllipse.getRadiusY(), foundedEllipse.getRadiusY(), 0);
-            }
-        }
-        assertEquals(expectedNumberOfShapes, realNumberOfShapes);
-    }
-
-    /**
      * Test of cutShape method, of class SelectedShapeManager.
      */
     @Test
@@ -278,15 +238,8 @@ public class SelectedShapeManagerTest {
         System.out.println("cutShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.cutShape();
-        boolean flag = true;
-        for (Node n : testPaper.getChildren()) {
-            if (n.equals(testShape)) {
-                flag = true;
-            }
-        }
-        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", flag);
+        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", !testPaper.getChildren().contains(testShape));
         assertTrue("The shape is cutted but the ShapeIsCopiedProperty is false.", selectedShapeManager.getShapeIsCopiedProperty().get());
-
     }
 
     /**
