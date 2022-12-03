@@ -1,5 +1,6 @@
 package seproject;
 
+import com.sun.glass.ui.Screen;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
 import seproject.tools.LineTool;
@@ -110,9 +111,12 @@ public class FXMLDocumentController implements Initializable {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-
+        
+        drawingPane.setMaxWidth(Screen.getMainScreen().getWidth());
+        drawingPane.setMaxHeight(Screen.getMainScreen().getHeight());
+                
         contextMenuInit();
-
+        
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
