@@ -17,14 +17,23 @@ public class RectangleEditor implements ShapeEditor {
 
     @Override
     public double getWidth(Shape shape) {
-        Rectangle rectangle = (Rectangle) shape;
-        return rectangle.getWidth();
+        return ((Rectangle) shape).getWidth();
     }
 
     @Override
     public double getHeight(Shape shape) {
-        Rectangle rectangle = (Rectangle) shape;
-        return rectangle.getHeight();
+        return ((Rectangle) shape).getHeight();
+    }
+
+    @Override
+    public Shape clone(Shape shape) {
+        Rectangle original = (Rectangle) shape;
+        Rectangle clone = new Rectangle();
+        clone.setHeight(original.getHeight());
+        clone.setWidth(original.getWidth());
+        clone.setStroke(original.getStroke());
+        clone.setFill(original.getFill());
+        return clone;
     }
 
 }

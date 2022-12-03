@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import editor.ShapeEditorFactory;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -214,7 +215,7 @@ public class SelectedShapeManager {
     /**
      * This method performs the copy of the selected shape.
      */
-    public void copySelectedShape() {
+    public void copySelectedShape2() {
         if (ssm.selectedShape == null) {
             return;
         }
@@ -231,15 +232,26 @@ public class SelectedShapeManager {
 
     }
 
+    public void copySelectedShape() {
+        if (selectedShape == null) {
+            return;
+        }
+        this.copiedShape = selectedShape;
+        this.shapeIsCopiedProperty.setValue(true);
+
+    }
+
     /**
      * This method performs the paste of the selected shape.
      */
     public void pasteShape() {
-        if (copiedShape != null) {
-            Bounds paperBounds = paper.getLayoutBounds();
-            copiedShape.relocate((paperBounds.getWidth() - copiedShape.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - copiedShape.getLayoutBounds().getHeight()) / 2);
-            Invoker.getInvoker().executeCommand(new DrawShapeCommand(copiedShape, paper));
+        if (copiedShape == null) {
+            return;
         }
+        Bounds paperBounds = paper.getLayoutBounds();
+        Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
+        clone.relocate((paperBounds.getWidth() - copiedShape.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - copiedShape.getLayoutBounds().getHeight()) / 2);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
     }
 
     /**
