@@ -32,19 +32,10 @@ public class SelectionTool extends Tool {
             Shape tmp = (Shape) eventNode;
             if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 manager.setSelectedShape(tmp);
-                startX = tmp.getTranslateX()/paper.getScaleX();
-                startY = tmp.getTranslateY()/paper.getScaleX();
-                offsetX = (event.getSceneX() - tmp.getTranslateX())/paper.getScaleX();
-                offsetY = (event.getSceneY() - tmp.getTranslateY())/paper.getScaleY();
-                
-                paper.scaleXProperty().addListener(change ->{
-                    offsetX = event.getSceneX() - tmp.getTranslateX()/paper.getScaleX();
-                });
-                
-                paper.scaleYProperty().addListener(change -> {
-                    offsetY = event.getSceneY() - tmp.getTranslateY()/paper.getScaleY();
-                });
-                
+                startX = tmp.getTranslateX(); 
+                startY = tmp.getTranslateY(); 
+                offsetX = event.getSceneX()/paper.getScaleX() - tmp.getTranslateX();
+                offsetY = event.getSceneY()/paper.getScaleY() - tmp.getTranslateY();
             }
         }
     }
@@ -58,7 +49,6 @@ public class SelectionTool extends Tool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        System.out.println("EVENT-X: " + event.getSceneX() + "\nEVENT-Y: " + event.getSceneY());
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
             selectedShape.setTranslateX(event.getSceneX()/paper.getScaleX() - offsetX);

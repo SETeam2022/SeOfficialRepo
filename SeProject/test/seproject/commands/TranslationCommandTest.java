@@ -83,7 +83,7 @@ public class TranslationCommandTest {
         startX = selectedEllipse.getTranslateX();
         startY = selectedEllipse.getTranslateY();
 
-        cmd = new TranslationCommand(selectedEllipse, offsetX, offsetY, startX, startY, event);
+        cmd = new TranslationCommand(selectedEllipse, offsetX, offsetY, startX, startY, paper.getScaleX(),paper.getScaleY(),event);
         cmd.execute();
         st.onMousePressed(e1);
         Ellipse newSelectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
@@ -120,7 +120,7 @@ public class TranslationCommandTest {
         startX = selectedEllipse.getTranslateX();
         startY = selectedEllipse.getTranslateY();
 
-        cmd = new TranslationCommand(selectedEllipse, offsetX, offsetY, startX, startY, event);
+        cmd = new TranslationCommand(selectedEllipse, offsetX, offsetY, startX, startY,paper.getScaleX(),paper.getScaleY(),event);
         cmd.execute();
         st.onMousePressed(event);
 

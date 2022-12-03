@@ -22,6 +22,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -181,6 +182,8 @@ public class FXMLDocumentController implements Initializable {
 
         drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
+        
+        scrollPane.setContent(new Group(drawingPane));
         
         
     }
