@@ -9,10 +9,12 @@ public class SelectionTool extends Tool {
 
     private final SelectedShapeManager manager;
     private double startX, startY, offsetX, offsetY;
+    private boolean shapeHasBeenDragged;
 
     public SelectionTool(Pane paper) {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
+        this.shapeHasBeenDragged = false;
     }
 
     /**
@@ -50,14 +52,23 @@ public class SelectionTool extends Tool {
         if (selectedShape != null) {
             selectedShape.setTranslateX(event.getSceneX() - offsetX);
             selectedShape.setTranslateY(event.getSceneY() - offsetY);
+            shapeHasBeenDragged = true;
         }
     }
 
+    /**
+     * This function will be called after the release of the mouse primary button
+     * if the shape has been dragged a new TraslationCommand will be created in order to
+     * register its older position.
+     * 
+     * @param event is the event that generated the call to this method
+     */
     @Override
     public void onMouseReleased(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
-        if (selectedShape != null) {
+        if (selectedShape != null && shapeHasBeenDragged) {
             Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY, event));
         }
+        shapeHasBeenDragged = false;
     }
 }

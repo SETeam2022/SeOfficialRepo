@@ -1,5 +1,6 @@
 package seproject;
 
+import com.sun.glass.ui.Screen;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
 import seproject.tools.LineTool;
@@ -28,6 +29,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -79,15 +82,17 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField heightTextField;
     @FXML
-    private Button zoomIn;
-    @FXML
-    private Button zoomOut;
-    @FXML
     private ToolBar sideBar;
     @FXML
     private Label errorLabelSize;
+    @FXML
+    private Slider zoomSlider;
 
     private final static double MAX_SIZE = 10000;
+    
+    private final static double MIN_ZOOM = 1;
+    
+    private final static double MAX_ZOOM = 9;
 
     private ContextMenu contextMenu;
 
@@ -104,15 +109,20 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-
+        
+        drawingPane.setMaxWidth(Screen.getMainScreen().getWidth());
+        drawingPane.setMaxHeight(Screen.getMainScreen().getHeight());
+                
         contextMenuInit();
-
+        
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
@@ -164,6 +174,13 @@ public class FXMLDocumentController implements Initializable {
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
 
+        /* Zoom slider's settings */
+        zoomSlider.setMin(MIN_ZOOM);
+        zoomSlider.setMax(MAX_ZOOM);
+        
+        drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
+        drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
+        
     }
 
     @FXML
@@ -326,13 +343,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
-    private void zoomIn(ActionEvent event) {
-    }
-
-    @FXML
-    private void zoomOut(ActionEvent event) {
-    }
 
     /**
      * This method validates the width inserted by the user. It returns true if
