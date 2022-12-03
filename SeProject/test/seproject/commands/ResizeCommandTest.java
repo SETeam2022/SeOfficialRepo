@@ -1,12 +1,15 @@
 package seproject.commands;
 
+import java.security.SecureRandom;
 import javafx.scene.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.TestConstants;
 
 public class ResizeCommandTest {
 
+    private SecureRandom random;
     private ResizeCommand resize;
     private Rectangle testShape;
     private double previousWidth;
@@ -17,13 +20,18 @@ public class ResizeCommandTest {
     public ResizeCommandTest() {
     }
 
+    /**
+     * This method instances a shape on which perform the test, randomly intializes it
+     * and a ResizeCommand.
+     */
     @Before
     public void setUp() {
         testShape = new Rectangle();
-        previousWidth = 500;
-        previousHeight = 500;
-        newWidth = 1000;
-        newHeight = 1000;
+        this.random = new SecureRandom();
+        previousWidth = random.nextInt(TestConstants.MAX_WIDTH);
+        previousHeight = random.nextInt(TestConstants.MAX_HEIGHT);
+        newWidth = random.nextInt(TestConstants.MAX_WIDTH);
+        newHeight = random.nextInt(TestConstants.MAX_HEIGHT);
         testShape.setWidth(previousWidth);
         testShape.setHeight(previousHeight);
         resize = new ResizeCommand(testShape, newWidth, newHeight);

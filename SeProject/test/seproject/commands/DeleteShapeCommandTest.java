@@ -18,6 +18,10 @@ public class DeleteShapeCommandTest {
     public DeleteShapeCommandTest() {
     }
 
+    /**
+     * This method instances a new pane, a shape which will be used during the
+     * test of the delete functionality, and a DeleteShapeCommand.
+     */
     @Before
     public void setUp() {
         paper = new Pane();
@@ -26,8 +30,8 @@ public class DeleteShapeCommandTest {
     }
 
     /**
-     * The method execute the command prepared in the setUp and tests if the
-     * thestShape is between the children of the pane
+     * This method executes the command prepared in the setUp and tests if the
+     * thestShape is among the children of the pane.
      */
     @Test
     public void testExecute() {
@@ -37,8 +41,8 @@ public class DeleteShapeCommandTest {
     }
 
     /**
-     * The method execute the undo of the command prepared in the setUp and
-     * tests if the thestShape is removed from the children of the pane
+     * This method executes the undo of the command prepared in the setUp and
+     * tests if the thestShape has been removed from the children of the pane.
      */
     @Test
     public void testUndo() {

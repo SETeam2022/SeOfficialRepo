@@ -10,7 +10,8 @@ public class BringToBackCommand implements Command {
     private int index;
 
     /**
-     * Creates a BringToBackCommand. 
+     * Creates a BringToBackCommand.
+     *
      * @param shape the shape which will be brought to back
      * @param paper the paper which the shape belongs to
      */
@@ -29,8 +30,8 @@ public class BringToBackCommand implements Command {
     }
 
     /**
-     * This method brings the shape to its original position 
-     * among the children of the pane.
+     * This method brings the shape to its original position among the children
+     * of the pane.
      */
     @Override
     public void undo() {

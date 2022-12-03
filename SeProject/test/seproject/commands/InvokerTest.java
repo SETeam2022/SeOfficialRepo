@@ -12,6 +12,9 @@ public class InvokerTest {
     public InvokerTest() {
     }
 
+    /**
+     * This method instances a Command and an Invoker.
+     */
     @Before
     public void setUp() {
         testCommand = new Command() {

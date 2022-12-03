@@ -1,10 +1,13 @@
-package editor;
+package seproject.editor;
 
+import editor.ShapeEditor;
+import editor.ShapeEditorFactory;
 import java.security.SecureRandom;
 import javafx.scene.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.TestConstants;
 
 public class RectangleEditorTest {
 
@@ -65,7 +68,7 @@ public class RectangleEditorTest {
      * @return true or false
      */
     private boolean testWidthShape() {
-        double expectedWidth = random.nextInt(EditorTestConstants.MAX_WIDTH);
+        double expectedWidth = random.nextInt(TestConstants.MAX_WIDTH);
         double actualWidth;
         editor.setWidth(testShape, expectedWidth);
         actualWidth = editor.getWidth(testShape);
@@ -79,7 +82,7 @@ public class RectangleEditorTest {
      * @return true or false
      */
     private boolean testHeightShape() {
-        double expectedHeight = random.nextInt(EditorTestConstants.MAX_HEIGHT);
+        double expectedHeight = random.nextInt(TestConstants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);

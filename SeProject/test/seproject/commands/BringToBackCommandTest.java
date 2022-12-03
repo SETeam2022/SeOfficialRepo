@@ -9,11 +9,11 @@ import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.TestConstants;
 import seproject.tools.SelectedShapeManager;
 
 public class BringToBackCommandTest {
 
-    private static final int MAX_VALUE = 10000;
     private SelectedShapeManager ssm;
     private SecureRandom random;
     private Pane paper;
@@ -23,16 +23,16 @@ public class BringToBackCommandTest {
     private BringToBackCommand cmdRect, cmdLine, cmdEll;
 
     /**
-     * This method instances a new pane and a series of shape which will be used during the 
+     * This method instances a new pane and a series of shapes which will be used during the 
      * test of the bring to back functionality.
      */
     @Before
     public void setUp() {
         this.random = new SecureRandom();
         this.paper = new Pane();
-        this.rect = new Rectangle(random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE));
-        this.ell = new Ellipse(random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE));
-        this.line = new Line(random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE), random.nextInt(MAX_VALUE));
+        this.rect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        this.ell = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         SelectedShapeManager.setSelectedShapeManagerPaper(this.paper);
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
     }
@@ -53,17 +53,20 @@ public class BringToBackCommandTest {
     public void testUndo() {
         System.out.println("undo");
         insertAndBringToBack();
+        
         /* Test 1: undo of the BringToBackCommand on the line */
         this.cmdLine.undo();
         assertEquals(2, this.paper.getChildren().indexOf(this.line), 0);
         assertEquals(0, this.paper.getChildren().indexOf(this.ell), 0);
         assertEquals(1, this.paper.getChildren().indexOf(this.rect), 0);
+        
         /* Test 2: undo of the BringToBackCommand on the ellipse */
         this.cmdEll.undo();
         assertEquals(1, this.paper.getChildren().indexOf(this.ell), 0);
         assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
+        
         /* Test 3: undo of the BringToBackCommand on the rectangle */
-        this.cmdLine.undo();
+        this.cmdRect.undo();
         assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
     }
 
@@ -93,6 +96,12 @@ public class BringToBackCommandTest {
         assertEquals(2, this.paper.getChildren().indexOf(this.rect), 0);
     }
 
+    /**
+     * This is a utility method to create and execute a command on the given shape.
+     * @param s
+     * @param cmd
+     * @return BringToBackCommand
+     */
     private BringToBackCommand createCommandAndExecute(Shape s, BringToBackCommand cmd) {
         SelectedShapeManager.getSelectedShapeManager().setSelectedShape(s);
         cmd = new BringToBackCommand(s, this.paper);
