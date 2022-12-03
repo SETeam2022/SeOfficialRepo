@@ -11,4 +11,6 @@ public interface ShapeEditor {
     public double getWidth(Shape shape);
 
     public double getHeight(Shape shape);
+    
+    public Shape clone(Shape shape);
 }

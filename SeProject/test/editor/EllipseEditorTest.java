@@ -2,6 +2,7 @@ package editor;
 
 import java.security.SecureRandom;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -85,6 +86,19 @@ public class EllipseEditorTest {
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);
         return actualHeight == expectedHeight;
+    }
+
+    @Test
+    public void testClone() {
+        System.out.println("clone");
+        Ellipse actualShape = (Ellipse) editor.clone(testShape);
+        assertEquals(testShape.getCenterX(),actualShape.getCenterX(),0);
+        assertEquals(testShape.getCenterY(),actualShape.getCenterY(),0);
+        assertEquals(testShape.getRadiusX(),actualShape.getRadiusX(),0);
+        assertEquals(testShape.getRadiusY(),actualShape.getRadiusY(),0);
+        assertEquals(testShape.getRadiusY(),actualShape.getRadiusY(),0);
+        assertEquals(testShape.getStroke(),actualShape.getStroke());
+        assertEquals(testShape.getFill(),actualShape.getFill());   
     }
 
 }
