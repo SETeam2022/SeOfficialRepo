@@ -8,23 +8,23 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DrawShapeCommandTest {
-    
+
     private Pane paper;
-    
+
     private Shape testShape;
-    
+
     private DrawShapeCommand com;
-    
+
     public DrawShapeCommandTest() {
     }
-    
+
     @Before
     public void setUp() {
         paper = new Pane();
         testShape = new Rectangle();
-        com = new DrawShapeCommand(testShape,paper);
+        com = new DrawShapeCommand(testShape, paper);
     }
-    
+
     /**
      * The method execute the command prepared in the setUp and tests if the
      * thestShape is between the children of the pane
@@ -37,8 +37,8 @@ public class DrawShapeCommandTest {
     }
 
     /**
-     * The method execute the undo of the command prepared in the setUp and tests if the
-     * thestShape is removed from the children of the pane
+     * The method execute the undo of the command prepared in the setUp and
+     * tests if the thestShape is removed from the children of the pane
      */
     @Test
     public void testUndo() {
@@ -47,5 +47,5 @@ public class DrawShapeCommandTest {
         com.undo();
         assertTrue(!paper.getChildren().contains(testShape));
     }
-    
+
 }

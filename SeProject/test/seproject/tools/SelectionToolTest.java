@@ -14,14 +14,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SelectionToolTest {
-    
+
     private Pane paper;
     private EllipseTool ell;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private SelectionTool st;
     private Ellipse instancedEllipse;
-    
+
     @Before
     public void setUp() {
         paper = new Pane();
@@ -30,29 +30,28 @@ public class SelectionToolTest {
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         ell = new EllipseTool(paper, borderColorProperty, fillColorProperty);
-        
+
         st = new SelectionTool(paper);
         SelectedShapeManager.setSelectedShapeManagerPaper(paper);
-        
-        ell.onMousePressed(new MouseEvent(paper,paper,MouseEvent.MOUSE_CLICKED, 100,
+
+        ell.onMousePressed(new MouseEvent(paper, paper, MouseEvent.MOUSE_CLICKED, 100,
                 200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
-        
-        ell.onMouseDragged(new MouseEvent(paper,paper,MouseEvent.MOUSE_DRAGGED, 200, 300,
+
+        ell.onMouseDragged(new MouseEvent(paper, paper, MouseEvent.MOUSE_DRAGGED, 200, 300,
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
-        
-        for (Node node : paper.getChildren()){
-            if (node instanceof Ellipse){
+
+        for (Node node : paper.getChildren()) {
+            if (node instanceof Ellipse) {
                 instancedEllipse = (Ellipse) node;
                 break;
             }
         }
-        
+
     }
-    
 
     /**
      * Test of onMousePressed method, of class SelectionTool.
@@ -60,13 +59,13 @@ public class SelectionToolTest {
     @Test
     public void testOnMousePressed() {
         System.out.println("onMousePressed");
-        st.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+        st.onMousePressed(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_CLICKED, 100,
                 200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
 
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
-     
+
         for (Node elem : paper.getChildren()) {
             if (elem instanceof Ellipse) {
                 Ellipse casted = (Ellipse) elem;
@@ -78,7 +77,7 @@ public class SelectionToolTest {
                 // Checking for Color
                 Assert.assertEquals(Color.RED, selectedEllipse.getStroke());
                 Assert.assertEquals(Color.BLACK, selectedEllipse.getFill());
-                
+
             }
         }
     }
@@ -89,12 +88,12 @@ public class SelectionToolTest {
     @Test
     public void testOnMouseDragged() {
         System.out.println("onMouseDragged");
-        st.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+        st.onMousePressed(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_CLICKED, 100,
                 200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
         //Dragging the selected shape
-        st.onMouseDragged(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_DRAGGED, 40, 40,
+        st.onMouseDragged(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_DRAGGED, 40, 40,
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
@@ -110,16 +109,19 @@ public class SelectionToolTest {
             }
         }
     }
-    
+
+    /**
+     * Test of onMouseReleased method, of class SelectionTool.
+     */
     @Test
     public void testOnMouseReleased() {
         System.out.println("onMouseReleased");
-        st.onMousePressed(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_CLICKED, 100,
+        st.onMousePressed(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_CLICKED, 100,
                 200, 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
         //Dragging the selected shape
-        st.onMouseReleased(new MouseEvent(paper,instancedEllipse,MouseEvent.MOUSE_RELEASED, 40, 40,
+        st.onMouseReleased(new MouseEvent(paper, instancedEllipse, MouseEvent.MOUSE_RELEASED, 40, 40,
                 0, 0, MouseButton.PRIMARY, 1,
                 true, true, true, true, true, true,
                 true, true, true, true, null));
@@ -135,5 +137,5 @@ public class SelectionToolTest {
             }
         }
     }
-    
+
 }

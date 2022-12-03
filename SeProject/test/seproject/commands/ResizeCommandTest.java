@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seproject.commands;
 
 import javafx.scene.shape.Rectangle;
@@ -10,22 +5,18 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author teodoroadinolfi
- */
 public class ResizeCommandTest {
-    
+
     private ResizeCommand resize;
     private Rectangle testShape;
     private double previousWidth;
     private double previousHeight;
     private double newWidth;
     private double newHeight;
-    
+
     public ResizeCommandTest() {
     }
-    
+
     @Before
     public void setUp() {
         testShape = new Rectangle();
@@ -35,9 +26,8 @@ public class ResizeCommandTest {
         newHeight = 1000;
         testShape.setWidth(previousWidth);
         testShape.setHeight(previousHeight);
-        resize = new ResizeCommand(testShape,newWidth,newHeight);
+        resize = new ResizeCommand(testShape, newWidth, newHeight);
     }
-    
 
     /**
      * Test of execute method, of class ResizeCommand.
@@ -46,8 +36,8 @@ public class ResizeCommandTest {
     public void testExecute() {
         System.out.println("Execute");
         resize.execute();
-        assertEquals(testShape.getWidth(),newWidth,0);
-        assertEquals(testShape.getHeight(),newHeight,0);
+        assertEquals(testShape.getWidth(), newWidth, 0);
+        assertEquals(testShape.getHeight(), newHeight, 0);
     }
 
     /**
@@ -58,8 +48,8 @@ public class ResizeCommandTest {
         System.out.println("undo");
         resize.execute();
         resize.undo();
-        assertEquals(testShape.getWidth(),previousWidth,0);
-        assertEquals(testShape.getHeight(),previousHeight,0);
+        assertEquals(testShape.getWidth(), previousWidth, 0);
+        assertEquals(testShape.getHeight(), previousHeight, 0);
     }
-    
+
 }

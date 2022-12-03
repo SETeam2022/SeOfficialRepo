@@ -8,7 +8,7 @@ import seproject.commands.*;
 public class SelectionTool extends Tool {
 
     private final SelectedShapeManager manager;
-    private double startX,startY,offsetX,offsetY;
+    private double startX, startY, offsetX, offsetY;
 
     public SelectionTool(Pane paper) {
         super(paper);
@@ -31,8 +31,8 @@ public class SelectionTool extends Tool {
                 manager.setSelectedShape(tmp);
                 startX = tmp.getTranslateX();
                 startY = tmp.getTranslateY();
-                offsetX = event.getSceneX()- tmp.getTranslateX();
-                offsetY = event.getSceneY()-tmp.getTranslateY();
+                offsetX = event.getSceneX() - tmp.getTranslateX();
+                offsetY = event.getSceneY() - tmp.getTranslateY();
             }
         }
     }
@@ -48,16 +48,16 @@ public class SelectionTool extends Tool {
     public void onMouseDragged(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            selectedShape.setTranslateX(event.getSceneX()-offsetX);
-            selectedShape.setTranslateY(event.getSceneY()-offsetY);
+            selectedShape.setTranslateX(event.getSceneX() - offsetX);
+            selectedShape.setTranslateY(event.getSceneY() - offsetY);
         }
     }
-    
+
     @Override
-    public void onMouseReleased(MouseEvent event){
+    public void onMouseReleased(MouseEvent event) {
         Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape,offsetX,offsetY,startX,startY,event));
+            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY, event));
         }
     }
 }

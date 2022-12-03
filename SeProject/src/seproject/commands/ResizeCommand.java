@@ -5,11 +5,11 @@ import editor.ShapeEditorFactory;
 import javafx.scene.shape.Shape;
 
 /**
- * An object of this class represent the action of resaizeing  a shape, the object 
- * also stores all the information neded for the undo of its operation
+ * An object of this class represent the action of resaizeing a shape, the
+ * object also stores all the information neded for the undo of its operation
  */
 public class ResizeCommand implements Command {
-    
+
     private final Shape shape;
     private final double width;
     private final double height;
@@ -18,6 +18,7 @@ public class ResizeCommand implements Command {
 
     /**
      * Create a ResizeCommand
+     *
      * @param shape the shape to resize
      * @param width the shape's new width
      * @param height the shape's new height
@@ -27,9 +28,9 @@ public class ResizeCommand implements Command {
         this.width = width;
         this.height = height;
     }
-    
+
     /**
-     *  Effectively resize the shape
+     * Effectively resize the shape
      */
     @Override
     public void execute() {
@@ -39,6 +40,7 @@ public class ResizeCommand implements Command {
         editor.setWidth(shape, width);
         editor.setHeight(shape, height);
     }
+
     /**
      * Resize the shape to it's original size
      */
@@ -48,5 +50,5 @@ public class ResizeCommand implements Command {
         editor.setWidth(shape, oldWidth);
         editor.setHeight(shape, oldHeight);
     }
-    
+
 }

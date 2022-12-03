@@ -3,10 +3,6 @@ package editor;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-/**
- *
- * @author alewi
- */
 public class RectangleEditor implements ShapeEditor {
 
     @Override
@@ -21,14 +17,14 @@ public class RectangleEditor implements ShapeEditor {
 
     @Override
     public double getWidth(Shape shape) {
-       Rectangle rectangle = (Rectangle) shape;
-       return rectangle.getWidth();
+        Rectangle rectangle = (Rectangle) shape;
+        return rectangle.getWidth();
     }
 
     @Override
     public double getHeight(Shape shape) {
-       Rectangle rectangle = (Rectangle) shape;
-       return rectangle.getHeight();
+        Rectangle rectangle = (Rectangle) shape;
+        return rectangle.getHeight();
     }
 
 }

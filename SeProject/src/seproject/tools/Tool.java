@@ -8,9 +8,8 @@ import javafx.scene.layout.Pane;
  * to allow concrete shape creations this class must be concretized.
  */
 public abstract class Tool {
-    
+
     Pane paper;
-    
 
     /**
      * @param paper is the pane on witch the new Shape nodes will be added
@@ -25,21 +24,21 @@ public abstract class Tool {
      *
      * @param event the JavaFx event associated with the mouse click
      */
-    public void onMousePressed(MouseEvent event) {}
+    public void onMousePressed(MouseEvent event) {
+    }
 
-    
     /**
-     * This method provides an empty implementation, the class that extends
-     * Tool can provides a conrete implementation by overriding the method
-     * 
+     * This method provides an empty implementation, the class that extends Tool
+     * can provides a conrete implementation by overriding the method
+     *
      * @param event the JavaFx event associated with the mouse click
      */
     public void onMouseDragged(MouseEvent event) {
     }
-    
-    public void onMouseReleased(MouseEvent event){
+
+    public void onMouseReleased(MouseEvent event) {
     }
-    
+
     /**
      * @return the pane that works as a paper witch the tool is working
      */
@@ -53,7 +52,5 @@ public abstract class Tool {
     public void setPaper(Pane paper) {
         this.paper = paper;
     }
-
-
 
 }

@@ -1,10 +1,15 @@
 package seproject.tools;
 
+import editor.ShapeEditor;
+import editor.ShapeEditorFactory;
+import java.security.SecureRandom;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -15,7 +20,9 @@ public class SelectedShapeManagerTest {
 
     private SelectedShapeManager selectedShapeManager;
     private static Pane testPaper;
-    private Shape testShape;
+    private Shape testShape, testShape2, testShape3;
+    private SecureRandom random;
+    private static final int maxValue = 10000;
 
     public SelectedShapeManagerTest() {
     }
@@ -30,8 +37,11 @@ public class SelectedShapeManagerTest {
     public void setUp() {
         selectedShapeManager = SelectedShapeManager.getSelectedShapeManager();
         testShape = new Ellipse();
+        testShape2 = new Rectangle();
+        testShape3 = new Line();
+        this.random = new SecureRandom();
         testPaper.getChildren().clear();
-        testPaper.getChildren().add(testShape);
+        testPaper.getChildren().addAll(testShape, testShape2, testShape3);
 
     }
 
@@ -175,13 +185,12 @@ public class SelectedShapeManagerTest {
         Double result = selectedShapeManager.getHeightProperty().get();
         assertEquals(expResult, result);
     }
-    
-    /*---------------------------------------------- TEST BRING TO FRONT AND TO BACK ------------------------------------------------*/
+
     /**
      * Test of testBringToFrontShape method, of class SelectedShapeManager.
      */
     @Test
-    public void testBringToFrontShape(){
+    public void testBringToFrontShape() {
         System.out.println("bringToFrontShape");
         int beforeBringToFront, afterBringToFront;
         SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
@@ -192,12 +201,12 @@ public class SelectedShapeManagerTest {
         afterBringToFront = testPaper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToFront > beforeBringToFront);
     }
-    
+
     /**
      * Test of testBringToBackShape method, of class SelectedShapeManager.
      */
     @Test
-    public void testBringToBackShape(){
+    public void testBringToBackShape() {
         System.out.println("bringToBackShape");
         int beforeBringToBack, afterBringToBack;
         SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
@@ -209,11 +218,7 @@ public class SelectedShapeManagerTest {
         afterBringToBack = testPaper.getChildren().indexOf(ssm.getSelectedShape());
         assertTrue(afterBringToBack < beforeBringToBack);
     }
-    
-    
-    
-    
-    
+
     /**
      * Test of copySelectedShape method, of class SelectedShapeManager.
      */
@@ -301,6 +306,23 @@ public class SelectedShapeManagerTest {
     @Test
     public void testResizeSelectedShape() {
         System.out.println("resizeSelectedShape");
+        double expectedWidth = random.nextInt(maxValue), expectedHeight = random.nextInt(maxValue);
+        /* Resize Ellipse */
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
+        assertEquals(expectedHeight, ((Ellipse) testShape).getLayoutBounds().getHeight(), 0);
+        assertEquals(expectedWidth, ((Ellipse) testShape).getLayoutBounds().getWidth(), 0);
+        /* Resize Rectangle */
+        selectedShapeManager.setSelectedShape(testShape2);
+        selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
+        assertEquals(expectedHeight, ((Rectangle) testShape2).getLayoutBounds().getHeight(), 0);
+        assertEquals(expectedWidth, ((Rectangle) testShape2).getLayoutBounds().getWidth(), 0);
+        /* Resize Line */
+        selectedShapeManager.setSelectedShape(testShape3);
+        selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
+        ShapeEditor se = ShapeEditorFactory.getInstance(selectedShapeManager.getSelectedShape().getClass());
+        assertEquals(expectedHeight, se.getHeight(testShape3), 0);
+        assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
 
 }

@@ -11,6 +11,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -24,9 +25,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
@@ -34,7 +38,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
@@ -69,59 +72,64 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
-
     @FXML
     private Button undoButton;
     @FXML
     private TextField widthTextField;
     @FXML
     private TextField heightTextField;
-    
-    private  ContextMenu contextMenu;
-    
-    private  MenuItem copy;
-    
-    private  MenuItem paste;
-    
-    private  MenuItem cut;
-    
-    private  MenuItem bringToFront;
-    
-    private  MenuItem bringToBack;
-    
-    private Tool selectedTool;
-    
-    private FileManager fm;
     @FXML
     private Button zoomIn;
     @FXML
     private Button zoomOut;
     @FXML
     private ToolBar sideBar;
+    @FXML
+    private Label errorLabelSize;
+
+    private final static double MAX_SIZE = 10000;
+
+    private ContextMenu contextMenu;
+
+    private MenuItem copy;
+
+    private MenuItem paste;
+
+    private MenuItem cut;
+
+    private MenuItem bringToFront;
+
+    private MenuItem bringToBack;
+
+    private Tool selectedTool;
+
+    private FileManager fm;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-        
+
         contextMenuInit();
-        
+
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
                 child.getStyleClass().add("toggle-button");
             }
         }
-        
+
         fm = new FileManager(drawingPane);
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
-        /*Default color picker values*/
+
+        /* Default color picker values */
         fillColorPicker.setValue(Color.BLACK);
         strokeColorPicker.setValue(Color.BLACK);
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
         undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());
-        // selecting an initial tool
+
+        /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -131,12 +139,31 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-        
+
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
-        
+
+        /* Text fields' size input validation */
+        UnaryOperator<Change> doubleFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
+                errorLabelSize.setManaged(false);
+                errorLabelSize.setVisible(false);
+                return change;
+            }
+            errorLabelSize.setManaged(true);
+            errorLabelSize.setVisible(true);
+            return null;
+        };
+
+        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter);
+        widthTextField.setTextFormatter(tfWidth);
+        heightTextField.setTextFormatter(tfHeight);
+        errorLabelSize.setManaged(false);
+        errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
+
     }
 
     @FXML
@@ -197,33 +224,33 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()){
+        if (event.isPrimaryButtonDown()) {
             contextMenu.hide();
             selectedTool.onMousePressed(event);
-        } else if (event.isSecondaryButtonDown()){
-            contextMenu.show(drawingPane,event.getScreenX(), event.getScreenY());
+        } else if (event.isSecondaryButtonDown()) {
+            contextMenu.show(drawingPane, event.getScreenX(), event.getScreenY());
         }
     }
 
     @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()){
+        if (event.isPrimaryButtonDown()) {
             selectedTool.onMouseDragged(event);
         }
     }
-    
+
     @FXML
     private void onMouseReleasedOnDrawingPane(MouseEvent event) {
-         if (event.getButton().equals(MouseButton.PRIMARY)){
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
             selectedTool.onMouseReleased(event);
-         }
+        }
     }
 
     @FXML
     private void changeFillColor(ActionEvent event) {
-        SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeFillColor(fillColorPicker.getValue());  
+        SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeFillColor(fillColorPicker.getValue());
     }
-    
+
     @FXML
     private void changeStrokeColor(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeStrokeColor(strokeColorPicker.getValue());
@@ -233,30 +260,28 @@ public class FXMLDocumentController implements Initializable {
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
     }
-    
-    
-    private void contextMenuInit(){
-        
+
+    private void contextMenuInit() {
+
         this.contextMenu = new ContextMenu();
         this.copy = new MenuItem("Copy");
         this.cut = new MenuItem("Cut");
         this.paste = new MenuItem("Paste");
         this.bringToFront = new MenuItem("Bring to Front");
         this.bringToBack = new MenuItem("Bring to Back");
-        contextMenu.getItems().addAll(copy, cut, paste,bringToFront,bringToBack);
-        
+        contextMenu.getItems().addAll(copy, cut, paste, bringToFront, bringToBack);
+
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
-        
-        /*If nothing is selected no option will be avilable*/
-        
+
+        /* If nothing is selected no options will be avilable */
         copy.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         cut.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         bringToFront.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         bringToBack.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
-        
-        /*If something has been copied the paste button will be unlocked*/
+
+        /* If something has been copied the paste button will be unlocked */
         paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
-        
+
         copy.setOnAction(e -> {
             ssm.copySelectedShape();
         });
@@ -268,28 +293,36 @@ public class FXMLDocumentController implements Initializable {
         paste.setOnAction(e -> {
             ssm.pasteShape();
         });
-        
-        bringToFront.setOnAction(e-> {
+
+        bringToFront.setOnAction(e -> {
             ssm.bringToFrontShape();
         });
-        
-        bringToBack.setOnAction(e->{
+
+        bringToBack.setOnAction(e -> {
             ssm.bringToBackShape();
         });
-        
+
     }
 
     @FXML
     private void setNewWidth(KeyEvent event) {
-        if(event.getCode()== KeyCode.ENTER){
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
+        String width = widthTextField.getText(), height = heightTextField.getText();
+        if (event.getCode() == KeyCode.ENTER && validateSize(width) && validateSize(height)) {
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape((Double.parseDouble(width)), Double.parseDouble(height));
+        } else if (event.getCode() == KeyCode.ENTER) {
+            errorLabelSize.setManaged(true);
+            errorLabelSize.setVisible(true);
         }
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
-        if(event.getCode()== KeyCode.ENTER){
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape(Double.parseDouble(widthTextField.getText()), Double.parseDouble(heightTextField.getText()));
+        String width = widthTextField.getText(), height = heightTextField.getText();
+        if (event.getCode() == KeyCode.ENTER && validateSize(width) && validateSize(height)) {
+            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape((Double.parseDouble(width)), Double.parseDouble(height));
+        } else if (event.getCode() == KeyCode.ENTER) {
+            errorLabelSize.setManaged(true);
+            errorLabelSize.setVisible(true);
         }
     }
 
@@ -299,6 +332,26 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void zoomOut(ActionEvent event) {
+    }
+
+    /**
+     * This method validates the width inserted by the user. It returns true if
+     * it is valid, false otherwise.
+     *
+     * @param s
+     * @return boolean
+     */
+    private boolean validateSize(String s) {
+        double input = 0.0;
+        try {
+            input = Double.parseDouble(s);
+            if (input > MAX_SIZE) {
+                return false;
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            return false;
+        }
+        return true;
     }
 
 }

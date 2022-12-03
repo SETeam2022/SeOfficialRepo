@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package editor;
 
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
-/**
- *
- * @author alewi
- */
 public class EllipseEditor implements ShapeEditor {
 
     public EllipseEditor() {
@@ -18,12 +10,12 @@ public class EllipseEditor implements ShapeEditor {
 
     @Override
     public void setWidth(Shape shape, double width) {
-       ((Ellipse) shape).setRadiusX(width/2);
+        ((Ellipse) shape).setRadiusX(width / 2);
     }
 
     @Override
     public void setHeight(Shape shape, double height) {
-       ((Ellipse) shape).setRadiusY(height/2); 
+        ((Ellipse) shape).setRadiusY(height / 2);
     }
 
     @Override
@@ -35,5 +27,5 @@ public class EllipseEditor implements ShapeEditor {
     public double getHeight(Shape shape) {
         return ((Ellipse) shape).layoutBoundsProperty().get().getHeight();
     }
-    
+
 }

@@ -24,12 +24,12 @@ public class LineEditor implements ShapeEditor {
 
     @Override
     public double getWidth(Shape shape) {
-        return ((Line) shape).getLayoutBounds().getWidth();
+        return Math.abs(((Line) shape).getEndX()-((Line) shape).getStartX());
     }
 
     @Override
     public double getHeight(Shape shape) {
-        return ((Line) shape).getLayoutBounds().getHeight();
+        return Math.abs(((Line) shape).getEndY()-((Line) shape).getStartY());
     }
     
 }

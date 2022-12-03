@@ -5,16 +5,16 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class InvokerTest {
-    
+
     private Command testCommand;
     private Invoker inv;
-    
+
     public InvokerTest() {
     }
-    
+
     @Before
     public void setUp() {
-        testCommand = new Command(){
+        testCommand = new Command() {
             @Override
             public void execute() {
                 System.out.println("Im a test command executing something");
@@ -25,7 +25,7 @@ public class InvokerTest {
                 System.out.println("Im a test commnad undoing something");
             }
         };
-        
+
         inv = Invoker.getInvoker();
     }
 
@@ -37,7 +37,7 @@ public class InvokerTest {
         System.out.println("executeCommand");
         inv.executeCommand(testCommand);
         assertTrue(inv.getUndoIsEnabledProperty().getValue());
-        
+
     }
 
     /**
@@ -58,7 +58,7 @@ public class InvokerTest {
     public void testGetInvoker() {
         System.out.println("getInvoker");
         Invoker testInvoker = Invoker.getInvoker();
-        assertEquals(inv,testInvoker);
+        assertEquals(inv, testInvoker);
     }
-    
+
 }

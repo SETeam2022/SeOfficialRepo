@@ -8,8 +8,7 @@ import static org.junit.Assert.*;
 public class ChangeFillColorCommandTest {
 
     private ChangeFillColorCommand com;
-    
-    
+
     /**
      * Test of execute method, of class ChangeFillColorCommand.
      */
@@ -17,10 +16,10 @@ public class ChangeFillColorCommandTest {
     public void testExecute() {
         System.out.println("execute");
         Rectangle rect = new Rectangle();
-        com = new ChangeFillColorCommand(Color.RED,rect);
+        com = new ChangeFillColorCommand(Color.RED, rect);
         com.execute();
         assertEquals(rect.getFill(), Color.RED);
-        
+
     }
 
     /**
@@ -31,10 +30,10 @@ public class ChangeFillColorCommandTest {
         System.out.println("undo");
         Rectangle rect = new Rectangle();
         rect.setFill(Color.BLACK);
-        com = new ChangeFillColorCommand(Color.RED,rect);
+        com = new ChangeFillColorCommand(Color.RED, rect);
         com.execute();
         com.undo();
         assertEquals(rect.getFill(), Color.BLACK);
     }
-    
+
 }

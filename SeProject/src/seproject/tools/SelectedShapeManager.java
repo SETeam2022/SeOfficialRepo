@@ -32,7 +32,7 @@ import seproject.commands.*;
 public class SelectedShapeManager {
 
     private Shape selectedShape = null;
-    
+
     private final DoubleProperty widthProperty, heightProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
@@ -46,7 +46,7 @@ public class SelectedShapeManager {
     private Shape copiedShape = null;
 
     private final Group group;
-    
+
     private Overlay overlay;
 
     private SelectedShapeManager() {
@@ -156,7 +156,7 @@ public class SelectedShapeManager {
         }
 
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
-        
+
         /* TODO: I have to delete the shape from the map too */
         group.getChildren().remove(overlay);
         ssm.selectedShape = null;
@@ -173,7 +173,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color,ssm.selectedShape));
+        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color, ssm.selectedShape));
     }
 
     /**
@@ -187,27 +187,28 @@ public class SelectedShapeManager {
         }
         Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape));
     }
-    
+
     /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
     /**
      * Bring the selected shape on top layer
      */
-    public void bringToFrontShape(){
-        if(ssm.selectedShape == null){
+    public void bringToFrontShape() {
+        if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape,paper));
+        Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape, paper));
     }
+
     /**
      * Bring the selected shape on down layer
      */
-    public void bringToBackShape(){
-        if(ssm.selectedShape == null){
+    public void bringToBackShape() {
+        if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape,paper));
+        Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape, paper));
     }
-    
+
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
     /**
@@ -250,8 +251,8 @@ public class SelectedShapeManager {
     }
 
     /**
-     * 
-     * @return shapeIsCopiedProperty which allows to know if the selected shape 
+     *
+     * @return shapeIsCopiedProperty which allows to know if the selected shape
      * has been copied
      */
     public SimpleBooleanProperty getShapeIsCopiedProperty() {
@@ -259,25 +260,25 @@ public class SelectedShapeManager {
     }
 
     /*--------------------------------------------------------------------RESIZE-----------------------------------------------------*/
-
     /**
      * This method performs the resize of the selected shape.
-     * 
+     *
      * @param width
      * @param height
      */
     public void resizeSelectedShape(double width, double height) {
-        if(selectedShape == null) return;
-        Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape,width,height));
+        if (selectedShape == null) {
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape, width, height));
     }
 }
 
 /*--------------------------------------------------------------------OVERLAY-----------------------------------------------------*/
-
 /**
- * This class represents the overlay shown when a shape is selected, that is a 
+ * This class represents the overlay shown when a shape is selected, that is a
  * selection box.
- * 
+ *
  */
 class Overlay extends Rectangle {
 
@@ -296,17 +297,17 @@ class Overlay extends Rectangle {
         this.selectedShape = selectedShape;
         monitorOverlay();
     }
-    
+
     /**
-     * This method adds an observer on the boundsInParent of the selected shape, 
-     * in order to detect a change and consequently resize tha overlay according 
+     * This method adds an observer on the boundsInParent of the selected shape,
+     * in order to detect a change and consequently resize tha overlay according
      * to it.
      */
-    void monitorOverlay(){
+    void monitorOverlay() {
         final ReadOnlyObjectProperty<Bounds> bounds;
         bounds = selectedShape.boundsInParentProperty();
         updateOverlay(bounds.get());
-        overlayChangeListener = new ChangeListener<Bounds>(){
+        overlayChangeListener = new ChangeListener<Bounds>() {
             @Override
             public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
                 updateOverlay(newValue);
@@ -316,10 +317,10 @@ class Overlay extends Rectangle {
     }
 
     /**
-     * This method, takes in input the newBounds on the selected shape and resizes
-     * the selection overlay according to them.
-     * 
-     * @param newBounds 
+     * This method, takes in input the newBounds on the selected shape and
+     * resizes the selection overlay according to them.
+     *
+     * @param newBounds
      */
     private void updateOverlay(Bounds newBounds) {
         setX(newBounds.getMinX());
