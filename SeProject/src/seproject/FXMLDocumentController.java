@@ -22,7 +22,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -44,7 +43,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
@@ -187,7 +185,7 @@ public class FXMLDocumentController implements Initializable {
         g.maxHeight(Screen.getMainScreen().getHeight());
         g.requestLayout();
 
-        drawingPane.setClip(new Rectangle (0,0, drawingPane.getMaxWidth(),drawingPane.getMaxHeight()));
+        drawingPane.setClip(new Rectangle (0,0, drawingPane.getPrefWidth(),drawingPane.getPrefHeight()));
         
         scrollPane.setContent(g);
     }
