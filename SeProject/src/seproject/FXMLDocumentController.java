@@ -133,7 +133,7 @@ public class FXMLDocumentController implements Initializable {
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
 
         /* Default color picker values */
-        fillColorPicker.setValue(Color.BLACK);
+        fillColorPicker.setValue(Color.WHITE);
         strokeColorPicker.setValue(Color.BLACK);
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
         undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());

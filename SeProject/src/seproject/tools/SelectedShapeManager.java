@@ -1,11 +1,6 @@
 package seproject.tools;
 
 import editor.ShapeEditorFactory;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -213,26 +208,10 @@ public class SelectedShapeManager {
 
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
+    
     /**
      * This method performs the copy of the selected shape.
      */
-    public void copySelectedShape2() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try ( XMLEncoder encoder = new XMLEncoder(baos)) {
-            encoder.setPersistenceDelegate(Color.class, new DefaultPersistenceDelegate(new String[]{"red", "green", "blue", "opacity"}));
-            encoder.writeObject(ssm.selectedShape);
-        }
-        String codedShape = new String(baos.toByteArray());
-        try ( XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(codedShape.getBytes()))) {
-            this.copiedShape = (Shape) decoder.readObject();
-            this.shapeIsCopiedProperty.setValue(true);
-        }
-
-    }
-
     public void copySelectedShape() {
         if (selectedShape == null) {
             return;
