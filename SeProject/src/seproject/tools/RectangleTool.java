@@ -6,12 +6,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
  * Rectangle on the screen.
  */
-public class RectangleTool extends Tool {
+public class RectangleTool extends DrawingTool {
 
     private Rectangle rectangle;
     private double startX, startY;
@@ -43,10 +45,10 @@ public class RectangleTool extends Tool {
         startX = event.getX();
         startY = event.getY();
         rectangle = new Rectangle(startX, startY, 0, 0);
-        rectangle.setStroke(this.getStrokeColor());
-        rectangle.setFill(this.getFillColor());
-        rectangle.setStrokeWidth(Tool.widthStroke);
-        this.getPaper().getChildren().add(rectangle);
+        rectangle.setStroke(this.getStrokeColorProperty().getValue());
+        rectangle.setFill(this.getFillColorProperty().getValue());
+        rectangle.setStrokeWidth(DrawingTool.widthStroke);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(rectangle, paper));
 
     }
 
@@ -59,13 +61,28 @@ public class RectangleTool extends Tool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        
+
         double newWidth = abs(startX - event.getX());
         double newHeight = abs(startY - event.getY());
-        
+
         double newStartX = Math.min(startX, event.getX());
         double newStartY = Math.min(startY, event.getY());
-        
+
+        rectangle.setX(newStartX);
+        rectangle.setY(newStartY);
+        rectangle.setWidth(newWidth);
+        rectangle.setHeight(newHeight);
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent event) {
+        double newWidth = abs(startX - event.getX());
+        double newHeight = abs(startY - event.getY());
+
+        double newStartX = Math.min(startX, event.getX());
+        double newStartY = Math.min(startY, event.getY());
+
+
         rectangle.setX(newStartX);
         rectangle.setY(newStartY);
         rectangle.setWidth(newWidth);
