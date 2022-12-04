@@ -66,6 +66,7 @@ public class EllipseEditor implements ShapeEditor {
         
         clone.setStroke(original.getStroke());
         clone.setFill(original.getFill());
+        clone.setStrokeWidth(original.getStrokeWidth());
         
         return clone;
     }

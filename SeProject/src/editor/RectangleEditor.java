@@ -57,6 +57,7 @@ public class RectangleEditor implements ShapeEditor {
         clone.setHeight(original.getHeight());
         clone.setWidth(original.getWidth());
         clone.setStroke(original.getStroke());
+        clone.setStrokeWidth(original.getStrokeWidth());
         clone.setFill(original.getFill());
         return clone;
     }
