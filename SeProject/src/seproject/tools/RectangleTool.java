@@ -61,6 +61,7 @@ public class RectangleTool extends DrawingTool {
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
+
         double newWidth = abs(startX - event.getX());
         double newHeight = abs(startY - event.getY());
 
@@ -80,6 +81,7 @@ public class RectangleTool extends DrawingTool {
 
         double newStartX = Math.min(startX, event.getX());
         double newStartY = Math.min(startY, event.getY());
+
 
         rectangle.setX(newStartX);
         rectangle.setY(newStartY);
