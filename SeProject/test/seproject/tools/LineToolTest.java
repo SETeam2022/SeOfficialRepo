@@ -50,7 +50,7 @@ public class LineToolTest {
      * attribute
      */
     @Test
-    public void testMousePressed() {
+    public void testOnMousePressed() {
         System.out.println("mousePressed");
         t.onMousePressed(clickOnBlankPaper);
         Node elem = paper.getChildren().get(0);

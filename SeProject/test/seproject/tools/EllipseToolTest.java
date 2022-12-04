@@ -49,7 +49,7 @@ public class EllipseToolTest {
      * color attribute
      */
     @Test
-    public void testMousePressed() {
+    public void testOnMousePressed() {
         System.out.println("mousePressed");
 
         t.onMousePressed(clickOnBlankPaper);
