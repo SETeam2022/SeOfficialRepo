@@ -6,14 +6,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
  * Ellipses on the screen.
  */
-public class EllipseTool extends Tool {
+public class EllipseTool extends DrawingTool {
+
     private Ellipse ell;
     private double startX, startY;
+
     /**
      * Create a new EllipseTool
      *
@@ -39,26 +43,30 @@ public class EllipseTool extends Tool {
     public void onMousePressed(MouseEvent event) {
         startX = event.getX();
         startY = event.getY();
-        ell = new Ellipse(event.getX(), event.getY(), 0,0);
-        ell.setStroke(this.getStrokeColor());
-        ell.setFill(this.getFillColor());
-        ell.setStrokeWidth(Tool.widthStroke);
-        this.getPaper().getChildren().add(ell);
-    }
-    
-    /**
-    *   This function will be called when I click the mouse on the paper and 
-    *   move it on the paper and it will draw on the screen an update ellipse.
-    *   @param event is the event that generated the call to this method its X 
-    *   and Y coordinates will be used for ellipse's radius managing. 
-    */
-    @Override
-    public void onMouseDragged(MouseEvent event){
-        ell.setRadiusX(abs(startX-event.getX()));
-        ell.setRadiusY(abs(startY-event.getY()));
+        ell = new Ellipse(event.getX(), event.getY(), 0, 0);
+        ell.setStroke(this.getStrokeColorProperty().getValue());
+        ell.setFill(this.getFillColorProperty().getValue());
+        ell.setStrokeWidth(DrawingTool.widthStroke);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(ell, paper));
     }
 
-    
-    
+    /**
+     * This function will be called when I click the mouse on the paper and move
+     * it on the paper and it will draw on the screen an update ellipse.
+     *
+     * @param event is the event that generated the call to this method its X
+     * and Y coordinates will be used for ellipse's radius managing.
+     */
+    @Override
+    public void onMouseDragged(MouseEvent event) {
+        ell.setRadiusX(abs(startX - event.getX()));
+        ell.setRadiusY(abs(startY - event.getY()));
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent event) {
+        ell.setRadiusX(abs(startX - event.getX()));
+        ell.setRadiusY(abs(startY - event.getY()));
+    }
 
 }

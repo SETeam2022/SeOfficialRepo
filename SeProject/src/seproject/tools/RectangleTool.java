@@ -6,12 +6,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
  * Rectangle on the screen.
  */
-public class RectangleTool extends Tool {
+public class RectangleTool extends DrawingTool {
 
     private Rectangle rectangle;
     private double startX, startY;
@@ -35,30 +37,55 @@ public class RectangleTool extends Tool {
      * the Pane that works as a Paper
      *
      * @param event is the event that generated the call to this method its X
-     * and Y coordinates will be used for setting up the top left cornet of the shape
+     * and Y coordinates will be used for setting up the top left cornet of the
+     * shape
      */
     @Override
     public void onMousePressed(MouseEvent event) {
         startX = event.getX();
         startY = event.getY();
         rectangle = new Rectangle(startX, startY, 0, 0);
-        rectangle.setStroke(this.getStrokeColor());
-        rectangle.setFill(this.getFillColor());
-        rectangle.setStrokeWidth(Tool.widthStroke);
-        this.getPaper().getChildren().add(rectangle);
+        rectangle.setStroke(this.getStrokeColorProperty().getValue());
+        rectangle.setFill(this.getFillColorProperty().getValue());
+        rectangle.setStrokeWidth(DrawingTool.widthStroke);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(rectangle, paper));
 
     }
-    
-    
+
     /**
-    *   This function will be called when I click the mouse on the paper and 
-    *   move it on the paper and it will draw on the screen an update rectangle.
-    *   @param event is the event that generated the call to this method its X 
-    *   and Y coordinates will be used for rectangle's width and height managing. 
-    */
+     * This function will be called when I click the mouse on the paper and move
+     * it on the paper and it will draw on the screen an update rectangle.
+     *
+     * @param event is the event that generated the call to this method its X
+     * and Y coordinates will be used for rectangle's width and height managing.
+     */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        rectangle.setWidth(abs(startX - event.getX()));
-        rectangle.setHeight(abs(startY - event.getY()));
+
+        double newWidth = abs(startX - event.getX());
+        double newHeight = abs(startY - event.getY());
+
+        double newStartX = Math.min(startX, event.getX());
+        double newStartY = Math.min(startY, event.getY());
+
+        rectangle.setX(newStartX);
+        rectangle.setY(newStartY);
+        rectangle.setWidth(newWidth);
+        rectangle.setHeight(newHeight);
+    }
+
+    @Override
+    public void onMouseReleased(MouseEvent event) {
+        double newWidth = abs(startX - event.getX());
+        double newHeight = abs(startY - event.getY());
+
+        double newStartX = Math.min(startX, event.getX());
+        double newStartY = Math.min(startY, event.getY());
+
+
+        rectangle.setX(newStartX);
+        rectangle.setY(newStartY);
+        rectangle.setWidth(newWidth);
+        rectangle.setHeight(newHeight);
     }
 }

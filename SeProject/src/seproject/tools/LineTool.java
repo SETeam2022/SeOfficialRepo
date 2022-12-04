@@ -5,12 +5,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import seproject.commands.DrawShapeCommand;
+import seproject.commands.Invoker;
 
 /**
- * This class is the rappresentation of a specialized tool that can draw
- * Lines on the screen.
+ * This class is the rappresentation of a specialized tool that can draw Lines
+ * on the screen.
  */
-public class LineTool extends Tool {
+public class LineTool extends DrawingTool {
 
     private Line line;
 
@@ -28,8 +30,8 @@ public class LineTool extends Tool {
     }
 
     /**
-     * This method refreshes the creation of the line before
-     * dropping it on the paper.
+     * This method refreshes the creation of the line before dropping it on the
+     * paper.
      *
      * @param event is the dragging movement around the pane.
      */
@@ -40,21 +42,27 @@ public class LineTool extends Tool {
     }
 
     /**
-     * This method starts the creation of the line setting up an
-     * initial position.
+     * This method starts the creation of the line setting up an initial
+     * position.
      *
      * @param event is the dragging movement around the pane.
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        
+
         double startX = event.getX();
         double startY = event.getY();
         line = new Line(startX, startY, startX, startY);
-        line.setStroke(this.getStrokeColor());
-        line.setFill(this.getFillColor());
-        line.setStrokeWidth(Tool.widthStroke);
-        this.getPaper().getChildren().add(line);
+        line.setStroke(this.getStrokeColorProperty().getValue());
+        line.setFill(this.getFillColorProperty().getValue());
+        line.setStrokeWidth(DrawingTool.widthStroke);
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(line, paper));
+
     }
 
+    @Override
+    public void onMouseReleased(MouseEvent event) {
+        line.setEndY(event.getY());
+        line.setEndX(event.getX());
+    }
 }
