@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import seproject.FileManager;
 
 /**
  * This class' aim is the testing of the save and load methods of the
@@ -28,7 +27,6 @@ public class FileManagerTest {
     private Pane paper;
     private File file1, file2, file3;
     private SecureRandom random;
-    private static final int maxValue = 10000;
     private Rectangle testRectangle;
     private Line testLine;
     private Ellipse testEllipse;
@@ -91,7 +89,7 @@ public class FileManagerTest {
      * @return Rectangle
      */
     private Rectangle createRectangle() {
-        Rectangle newRect = new Rectangle(random.nextInt(maxValue), random.nextInt(maxValue), random.nextInt(maxValue), random.nextInt(maxValue));
+        Rectangle newRect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         newRect.setFill(Color.PINK);
         newRect.setStroke(Color.RED);
         return newRect;
@@ -104,7 +102,7 @@ public class FileManagerTest {
      * @return Rectangle
      */
     private Ellipse createEllipse() {
-        Ellipse newEllipse = new Ellipse(random.nextInt(maxValue), random.nextInt(maxValue), random.nextInt(maxValue), random.nextInt(maxValue));
+        Ellipse newEllipse = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         newEllipse.setFill(Color.GREEN);
         newEllipse.setStroke(Color.BLUE);
         return newEllipse;
@@ -117,7 +115,7 @@ public class FileManagerTest {
      * @return Rectangle
      */
     private Line createLine() {
-        Line newLine = new Line(random.nextInt(maxValue), random.nextInt(maxValue), random.nextInt(maxValue), random.nextInt(maxValue));
+        Line newLine = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         newLine.setStroke(Color.VIOLET);
         return newLine;
     }
