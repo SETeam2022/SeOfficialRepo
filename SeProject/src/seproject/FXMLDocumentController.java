@@ -109,6 +109,8 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem bringToFront;
 
     private MenuItem bringToBack;
+    
+    private MenuItem deleteShape;
 
     private Tool selectedTool;
 
@@ -293,7 +295,8 @@ public class FXMLDocumentController implements Initializable {
         this.paste = new MenuItem("Paste");
         this.bringToFront = new MenuItem("Bring to Front");
         this.bringToBack = new MenuItem("Bring to Back");
-        contextMenu.getItems().addAll(copy, cut, paste, bringToFront, bringToBack);
+        this.deleteShape = new MenuItem("Delete");
+        contextMenu.getItems().addAll(copy, cut, paste,deleteShape, bringToFront, bringToBack);
 
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
 
@@ -302,6 +305,7 @@ public class FXMLDocumentController implements Initializable {
         cut.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         bringToFront.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         bringToBack.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        deleteShape.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
 
         /* If something has been copied the paste button will be unlocked */
         paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
@@ -324,6 +328,10 @@ public class FXMLDocumentController implements Initializable {
 
         bringToBack.setOnAction(e -> {
             ssm.bringToBackShape();
+        });
+        
+        deleteShape.setOnAction(e -> {
+            ssm.deleteSelectedShape();
         });
 
     }

@@ -7,6 +7,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
@@ -44,6 +45,8 @@ public class SelectedShapeManager {
     private Group group;
 
     private Overlay overlay;
+    
+    private int incrementCopy = 0;
 
     private SelectedShapeManager() {
 
@@ -98,6 +101,7 @@ public class SelectedShapeManager {
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
         ssm.shapeIsSelectedProperty.setValue(true);
+        ssm.incrementCopy = 0;
     }
 
     /**
@@ -228,9 +232,10 @@ public class SelectedShapeManager {
         if (copiedShape == null) {
             return;
         }
+        incrementCopy += 10;
         Bounds paperBounds = paper.getLayoutBounds();
         Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
-        clone.relocate((paperBounds.getWidth() - copiedShape.getLayoutBounds().getWidth()) / 2, (paperBounds.getHeight() - copiedShape.getLayoutBounds().getHeight()) / 2);
+        clone.relocate(copiedShape.getBoundsInParent().getMinX()+incrementCopy,copiedShape.getBoundsInParent().getMinY()+incrementCopy);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
     }
 
