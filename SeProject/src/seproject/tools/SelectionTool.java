@@ -29,13 +29,11 @@ public class SelectionTool extends Tool {
         Object eventNode = event.getTarget();
         if (eventNode instanceof Shape) {
             Shape tmp = (Shape) eventNode;
-            if (tmp.getBoundsInParent().contains(event.getX(), event.getY())) {
                 manager.setSelectedShape(tmp);
                 startX = tmp.getTranslateX(); 
                 startY = tmp.getTranslateY(); 
                 offsetX = event.getSceneX()/paper.getScaleX() - tmp.getTranslateX();
                 offsetY = event.getSceneY()/paper.getScaleY() - tmp.getTranslateY();
-            }
         }
     }
 
