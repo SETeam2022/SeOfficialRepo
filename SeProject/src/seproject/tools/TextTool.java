@@ -1,18 +1,17 @@
 package seproject.tools;
 
 import static java.lang.Math.abs;
+import java.util.ArrayList;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
-import static seproject.SeProject.getAllNodes;
+import seproject.SeProject;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
@@ -74,37 +73,21 @@ public class TextTool extends DrawingTool {
             return;
         }
         paper.getChildren().add(tempTextArea);
-
-        tempTextArea.focusedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) -> {
-            if (t1) {
-                return;
-            }
-            Text text = popTextFromTextArea();
-            if (text != null) {
-                Invoker.getInvoker().executeCommand(new DrawShapeCommand(text, paper));
-            }
-        });
-
-        for (Node x : getAllNodes(paper.getScene().getRoot())) {
-            System.out.println("Agginto listener al nodo: " + x);
+        
+        
+        ArrayList<Node> nodes = SeProject.getAllNotShapeNodes(paper.getScene().getRoot());
+        for (Node x : nodes) {
             x.setOnMousePressed((MouseEvent event1) -> {
                 System.out.println("Entro: " + event1.getTarget());
-                if (!event1.getTarget().equals(paper)) {
-                    System.out.println("RESETTO!");
+                if (!event1.getTarget().equals(paper) && ! (event1.getTarget() instanceof Shape)) {
+                    Text text = popTextFromTextArea();
+                    if (text != null) {
+                        Invoker.getInvoker().executeCommand(new DrawShapeCommand(text, paper));
+                    }
                     reset();
                 }
             });
         }
-
-        /*
-        tempTextArea.getScene().setOnMousePressed((MouseEvent event1) -> {
-            System.out.println(event1);
-            Point2D p = new Point2D(event1.getX(), event1.getY());
-            if(!paper.contains(p)){
-                reset();
-            }
-        });
-         */
     }
 
     private Rectangle createTempRectangle(double x, double y) {
