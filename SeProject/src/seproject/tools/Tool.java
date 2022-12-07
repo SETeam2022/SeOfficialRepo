@@ -33,8 +33,20 @@ public abstract class Tool {
      * @param event the JavaFx event associated with the mouse click
      */
     public abstract void onMouseDragged(MouseEvent event);
-
+    
+    /**
+     * Manca la dovumentazione
+     * @param event 
+     */
     public abstract void onMouseReleased(MouseEvent event);
+    
+    /**
+     * This method provide an empty implementation and should be overreaded by
+     * all the concrete tools that want to give a custom behavior when the tool
+     * is deselected
+     */
+    public void deselect(){
+    }
 
     /**
      * @return the pane that works as a paper witch the tool is working

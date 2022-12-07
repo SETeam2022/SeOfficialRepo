@@ -35,6 +35,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
@@ -147,6 +148,7 @@ public class FXMLDocumentController implements Initializable {
 
         /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
+        /*
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
@@ -154,7 +156,27 @@ public class FXMLDocumentController implements Initializable {
                     SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                 }
             }
-        });
+        });*/
+        /*
+        addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                selectedTool.deselect();
+            } 
+        });*/
+
+        for (Toggle r : g1.getToggles()) {
+            r.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if(newValue == false){
+                        SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
+                        selectedTool.deselect();
+                    }
+                }
+            });
+        }
+        
 
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
