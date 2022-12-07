@@ -22,6 +22,7 @@ public class ShapeEditorFactory {
             editors.put(Class.forName("javafx.scene.shape.Rectangle"), new RectangleEditor());
             editors.put(Class.forName("javafx.scene.shape.Ellipse"), new EllipseEditor());
             editors.put(Class.forName("javafx.scene.shape.Line"), new LineEditor());
+            editors.put(Class.forName("javafx.scene.shape.Polyline"), new PolygonEditor());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ShapeEditorFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
