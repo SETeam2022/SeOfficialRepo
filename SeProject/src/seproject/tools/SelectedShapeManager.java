@@ -32,7 +32,7 @@ public class SelectedShapeManager {
 
     private Shape selectedShape = null;
 
-    private final DoubleProperty widthProperty, heightProperty;
+    private final DoubleProperty widthProperty, heightProperty, leftRotationProperty, rightRotationProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
 
@@ -52,6 +52,8 @@ public class SelectedShapeManager {
 
         this.widthProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
+        this.leftRotationProperty = new SimpleDoubleProperty();
+        this.rightRotationProperty = new SimpleDoubleProperty();
         this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
         this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
 
@@ -98,6 +100,8 @@ public class SelectedShapeManager {
 
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
+        ssm.leftRotationProperty.setValue(360-ssm.getSelectedShape().getRotate());
+        ssm.rightRotationProperty.setValue(ssm.getSelectedShape().getRotate());
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
     }
@@ -138,6 +142,14 @@ public class SelectedShapeManager {
      */
     public DoubleProperty getHeightProperty() {
         return ssm.heightProperty;
+    }
+    
+    public DoubleProperty getLeftRotationProperty(){
+        return ssm.leftRotationProperty;
+    }
+    
+    public DoubleProperty getRightRotationProperty(){
+        return ssm.rightRotationProperty;
     }
 
     /**
@@ -294,5 +306,17 @@ public class SelectedShapeManager {
             setWidth(t1.getWidth());
             setHeight(t1.getHeight());
         }
+    }
+    
+    /* -------------------------------------------------------------- ROTATION --------------------------------------------------------------*/
+    /**
+     * This method allow to rotate the shape due to param
+     * @param value
+     */
+    public void rotationShape(Double value){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new RotationCommand(value, selectedShape));
     }
 }
