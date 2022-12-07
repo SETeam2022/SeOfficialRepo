@@ -43,6 +43,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
@@ -67,6 +68,8 @@ public class FXMLDocumentController implements Initializable {
     private RadioButton addRectangleButton;
     @FXML
     private RadioButton addEllipsesButton;
+    @FXML
+    private RadioButton addPolygonButton;
     @FXML
     private Pane drawingPane;
     @FXML
@@ -147,6 +150,22 @@ public class FXMLDocumentController implements Initializable {
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
                 if (!Objects.equals(newVal, oldVal) && newVal == false) {
                     SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
+                }
+ 
+            }
+        });
+        
+        /* Check if the last polygon before changing tool has been completed */
+        addPolygonButton.selectedProperty().addListener((obervable, oldValue, newValue) -> {
+            if (newValue == false && !drawingPane.getChildren().isEmpty()){
+                Node lastShape = (Node) drawingPane.getChildren().get(drawingPane.getChildren().size()-1);
+                if(lastShape instanceof Polyline){
+                    Polyline lastPolygon = (Polyline) lastShape;
+                    double startX = lastPolygon.getPoints().get(0), startY = lastPolygon.getPoints().get(1),
+                           endX = lastPolygon.getPoints().get(lastPolygon.getPoints().size()-2), endY = lastPolygon.getPoints().get(lastPolygon.getPoints().size()-1);
+                    if (!(startX == endX && startY == endY)){
+                        lastPolygon.getPoints().addAll(startX, startY);
+                    }
                 }
             }
         });

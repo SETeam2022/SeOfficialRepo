@@ -21,7 +21,7 @@ public class RectangleTool extends DrawingTool {
     /**
      * Create a new RectangleTool
      *
-     * @param paper is the pane on witch the new ellipses nodes will be added
+     * @param paper is the pane on witch the new rectangle nodes will be added
      * @param strokeColorProperty is the associated ObjectProperty of Stroke
      * Interior Picker's value.
      * @param fillColorProperty is the associated ObjectProperty of Fill
@@ -37,7 +37,7 @@ public class RectangleTool extends DrawingTool {
      * the Pane that works as a Paper
      *
      * @param event is the event that generated the call to this method its X
-     * and Y coordinates will be used for setting up the top left cornet of the
+     * and Y coordinates will be used for setting up the top left corner of the
      * shape
      */
     @Override

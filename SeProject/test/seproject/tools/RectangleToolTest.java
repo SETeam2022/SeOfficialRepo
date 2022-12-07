@@ -25,7 +25,7 @@ public class RectangleToolTest {
     }
 
     /**
-     * This method create the Test environment, it creates a test rectangle with
+     * This method creates the Test environment, it creates a test rectangle with
      * red stroke and black fill, and istances a rectangle tool.
      */
     @Before
