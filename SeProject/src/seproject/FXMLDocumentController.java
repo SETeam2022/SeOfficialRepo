@@ -122,9 +122,13 @@ public class FXMLDocumentController implements Initializable {
     private ToggleButton gridButton;
     @FXML
     private Spinner<Integer> gridSpinner;
+    
+    
+    private DrawingArea g;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        DrawingArea.paper = drawingPane;
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
@@ -189,7 +193,9 @@ public class FXMLDocumentController implements Initializable {
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
         
-        DrawingArea g = new DrawingArea(drawingPane);
+        /*Grid initialization*/
+        gridButton.selectedProperty().setValue(false);
+        g = DrawingArea.getIstance();
         g.getChildren().get(0).scaleXProperty().bind(zoomSlider.valueProperty());
         g.getChildren().get(0).scaleYProperty().bind(zoomSlider.valueProperty());
         
@@ -198,6 +204,11 @@ public class FXMLDocumentController implements Initializable {
         
         g.requestLayout();
         //drawingPane.setClip(new Rectangle (0,0, drawingPane.getPrefWidth(),drawingPane.getPrefHeight()));
+        
+        gridSpinner.getValueFactory().valueProperty().addListener(change->{
+            g.redrawGrid(gridSpinner.getValue());
+        });
+        
        
         
         scrollPane.setContent(g);
@@ -391,7 +402,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addGrid(ActionEvent event) {
-        System.out.println("Aggiungo una griglia");
+       g.showGrid(!gridButton.selectedProperty().getValue());
     }
 
 }

@@ -16,49 +16,80 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Screen;
 
 /**
- *
- * @author teodoroadinolfi
+ * This class create an abstraction of the application's area where the user can
+ * draw, one of the principal aim of the drawing area is the management of the grid
+ * that is in overlay with the drawing.
  */
 public class DrawingArea extends Group {
     
-    Pane paper;
-    Group grid;
     
-    public DrawingArea(Pane paper){
-        this.paper = paper;
-        this.grid = makeGrid();
-        super.getChildren().add(new Group(paper,grid));
+    private static final double CONV_FACTOR =  37.7952755906; // 1cm =  37.7952755906 pixels
+    
+    public static Pane paper;
+    private Group grid;
+    private Group containerOfPaperAndGrid;
+    
+    private static DrawingArea d = null;
+    
+    /**
+     * Create an isstance of the Drawing Area
+     */
+    public DrawingArea(){
+        this.grid = makeGrid(1);
+        this.containerOfPaperAndGrid = new Group(paper,grid);
+        super.getChildren().add(containerOfPaperAndGrid);
         paper.setClip(new Rectangle (0,0, paper.getPrefWidth(),paper.getPrefHeight()));
     }
     
-    
-    public void redrawGrid(int newDistance){
-        
+    /**
+     * Redraw the grid, with a new size for the side's grids's square
+     * @param newDistance the size in cm of the grid's square
+     */
+    public void redrawGrid(int newDistance){        
+        this.containerOfPaperAndGrid.getChildren().remove(grid);
+        grid = makeGrid(newDistance);
+        this.containerOfPaperAndGrid.getChildren().add(grid);
     }
     
-    private Group makeGrid(){
+    public void showGrid(boolean val){
+        grid.setVisible(val);
+    }
+    
+    public Group getContainerOfPaperAndGrid(){
+        return this.containerOfPaperAndGrid;
+    }
+    
+    private Group makeGrid(int newDistance){
+        double distanceInPixel = newDistance * CONV_FACTOR;
         Group g = new Group();
-        for (int x=38 ; x < paper.getPrefWidth() ; x+=38){
-            g.getChildren().add(lineCreatorX(x));
+        for (int x=1 ; x*distanceInPixel < paper.getPrefWidth() ; x++){
+            g.getChildren().add(lineCreatorX(x*distanceInPixel));
         }
-        for (int y=38 ; y < paper.getPrefHeight() ; y+=38){
-            g.getChildren().add(lineCreatorY(y));
+        for (int y=1 ; y*distanceInPixel < paper.getPrefHeight() ; y++){
+            g.getChildren().add(lineCreatorY(y*distanceInPixel));
         }
+        g.setMouseTransparent(true);
         g.setManaged(false);
         return g;
     }
     
-    private Line lineCreatorX(int x){
+    private Line lineCreatorX(double x){
         Line l = new Line(x,0,x,paper.getPrefHeight());
-        l.setStroke(new Color(255,255,255,0.5));
+        l.setStroke(new Color(0,0,0,0.5));
         return l;
     }
     
-    private Line lineCreatorY(int y){
+    private Line lineCreatorY(double y){
        Line l = new Line(0,y,paper.getPrefWidth(),y);
-       l.setStroke(new Color(255,255,255,0.5));
+       l.setStroke(new Color(0,0,0,0.5));
        return l;
     }
     
+    public static DrawingArea getIstance(){
+        if (d == null){
+            d = new DrawingArea();
+        }
+        return d;
+    }
     
 }
