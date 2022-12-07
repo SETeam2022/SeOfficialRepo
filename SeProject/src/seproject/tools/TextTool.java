@@ -73,21 +73,19 @@ public class TextTool extends DrawingTool {
             return;
         }
         paper.getChildren().add(tempTextArea);
-        
-        
-        ArrayList<Node> nodes = SeProject.getAllNotShapeNodes(paper.getScene().getRoot());
-        for (Node x : nodes) {
-            x.setOnMousePressed((MouseEvent event1) -> {
-                System.out.println("Entro: " + event1.getTarget());
-                if (!event1.getTarget().equals(paper) && ! (event1.getTarget() instanceof Shape)) {
-                    Text text = popTextFromTextArea();
-                    if (text != null) {
-                        Invoker.getInvoker().executeCommand(new DrawShapeCommand(text, paper));
-                    }
-                    reset();
-                }
-            });
-        }
+
+        tempTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                return;
+            }
+            Text text = popTextFromTextArea();
+            if (text != null) {
+                Invoker.getInvoker().executeCommand(new DrawShapeCommand(text, paper));
+            }
+            reset();
+
+        });
+
     }
 
     private Rectangle createTempRectangle(double x, double y) {
