@@ -91,6 +91,21 @@ public class PolygonTool extends DrawingTool {
             polygon.getPoints().set(polygon.getPoints().size() - 1, event.getY());
         }
     }
+    
+    /* Check if the last polygon before changing tool has been completed */
+    @Override    
+    public void deselect() {
+        
+        if (polygon == null) return; 
+        
+        double startX = polygon.getPoints().get(0), startY = polygon.getPoints().get(1),
+               endX = polygon.getPoints().get(polygon.getPoints().size()-2), endY = polygon.getPoints().get(polygon.getPoints().size()-1);
+        if (!(startX == endX && startY == endY)){
+            polygon.getPoints().addAll(startX, startY);
+        }
+        
+    }
+    
 
     /**
      * This is a utility method which, given the start and end coordinates, and

@@ -82,9 +82,25 @@ public class TextTool extends DrawingTool {
             if (text != null) {
                 Invoker.getInvoker().executeCommand(new DrawShapeCommand(text, paper));
             }
-            reset();
+            deselect();
 
         });
+
+    }
+    
+    /**
+     * Remove the temporary textArea  and rectangle created for inserting the text
+     */
+    @Override
+    public void deselect() {
+        if (tempRectangle != null) {
+            paper.getChildren().remove(tempRectangle);
+            tempRectangle = null;
+        }
+        if (tempTextArea != null) {
+            paper.getChildren().remove(tempTextArea);
+            tempTextArea = null;
+        }
 
     }
 
@@ -127,16 +143,5 @@ public class TextTool extends DrawingTool {
         return textArea;
     }
 
-    private void reset() {
-        if (tempRectangle != null) {
-            paper.getChildren().remove(tempRectangle);
-            tempRectangle = null;
-        }
-        if (tempTextArea != null) {
-            paper.getChildren().remove(tempTextArea);
-            tempTextArea = null;
-        }
-
-    }
 
 }
