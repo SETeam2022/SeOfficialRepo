@@ -43,11 +43,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
+import seproject.tools.PolygonTool;
 import seproject.tools.SelectionTool;
 
 public class FXMLDocumentController implements Initializable {
@@ -68,8 +68,6 @@ public class FXMLDocumentController implements Initializable {
     private RadioButton addRectangleButton;
     @FXML
     private RadioButton addEllipsesButton;
-    @FXML
-    private RadioButton addPolygonButton;
     @FXML
     private Pane drawingPane;
     @FXML
@@ -118,6 +116,8 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+    @FXML
+    private RadioButton addPolygonButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -150,22 +150,6 @@ public class FXMLDocumentController implements Initializable {
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
                 if (!Objects.equals(newVal, oldVal) && newVal == false) {
                     SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-                }
- 
-            }
-        });
-        
-        /* Check if the last polygon before changing tool has been completed */
-        addPolygonButton.selectedProperty().addListener((obervable, oldValue, newValue) -> {
-            if (newValue == false && !drawingPane.getChildren().isEmpty()){
-                Node lastShape = (Node) drawingPane.getChildren().get(drawingPane.getChildren().size()-1);
-                if(lastShape instanceof Polyline){
-                    Polyline lastPolygon = (Polyline) lastShape;
-                    double startX = lastPolygon.getPoints().get(0), startY = lastPolygon.getPoints().get(1),
-                           endX = lastPolygon.getPoints().get(lastPolygon.getPoints().size()-2), endY = lastPolygon.getPoints().get(lastPolygon.getPoints().size()-1);
-                    if (!(startX == endX && startY == endY)){
-                        lastPolygon.getPoints().addAll(startX, startY);
-                    }
                 }
             }
         });
@@ -266,6 +250,11 @@ public class FXMLDocumentController implements Initializable {
     private void addEllipses(ActionEvent event) {
         selectedTool = new EllipseTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
+    
+    @FXML
+    private void addPolygon(ActionEvent event) {
+        selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+    }
 
     @FXML
     private void clickOnDrawingPane(MouseEvent event) {
@@ -290,7 +279,7 @@ public class FXMLDocumentController implements Initializable {
             selectedTool.onMouseReleased(event);
         }
     }
-
+    
     @FXML
     private void changeFillColor(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeFillColor(fillColorPicker.getValue());
@@ -357,17 +346,21 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void setNewWidth(KeyEvent event) {
-        String width = widthTextField.getText(), height = heightTextField.getText();
-        if (event.getCode() == KeyCode.ENTER && validateSize(width) && validateSize(height)) {
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape((Double.parseDouble(width)), Double.parseDouble(height));
-        } else if (event.getCode() == KeyCode.ENTER) {
-            errorLabelSize.setManaged(true);
-            errorLabelSize.setVisible(true);
-        }
+        resizeSelectedShape(event);
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
+        resizeSelectedShape(event);
+    }
+    
+    /**
+     * This method is a utility method to resize the selected shape acoording to
+     * the input inserted by the user.
+     * 
+     * @param event 
+     */
+    private void resizeSelectedShape(KeyEvent event){
         String width = widthTextField.getText(), height = heightTextField.getText();
         if (event.getCode() == KeyCode.ENTER && validateSize(width) && validateSize(height)) {
             SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape((Double.parseDouble(width)), Double.parseDouble(height));

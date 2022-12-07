@@ -84,6 +84,14 @@
                               <Tooltip text="Add Ellipse" />
                            </tooltip>
                         </RadioButton>
+                        <RadioButton fx:id="addPolygonButton" layoutX="225.0" layoutY="10.0" mnemonicParsing="false" onAction="#addPolygon" prefHeight="44.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
+                           <graphic>
+                              <SVGPath content="M7.685 1.545a.5.5 0 0 1 .63 0l6.263 5.088a.5.5 0 0 1 .161.539l-2.362 7.479a.5.5 0 0 1-.476.349H4.099a.5.5 0 0 1-.476-.35L1.26 7.173a.5.5 0 0 1 .161-.54l6.263-5.087Zm8.213 5.28a.5.5 0 0 0-.162-.54L8.316.257a.5.5 0 0 0-.631 0L.264 6.286a.5.5 0 0 0-.162.538l2.788 8.827a.5.5 0 0 0 .476.349h9.268a.5.5 0 0 0 .476-.35l2.788-8.826Z" scaleX="1.5" scaleY="1.5" strokeLineCap="ROUND" strokeType="OUTSIDE" />
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Add Polygon" />
+                           </tooltip>
+                        </RadioButton>
                         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
                            <children>
                               <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="ALWAYS">

@@ -118,7 +118,6 @@ public class PolygonToolTest {
         System.out.println("onMouseReleased");
         t.onMousePressed(pressEvent);
         double width = testShape.getPoints().get(2), height = testShape.getPoints().get(3);
-    
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(paper, paper, width,height));
         testEndOfEdge(testShape,width,height);
     }
