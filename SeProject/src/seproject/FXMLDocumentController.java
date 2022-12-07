@@ -48,6 +48,7 @@ import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.SelectionTool;
+import seproject.tools.TextTool;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -115,13 +116,14 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+    @FXML
+    private RadioButton addTextButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-
         contextMenuInit();
 
         for (Node child : toolBar.getItems()) {
@@ -246,6 +248,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addEllipses(ActionEvent event) {
         selectedTool = new EllipseTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+    }
+    
+    @FXML
+    private void addText(ActionEvent event) {
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
     @FXML
@@ -377,5 +384,4 @@ public class FXMLDocumentController implements Initializable {
         }
         return true;
     }
-
 }
