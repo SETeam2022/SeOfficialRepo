@@ -133,6 +133,14 @@ public class PolygonToolTest {
         assertEquals(expected.getStroke(), actual.getStroke());
     }
     
+    /**
+     * Utility method to check if the coordinates of the last release or drag 
+     * event correspond to the expected ones.
+     * 
+     * @param actual
+     * @param width
+     * @param height 
+     */
     private void testEndOfEdge(Polyline actual, double width, double height){
         Node node = paper.getChildren().get(0);
         assertTrue(node instanceof Polyline);
