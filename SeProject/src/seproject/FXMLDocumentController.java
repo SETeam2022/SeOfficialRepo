@@ -32,9 +32,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
@@ -115,12 +118,19 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+    @FXML
+    private ToggleButton gridButton;
+    @FXML
+    private Spinner<Integer> gridSpinner;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
+        
+        //Stepper initialization
+        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));
 
         contextMenuInit();
 
@@ -178,16 +188,17 @@ public class FXMLDocumentController implements Initializable {
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-
-        drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
-        drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
-
-        Group g = new Group(drawingPane);
+        
+        DrawingArea g = new DrawingArea(drawingPane);
+        g.getChildren().get(0).scaleXProperty().bind(zoomSlider.valueProperty());
+        g.getChildren().get(0).scaleYProperty().bind(zoomSlider.valueProperty());
+        
         g.maxWidth(Screen.getMainScreen().getWidth());
         g.maxHeight(Screen.getMainScreen().getHeight());
+        
         g.requestLayout();
-
-        drawingPane.setClip(new Rectangle (0,0, drawingPane.getPrefWidth(),drawingPane.getPrefHeight()));
+        //drawingPane.setClip(new Rectangle (0,0, drawingPane.getPrefWidth(),drawingPane.getPrefHeight()));
+       
         
         scrollPane.setContent(g);
     }
@@ -376,6 +387,11 @@ public class FXMLDocumentController implements Initializable {
             return false;
         }
         return true;
+    }
+
+    @FXML
+    private void addGrid(ActionEvent event) {
+        System.out.println("Aggiungo una griglia");
     }
 
 }
