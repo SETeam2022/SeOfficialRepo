@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -20,7 +21,7 @@ import javafx.stage.Screen;
  * draw, one of the principal aim of the drawing area is the management of the grid
  * that is in overlay with the drawing.
  */
-public class DrawingArea extends Group {
+public class DrawingArea extends Pane {
     
     
     private static final double CONV_FACTOR =  37.7952755906; // 1cm =  37.7952755906 pixels
@@ -29,12 +30,11 @@ public class DrawingArea extends Group {
     private Group grid;
     private Group containerOfPaperAndGrid;
     
-    private static DrawingArea d = null;
-    
     /**
      * Create an isstance of the Drawing Area
      */
     public DrawingArea(){
+        this.paper = new Pane();
         this.grid = makeGrid(1);
         this.containerOfPaperAndGrid = new Group(paper,grid);
         super.getChildren().add(containerOfPaperAndGrid);
@@ -83,13 +83,6 @@ public class DrawingArea extends Group {
        Line l = new Line(0,y,paper.getPrefWidth(),y);
        l.setStroke(new Color(0,0,0,0.5));
        return l;
-    }
-    
-    public static DrawingArea getIstance(){
-        if (d == null){
-            d = new DrawingArea();
-        }
-        return d;
     }
     
 }

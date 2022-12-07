@@ -71,8 +71,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private RadioButton addEllipsesButton;
     @FXML
-    private Pane drawingPane;
-    @FXML
     private ToolBar toolBar;
     @FXML
     private ToggleGroup g1;
@@ -123,12 +121,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Spinner<Integer> gridSpinner;
     
-    
-    private DrawingArea g;
+    @FXML
+    private DrawingArea drawingPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DrawingArea.paper = drawingPane;
+        
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
@@ -194,24 +192,23 @@ public class FXMLDocumentController implements Initializable {
         zoomSlider.setMax(MAX_ZOOM);
         
         /*Grid initialization*/
-        gridButton.selectedProperty().setValue(false);
-        g = DrawingArea.getIstance();
-        g.getChildren().get(0).scaleXProperty().bind(zoomSlider.valueProperty());
-        g.getChildren().get(0).scaleYProperty().bind(zoomSlider.valueProperty());
+        gridButton.selectedProperty().setValue(false);;
+        drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
+        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
         
-        g.maxWidth(Screen.getMainScreen().getWidth());
-        g.maxHeight(Screen.getMainScreen().getHeight());
+        drawingPane.maxWidth(Screen.getMainScreen().getWidth());
+        drawingPane.maxHeight(Screen.getMainScreen().getHeight());
         
-        g.requestLayout();
+        drawingPane.requestLayout();
         //drawingPane.setClip(new Rectangle (0,0, drawingPane.getPrefWidth(),drawingPane.getPrefHeight()));
         
         gridSpinner.getValueFactory().valueProperty().addListener(change->{
-            g.redrawGrid(gridSpinner.getValue());
+            drawingPane.redrawGrid(gridSpinner.getValue());
         });
         
        
         
-        scrollPane.setContent(g);
+        scrollPane.setContent(drawingPane);
     }
 
     @FXML
@@ -247,6 +244,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
+        //selectedTool.selectedProperty.setValue(false);
         selectedTool = new SelectionTool(drawingPane);
     }
 
@@ -402,7 +400,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addGrid(ActionEvent event) {
-       g.showGrid(!gridButton.selectedProperty().getValue());
+       drawingPane.showGrid(!gridButton.selectedProperty().getValue());
     }
 
 }

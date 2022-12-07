@@ -19,8 +19,8 @@ public class SelectionTool extends Tool {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
         this.shapeHasBeenDragged = false;
-        this.scaleX = DrawingArea.getIstance().getContainerOfPaperAndGrid().getScaleX();
-        this.scaleY = DrawingArea.getIstance().getContainerOfPaperAndGrid().getScaleY();
+        this.scaleX = 1; //DrawingArea.getIstance().getContainerOfPaperAndGrid().getScaleX();
+        this.scaleY = 1; //DrawingArea.getIstance().getContainerOfPaperAndGrid().getScaleY();
     }
 
     /**
