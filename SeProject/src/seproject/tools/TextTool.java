@@ -1,17 +1,13 @@
 package seproject.tools;
 
 import static java.lang.Math.abs;
-import java.util.ArrayList;
 import javafx.beans.property.ObjectProperty;
-import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
-import seproject.SeProject;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
@@ -30,9 +26,8 @@ public class TextTool extends DrawingTool {
     @Override
     public void onMousePressed(MouseEvent event) {
         if (tempTextArea != null) {
-            Invoker.getInvoker().executeCommand(new DrawShapeCommand(popTextFromTextArea(), paper));
+            deselect();
         }
-        System.out.println("ciao");
         rStartX = event.getX();
         rStartY = event.getY();
         tempRectangle = createTempRectangle(rStartX, rStartY);
@@ -78,18 +73,15 @@ public class TextTool extends DrawingTool {
             if (newValue) {
                 return;
             }
-            Text text = popTextFromTextArea();
-            if (text != null) {
-                Invoker.getInvoker().executeCommand(new DrawShapeCommand(text, paper));
-            }
             deselect();
 
         });
 
     }
-    
+
     /**
-     * Remove the temporary textArea  and rectangle created for inserting the text
+     * Remove the temporary textArea and rectangle created for inserting the
+     * text
      */
     @Override
     public void deselect() {
@@ -98,6 +90,9 @@ public class TextTool extends DrawingTool {
             tempRectangle = null;
         }
         if (tempTextArea != null) {
+            if (!tempTextArea.getText().trim().equals("")) {
+                Invoker.getInvoker().executeCommand(new DrawShapeCommand(popTextFromTextArea(), paper));
+            }
             paper.getChildren().remove(tempTextArea);
             tempTextArea = null;
         }
@@ -142,6 +137,5 @@ public class TextTool extends DrawingTool {
         tempRectangle = null;
         return textArea;
     }
-
 
 }
