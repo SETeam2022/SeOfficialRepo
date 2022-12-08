@@ -44,7 +44,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
@@ -79,31 +78,36 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
-    
     @FXML
     private Button undoButton;
-    
     @FXML
     private TextField widthTextField;
-    
     @FXML
     private TextField heightTextField;
-    
     @FXML
     private ToolBar sideBar;
-    
     @FXML
     private Label errorLabelSize;
-    
     @FXML
     private Slider zoomSlider;
-    
     @FXML
     private ScrollPane scrollPane; 
     @FXML
     private RadioButton addTextButton;
     @FXML
     private RadioButton addPolygonButton;
+    @FXML
+    private Label errorLabelRotation;
+    @FXML
+    private TextField rotationTextField;
+    @FXML
+    private Button leftRotationButton;
+    @FXML
+    private Button rightRotationButton;
+    @FXML
+    private ToggleButton gridButton;
+    @FXML
+    private Spinner<Integer> gridSpinner;
 
     private final static double MAX_SIZE = 10000;
 
@@ -128,16 +132,9 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
-    
-    @FXML
-    private ToggleButton gridButton;
-    @FXML
-    private Spinner<Integer> gridSpinner;
    
     private DrawingArea drawingPane;
-    
-    private DrawingArea g;
-
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -161,9 +158,7 @@ public class FXMLDocumentController implements Initializable {
         gridSpinner.getValueFactory().valueProperty().addListener(change->{
             drawingPane.redrawGrid(gridSpinner.getValue());
         });
-        
-        
-        
+
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
@@ -224,13 +219,16 @@ public class FXMLDocumentController implements Initializable {
             return null;
         };
 
-        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter); 
+        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter), 
+                tfRotation = new TextFormatter(doubleFilter);
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
+        rotationTextField.setTextFormatter(tfRotation);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
+        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
         
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
@@ -402,6 +400,39 @@ public class FXMLDocumentController implements Initializable {
     private void setNewHeight(KeyEvent event) {
         resizeSelectedShape(event);
     }
+    
+    @FXML
+    private void leftRotationAction(ActionEvent event) {
+        if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
+        }
+        return;
+    }
+
+    @FXML
+    private void rightRotationAction(ActionEvent event) {
+        if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
+        }
+        return;
+    }
+
+    @FXML
+    private void addGrid(ActionEvent event) {
+       drawingPane.showGrid(!gridButton.selectedProperty().getValue());
+    }
 
     /**
      * This method is a utility method to resize the selected shape acoording to
@@ -439,36 +470,6 @@ public class FXMLDocumentController implements Initializable {
         return true;
     }
 
-    @FXML
-    private void addGrid(ActionEvent event) {
-       drawingPane.showGrid(!gridButton.selectedProperty().getValue());
-    }
-    
-    
-    /*
-    private void clickOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            contextMenu.hide();
-            selectedTool.onMousePressed(event);
-            System.out.println("Agisco!");
-        } else if (event.isSecondaryButtonDown()) {
-            contextMenu.show(drawingPane.getPaper(), event.getScreenX(), event.getScreenY());
-        }
-    }
-
-
-    private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            selectedTool.onMouseDragged(event);
-        }
-    }
-    
-    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY)) {
-            selectedTool.onMouseReleased(event);
-        }
-    }*/
-    
     private void initDrawingArea(){
         
         drawingPane.getPaper().setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -502,5 +503,4 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
-
 }

@@ -59,6 +59,7 @@ public class TranslationCommandTest {
     
     @Test
     public void testExecuteWithZoomedPane(){
+        System.out.println("executeWithZoomedPane");
         paper.setScaleX(50);
         paper.setScaleY(50);
         cmd = new TranslationCommand(testShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),eventX,eventY);
