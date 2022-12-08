@@ -341,7 +341,7 @@ public class FXMLDocumentController implements Initializable {
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
     }
-
+    
     private void contextMenuInit() {
 
         this.contextMenu = new ContextMenu();
