@@ -10,6 +10,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
@@ -241,7 +242,10 @@
             <center>
                 <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <content>
-                        <Pane fx:id="drawingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDraggedOnDrawingPane" onMousePressed="#clickOnDrawingPane" onMouseReleased="#onMouseReleasedOnDrawingPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;" />
+                        <Pane fx:id="drawingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDraggedOnDrawingPane" onMousePressed="#clickOnDrawingPane" onMouseReleased="#onMouseReleasedOnDrawingPane" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: white;">
+                     <children>
+                        <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" visible="false" wrapText="true" />
+                     </children></Pane>
                     </content>
                 </ScrollPane>
             </center>

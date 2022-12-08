@@ -19,7 +19,6 @@ public class TextEditor implements ShapeEditor {
 
     @Override
     public void setHeight(Shape shape, double height) {
-        
     }
 
     @Override
@@ -35,9 +34,9 @@ public class TextEditor implements ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Text original = (Text) shape;
-        Text clone = new Text(original.getX(),original.getY(),original.getText());
+        Text clone = new Text(original.getX(), original.getY(), original.getText());
         clone.setWrappingWidth(original.getWrappingWidth());
         return clone;
     }
-    
+
 }

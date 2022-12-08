@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
@@ -32,6 +31,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -122,6 +122,8 @@ public class FXMLDocumentController implements Initializable {
     private RadioButton addTextButton;
     @FXML
     private RadioButton addPolygonButton;
+    @FXML
+    private TextArea textArea;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -157,7 +159,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });*/
-        /*
+ /*
         addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -169,14 +171,13 @@ public class FXMLDocumentController implements Initializable {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if(newValue == false){
+                    if (newValue == false) {
                         SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                         selectedTool.deselect();
                     }
                 }
             });
         }
-        
 
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
@@ -277,10 +278,13 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addText(ActionEvent event) {
-        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty(),
+                textArea.textProperty(), textArea.prefWidthProperty(), textArea.prefHeightProperty(),
+                textArea.visibleProperty(), textArea.focusedProperty(), textArea.layoutXProperty(),
+                textArea.layoutYProperty());
 
     }
-    
+
     @FXML
     private void addPolygon(ActionEvent event) {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
