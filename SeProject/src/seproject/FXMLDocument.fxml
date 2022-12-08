@@ -204,7 +204,7 @@
                                             </children>
                                         </HBox>
                                         <Label fx:id="errorLabelSize" layoutX="54.0" layoutY="83.0" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" />
-                              <VBox prefHeight="129.0" prefWidth="230.0">
+                              <VBox prefHeight="111.0" prefWidth="230.0">
                                  <children>
                                     <HBox prefHeight="28.0" prefWidth="230.0">
                                        <children>
@@ -212,11 +212,11 @@
                                           <Label text="Right Rotation" translateX="70.0" />
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="51.0" prefWidth="230.0">
+                                    <HBox prefHeight="33.0" prefWidth="230.0">
                                        <children>
                                           <Button fx:id="leftRotationButton" mnemonicParsing="false" onAction="#leftRotationAction" translateX="30.0">
                                              <graphic>
-                                                <SVGPath content="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" scaleX="1.5" scaleY="1.5"  />
+                                                <SVGPath content="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
                                           </Button>
                                           <Button fx:id="rightRotationButton" mnemonicParsing="false" onAction="#rightRotationAction" translateX="120.0">
@@ -226,10 +226,34 @@
                                           </Button>
                                        </children>
                                     </HBox>
-                                    <TextField fx:id="rotationTextField" maxWidth="70.0" translateX="80.0" />
-                                    <Label fx:id="errorLabelRotation" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" visible="false" />
+                                    <TextField fx:id="rotationTextField" maxWidth="70.0" translateX="72.0" />
+                                    <Label fx:id="errorLabelRotation" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" translateY="5.0" visible="false" />
                                  </children>
                               </VBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label text="Mirror vertical" translateX="10.0" />
+                                          <Button fx:id="mirrorVerticalButton" mnemonicParsing="false" onAction="#mirrorVerticalAction" translateX="30.0" translateY="10.0">
+                                             <graphic>
+                                                <SVGPath content="M7 2.5a.5.5 0 0 0-.939-.24l-6 11A.5.5 0 0 0 .5 14h6a.5.5 0 0 0 .5-.5v-11zm2.376-.484a.5.5 0 0 1 .563.245l6 11A.5.5 0 0 1 15.5 14h-6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .376-.484zM10 4.46V13h4.658L10 4.46z" scaleX="1.5" scaleY="1.5" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" translateX="20.0">
+                                       <children>
+                                          <Label text="Mirror horizontal" translateX="10.0" />
+                                          <Button fx:id="mirrorHorizontalButton" mnemonicParsing="false" onAction="#mirrorHorizontalAction" translateX="30.0" translateY="10.0">
+                                             <graphic>
+                                                <SVGPath content="M13.5 7a.5.5 0 0 0 .24-.939l-11-6A.5.5 0 0 0 2 .5v6a.5.5 0 0 0 .5.5h11zm.485 2.376a.5.5 0 0 1-.246.563l-11 6A.5.5 0 0 1 2 15.5v-6a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .485.376zM11.539 10H3v4.658L11.54 10z" scaleX="1.5" scaleY="1.5" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
                                     </children>
                                     <padding>
                                         <Insets left="8.0" top="10.0" />
@@ -279,7 +303,7 @@
                 </AnchorPane>
             </bottom>
             <center>
-                <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+                <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
             </center>
         </BorderPane>
     </children>

@@ -82,13 +82,21 @@ public class PolygonEditor implements ShapeEditor {
     }
 
     /**
-     * 
+     * This method allow to clone the polygon and return the polyline cloned.
      * @param shape
-     * @return 
+     * @return Shape
      */
     @Override
     public Shape clone(Shape shape) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Polyline original = (Polyline) shape;
+        Polyline clone = new Polyline();
+        double height = this.getHeight(original);
+        double width = this.getWidth(original);
+        clone.getPoints().setAll(original.getPoints());
+        clone.setStroke(original.getStroke());
+        clone.setStrokeWidth(original.getStrokeWidth());
+        clone.setFill(original.getFill());
+        return clone;   
     }
     
     /**

@@ -109,7 +109,7 @@ public class TextToolTest {
 
         Rectangle expectedRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
         Rectangle actualRectangle = (Rectangle) paper.getChildren().get(1);
-        System.out.println(actualRectangle);
+        
         assertEquals(expectedRectangle.getX(), actualRectangle.getX(), TOLLERANCE);
         assertEquals(expectedRectangle.getY(), actualRectangle.getY(), TOLLERANCE);
         assertEquals(expectedRectangle.getWidth(), actualRectangle.getWidth(), TOLLERANCE);
