@@ -39,8 +39,6 @@ public class SelectedShapeManager {
 
     private Shape copiedShape = null;
 
-    private Overlay overlay;
-
     private int incrementCopy = 0;
 
     private SelectedShapeManager() {
@@ -102,7 +100,6 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
         ssm.selectedShape = null;
     }
@@ -152,9 +149,6 @@ public class SelectedShapeManager {
         }
 
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
-
-        /* TODO: I have to delete the shape from the map too */
-        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         ssm.selectedShape = null;
         ssm.shapeIsSelectedProperty.setValue(false);
 
@@ -227,7 +221,6 @@ public class SelectedShapeManager {
             return;
         }
         incrementCopy += 10;
-        Bounds paperBounds = paper.getLayoutBounds();
         Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
         clone.relocate(copiedShape.getBoundsInParent().getMinX() + incrementCopy, copiedShape.getBoundsInParent().getMinY() + incrementCopy);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
@@ -263,10 +256,7 @@ public class SelectedShapeManager {
         }
         Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape, width, height));
     }
-
-
-    /*--------------------------------------------------------------------OVERLAY-----------------------------------------------------*/
-
+    
     /* -------------------------------------------------------------- ROTATION --------------------------------------------------------------*/
     /**
      * This method allow to rotate the shape due to param
@@ -282,9 +272,7 @@ public class SelectedShapeManager {
     /* -------------------------------------------------------------- MIRRORING --------------------------------------------------------------*/
     
     /**
-     * This method allow to mirrorVerticalShape the shape due to param
-     * @param 
-     */
+     * This method allow to mirrorVerticalShape the shape due to param     */
     public void mirrorVerticalShape(){
         if (selectedShape == null){
             return;
@@ -293,9 +281,7 @@ public class SelectedShapeManager {
     }
     
     /**
-     * This method allow to mirrorHorizontalShape the shape due to param
-     * @param 
-     */
+     * This method allow to mirrorHorizontalShape the shape due to param     */
     public void mirrorHorizontalShape(){
         if (selectedShape == null){
             return;

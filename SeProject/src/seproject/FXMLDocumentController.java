@@ -274,8 +274,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ereaseShape(ActionEvent event) {
-        selectedTool.deselect();
         SelectedShapeManager.getSelectedShapeManager().deleteSelectedShape();
+        selectedTool.deselect();
     }
 
     @FXML
@@ -428,7 +428,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addGrid(ActionEvent event) {
-       drawingPane.showGrid(!gridButton.selectedProperty().getValue());
+       drawingPane.showGrid(gridButton.selectedProperty().getValue());
     }
 
     /**
