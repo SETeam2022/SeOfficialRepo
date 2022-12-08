@@ -15,21 +15,15 @@ public class TextTool extends DrawingTool {
 
     private final static double MIN_RECTANLGE_AREA = 150; // The minimum area of rectangle that will be transformed in TextArea.
     private final static double MIN_RECTANLGE_WIDTH = 50; // The minimum width of rectangle that will be transformed in TextArea.
-    private Rectangle tempRectangle;
-    private double rStartX, rStartY;
-    private TextArea tempTextArea;
 
-    private Text text;
+    private TextArea tempTextArea;
+    private Rectangle tempRectangle;
+    private Text shape;
+
+    private double rStartX, rStartY;
 
     public TextTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
-        this.tempTextArea = new TextArea();
-        this.tempTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                return;
-            }
-            deselect();
-        });
     }
 
     @Override
@@ -68,7 +62,8 @@ public class TextTool extends DrawingTool {
             paper.getChildren().remove(tempRectangle);
             return;
         }
-        paper.getChildren().add(createTextAreaFromRectangle());
+        createTextAreaFromRectangle();
+        paper.getChildren().add(this.tempTextArea);
     }
 
     /**
@@ -77,20 +72,24 @@ public class TextTool extends DrawingTool {
      */
     @Override
     public void deselect() {
-        if (text != null) {
-            text.strokeProperty().unbind();
-            text = null;
+        if (shape != null) {
+            shape.strokeProperty().unbind();
+            shape = null;
         }
         if (tempRectangle != null) {
             paper.getChildren().remove(tempRectangle);
             tempRectangle = null;
         }
-        
+
+        if (tempTextArea == null) {
+            return;
+        }
+
         if (!tempTextArea.textProperty().get().trim().equals("")) {
             Invoker.getInvoker().executeCommand(new DrawShapeCommand(popTextFromTextArea(), paper));
         }
-        paper.getChildren().remove(tempTextArea);
-
+        paper.getChildren().remove(this.tempTextArea);
+        tempTextArea = null;
     }
 
     private Rectangle createTempRectangle(double x, double y) {
@@ -102,24 +101,29 @@ public class TextTool extends DrawingTool {
     }
 
     private Text popTextFromTextArea() {
-        text = new Text(rStartX, rStartY, tempTextArea.textProperty().get().trim());
-        text.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
-        return text;
+        shape = new Text(rStartX, rStartY, tempTextArea.textProperty().get().trim());
+        shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
+        return shape;
     }
 
     // WARNING: YOU CANNOT CALL THIS METHOD IN A DIFFERENT METHOD FROM: "onMouseReleased(MouseEvent event)". IT MAY CAUSE BUGS IN DURING RECTANGLE ADDING.
-    private TextArea createTextAreaFromRectangle() {
+    private void createTextAreaFromRectangle() {
         if (tempRectangle == null) {
-            return null;
+            return;
         }
-        TextArea newTextArea = new TextArea();
+        this.tempTextArea = new TextArea();
         rStartX = tempRectangle.getX();
         rStartY = tempRectangle.getY();
-        newTextArea.relocate(rStartX, rStartY);
-        newTextArea.prefWidth(tempRectangle.getWidth());
-        newTextArea.prefHeight(tempRectangle.getHeight());
+        this.tempTextArea.relocate(rStartX, rStartY);
+        this.tempTextArea.prefWidthProperty().set(tempRectangle.getWidth());
+        this.tempTextArea.prefHeightProperty().set(tempRectangle.getHeight());
         paper.getChildren().remove(tempRectangle);
         tempRectangle = null;
-        return newTextArea;
+        tempTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                return;
+            }
+            deselect();
+        });
     }
 }
