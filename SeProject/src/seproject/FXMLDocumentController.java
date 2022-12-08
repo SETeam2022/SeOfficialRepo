@@ -499,7 +499,12 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
-    
+    /**
+     * This method allow to control the textField's text and label is 
+     * the error's label.
+     * @param label
+     * @return 
+     */
     private UnaryOperator<Change> controlTextField(Label label){
         UnaryOperator<Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
@@ -514,12 +519,20 @@ public class FXMLDocumentController implements Initializable {
         };
         return doubleFilter;
     }
-
+    
+    /**
+     * The method allow to shape's vertical mirroring
+     * @param event 
+     */
     @FXML
     private void mirrorVerticalAction(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
     }
-
+    
+    /**
+     * The method allow to shape's horizontal mirroring
+     * @param event 
+     */
     @FXML
     private void mirrorHorizontalAction(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();

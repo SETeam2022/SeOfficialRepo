@@ -20,11 +20,17 @@ public class MirrorVerticalCommand implements Command{
         this.prevScale = this.shape.getScaleX();
     }
     
+    /**
+     * This method execute the shape's vertical mirroring.
+     */
     @Override
     public void execute() {
         shape.setScaleX(prevScale*-1);
     }
 
+    /**
+     * This method allow to do "undo" the shape's horizontal mirroring.
+     */
     @Override
     public void undo() {
         shape.setScaleX(prevScale);
