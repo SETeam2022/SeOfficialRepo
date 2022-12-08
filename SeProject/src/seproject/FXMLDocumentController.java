@@ -47,6 +47,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -122,16 +123,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label errorLabelRotation;
     @FXML
-    private RadioButton leftRotationButton;
-    @FXML
+    private Button leftRotationButton;
     private TextField leftRotationTextField;
     @FXML
-    private RadioButton rightRotationButton;
+    private Button rightRotationButton;
     @FXML
-    private TextField rightRotationTextField;
-    private RadioButton addTextButton;
-    @FXML
-    private RadioButton addPolygonButton;
+    private TextField rotationTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -210,33 +207,22 @@ public class FXMLDocumentController implements Initializable {
             errorLabelSize.setVisible(true);
             return null;
         };
-        UnaryOperator<Change> doubleFilterRotation = changeRotation -> {
-            String newText = changeRotation.getControlNewText();
-            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
-                errorLabelRotation.setManaged(false);
-                errorLabelRotation.setVisible(false);
-                return changeRotation;
-            }
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-            return null;
-        };
 
         TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter), 
-                tfLeftRotation = new TextFormatter(doubleFilterRotation), tfRightRotation = new TextFormatter(doubleFilterRotation);
+                tfRotation = new TextFormatter(doubleFilter);
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
-        leftRotationTextField.setTextFormatter(tfLeftRotation);
-        rightRotationTextField.setTextFormatter(tfRightRotation);
+        rotationTextField.setTextFormatter(tfRotation);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
         errorLabelRotation.setManaged(false);
         errorLabelRotation.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(leftRotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getLeftRotationProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(rightRotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRightRotationProperty(), new NumberStringConverter(df));
+        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
 
+        
+        
         /* errorLabelRotation input validation */
         
         
@@ -460,40 +446,31 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void leftRotationAction(ActionEvent event) {
-        
-    }
-
-    @FXML
-    private void setNewLeftRotation(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER && leftRotationButton.isSelected() && !validateSize(leftRotationTextField.getText())){
+        if (!validateSize(rotationTextField.getText())){
             errorLabelRotation.setManaged(true);
             errorLabelRotation.setVisible(true);
-            return;
-        }else if(event.getCode() == KeyCode.ENTER && leftRotationButton.isSelected()){
+        }else{
             errorLabelRotation.setVisible(false);
             errorLabelRotation.setManaged(false);
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(-1*Double.parseDouble(leftRotationTextField.getText()));
-            return;
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
         }
         return;
     }
 
     @FXML
     private void rightRotationButton(ActionEvent event) {
-    }
-
-    @FXML
-    private void setNewRightRotation(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER && rightRotationButton.isSelected() && !validateSize(leftRotationTextField.getText())){
+        if (!validateSize(rotationTextField.getText())){
             errorLabelRotation.setManaged(true);
             errorLabelRotation.setVisible(true);
-            return;
-        }else if(event.getCode() == KeyCode.ENTER && rightRotationButton.isSelected()){
+        }else{
             errorLabelRotation.setVisible(false);
             errorLabelRotation.setManaged(false);
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rightRotationTextField.getText()));
-            return;
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
         }
         return;
     }
+
+
 }

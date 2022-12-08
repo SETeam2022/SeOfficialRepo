@@ -394,40 +394,33 @@
                                  </children>
                               </HBox>
                               <Label fx:id="errorLabelSize" layoutX="54.0" layoutY="83.0" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" />
-                              <VBox prefHeight="102.0" prefWidth="230.0">
+                              <VBox prefHeight="124.0" prefWidth="230.0">
                                  <children>
-                                    <HBox prefHeight="70.0" prefWidth="214.0">
+                                    <HBox prefHeight="65.0" prefWidth="230.0">
                                        <children>
-                                          <VBox prefHeight="69.0" prefWidth="100.0">
-                                             <children>
-                                                <RadioButton fx:id="leftRotationButton" mnemonicParsing="false" onAction="#leftRotationAction" translateX="35.0">
-                                                   <graphic>
-                                                      <SVGPath content="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" scaleX="1.5" scaleY="1.5" />
-                                                   </graphic>
-                                                </RadioButton>
-                                                <TextField fx:id="leftRotationTextField" maxWidth="-Infinity" onKeyPressed="#setNewLeftRotation" prefHeight="25.0" prefWidth="70.0" translateX="15.0" translateY="10.0">
-                                                   <tooltip>
-                                                      <Tooltip text="Insert the rotation" />
-                                                   </tooltip>
-                                                </TextField>
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <RadioButton fx:id="rightRotationButton" mnemonicParsing="false" onAction="#rightRotationButton" translateX="35.0">
-                                                   <graphic>
-                                                      <SVGPath content="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" scaleX="1.5" scaleY="1.5"   />
-                                                   </graphic>
-                                                </RadioButton>
-                                                <TextField fx:id="rightRotationTextField" maxWidth="-Infinity" onKeyPressed="#setNewRightRotation" prefHeight="25.0" prefWidth="70.0" translateX="15.0" translateY="10.0">
-                                                   <tooltip>
-                                                      <Tooltip text="Insert the rotation" />
-                                                   </tooltip>
-                                                </TextField>
-                                             </children>
-                                          </VBox>
+                                          <Label text="Left Rotation" translateX="10.0" />
+                                          <Label text="Right Rotation" translateX="60.0" />
                                        </children>
                                     </HBox>
+                                    <HBox prefHeight="124.0" prefWidth="230.0" translateY="10.0">
+                                       <children>
+                                          <Button fx:id="leftRotationButton" mnemonicParsing="false" onAction="#leftRotationAction" translateX="30.0" translateY="10.0">
+                                             <graphic>
+                                                <SVGPath content="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="rightRotationButton" mnemonicParsing="false" onAction="#rightRotationButton" translateX="125.0" translateY="10.0">
+                                             <graphic>
+                                                <SVGPath content="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="rotationTextField" maxWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" translateX="75.0">
+                                       <tooltip>
+                                          <Tooltip text="Insert the rotation" />
+                                       </tooltip>
+                                    </TextField>
                                     <Label fx:id="errorLabelRotation" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" visible="false" />
                                  </children>
                               </VBox>
