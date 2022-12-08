@@ -1,15 +1,13 @@
 package seproject.tools;
 
-import editor.PolygonEditor;
+import seproject.Overlay;
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import seproject.DrawingArea;
 import seproject.commands.ChangeFillColorCommand;
@@ -89,9 +87,6 @@ public class SelectedShapeManager {
      */
     public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
-
-        overlay = new Overlay();
-        paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
 
         ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
         ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
@@ -272,33 +267,7 @@ public class SelectedShapeManager {
 
 
     /*--------------------------------------------------------------------OVERLAY-----------------------------------------------------*/
-    /**
-     * This class represents the overlay shown when a shape is selected, that is
-     * a selection box.
-     *
-     */
-    private class Overlay extends Rectangle {
 
-        private Overlay() {
-            updateOverlay(selectedShape.getBoundsInParent());
-            setMouseTransparent(true);
-            setFill(Color.TRANSPARENT);
-            setStroke(Color.CORNFLOWERBLUE);
-            setStrokeWidth(3);
-            getStrokeDashArray().addAll(3.0, 5.0);
-            selectedShape.boundsInParentProperty().addListener((ObservableValue<? extends Bounds> ov, Bounds t, Bounds t1) -> {
-                updateOverlay(t1);
-            });
-        }
-
-        private void updateOverlay(Bounds t1) {
-            setX(t1.getMinX());
-            setY(t1.getMinY());
-            setWidth(t1.getWidth());
-            setHeight(t1.getHeight());
-        }
-    }
-    
     /* -------------------------------------------------------------- ROTATION --------------------------------------------------------------*/
     /**
      * This method allow to rotate the shape due to param
