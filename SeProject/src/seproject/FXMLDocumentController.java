@@ -481,12 +481,9 @@ public class FXMLDocumentController implements Initializable {
                 if (event.isPrimaryButtonDown()) {
                     contextMenu.hide();
                     selectedTool.onMousePressed(event);
-                    System.out.println("Agisco!");
                 } else if (event.isSecondaryButtonDown()) {
                     contextMenu.show(drawingPane, event.getScreenX(), event.getScreenY());
-                    System.out.println("Passo almeno qui");
                 }
-                System.out.println("Almeno mi attivo");
             }
         });
         
