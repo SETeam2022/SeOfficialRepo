@@ -3,10 +3,6 @@ package editor;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
-/**
- *
- * @author alewi
- */
 public class TextEditor implements ShapeEditor {
 
     public TextEditor() {

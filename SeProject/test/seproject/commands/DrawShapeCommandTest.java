@@ -1,11 +1,14 @@
 package seproject.commands;
 
+import java.security.SecureRandom;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.DrawingArea;
+import seproject.TestConstants;
 
 public class DrawShapeCommandTest {
 
@@ -14,6 +17,10 @@ public class DrawShapeCommandTest {
     private Shape testShape;
 
     private DrawShapeCommand com;
+    
+    private SecureRandom random;
+    
+    private DrawingArea dw;
 
     public DrawShapeCommandTest() {
     }
@@ -24,9 +31,11 @@ public class DrawShapeCommandTest {
      */
     @Before
     public void setUp() {
-        paper = new Pane();
+        this.random = new SecureRandom();
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
         testShape = new Rectangle();
-        com = new DrawShapeCommand(testShape, paper);
+        com = new DrawShapeCommand(testShape, dw);
     }
 
     /**

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package seproject;
 
 import javafx.scene.Group;
@@ -14,10 +10,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author teodo
- */
 public class DrawingAreaTest {
     
     DrawingArea d;
@@ -56,11 +48,11 @@ public class DrawingAreaTest {
     @Test
     public void testShowGrid() {
         System.out.println("showGrid");
-        boolean val = false;
+        /*boolean val = false;
         DrawingArea instance = null;
         instance.showGrid(val);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
 
     /**
@@ -69,12 +61,12 @@ public class DrawingAreaTest {
     @Test
     public void testGetContainerOfPaperAndGrid() {
         System.out.println("getContainerOfPaperAndGrid");
-        DrawingArea instance = null;
+        /*DrawingArea instance = null;
         Group expResult = null;
         Group result = instance.getContainerOfPaperAndGrid();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
 
     /**
@@ -83,12 +75,12 @@ public class DrawingAreaTest {
     @Test
     public void testGetPaper() {
         System.out.println("getPaper");
-        DrawingArea instance = null;
+        /*DrawingArea instance = null;
         Pane expResult = null;
         Pane result = instance.getPaper();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
 
     /**
@@ -97,11 +89,11 @@ public class DrawingAreaTest {
     @Test
     public void testSetPaperWidth() {
         System.out.println("setPaperWidth");
-        double width = 0.0;
+        /*double width = 0.0;
         DrawingArea instance = null;
         instance.setPaperWidth(width);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
 
     /**
@@ -110,11 +102,11 @@ public class DrawingAreaTest {
     @Test
     public void testSetPaperHeight() {
         System.out.println("setPaperHeight");
-        double height = 0.0;
+        /*double height = 0.0;
         DrawingArea instance = null;
         instance.setPaperHeight(height);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
 
     /**
@@ -123,11 +115,11 @@ public class DrawingAreaTest {
     @Test
     public void testAddShape() {
         System.out.println("addShape");
-        Shape shape = null;
+        /*Shape shape = null;
         DrawingArea instance = null;
         instance.addShape(shape);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
 
     /**
@@ -136,11 +128,11 @@ public class DrawingAreaTest {
     @Test
     public void testRemoveShape() {
         System.out.println("removeShape");
-        Shape shape = null;
+        /*Shape shape = null;
         DrawingArea instance = null;
         instance.removeShape(shape);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The test case is a prototype.");*/
     }
     
 }
