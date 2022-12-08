@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.DrawingArea;
 import seproject.TestConstants;
 import seproject.tools.SelectedShapeManager;
 
@@ -22,6 +23,7 @@ public class BringToFrontCommandTest {
     private Ellipse ell;
     private Line line;
     private BringToFrontCommand cmdRect, cmdLine, cmdEll;
+    private DrawingArea dw;
 
     /**
      * This method instances a new pane and a series of shapes which will be used during the 
@@ -30,11 +32,12 @@ public class BringToFrontCommandTest {
     @Before
     public void setUp() {
         this.random = new SecureRandom();
-        this.paper = new Pane();
+        dw = new DrawingArea(1920,1080);
+        paper = dw.getPaper();
         this.rect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         this.ell = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        SelectedShapeManager.setSelectedShapeManagerPaper(this.paper);
+        SelectedShapeManager.setSelectedShapeManagerPaper(this.dw);
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
     }
 
@@ -74,7 +77,7 @@ public class BringToFrontCommandTest {
      * simulating the classic utilization flow of a user.
      */
     private void insertAndBringToFront() {
-        this.paper.getChildren().clear();
+        //this.paper.getChildren().clear();
         
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);
@@ -101,7 +104,7 @@ public class BringToFrontCommandTest {
      */
     private BringToFrontCommand createCommandAndExecute(Shape s, BringToFrontCommand cmd) {
         SelectedShapeManager.getSelectedShapeManager().setSelectedShape(s);
-        cmd = new BringToFrontCommand(s, this.paper);
+        cmd = new BringToFrontCommand(s, this.dw);
         cmd.execute();
         return cmd;
     }
