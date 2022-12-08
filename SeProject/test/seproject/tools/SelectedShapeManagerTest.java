@@ -277,5 +277,12 @@ public class SelectedShapeManagerTest {
         assertEquals(expectedHeight, se.getHeight(testShape3), 0);
         assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
-
+    
+    @Test
+    public void testRotationShape(){
+        System.out.println("rotationShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.rotationShape(45.0);
+        assertEquals(45,selectedShapeManager.getSelectedShape().getRotate(),0);
+    }
 }
