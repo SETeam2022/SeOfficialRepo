@@ -47,6 +47,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -129,6 +130,14 @@ public class FXMLDocumentController implements Initializable {
 
     private FileManager fm;
     
+    @FXML
+    private Label errorLabelRotation;
+    @FXML
+    private TextField rotationTextField;
+    @FXML
+    private Button leftRotationButton;
+    @FXML
+    private Button rightRotationButton;
     @FXML
     private ToggleButton gridButton;
     @FXML
@@ -224,13 +233,21 @@ public class FXMLDocumentController implements Initializable {
             return null;
         };
 
-        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter); 
+        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter), 
+                tfRotation = new TextFormatter(doubleFilter);
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
+        rotationTextField.setTextFormatter(tfRotation);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
+        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
+
+        
+        
+        /* errorLabelRotation input validation */
+        
         
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
@@ -440,34 +457,37 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
+    private void leftRotationAction(ActionEvent event) {
+        if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
+        }
+        return;
+    }
+
+    @FXML
+    private void rightRotationAction(ActionEvent event) {
+        if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
+        }
+        return;
+    }
+
+    @FXML
     private void addGrid(ActionEvent event) {
        drawingPane.showGrid(!gridButton.selectedProperty().getValue());
     }
-    
-    
-    /*
-    private void clickOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            contextMenu.hide();
-            selectedTool.onMousePressed(event);
-            System.out.println("Agisco!");
-        } else if (event.isSecondaryButtonDown()) {
-            contextMenu.show(drawingPane.getPaper(), event.getScreenX(), event.getScreenY());
-        }
-    }
-
-
-    private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            selectedTool.onMouseDragged(event);
-        }
-    }
-    
-    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY)) {
-            selectedTool.onMouseReleased(event);
-        }
-    }*/
     
     private void initDrawingArea(){
         

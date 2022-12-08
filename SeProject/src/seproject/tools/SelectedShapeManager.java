@@ -27,7 +27,7 @@ public class SelectedShapeManager {
 
     private Shape selectedShape = null;
 
-    private final DoubleProperty widthProperty, heightProperty, leftRotationProperty, rightRotationProperty;
+    private final DoubleProperty widthProperty, heightProperty,rotationProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
 
@@ -47,8 +47,7 @@ public class SelectedShapeManager {
 
         this.widthProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
-        this.leftRotationProperty = new SimpleDoubleProperty();
-        this.rightRotationProperty = new SimpleDoubleProperty();
+        this.rotationProperty = new SimpleDoubleProperty();
         this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
         this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
 
@@ -95,8 +94,7 @@ public class SelectedShapeManager {
 
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
-        ssm.leftRotationProperty.setValue(360-ssm.getSelectedShape().getRotate());
-        ssm.rightRotationProperty.setValue(ssm.getSelectedShape().getRotate());
+        ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
     }
@@ -139,12 +137,8 @@ public class SelectedShapeManager {
         return ssm.heightProperty;
     }
     
-    public DoubleProperty getLeftRotationProperty(){
-        return ssm.leftRotationProperty;
-    }
-    
-    public DoubleProperty getRightRotationProperty(){
-        return ssm.rightRotationProperty;
+    public DoubleProperty getRotationProperty(){
+        return ssm.rotationProperty;
     }
 
     /**
