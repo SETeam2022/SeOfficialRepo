@@ -94,6 +94,7 @@ public class SelectionTool extends Tool {
     @Override
     public void deselect() {
         if (selectedShape == null) return;
+        manager.unsetSelectedShape();
         paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
     }
     
