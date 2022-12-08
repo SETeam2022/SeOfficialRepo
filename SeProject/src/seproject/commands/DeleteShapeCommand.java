@@ -2,6 +2,7 @@ package seproject.commands;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
+import seproject.DrawingArea;
 
 /**
  * An object of this class represent the action of deleteing a shape from the
@@ -11,7 +12,7 @@ import javafx.scene.shape.Shape;
 public class DeleteShapeCommand implements Command {
 
     private final Shape shape;
-    private final Pane paper;
+    private final DrawingArea paper;
 
     /**
      * Create a DeleteShapeCommand
@@ -19,7 +20,7 @@ public class DeleteShapeCommand implements Command {
      * @param shape the shape that will be deleted
      * @param paper the pane on witch the shape is rendered
      */
-    public DeleteShapeCommand(Shape shape, Pane paper) {
+    public DeleteShapeCommand(Shape shape, DrawingArea paper) {
         this.shape = shape;
         this.paper = paper;
     }
@@ -29,7 +30,7 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void execute() {
-        paper.getChildren().remove(shape);
+        paper.removeShape(shape);
 
     }
 
@@ -38,7 +39,7 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        paper.getChildren().add(shape);
+        paper.addShape(shape);
     }
 
 }

@@ -20,6 +20,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -120,19 +121,38 @@ public class FXMLDocumentController implements Initializable {
     private ToggleButton gridButton;
     @FXML
     private Spinner<Integer> gridSpinner;
-    
-    @FXML
+   
     private DrawingArea drawingPane;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        /*Grid initialization*/
+        
+        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));
+        
+        gridButton.selectedProperty().setValue(false);
+        
+        drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
+        
+        initDrawingArea();
+       
+        scrollPane.setContent(drawingPane);
+        
+        drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
+        
+        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
+        
+        gridSpinner.getValueFactory().valueProperty().addListener(change->{
+            drawingPane.redrawGrid(gridSpinner.getValue());
+        });
+        
+        
         
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-        
-        //Stepper initialization
-        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));
 
         contextMenuInit();
 
@@ -143,7 +163,7 @@ public class FXMLDocumentController implements Initializable {
             }
         }
 
-        fm = new FileManager(drawingPane);
+        fm = new FileManager(drawingPane.getPaper());
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
 
         /* Default color picker values */
@@ -191,25 +211,7 @@ public class FXMLDocumentController implements Initializable {
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
         
-        /*Grid initialization*/
-        gridButton.selectedProperty().setValue(false);;
-        drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
-        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
-        
-        drawingPane.maxWidth(Screen.getMainScreen().getWidth());
-        drawingPane.maxHeight(Screen.getMainScreen().getHeight());
-        
-        drawingPane.requestLayout();
-        //drawingPane.setClip(new Rectangle (0,0, drawingPane.getPrefWidth(),drawingPane.getPrefHeight()));
-        
-        gridSpinner.getValueFactory().valueProperty().addListener(change->{
-            drawingPane.redrawGrid(gridSpinner.getValue());
-        });
-        
-       
-        
-        scrollPane.setContent(drawingPane);
-    }
+}
 
     @FXML
     private void saveDrawing(ActionEvent event) {
@@ -266,30 +268,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addEllipses(ActionEvent event) {
         selectedTool = new EllipseTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
-    }
-
-    @FXML
-    private void clickOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            contextMenu.hide();
-            selectedTool.onMousePressed(event);
-        } else if (event.isSecondaryButtonDown()) {
-            contextMenu.show(drawingPane, event.getScreenX(), event.getScreenY());
-        }
-    }
-
-    @FXML
-    private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            selectedTool.onMouseDragged(event);
-        }
-    }
-
-    @FXML
-    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY)) {
-            selectedTool.onMouseReleased(event);
-        }
     }
 
     @FXML
@@ -402,5 +380,67 @@ public class FXMLDocumentController implements Initializable {
     private void addGrid(ActionEvent event) {
        drawingPane.showGrid(!gridButton.selectedProperty().getValue());
     }
+    
+    
+    /*
+    private void clickOnDrawingPane(MouseEvent event) {
+        if (event.isPrimaryButtonDown()) {
+            contextMenu.hide();
+            selectedTool.onMousePressed(event);
+            System.out.println("Agisco!");
+        } else if (event.isSecondaryButtonDown()) {
+            contextMenu.show(drawingPane.getPaper(), event.getScreenX(), event.getScreenY());
+        }
+    }
+
+
+    private void onMouseDraggedOnDrawingPane(MouseEvent event) {
+        if (event.isPrimaryButtonDown()) {
+            selectedTool.onMouseDragged(event);
+        }
+    }
+    
+    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            selectedTool.onMouseReleased(event);
+        }
+    }*/
+    
+    private void initDrawingArea(){
+        
+        drawingPane.getPaper().setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown()) {
+                    contextMenu.hide();
+                    selectedTool.onMousePressed(event);
+                    System.out.println("Agisco!");
+                } else if (event.isSecondaryButtonDown()) {
+                    contextMenu.show(drawingPane, event.getScreenX(), event.getScreenY());
+                    System.out.println("Passo almeno qui");
+                }
+                System.out.println("Almeno mi attivo");
+            }
+        });
+        
+        drawingPane.getPaper().setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown()) {
+                    selectedTool.onMouseDragged(event);
+                }
+            }
+        });
+        
+        drawingPane.getPaper().setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    selectedTool.onMouseReleased(event);
+                }
+            }
+        });
+    }
+    
 
 }
