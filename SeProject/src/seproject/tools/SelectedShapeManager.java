@@ -1,5 +1,7 @@
 package seproject.tools;
 
+import editor.PolygonEditor;
+import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -91,8 +93,9 @@ public class SelectedShapeManager {
         overlay = new Overlay();
         paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
 
-        ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
-        ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
+        ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
+        ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
+        ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
         ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;

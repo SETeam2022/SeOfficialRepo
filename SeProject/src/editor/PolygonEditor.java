@@ -38,18 +38,22 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public void setHeight(Shape shape, double height) {
+        System.out.println("height: " + height + "old height" + getHeight(shape));
         
-        /*Polyline polygon = (Polyline) shape;
+        Polyline polygon = (Polyline) shape;
         double minY = getMin(polygon.getPoints(),1),
                maxY = getMax(polygon.getPoints(), 1);
+        System.out.println("min: " + minY + " max: " + maxY);
         
         for (int i=1; i < polygon.getPoints().size(); i+=2){
             double currentY = polygon.getPoints().get(i);
             if(currentY != minY){
+                double oldY = currentY;
                 currentY = height*((currentY-minY)/(maxY-minY))+minY;
+                System.out.println("---i: " + i + " minY: " + minY + " oldWidth " + maxY + " oldValue: " + oldY + " newValue: " + currentY);
                 polygon.getPoints().set(i, currentY);
             }
-        }*/
+        }
         
     }
 
@@ -63,7 +67,6 @@ public class PolygonEditor implements ShapeEditor {
         Polyline polygon = (Polyline) shape;
         double minX = getMin(polygon.getPoints(), 0), maxX = getMax(polygon.getPoints(), 0);
         return Math.abs(Math.abs(maxX) - Math.abs(minX));
-        // return polygon.getLayoutBounds().getWidth();
     }
 
     /**
@@ -76,7 +79,6 @@ public class PolygonEditor implements ShapeEditor {
         Polyline polygon = (Polyline) shape;
         double minY = getMin(polygon.getPoints(), 1), maxY = getMax(polygon.getPoints(), 1);
         return Math.abs(Math.abs(maxY) - Math.abs(minY));
-        //return polygon.getLayoutBounds().getHeight();
     }
 
     /**
