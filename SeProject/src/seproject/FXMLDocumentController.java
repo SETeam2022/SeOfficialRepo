@@ -134,6 +134,10 @@ public class FXMLDocumentController implements Initializable {
     private FileManager fm;
    
     private DrawingArea drawingPane;
+    @FXML
+    private Button mirrorVerticalButton;
+    @FXML
+    private Button mirrorHorizontalButton;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -292,7 +296,6 @@ public class FXMLDocumentController implements Initializable {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
-    @FXML
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             contextMenu.hide();
@@ -302,14 +305,12 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             selectedTool.onMouseDragged(event);
         }
     }
 
-    @FXML
     private void onMouseReleasedOnDrawingPane(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             selectedTool.onMouseReleased(event);
@@ -506,6 +507,16 @@ public class FXMLDocumentController implements Initializable {
             return null;
         };
         return doubleFilter;
+    }
+
+    @FXML
+    private void mirrorVerticalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
+    }
+
+    @FXML
+    private void mirrorHorizontalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
     }
     
 }

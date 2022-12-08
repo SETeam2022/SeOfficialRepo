@@ -277,6 +277,9 @@ public class SelectedShapeManagerTest {
         assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
     
+    /**
+     * Test of the RotationShape method, of class SelectedShapeManager.
+     */
     @Test
     public void testRotationShape(){
         System.out.println("rotationShape");
@@ -284,4 +287,29 @@ public class SelectedShapeManagerTest {
         selectedShapeManager.rotationShape(45.0);
         assertEquals(45,selectedShapeManager.getSelectedShape().getRotate(),0);
     }
+    
+    /**
+     * Test of the MirrorVerticalShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testMirrorVerticalShape(){
+        System.out.println("mirrorVerticalShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        double prevMirroring = selectedShapeManager.getSelectedShape().getScaleX();
+        selectedShapeManager.mirrorVerticalShape();
+        assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleX(),0);
+    }
+    
+    /**
+     * Test of the MirrorHorizontalShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testMirrorHorizontalShape(){
+        System.out.println("mirrorHorizontalShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        double prevMirroring = selectedShapeManager.getSelectedShape().getScaleY();
+        selectedShapeManager.mirrorHorizontalShape();
+        assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleY(),0);
+    }
+    
 }

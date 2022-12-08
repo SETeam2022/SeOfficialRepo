@@ -307,4 +307,20 @@ public class SelectedShapeManager {
         }
         Invoker.getInvoker().executeCommand(new RotationCommand(value, selectedShape));
     }
+    
+    /* -------------------------------------------------------------- MIRRORING --------------------------------------------------------------*/
+    
+    public void mirrorVerticalShape(){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new MirrorVerticalCommand(selectedShape));
+    }
+    
+    public void mirrorHorizontalShape(){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new MirrorHorizontalCommand(selectedShape));
+    }
 }
