@@ -148,22 +148,6 @@ public class FXMLDocumentController implements Initializable {
 
         /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
-        /*
-        selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
-                if (!Objects.equals(newVal, oldVal) && newVal == false) {
-                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-                }
-            }
-        });*/
-        /*
-        addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                selectedTool.deselect();
-            } 
-        });*/
 
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -177,7 +161,6 @@ public class FXMLDocumentController implements Initializable {
             });
         }
         
-
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
 
