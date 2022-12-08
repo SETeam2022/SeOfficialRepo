@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -11,17 +12,20 @@ import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.DrawingArea;
 import seproject.EventGenerator;
+import seproject.TestConstants;
 
 public class LineToolTest {
 
     private Pane paper;
     private Line testShape;
-
+    private DrawingArea dw;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private LineTool t;
     private MouseEvent clickOnBlankPaper;
+    private SecureRandom random;
     public LineToolTest() {
     }
 
@@ -31,16 +35,17 @@ public class LineToolTest {
      */
     @Before
     public void setUp() {
-
+        this.random = new SecureRandom();
         testShape = new Line(443, 308, 471, 308);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
-        paper = new Pane();
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        t = new LineTool(paper, borderColorProperty, fillColorProperty);
+        t = new LineTool(dw, borderColorProperty, fillColorProperty);
         clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getStartX(), testShape.getStartY());
     }
 

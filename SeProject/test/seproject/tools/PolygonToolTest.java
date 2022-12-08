@@ -13,6 +13,7 @@ import javafx.scene.shape.Polyline;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.DrawingArea;
 import seproject.EventGenerator;
 import seproject.TestConstants;
 
@@ -23,6 +24,7 @@ import seproject.TestConstants;
 public class PolygonToolTest {
     
     private Pane paper;
+    private DrawingArea dw;
     private Polyline testShape;
     private PolygonTool t;
     private ObjectProperty<Color> borderColorProperty;
@@ -48,6 +50,8 @@ public class PolygonToolTest {
         paper = new Pane();
         
         this.random = new SecureRandom();
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
         
         testShape = new Polyline();
         coordinates = new ArrayList <> ();
@@ -56,8 +60,7 @@ public class PolygonToolTest {
                 coordinates.add(random.nextDouble() + TestConstants.DELTA);
             }else{
                 coordinates.add(random.nextDouble());
-            }
-            
+            }  
         }
         
         testShape.getPoints().addAll(coordinates);
@@ -69,7 +72,7 @@ public class PolygonToolTest {
         borderColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.VIOLET);
         
-        t = new PolygonTool(paper, borderColorProperty, fillColorProperty);
+        t = new PolygonTool(dw, borderColorProperty, fillColorProperty);
         pressEvent = EventGenerator.PrimaryButtonMouseDrag(paper,paper,coordinates.get(0), coordinates.get(1));
     }
 

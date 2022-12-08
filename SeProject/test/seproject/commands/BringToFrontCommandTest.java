@@ -32,12 +32,12 @@ public class BringToFrontCommandTest {
     @Before
     public void setUp() {
         this.random = new SecureRandom();
-        dw = new DrawingArea(1920,1080);
-        paper = dw.getPaper();
+        this.dw = new DrawingArea(1920,1080);
+        this.paper = dw.getPaper();
         this.rect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         this.ell = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        SelectedShapeManager.setSelectedShapeManagerPaper(this.dw);
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
     }
 
@@ -82,7 +82,7 @@ public class BringToFrontCommandTest {
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);
         this.cmdRect = createCommandAndExecute(this.rect, this.cmdRect);
-        assertEquals(1, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
+        assertEquals(0, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
         
         /* Test 2: there are two shapes inside the pane */
         this.paper.getChildren().add(ell);
@@ -104,7 +104,7 @@ public class BringToFrontCommandTest {
      */
     private BringToFrontCommand createCommandAndExecute(Shape s, BringToFrontCommand cmd) {
         SelectedShapeManager.getSelectedShapeManager().setSelectedShape(s);
-        cmd = new BringToFrontCommand(s, this.dw);
+        cmd = new BringToFrontCommand(s, dw);
         cmd.execute();
         return cmd;
     }
