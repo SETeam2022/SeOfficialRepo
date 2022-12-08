@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -148,11 +149,16 @@ public class FXMLDocumentController implements Initializable {
         drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
         
         initDrawingArea();
+        
+        /*
+        * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
+        *        scrollbars of the scrollpane becames sensibile.
+        */
+        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
        
-        scrollPane.setContent(drawingPane);
+        scrollPane.setContent(makeingDrawingPaneZoomSensitive);
         
         drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
-        
         drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
         
         gridSpinner.getValueFactory().valueProperty().addListener(change->{
