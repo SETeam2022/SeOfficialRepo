@@ -202,7 +202,7 @@ public class FXMLDocumentController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (newValue == false) {
-                        SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
+                        //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                         selectedTool.deselect();
                     }
                 }
@@ -270,6 +270,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ereaseShape(ActionEvent event) {
+        selectedTool.deselect();
         SelectedShapeManager.getSelectedShapeManager().deleteSelectedShape();
     }
 

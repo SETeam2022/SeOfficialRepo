@@ -23,6 +23,7 @@ public class DrawingArea extends Pane {
     private static final double CONV_FACTOR =  37.7952755906; // 1cm =  37.7952755906 pixels
     
     private  Pane paper;
+    
     private Group grid;
     
     private Group containerOfPaperAndGrid;
@@ -34,14 +35,15 @@ public class DrawingArea extends Pane {
      */
     public DrawingArea(double width, double height){
         super.setPrefSize(width, height);
-        this.paper = new Pane();
+        paper = new Pane();
         paper.setId("paper");
         paper.setPrefSize(width, height);
-        this.grid = makeGrid(1);
+        grid = makeGrid(1);
         grid.setVisible(false);
-        this.containerOfPaperAndGrid = new Group(paper,grid);    
-        super.getChildren().add(containerOfPaperAndGrid);
+        containerOfPaperAndGrid = new Group(paper,grid);
         containerOfPaperAndGrid.setClip(new Rectangle (0,0, width,height));
+        super.getChildren().add(containerOfPaperAndGrid);
+        
     }
     
     /**
