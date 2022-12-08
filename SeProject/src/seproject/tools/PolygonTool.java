@@ -92,7 +92,11 @@ public class PolygonTool extends DrawingTool {
         }
     }
     
-    /* Check if the last polygon before changing tool has been completed */
+    /**
+     * This method will be called when the user discards this tool in favor of 
+     * another one. In this case the shape (if not yet completed) has to be 
+     * closed.
+     */
     @Override    
     public void deselect() {
         
@@ -106,7 +110,6 @@ public class PolygonTool extends DrawingTool {
         
     }
     
-
     /**
      * This is a utility method which, given the start and end coordinates, and
      * a fixed DELTA, checks whether the two points can be considered the same
