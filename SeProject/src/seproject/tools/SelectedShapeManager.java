@@ -1,14 +1,10 @@
 package seproject.tools;
 
-import seproject.Overlay;
 import editor.ShapeEditorFactory;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import seproject.DrawingArea;
 import seproject.commands.ChangeFillColorCommand;

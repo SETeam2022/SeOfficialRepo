@@ -67,11 +67,11 @@ public class TextToolTest {
     public void testOnMousePressed() {
         System.out.println("onMousePressed");
         t.onMousePressed(pressEvent);
-        int expectedValue = 2;
-        int actualValue = paper.getChildren().size();
+        int expectedValue = 1;
+        int actualValue = paper.getPaper().getChildren().size();
         assertEquals(expectedValue, actualValue);
         Class<?> expectedClass = Rectangle.class;
-        Class<?> actualClass = paper.getChildren().get(1).getClass();
+        Class<?> actualClass = paper.getPaper().getChildren().get(0).getClass();
         assertEquals(expectedClass, actualClass);
     }
 
@@ -87,8 +87,8 @@ public class TextToolTest {
         System.out.println("onMousePressed2");
         t.onMousePressed(pressEvent);
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), pressEvent.getX(), pressEvent.getY()));
-        int expectedValue = 1;
-        int actualValue = paper.getChildren().size();
+        int expectedValue = 0;
+        int actualValue = paper.getPaper().getChildren().size();
         assertEquals(expectedValue, actualValue);
     }
 
@@ -108,8 +108,8 @@ public class TextToolTest {
         t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
 
         Rectangle expectedRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
-        Rectangle actualRectangle = (Rectangle) paper.getChildren().get(1);
-        
+        Rectangle actualRectangle = (Rectangle) paper.getPaper().getChildren().get(0);
+
         assertEquals(expectedRectangle.getX(), actualRectangle.getX(), TOLLERANCE);
         assertEquals(expectedRectangle.getY(), actualRectangle.getY(), TOLLERANCE);
         assertEquals(expectedRectangle.getWidth(), actualRectangle.getWidth(), TOLLERANCE);

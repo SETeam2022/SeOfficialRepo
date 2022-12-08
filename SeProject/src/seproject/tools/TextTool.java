@@ -111,7 +111,7 @@ public class TextTool extends DrawingTool {
         this.tempRectangle.getStrokeDashArray().addAll(2d, 3d);
         this.tempRectangle.setFill(Color.TRANSPARENT);
         this.tempRectangle.setStroke(Color.GREY);
-        paper.getChildren().add(this.tempRectangle);
+        paper.addShape(this.tempRectangle);
     }
 
     private void drawTextFromTextArea() {
@@ -150,14 +150,14 @@ public class TextTool extends DrawingTool {
             }
             deselect();
         });
-        paper.getChildren().add(this.tempTextArea);
+        paper.getContainerOfPaperAndGrid().getChildren().add(this.tempTextArea);
     }
 
     private void unSetRectangle() {
         if (this.tempRectangle == null) {
             return;
         }
-        paper.getChildren().remove(tempRectangle);
+        paper.removeShape(tempRectangle);
         tempRectangle = null;
     }
 
@@ -165,7 +165,7 @@ public class TextTool extends DrawingTool {
         if (this.tempTextArea == null) {
             return;
         }
-        paper.getChildren().remove(this.tempTextArea);
+        paper.getContainerOfPaperAndGrid().getChildren().remove(this.tempTextArea);
         tempTextArea = null;
     }
 

@@ -10,7 +10,7 @@ import seproject.commands.*;
 import seproject.*;
 
 public class SelectionTool extends Tool {
-
+    
     private final SelectedShapeManager manager;
     private double startX, startY, offsetX, offsetY;
     private boolean shapeHasBeenDragged;
@@ -20,13 +20,13 @@ public class SelectionTool extends Tool {
     
     private SimpleDoubleProperty scaleX;
     private SimpleDoubleProperty scaleY;
-
+    
     public SelectionTool(DrawingArea paper) {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
         this.shapeHasBeenDragged = false;
         this.scaleX = new SimpleDoubleProperty();
-        this.scaleY = new SimpleDoubleProperty(); 
+        this.scaleY = new SimpleDoubleProperty();        
         this.scaleX.bind(paper.getContainerOfPaperAndGrid().scaleXProperty());
         this.scaleY.bind(paper.getContainerOfPaperAndGrid().scaleYProperty());
     }
@@ -42,23 +42,25 @@ public class SelectionTool extends Tool {
         //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
         Object eventNode = event.getTarget();
         if (eventNode instanceof Shape) {
-                Shape tmp = (Shape) eventNode;      
-                if(selectedShape== null|| !selectedShape.equals(tmp)){
-                    deselect();
-                    selectedShape = tmp;
-                    overlay = new Overlay(selectedShape);
-                    paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
-                    manager.setSelectedShape(selectedShape);
-                    overlay.toFront();
-                    System.out.println("Sono un overlay");
-                }
-                startX = selectedShape.getTranslateX(); 
-                startY = selectedShape.getTranslateY(); 
-                offsetX = event.getSceneX()/scaleX.getValue() - selectedShape.getTranslateX();
-                offsetY = event.getSceneY()/scaleY.getValue()- selectedShape.getTranslateY();
+            Shape tmp = (Shape) eventNode;            
+            if (selectedShape == null || !selectedShape.equals(tmp)) {
+                deselect();
+                selectedShape = tmp;
+                overlay = new Overlay(selectedShape);
+                paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
+                manager.getShapeIsSelectedProperty().addListener((cl, oldValue, newValue) -> {
+                    if (!newValue && overlay != null) {
+                        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
+                    }
+                });
+                manager.setSelectedShape(selectedShape);
+            }
+            startX = selectedShape.getTranslateX();            
+            startY = selectedShape.getTranslateY();            
+            offsetX = event.getSceneX() / scaleX.getValue() - selectedShape.getTranslateX();
+            offsetY = event.getSceneY() / scaleY.getValue() - selectedShape.getTranslateY();
         } else {
-            deselect();
-            selectedShape = null;
+            deselect();            
         }
     }
 
@@ -73,32 +75,35 @@ public class SelectionTool extends Tool {
     public void onMouseDragged(MouseEvent event) {
         //Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            selectedShape.setTranslateX(event.getSceneX()/scaleX.getValue() - offsetX);
-            selectedShape.setTranslateY(event.getSceneY()/scaleY.getValue() - offsetY);
+            selectedShape.setTranslateX(event.getSceneX() / scaleX.getValue() - offsetX);
+            selectedShape.setTranslateY(event.getSceneY() / scaleY.getValue() - offsetY);
             shapeHasBeenDragged = true;
         }
     }
 
     /**
-     * This function will be called after the release of the mouse primary button
-     * if the shape has been dragged a new TraslationCommand will be created in order to
-     * register its older position.
+     * This function will be called after the release of the mouse primary
+     * button if the shape has been dragged a new TraslationCommand will be
+     * created in order to register its older position.
+     *
      * @param event is the event that generated the call to this method
      */
     @Override
     public void onMouseReleased(MouseEvent event) {
         if (selectedShape != null && shapeHasBeenDragged) {
-            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY,scaleX.getValue(),scaleY.getValue(),event.getSceneX(),event.getSceneY()));
+            Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY, scaleX.getValue(), scaleY.getValue(), event.getSceneX(), event.getSceneY()));
         }
         shapeHasBeenDragged = false;
     }
-
+    
     @Override
     public void deselect() {
-        if (selectedShape == null) return;
+        if (selectedShape == null) {
+            return;
+        }
         manager.unsetSelectedShape();
         paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
+        selectedShape = null;
     }
-    
     
 }
