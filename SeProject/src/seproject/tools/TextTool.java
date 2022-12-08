@@ -79,6 +79,14 @@ public class TextTool extends DrawingTool {
         tempRectangle.setHeight(newHeight);
     }
 
+    /**
+     *
+     * If the guide Rectangle is null or does not reach the minimum size
+     * requirements for instantiating a TextArea, the Tool is reset. Otherwise,
+     * a TextArea will be instantiated.
+     *
+     * @param event
+     */
     @Override
     public void onMouseReleased(MouseEvent event) {
         if (tempRectangle == null || tempRectangle.getWidth() <= MIN_RECTANLGE_WIDTH || (tempRectangle.getWidth() * tempRectangle.getHeight()) <= MIN_RECTANLGE_AREA) {
