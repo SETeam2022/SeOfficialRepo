@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
@@ -102,7 +100,11 @@ public class FXMLDocumentController implements Initializable {
     private Slider zoomSlider;
     
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane scrollPane; 
+    @FXML
+    private RadioButton addTextButton;
+    @FXML
+    private RadioButton addPolygonButton;
 
     private final static double MAX_SIZE = 10000;
 
@@ -128,20 +130,8 @@ public class FXMLDocumentController implements Initializable {
 
     private FileManager fm;
     @FXML
-    private Label errorLabelRotation;
-    @FXML
-    private RadioButton leftRotationButton;
-    @FXML
-    private TextField leftRotationTextField;
-    @FXML
-    private RadioButton rightRotationButton;
-    @FXML
-    private TextField rightRotationTextField;
-    private RadioButton addTextButton;
-    @FXML
-    private RadioButton addPolygonButton;
-    @FXML
     private TextArea textArea;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -175,22 +165,6 @@ public class FXMLDocumentController implements Initializable {
 
         /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
-        /*
-        selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
-                if (!Objects.equals(newVal, oldVal) && newVal == false) {
-                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-                }
-            }
-        });*/
- /*
-        addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                selectedTool.deselect();
-            } 
-        });*/
 
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -203,7 +177,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             });
         }
-
+        
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
 
@@ -219,35 +193,14 @@ public class FXMLDocumentController implements Initializable {
             errorLabelSize.setVisible(true);
             return null;
         };
-        UnaryOperator<Change> doubleFilterRotation = changeRotation -> {
-            String newText = changeRotation.getControlNewText();
-            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
-                errorLabelRotation.setManaged(false);
-                errorLabelRotation.setVisible(false);
-                return changeRotation;
-            }
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-            return null;
-        };
 
-        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter), 
-                tfLeftRotation = new TextFormatter(doubleFilterRotation), tfRightRotation = new TextFormatter(doubleFilterRotation);
+        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter); 
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
-        leftRotationTextField.setTextFormatter(tfLeftRotation);
-        rightRotationTextField.setTextFormatter(tfRightRotation);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
-        errorLabelRotation.setManaged(false);
-        errorLabelRotation.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(leftRotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getLeftRotationProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(rightRotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRightRotationProperty(), new NumberStringConverter(df));
-
-        /* errorLabelRotation input validation */
-        
         
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
@@ -467,44 +420,5 @@ public class FXMLDocumentController implements Initializable {
             return false;
         }
         return true;
-    }
-
-    @FXML
-    private void leftRotationAction(ActionEvent event) {
-        
-    }
-
-    @FXML
-    private void setNewLeftRotation(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER && leftRotationButton.isSelected() && !validateSize(leftRotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-            return;
-        }else if(event.getCode() == KeyCode.ENTER && leftRotationButton.isSelected()){
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(-1*Double.parseDouble(leftRotationTextField.getText()));
-            return;
-        }
-        return;
-    }
-
-    @FXML
-    private void rightRotationButton(ActionEvent event) {
-    }
-
-    @FXML
-    private void setNewRightRotation(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER && rightRotationButton.isSelected() && !validateSize(leftRotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-            return;
-        }else if(event.getCode() == KeyCode.ENTER && rightRotationButton.isSelected()){
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rightRotationTextField.getText()));
-            return;
-        }
-        return;
     }
 }

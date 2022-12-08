@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -24,6 +25,7 @@ public class ShapeEditorFactory {
             editors.put(Ellipse.class, new EllipseEditor());
             editors.put(Line.class, new LineEditor());
             editors.put(Text.class, new TextEditor());
+            editors.put(Polyline.class, new PolygonEditor());
     }
 
     /**
