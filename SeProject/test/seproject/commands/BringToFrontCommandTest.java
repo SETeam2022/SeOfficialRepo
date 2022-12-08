@@ -77,7 +77,7 @@ public class BringToFrontCommandTest {
      * simulating the classic utilization flow of a user.
      */
     private void insertAndBringToFront() {
-        this.paper.getChildren().clear();
+        //this.paper.getChildren().clear();
         
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);

@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -148,11 +149,16 @@ public class FXMLDocumentController implements Initializable {
         drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
         
         initDrawingArea();
+        
+        /*
+        * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
+        *        scrollbars of the scrollpane becames sensibile.
+        */
+        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
        
-        scrollPane.setContent(drawingPane);
+        scrollPane.setContent(makeingDrawingPaneZoomSensitive);
         
         drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
-        
         drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
         
         gridSpinner.getValueFactory().valueProperty().addListener(change->{
@@ -207,20 +213,10 @@ public class FXMLDocumentController implements Initializable {
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
 
         /* Text fields' size input validation */
-        UnaryOperator<Change> doubleFilter = change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
-                errorLabelSize.setManaged(false);
-                errorLabelSize.setVisible(false);
-                return change;
-            }
-            errorLabelSize.setManaged(true);
-            errorLabelSize.setVisible(true);
-            return null;
-        };
+        
 
-        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter), 
-                tfRotation = new TextFormatter(doubleFilter);
+        TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)), 
+                tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation));
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
         rotationTextField.setTextFormatter(tfRotation);
@@ -228,7 +224,6 @@ public class FXMLDocumentController implements Initializable {
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
         
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
@@ -501,6 +496,22 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
+    }
+    
+    
+    private UnaryOperator<Change> controlTextField(Label label){
+        UnaryOperator<Change> doubleFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
+                label.setManaged(false);
+                label.setVisible(false);
+                return change;
+            }
+            label.setManaged(true);
+            label.setVisible(true);
+            return null;
+        };
+        return doubleFilter;
     }
     
 }

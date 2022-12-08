@@ -20,7 +20,7 @@ import seproject.TestConstants;
 public class TextToolTest {
 
     private DrawingArea paper;
-    
+
     private TextTool t;
     private ObjectProperty<Color> strokeColorProperty;
     private ObjectProperty<Color> fillColorProperty;

@@ -24,7 +24,7 @@ public class BringToBackCommandTest {
     private Line line;
     private BringToBackCommand cmdRect, cmdLine, cmdEll;
 
-    /**
+    /*
      * This method instances a new pane and a series of shapes which will be used during the 
      * test of the bring to back functionality.
      */
@@ -40,7 +40,7 @@ public class BringToBackCommandTest {
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
     }
 
-    /**
+    /*
      * Test of execute method, of class BringToBackCommand.
      */
     @Test
@@ -49,7 +49,7 @@ public class BringToBackCommandTest {
         insertAndBringToBack();
     }
 
-    /**
+    /*
      * Test of undo method, of class BringToBackCommand.
      */
     @Test
@@ -71,7 +71,7 @@ public class BringToBackCommandTest {
         assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
     }
 
-    /**
+    /*
      * Utility method to insert shapes and perform some bring to back operations on them
      * simulating the classic utilization flow of a user.
      */
@@ -92,7 +92,6 @@ public class BringToBackCommandTest {
         assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.line));
     }
-
     /**
      * This is a utility method to create and execute a command on the given shape.
      * @param s
