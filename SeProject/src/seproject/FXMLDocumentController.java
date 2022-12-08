@@ -82,18 +82,25 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
+    
     @FXML
     private Button undoButton;
+    
     @FXML
     private TextField widthTextField;
+    
     @FXML
     private TextField heightTextField;
+    
     @FXML
     private ToolBar sideBar;
+    
     @FXML
     private Label errorLabelSize;
+    
     @FXML
     private Slider zoomSlider;
+    
     @FXML
     private ScrollPane scrollPane;
 
@@ -321,7 +328,6 @@ public class FXMLDocumentController implements Initializable {
                 textArea.textProperty(), textArea.prefWidthProperty(), textArea.prefHeightProperty(),
                 textArea.visibleProperty(), textArea.focusedProperty(), textArea.layoutXProperty(),
                 textArea.layoutYProperty());
-
     }
 
     @FXML
