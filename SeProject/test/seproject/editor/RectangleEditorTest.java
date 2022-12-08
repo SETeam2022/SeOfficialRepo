@@ -81,7 +81,7 @@ public class RectangleEditorTest {
      *
      * @return true or false
      */
-    private boolean testHeightShape() {
+    boolean testHeightShape() {
         double expectedHeight = random.nextInt(TestConstants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
