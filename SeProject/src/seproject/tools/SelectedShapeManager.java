@@ -154,7 +154,7 @@ public class SelectedShapeManager {
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
 
         /* TODO: I have to delete the shape from the map too */
-        paper.getChildren().remove(overlay);
+        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         ssm.selectedShape = null;
         ssm.shapeIsSelectedProperty.setValue(false);
 
@@ -277,5 +277,29 @@ public class SelectedShapeManager {
             return;
         }
         Invoker.getInvoker().executeCommand(new RotationCommand(value, selectedShape));
+    }
+    
+    /* -------------------------------------------------------------- MIRRORING --------------------------------------------------------------*/
+    
+    /**
+     * This method allow to mirrorVerticalShape the shape due to param
+     * @param 
+     */
+    public void mirrorVerticalShape(){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new MirrorVerticalCommand(selectedShape));
+    }
+    
+    /**
+     * This method allow to mirrorHorizontalShape the shape due to param
+     * @param 
+     */
+    public void mirrorHorizontalShape(){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new MirrorHorizontalCommand(selectedShape));
     }
 }

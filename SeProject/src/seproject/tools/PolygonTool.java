@@ -2,7 +2,6 @@ package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import seproject.DrawingArea;
@@ -24,9 +23,9 @@ public class PolygonTool extends DrawingTool {
      *
      * @param paper is the pane on which the new polygons will be added.
      * @param strokeColorProperty is the associated ObjectProperty of Stroke
-     * Interior Picker's value.
+     * ColorPicker's value.
      * @param fillColorProperty is the associated ObjectProperty of Fill
-     * Interior Picker's value.
+     * ColorPicker's value.
      */
     public PolygonTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
@@ -92,25 +91,27 @@ public class PolygonTool extends DrawingTool {
             polygon.getPoints().set(polygon.getPoints().size() - 1, event.getY());
         }
     }
-    
+
     /**
-     * This method will be called when the user discards this tool in favor of 
-     * another one. In this case the shape (if not yet completed) has to be 
+     * This method will be called when the user discards this tool in favor of
+     * another one. In this case the shape (if not yet completed) has to be
      * closed.
      */
-    @Override    
+    @Override
     public void deselect() {
-        
-        if (polygon == null) return; 
-        
+
+        if (polygon == null) {
+            return;
+        }
+
         double startX = polygon.getPoints().get(0), startY = polygon.getPoints().get(1),
-               endX = polygon.getPoints().get(polygon.getPoints().size()-2), endY = polygon.getPoints().get(polygon.getPoints().size()-1);
-        if (!(startX == endX && startY == endY)){
+                endX = polygon.getPoints().get(polygon.getPoints().size() - 2), endY = polygon.getPoints().get(polygon.getPoints().size() - 1);
+        if (!(startX == endX && startY == endY)) {
             polygon.getPoints().addAll(startX, startY);
         }
-        
+
     }
-    
+
     /**
      * This is a utility method which, given the start and end coordinates, and
      * a fixed DELTA, checks whether the two points can be considered the same

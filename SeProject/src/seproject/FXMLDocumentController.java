@@ -135,6 +135,10 @@ public class FXMLDocumentController implements Initializable {
     private FileManager fm;
    
     private DrawingArea drawingPane;
+    @FXML
+    private Button mirrorVerticalButton;
+    @FXML
+    private Button mirrorHorizontalButton;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -299,7 +303,6 @@ public class FXMLDocumentController implements Initializable {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
-    @FXML
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             contextMenu.hide();
@@ -309,14 +312,12 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             selectedTool.onMouseDragged(event);
         }
     }
 
-    @FXML
     private void onMouseReleasedOnDrawingPane(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             selectedTool.onMouseReleased(event);
@@ -337,7 +338,7 @@ public class FXMLDocumentController implements Initializable {
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
     }
-
+    
     private void contextMenuInit() {
 
         this.contextMenu = new ContextMenu();
@@ -499,7 +500,12 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
-    
+    /**
+     * This method allow to control the textField's text and label is 
+     * the error's label.
+     * @param label
+     * @return 
+     */
     private UnaryOperator<Change> controlTextField(Label label){
         UnaryOperator<Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
@@ -513,6 +519,24 @@ public class FXMLDocumentController implements Initializable {
             return null;
         };
         return doubleFilter;
+    }
+    
+    /**
+     * The method allow to shape's vertical mirroring
+     * @param event 
+     */
+    @FXML
+    private void mirrorVerticalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
+    }
+    
+    /**
+     * The method allow to shape's horizontal mirroring
+     * @param event 
+     */
+    @FXML
+    private void mirrorHorizontalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
     }
     
 }
