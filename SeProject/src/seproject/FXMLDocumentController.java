@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
@@ -33,6 +31,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -82,20 +81,31 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
+    
     @FXML
     private Button undoButton;
+    
     @FXML
     private TextField widthTextField;
+    
     @FXML
     private TextField heightTextField;
+    
     @FXML
     private ToolBar sideBar;
+    
     @FXML
     private Label errorLabelSize;
+    
     @FXML
     private Slider zoomSlider;
+    
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane scrollPane; 
+    @FXML
+    private RadioButton addTextButton;
+    @FXML
+    private RadioButton addPolygonButton;
 
     private final static double MAX_SIZE = 10000;
 
@@ -123,12 +133,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label errorLabelRotation;
     @FXML
+    private TextField rotationTextField;
+    @FXML
+    private TextArea textArea;
+    @FXML
     private Button leftRotationButton;
-    private TextField leftRotationTextField;
     @FXML
     private Button rightRotationButton;
-    @FXML
-    private TextField rotationTextField;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -162,28 +174,12 @@ public class FXMLDocumentController implements Initializable {
 
         /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
-        /*
-        selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
-                if (!Objects.equals(newVal, oldVal) && newVal == false) {
-                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-                }
-            }
-        });*/
-        /*
-        addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                selectedTool.deselect();
-            } 
-        });*/
 
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if(newValue == false){
+                    if (newValue == false) {
                         SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                         selectedTool.deselect();
                     }
@@ -191,7 +187,6 @@ public class FXMLDocumentController implements Initializable {
             });
         }
         
-
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
 
@@ -215,8 +210,6 @@ public class FXMLDocumentController implements Initializable {
         rotationTextField.setTextFormatter(tfRotation);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
-        errorLabelRotation.setManaged(false);
-        errorLabelRotation.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
@@ -301,10 +294,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addText(ActionEvent event) {
-        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
-
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty(),
+                textArea.textProperty(), textArea.prefWidthProperty(), textArea.prefHeightProperty(),
+                textArea.visibleProperty(), textArea.focusedProperty(), textArea.layoutXProperty(),
+                textArea.layoutYProperty());
     }
-    
+
     @FXML
     private void addPolygon(ActionEvent event) {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
@@ -459,7 +454,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void rightRotationButton(ActionEvent event) {
+    private void rightRotationAction(ActionEvent event) {
         if (!validateSize(rotationTextField.getText())){
             errorLabelRotation.setManaged(true);
             errorLabelRotation.setVisible(true);

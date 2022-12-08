@@ -1,8 +1,11 @@
 package seproject.tools;
 
 import static java.lang.Math.abs;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.scene.control.TextArea;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -15,19 +18,40 @@ public class TextTool extends DrawingTool {
 
     private final static double MIN_RECTANLGE_AREA = 150; // The minimum area of rectangle that will be transformed in TextArea.
     private final static double MIN_RECTANLGE_WIDTH = 50; // The minimum width of rectangle that will be transformed in TextArea.
-    private TextArea tempTextArea;
     private Rectangle tempRectangle;
     private double rStartX, rStartY;
+    // Extra properties
+    private final StringProperty textAreaStringProperty;
+    private final DoubleProperty textAreaPrefWidthProperty;
+    private final DoubleProperty textAreaPrefHeightProperty;
+    private final BooleanProperty textAreaVisibleProperty;
+    private final ReadOnlyBooleanProperty textAreaFocusedProperty;
+    private final DoubleProperty textAreaLayoutXProperty;
+    private final DoubleProperty textAreaLayoutYProperty;
+    // 
 
-    public TextTool(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    private Text text;
+
+    public TextTool(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty, StringProperty textAreaStringProperty, DoubleProperty textAreaPrefWidthProperty, DoubleProperty textAreaPrefHeightProperty, BooleanProperty textAreaVisibleProperty, ReadOnlyBooleanProperty textAreaFocusedProperty, DoubleProperty textAreaLayoutXProperty, DoubleProperty textAreaLayoutYProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
+        this.textAreaStringProperty = textAreaStringProperty;
+        this.textAreaPrefHeightProperty = textAreaPrefHeightProperty;
+        this.textAreaPrefWidthProperty = textAreaPrefWidthProperty;
+        this.textAreaVisibleProperty = textAreaVisibleProperty;
+        this.textAreaFocusedProperty = textAreaFocusedProperty;
+        this.textAreaLayoutXProperty = textAreaLayoutXProperty;
+        this.textAreaLayoutYProperty = textAreaLayoutYProperty;
+        this.textAreaFocusedProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                return;
+            }
+            deselect();
+        });
     }
 
     @Override
     public void onMousePressed(MouseEvent event) {
-        if (tempTextArea != null) {
-            deselect();
-        }
+        deselect();
         rStartX = event.getX();
         rStartY = event.getY();
         tempRectangle = createTempRectangle(rStartX, rStartY);
@@ -57,26 +81,11 @@ public class TextTool extends DrawingTool {
         if (tempRectangle == null) {
             return;
         }
-
-        if (tempRectangle.getWidth() <= MIN_RECTANLGE_WIDTH || tempRectangle.computeAreaInScreen() <= MIN_RECTANLGE_AREA) {
+        if (tempRectangle.getWidth() <= MIN_RECTANLGE_WIDTH || (tempRectangle.getWidth() * tempRectangle.getHeight()) <= MIN_RECTANLGE_AREA) {
             paper.getChildren().remove(tempRectangle);
             return;
         }
-
-        tempTextArea = createTextAreaFromRectangle();
-        if (tempTextArea == null) {
-            return;
-        }
-        paper.getChildren().add(tempTextArea);
-
-        tempTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                return;
-            }
-            deselect();
-
-        });
-
+        updateTextAreaFromRectangle();
     }
 
     /**
@@ -85,17 +94,20 @@ public class TextTool extends DrawingTool {
      */
     @Override
     public void deselect() {
+        if (text != null) {
+            text.strokeProperty().unbind();
+            text = null;
+        }
         if (tempRectangle != null) {
             paper.getChildren().remove(tempRectangle);
             tempRectangle = null;
         }
-        if (tempTextArea != null) {
-            if (!tempTextArea.getText().trim().equals("")) {
-                Invoker.getInvoker().executeCommand(new DrawShapeCommand(popTextFromTextArea(), paper));
-            }
-            paper.getChildren().remove(tempTextArea);
-            tempTextArea = null;
+
+        if (!textAreaStringProperty.get().trim().equals("")) {
+            Invoker.getInvoker().executeCommand(new DrawShapeCommand(popTextFromTextArea(), paper));
         }
+        textAreaVisibleProperty.set(false);
+        textAreaStringProperty.set("");
 
     }
 
@@ -108,34 +120,27 @@ public class TextTool extends DrawingTool {
     }
 
     private Text popTextFromTextArea() {
-        if (tempTextArea == null) {
-            return null;
-        }
-        Text text = new Text(rStartX, rStartY, tempTextArea.getText());
-        text.wrappingWidthProperty().set(tempTextArea.getWidth());
-        paper.getChildren().remove(tempTextArea);
-        tempTextArea.deselect();
-        tempTextArea = null;
+        text = new Text(rStartX, rStartY, textAreaStringProperty.get().trim());
+        text.wrappingWidthProperty().set(textAreaPrefWidthProperty.get());
+        textAreaVisibleProperty.set(false);
+        textAreaStringProperty.set("");
         return text;
     }
 
     // WARNING: YOU CANNOT CALL THIS METHOD IN A DIFFERENT METHOD FROM: "onMouseReleased(MouseEvent event)". IT MAY CAUSE BUGS IN DURING RECTANGLE ADDING.
-    private TextArea createTextAreaFromRectangle() {
+    private void updateTextAreaFromRectangle() {
         if (tempRectangle == null) {
-            return null;
+            return;
         }
-        TextArea textArea = new TextArea();
-        textArea.setWrapText(true);
         rStartX = tempRectangle.getX();
         rStartY = tempRectangle.getY();
-        textArea.relocate(rStartX, rStartY);
-
-        textArea.setPrefWidth(tempRectangle.getWidth());
-        textArea.setPrefHeight(tempRectangle.getHeight());
-
+        textAreaLayoutXProperty.set(rStartX);
+        textAreaLayoutYProperty.set(rStartY);
+        textAreaPrefWidthProperty.set(tempRectangle.getWidth());
+        textAreaPrefHeightProperty.set(tempRectangle.getHeight());
+        textAreaVisibleProperty.set(true);
         paper.getChildren().remove(tempRectangle);
         tempRectangle = null;
-        return textArea;
     }
 
 }
