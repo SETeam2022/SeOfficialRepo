@@ -5,11 +5,7 @@
  */
 package seproject;
 
-import java.io.IOException;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -111,5 +107,7 @@ public class DrawingArea extends Pane {
        l.setStroke(new Color(0,0,0,0.5));
        return l;
     }
+    
+    
     
 }
