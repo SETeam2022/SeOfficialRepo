@@ -89,7 +89,7 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
 
         overlay = new Overlay();
-        paper.addShape(overlay);
+        paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
 
         ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
         ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
@@ -105,7 +105,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        paper.removeShape(overlay);
+        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
         ssm.selectedShape = null;
     }
