@@ -9,6 +9,7 @@ import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.DrawingArea;
 import seproject.TestConstants;
 import seproject.tools.SelectedShapeManager;
 
@@ -16,7 +17,7 @@ public class BringToBackCommandTest {
 
     private SelectedShapeManager ssm;
     private SecureRandom random;
-    private Pane paper;
+    private DrawingArea paper;
     private Rectangle rect;
     private Ellipse ell;
     private Line line;
@@ -29,7 +30,7 @@ public class BringToBackCommandTest {
     @Before
     public void setUp() {
         this.random = new SecureRandom();
-        this.paper = new Pane();
+        this.paper = new DrawingArea(1920,1080);
         this.rect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         this.ell = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
@@ -56,16 +57,16 @@ public class BringToBackCommandTest {
         
         /* Test 1: undo of the BringToBackCommand on the line */
         this.cmdLine.undo();
-        assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.ell));
-        assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
+        assertTrue(this.paper.getPaper().getChildren().indexOf(this.line) > this.paper.getPaper().getChildren().indexOf(this.ell));
+        assertTrue(this.paper.getPaper().getChildren().indexOf(this.rect) > this.paper.getPaper().getChildren().indexOf(this.ell));
         
         /* Test 2: undo of the BringToBackCommand on the ellipse */
         this.cmdEll.undo();
-        assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.rect));
+        assertTrue(this.paper.getPaper().getChildren().indexOf(this.ell) > this.paper.getPaper().getChildren().indexOf(this.rect));
         
         /* Test 3: undo of the BringToBackCommand on the rectangle */
         this.cmdRect.undo();
-        assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
+        assertEquals(0, this.paper.getPaper().getChildren().indexOf(this.rect), 0);
     }
 
     /**
@@ -73,8 +74,6 @@ public class BringToBackCommandTest {
      * simulating the classic utilization flow of a user.
      */
     private void insertAndBringToBack() {
-        this.paper.getChildren().clear();
-        
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);
         this.cmdRect = createCommandAndExecute(this.rect, this.cmdRect);
