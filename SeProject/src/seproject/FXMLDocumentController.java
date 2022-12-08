@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
@@ -22,7 +21,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -38,6 +36,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
@@ -46,11 +45,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
+import seproject.tools.PolygonTool;
 import seproject.tools.SelectionTool;
+import seproject.tools.TextTool;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -112,7 +112,7 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem bringToFront;
 
     private MenuItem bringToBack;
-    
+
     private MenuItem deleteShape;
 
     private Tool selectedTool;
@@ -125,6 +125,10 @@ public class FXMLDocumentController implements Initializable {
     
     
     private DrawingArea g;
+    @FXML
+    private RadioButton addTextButton;
+    @FXML
+    private RadioButton addPolygonButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -156,6 +160,7 @@ public class FXMLDocumentController implements Initializable {
 
         /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
+        /*
         selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
@@ -163,7 +168,27 @@ public class FXMLDocumentController implements Initializable {
                     SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                 }
             }
-        });
+        });*/
+        /*
+        addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                selectedTool.deselect();
+            } 
+        });*/
+
+        for (Toggle r : g1.getToggles()) {
+            r.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if(newValue == false){
+                        SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
+                        selectedTool.deselect();
+                    }
+                }
+            });
+        }
+        
 
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
@@ -271,6 +296,17 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
+    private void addText(ActionEvent event) {
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+
+    }
+    
+    @FXML
+    private void addPolygon(ActionEvent event) {
+        selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+    }
+
+    @FXML
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             contextMenu.hide();
@@ -318,7 +354,7 @@ public class FXMLDocumentController implements Initializable {
         this.bringToFront = new MenuItem("Bring to Front");
         this.bringToBack = new MenuItem("Bring to Back");
         this.deleteShape = new MenuItem("Delete");
-        contextMenu.getItems().addAll(copy, cut, paste,deleteShape, bringToFront, bringToBack);
+        contextMenu.getItems().addAll(copy, cut, paste, deleteShape, bringToFront, bringToBack);
 
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
 
@@ -351,7 +387,7 @@ public class FXMLDocumentController implements Initializable {
         bringToBack.setOnAction(e -> {
             ssm.bringToBackShape();
         });
-        
+
         deleteShape.setOnAction(e -> {
             ssm.deleteSelectedShape();
         });
@@ -360,17 +396,21 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void setNewWidth(KeyEvent event) {
-        String width = widthTextField.getText(), height = heightTextField.getText();
-        if (event.getCode() == KeyCode.ENTER && validateSize(width) && validateSize(height)) {
-            SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape((Double.parseDouble(width)), Double.parseDouble(height));
-        } else if (event.getCode() == KeyCode.ENTER) {
-            errorLabelSize.setManaged(true);
-            errorLabelSize.setVisible(true);
-        }
+        resizeSelectedShape(event);
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
+        resizeSelectedShape(event);
+    }
+
+    /**
+     * This method is a utility method to resize the selected shape acoording to
+     * the input inserted by the user.
+     *
+     * @param event
+     */
+    private void resizeSelectedShape(KeyEvent event) {
         String width = widthTextField.getText(), height = heightTextField.getText();
         if (event.getCode() == KeyCode.ENTER && validateSize(width) && validateSize(height)) {
             SelectedShapeManager.getSelectedShapeManager().resizeSelectedShape((Double.parseDouble(width)), Double.parseDouble(height));

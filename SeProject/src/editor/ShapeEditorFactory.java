@@ -2,8 +2,11 @@ package editor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class ShapeEditorFactory {
 
@@ -18,13 +21,11 @@ public class ShapeEditorFactory {
      * because the map is not populed every time but only once.
      */
     static {
-        try {
-            editors.put(Class.forName("javafx.scene.shape.Rectangle"), new RectangleEditor());
-            editors.put(Class.forName("javafx.scene.shape.Ellipse"), new EllipseEditor());
-            editors.put(Class.forName("javafx.scene.shape.Line"), new LineEditor());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ShapeEditorFactory.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            editors.put(Rectangle.class, new RectangleEditor());
+            editors.put(Ellipse.class, new EllipseEditor());
+            editors.put(Line.class, new LineEditor());
+            editors.put(Text.class, new TextEditor());
+            editors.put(Polyline.class, new PolygonEditor());
     }
 
     /**
