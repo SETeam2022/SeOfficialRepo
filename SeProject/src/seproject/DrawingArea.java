@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -28,7 +29,7 @@ public class DrawingArea extends Pane {
     private  Pane paper;
     private Group grid;
     
-    @FXML private Group containerOfPaperAndGrid;
+    private Group containerOfPaperAndGrid;
     
     /**
      * Create an isstance of the Drawing Area
@@ -84,9 +85,7 @@ public class DrawingArea extends Pane {
     public void removeShape(Shape shape){
         paper.getChildren().remove(shape);
     }
-    
-    
-    
+   
     private Group makeGrid(int newDistance){
         double distanceInPixel = newDistance * CONV_FACTOR;
         Group g = new Group();

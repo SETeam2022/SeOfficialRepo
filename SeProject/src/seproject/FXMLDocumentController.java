@@ -79,20 +79,31 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
+    
     @FXML
     private Button undoButton;
+    
     @FXML
     private TextField widthTextField;
+    
     @FXML
     private TextField heightTextField;
+    
     @FXML
     private ToolBar sideBar;
+    
     @FXML
     private Label errorLabelSize;
+    
     @FXML
     private Slider zoomSlider;
+    
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane scrollPane; 
+    @FXML
+    private RadioButton addTextButton;
+    @FXML
+    private RadioButton addPolygonButton;
 
     private final static double MAX_SIZE = 10000;
 
@@ -117,6 +128,7 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+    
     @FXML
     private ToggleButton gridButton;
     @FXML
@@ -126,10 +138,6 @@ public class FXMLDocumentController implements Initializable {
     
     
     private DrawingArea g;
-    @FXML
-    private RadioButton addTextButton;
-    @FXML
-    private RadioButton addPolygonButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -169,6 +177,13 @@ public class FXMLDocumentController implements Initializable {
                 child.getStyleClass().add("toggle-button");
             }
         }
+        
+        for (Node child : sideBar.getItems()) {
+            if (child instanceof RadioButton){
+                child.getStyleClass().remove("radio-button");
+                child.getStyleClass().add("toggle-button");
+            }
+        }
 
         fm = new FileManager(drawingPane.getPaper());
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
@@ -181,28 +196,12 @@ public class FXMLDocumentController implements Initializable {
 
         /* Selecting an initial tool */
         selectedTool = new SelectionTool(drawingPane);
-        /*
-        selectButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue o, Boolean oldVal, Boolean newVal) {
-                if (!Objects.equals(newVal, oldVal) && newVal == false) {
-                    SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-                }
-            }
-        });*/
-        /*
-        addPolygonButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                selectedTool.deselect();
-            } 
-        });*/
 
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if(newValue == false){
+                    if (newValue == false) {
                         SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                         selectedTool.deselect();
                     }
@@ -210,7 +209,6 @@ public class FXMLDocumentController implements Initializable {
             });
         }
         
-
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
 
@@ -227,14 +225,14 @@ public class FXMLDocumentController implements Initializable {
             return null;
         };
 
-        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter);
+        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter); 
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-
+        
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
@@ -301,9 +299,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addText(ActionEvent event) {
         selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
-
     }
-    
+
     @FXML
     private void addPolygon(ActionEvent event) {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
