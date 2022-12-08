@@ -78,8 +78,8 @@ public class DrawingArea extends Pane {
         paper.getChildren().add(shape);
     }
     
-    public void removeShape(Shape shape){
-        paper.getChildren().remove(shape);
+    public boolean removeShape(Shape shape){
+        return paper.getChildren().remove(shape);
     }
    
     private Group makeGrid(int newDistance){
