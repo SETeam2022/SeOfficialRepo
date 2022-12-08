@@ -1,13 +1,16 @@
 package editor;
 
 import javafx.collections.ObservableList;
-import javafx.geometry.Point2D;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
 
 public class PolygonEditor implements ShapeEditor {
 
     /**
+     * This method is used to set the width of a polygon to a given number.
+     * Starting from the new desired width, calculates the minimum and maximum x
+     * coordinate of a shape, normalizes all the other points, rescaling them
+     * in the new range.
      * 
      * @param shape
      * @param width 
@@ -28,29 +31,27 @@ public class PolygonEditor implements ShapeEditor {
         }
         
     }
-    
-    //System.out.println("---i: " + i + " minY: " + minY + " oldWidth " + oldWidth + " newWidth: " + width + " oldMax: " + max + " newMax: " + newMax + " offset: " + offset + " scale: " + scale + " oldValue: " + currentY + " newValue: " + currentY*scale);
 
     /**
+     * This method is used to set the height of a polygon to a given number.
+     * Starting from the new desired height, calculates the minimum and maximum y
+     * coordinate of a shape, normalizes all the other points, rescaling them
+     * in the new range.
      * 
      * @param shape
      * @param height 
      */
     @Override
     public void setHeight(Shape shape, double height) {
-        System.out.println("height: " + height + "old height" + getHeight(shape));
         
         Polyline polygon = (Polyline) shape;
         double minY = getMin(polygon.getPoints(),1),
                maxY = getMax(polygon.getPoints(), 1);
-        System.out.println("min: " + minY + " max: " + maxY);
         
         for (int i=1; i < polygon.getPoints().size(); i+=2){
             double currentY = polygon.getPoints().get(i);
             if(currentY != minY){
-                double oldY = currentY;
                 currentY = height*((currentY-minY)/(maxY-minY))+minY;
-                System.out.println("---i: " + i + " minY: " + minY + " oldWidth " + maxY + " oldValue: " + oldY + " newValue: " + currentY);
                 polygon.getPoints().set(i, currentY);
             }
         }
@@ -58,9 +59,11 @@ public class PolygonEditor implements ShapeEditor {
     }
 
     /**
+     * This method is used to get the width of a polygon. It is calculated as the
+     * difference between the minimum and maximum x values of the polygon.
      * 
      * @param shape
-     * @return 
+     * @return double, the width of the shape
      */
     @Override
     public double getWidth(Shape shape) {
@@ -70,9 +73,11 @@ public class PolygonEditor implements ShapeEditor {
     }
 
     /**
+     * This method is used to get the height of a polygon. It is calculated as the
+     * difference between the minimum and maximum y values of the polygon.
      * 
      * @param shape
-     * @return 
+     * @return double, the height of the shape
      */
     @Override
     public double getHeight(Shape shape) {
@@ -82,42 +87,32 @@ public class PolygonEditor implements ShapeEditor {
     }
 
     /**
-     * This method allow to clone the polygon and return the polyline cloned.
+     * This method allows to clone the polygon and its duplicate.
      * @param shape
-     * @return Shape
+     * @return Shape, the cloned shape
      */
     @Override
     public Shape clone(Shape shape) {
         Polyline original = (Polyline) shape;
         Polyline clone = new Polyline();
-        double height = this.getHeight(original);
-        double width = this.getWidth(original);
         clone.getPoints().setAll(original.getPoints());
         clone.setStroke(original.getStroke());
         clone.setStrokeWidth(original.getStrokeWidth());
         clone.setFill(original.getFill());
         return clone;   
     }
-    
-    /**
-     * 
-     * @param shape
-     * @return 
-     */
-    private Point2D getCenter(Shape shape){
-        Polyline polygon = (Polyline) shape;
-        double minX = getMin(polygon.getPoints(), 0), minY = getMin(polygon.getPoints(), 1), maxX = getMax(polygon.getPoints(), 0), maxY = getMax(polygon.getPoints(), 1);
-        return new Point2D(maxX-minX, maxY-minY);
-    }
 
     /**
+     * This method is used to get the minimum coordinate of a polygon. All the 
+     * x or y coordinates (according to the specified parameter, 0 for the x and 
+     * 1 for the y) are compared in order to get the minimum one.
      * 
      * @param points
      * @param start
-     * @return 
+     * @return min, the minimum value
      */
     private double getMin(ObservableList<Double> points, int start) {
-        double min = points.get(0);
+        double min = points.get(start);
         for(int i=start; i<points.size(); i+=2){
             if (points.get(i) < min) { min = points.get(i); }
         }
@@ -125,13 +120,16 @@ public class PolygonEditor implements ShapeEditor {
     }
     
     /**
+     * This method is used to get the maximum coordinate of a shape. All the 
+     * x or y coordinates (according to the specified parameter, 0 for the x and 
+     * 1 for the y) are compared in order to get the maximum one.
      * 
      * @param points
      * @param start
-     * @return 
+     * @return max, the maximum value
      */
     private double getMax(ObservableList<Double> points, int start) {
-        double max = points.get(0);
+        double max = points.get(start);
         for(int i=start; i<points.size(); i+=2){
             if (points.get(i) > max) { max = points.get(i); }
         }
