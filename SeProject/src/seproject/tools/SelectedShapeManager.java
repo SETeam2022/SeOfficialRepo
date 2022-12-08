@@ -3,19 +3,14 @@ package seproject.tools;
 import editor.ShapeEditorFactory;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import seproject.DrawingArea;
 import seproject.commands.ChangeFillColorCommand;
 import seproject.commands.ChangeStrokeColorCommand;
 import seproject.commands.DeleteShapeCommand;
@@ -38,7 +33,7 @@ public class SelectedShapeManager {
 
     private final SimpleBooleanProperty shapeIsCopiedProperty;
 
-    private static Pane paper;
+    private static DrawingArea paper;
 
     private static SelectedShapeManager ssm = null;
 
@@ -74,7 +69,7 @@ public class SelectedShapeManager {
      *
      * @param paper the pane on witch the shape will be selected
      */
-    public static void setSelectedShapeManagerPaper(Pane paper) {
+    public static void setSelectedShapeManagerPaper(DrawingArea paper) {
         SelectedShapeManager.paper = paper;
     }
 

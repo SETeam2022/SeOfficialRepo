@@ -15,12 +15,12 @@ public class SelectionTool extends Tool {
     private double scaleX;
     private double scaleY;
 
-    public SelectionTool(Pane paper) {
+    public SelectionTool(DrawingArea paper) {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
         this.shapeHasBeenDragged = false;
-        this.scaleX = DrawingArea.getIstance().getContainerOfPaperAndGrid().getScaleX();
-        this.scaleY = DrawingArea.getIstance().getContainerOfPaperAndGrid().getScaleY();
+        this.scaleX = paper.getChildren().get(0).getScaleX();
+        this.scaleY = paper.getChildren().get(0).getScaleY();
     }
 
     /**

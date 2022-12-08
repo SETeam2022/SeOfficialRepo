@@ -2,6 +2,7 @@ package seproject.tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import seproject.DrawingArea;
 
 /**
  * This class is the rappresentation of a unspecialized abstract tool. In order
@@ -9,12 +10,12 @@ import javafx.scene.layout.Pane;
  */
 public abstract class Tool {
 
-    Pane paper;
+    DrawingArea paper;
 
     /**
      * @param paper is the pane on witch the new Shape nodes will be added
      */
-    public Tool(Pane paper) {
+    public Tool(DrawingArea paper) {
         this.paper = paper;
     }
 
@@ -58,7 +59,7 @@ public abstract class Tool {
     /**
      * @param paper the pane on witch the tool will work
      */
-    public void setPaper(Pane paper) {
+    public void setPaper(DrawingArea paper) {
         this.paper = paper;
     }
 

@@ -1,17 +1,13 @@
 package seproject.tools;
 
 import static java.lang.Math.abs;
-import java.util.ArrayList;
 import javafx.beans.property.ObjectProperty;
-import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
-import seproject.SeProject;
+import seproject.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
@@ -23,7 +19,7 @@ public class TextTool extends DrawingTool {
     private Rectangle tempRectangle;
     private double rStartX, rStartY;
 
-    public TextTool(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public TextTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
     }
 
@@ -32,7 +28,6 @@ public class TextTool extends DrawingTool {
         if (tempTextArea != null) {
             Invoker.getInvoker().executeCommand(new DrawShapeCommand(popTextFromTextArea(), paper));
         }
-        System.out.println("ciao");
         rStartX = event.getX();
         rStartY = event.getY();
         tempRectangle = createTempRectangle(rStartX, rStartY);

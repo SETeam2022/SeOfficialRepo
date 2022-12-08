@@ -2,11 +2,12 @@ package seproject.commands;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
+import seproject.DrawingArea;
 
 public class BringToFrontCommand implements Command {
 
     private Shape shape;
-    private Pane paper;
+    private DrawingArea paper;
     private int index;
 
     /**
@@ -15,7 +16,7 @@ public class BringToFrontCommand implements Command {
      * @param shape the shape which will be brought to front
      * @param paper the paper which the shape belongs to
      */
-    public BringToFrontCommand(Shape shape, Pane paper) {
+    public BringToFrontCommand(Shape shape, DrawingArea paper) {
         this.shape = shape;
         this.paper = paper;
     }
@@ -25,7 +26,7 @@ public class BringToFrontCommand implements Command {
      */
     @Override
     public void execute() {
-        index = this.paper.getChildren().indexOf(this.shape);
+        index = this.paper.getPaper().getChildren().indexOf(this.shape);
         this.shape.toFront();
     }
 
@@ -35,8 +36,8 @@ public class BringToFrontCommand implements Command {
      */
     @Override
     public void undo() {
-        paper.getChildren().remove(shape);
-        paper.getChildren().add(index, shape);
+        paper.getPaper().getChildren().remove(shape);
+        paper.getPaper().getChildren().add(index, shape);
     }
 
 }

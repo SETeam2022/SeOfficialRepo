@@ -5,40 +5,46 @@
  */
 package seproject;
 
-import javafx.collections.ObservableList;
+import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.Screen;
 
 /**
  * This class create an abstraction of the application's area where the user can
  * draw, one of the principal aim of the drawing area is the management of the grid
  * that is in overlay with the drawing.
  */
-public class DrawingArea extends Group {
+public class DrawingArea extends Pane {
     
     
     private static final double CONV_FACTOR =  37.7952755906; // 1cm =  37.7952755906 pixels
     
-    public static Pane paper;
+    private  Pane paper;
     private Group grid;
-    private Group containerOfPaperAndGrid;
     
-    private static DrawingArea d = null;
+    @FXML private Group containerOfPaperAndGrid;
     
     /**
      * Create an isstance of the Drawing Area
+     * @param height
+     * @param width
      */
-    public DrawingArea(){
+    public DrawingArea(double width, double height){
+        super.setPrefSize(width, height);
+        this.paper = new Pane();
+        paper.setId("paper");
+        paper.setPrefSize(width, height);
         this.grid = makeGrid(1);
-        this.containerOfPaperAndGrid = new Group(paper,grid);
+        grid.setVisible(false);
+        this.containerOfPaperAndGrid = new Group(paper,grid);    
         super.getChildren().add(containerOfPaperAndGrid);
-        paper.setClip(new Rectangle (0,0, paper.getPrefWidth(),paper.getPrefHeight()));
+        paper.setClip(new Rectangle (0,0, width,height));
     }
     
     /**
@@ -58,6 +64,28 @@ public class DrawingArea extends Group {
     public Group getContainerOfPaperAndGrid(){
         return this.containerOfPaperAndGrid;
     }
+    
+    public Pane getPaper(){
+        return this.paper;
+    }
+    
+    public void setPaperWidth(double width){
+        paper.setPrefWidth(width);
+    }
+    
+    public void setPaperHeight(double height){
+        paper.setPrefHeight(height);
+    }
+    
+    public void addShape(Shape shape){
+        paper.getChildren().add(shape);
+    }
+    
+    public void removeShape(Shape shape){
+        paper.getChildren().remove(shape);
+    }
+    
+    
     
     private Group makeGrid(int newDistance){
         double distanceInPixel = newDistance * CONV_FACTOR;
@@ -83,13 +111,6 @@ public class DrawingArea extends Group {
        Line l = new Line(0,y,paper.getPrefWidth(),y);
        l.setStroke(new Color(0,0,0,0.5));
        return l;
-    }
-    
-    public static DrawingArea getIstance(){
-        if (d == null){
-            d = new DrawingArea();
-        }
-        return d;
     }
     
 }
