@@ -93,6 +93,14 @@ public class FXMLDocumentController implements Initializable {
     private Slider zoomSlider;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private ToggleButton gridButton;
+    @FXML
+    private Spinner<Integer> gridSpinner;
+    @FXML
+    private RadioButton addTextButton;
+    @FXML
+    private RadioButton addPolygonButton;
 
     private final static double MAX_SIZE = 10000;
 
@@ -117,19 +125,11 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
-    @FXML
-    private ToggleButton gridButton;
-    @FXML
-    private Spinner<Integer> gridSpinner;
-   
+
     private DrawingArea drawingPane;
     
-    
     private DrawingArea g;
-    @FXML
-    private RadioButton addTextButton;
-    @FXML
-    private RadioButton addPolygonButton;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
