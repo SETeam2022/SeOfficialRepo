@@ -13,6 +13,7 @@ import javafx.scene.shape.Polyline;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.DrawingArea;
 import seproject.EventGenerator;
 import seproject.TestConstants;
 
@@ -23,6 +24,7 @@ import seproject.TestConstants;
 public class PolygonToolTest {
     
     private Pane paper;
+    private DrawingArea dw;
     private Polyline testShape;
     private PolygonTool t;
     private ObjectProperty<Color> borderColorProperty;
@@ -48,16 +50,17 @@ public class PolygonToolTest {
         paper = new Pane();
         
         this.random = new SecureRandom();
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
         
         testShape = new Polyline();
         coordinates = new ArrayList <> ();
         for(int i=0; i<TestConstants.NUM_VERTICES*2; i++) {
-            if (i > 1 && i < (TestConstants.NUM_VERTICES*2)-3) {
+            if (i > 1 && i < (TestConstants.NUM_VERTICES*2)-2) {
                 coordinates.add(random.nextDouble() + TestConstants.DELTA);
             }else{
                 coordinates.add(random.nextDouble());
-            }
-            
+            }  
         }
         
         testShape.getPoints().addAll(coordinates);
@@ -69,7 +72,7 @@ public class PolygonToolTest {
         borderColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.VIOLET);
         
-        t = new PolygonTool(paper, borderColorProperty, fillColorProperty);
+        t = new PolygonTool(dw, borderColorProperty, fillColorProperty);
         pressEvent = EventGenerator.PrimaryButtonMouseDrag(paper,paper,coordinates.get(0), coordinates.get(1));
     }
 
@@ -81,6 +84,7 @@ public class PolygonToolTest {
         System.out.println("onMousePressed");
         /* Test 1: first press on the paper */
         int i;
+        paper.getChildren().clear();
         t.onMousePressed(pressEvent);
         Node node = (Node) paper.getChildren().get(0);
         assertTrue(node instanceof Polyline);
@@ -104,6 +108,7 @@ public class PolygonToolTest {
     @Test
     public void testOnMouseDragged() {
         System.out.println("onMouseDragged");
+        paper.getChildren().clear();
         t.onMousePressed(pressEvent);
         double width = testShape.getPoints().get(2), height = testShape.getPoints().get(3);
         t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,width,height));
@@ -116,8 +121,10 @@ public class PolygonToolTest {
     @Test
     public void testOnMouseReleased() {
         System.out.println("onMouseReleased");
+        paper.getChildren().clear();
         t.onMousePressed(pressEvent);
         double width = testShape.getPoints().get(2), height = testShape.getPoints().get(3);
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,width,height));
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(paper, paper, width,height));
         testEndOfEdge(testShape,width,height);
     }
@@ -149,6 +156,5 @@ public class PolygonToolTest {
         assertEquals(height, polyInstance.getPoints().get(3),0);
         checkColors(actual,polyInstance);
     }
-    
     
 }

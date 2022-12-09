@@ -3,30 +3,38 @@ package seproject.editor;
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import java.security.SecureRandom;
-import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.shape.Polyline;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.TestConstants;
 
-public class RectangleEditorTest {
-
-    private Rectangle testShape;
+public class PolygonEditorTest {
+    
+    private Polyline testShape;
     private ShapeEditor editor;
     private SecureRandom random;
-
-    public RectangleEditorTest() {
+    private List <Double> list;
+    
+    public PolygonEditorTest() {
     }
-
+    
     @Before
     public void setUp() {
-        this.testShape = new Rectangle();
-        this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
+        list = new ArrayList <>();
         this.random = new SecureRandom();
+        this.testShape = new Polyline();
+        for(int i=0; i<TestConstants.NUM_VERTICES*2; i++) {
+            list.add(random.nextDouble()); 
+        }
+        this.testShape.getPoints().addAll(list);
+        this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
     }
 
     /**
-     * Test of the RectangleEditor class' setWidth method.
+     * Test of setWidth method, of class PolygonEditor.
      */
     @Test
     public void testSetWidth() {
@@ -35,7 +43,7 @@ public class RectangleEditorTest {
     }
 
     /**
-     * Test of the RectangleEditor class' setHieght method.
+     * Test of setHeight method, of class PolygonEditor.
      */
     @Test
     public void testSetHeight() {
@@ -44,7 +52,7 @@ public class RectangleEditorTest {
     }
 
     /**
-     * Test of the RectangleEditor class' getWidth method.
+     * Test of getWidth method, of class PolygonEditor.
      */
     @Test
     public void testGetWidth() {
@@ -53,14 +61,14 @@ public class RectangleEditorTest {
     }
 
     /**
-     * Test of the RectangleEditor class' getHeight method.
+     * Test of getHeight method, of class PolygonEditor.
      */
     @Test
     public void testGetHeight() {
         System.out.println("getHeight");
         assertTrue(testHeightShape());
     }
-
+    
     /**
      * Utility method which performs the comparison between the expected and the
      * actual width of a shape.
@@ -81,7 +89,7 @@ public class RectangleEditorTest {
      *
      * @return true or false
      */
-    boolean testHeightShape() {
+    private boolean testHeightShape() {
         double expectedHeight = random.nextInt(TestConstants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
@@ -89,16 +97,21 @@ public class RectangleEditorTest {
         return actualHeight == expectedHeight;
     }
 
+    /**
+     * Test of clone method, of class PolygonEditor.
+     */
     @Test
     public void testClone() {
         System.out.println("clone");
-        Rectangle actualShape = (Rectangle) editor.clone(testShape);
-        assertEquals(testShape.getX(),actualShape.getX(),0);
-        assertEquals(testShape.getY(),actualShape.getY(),0);
-        assertEquals(testShape.getWidth(),actualShape.getWidth(),0);
-        assertEquals(testShape.getHeight(),actualShape.getHeight(),0);
-        assertEquals(testShape.getFill(),actualShape.getFill());
-        assertEquals(testShape.getStroke(),actualShape.getStroke());
+        Polyline polygon = (Polyline) editor.clone(testShape);
+        int i=0; 
+        for (double d : polygon.getPoints()){
+            assertEquals(testShape.getPoints().get(i), d,0);
+            i++;
+        }
+        assertEquals(testShape.getFill(), polygon.getFill());
+        assertEquals(testShape.getStroke(), polygon.getStroke());
+        assertEquals(testShape.getStrokeWidth(), polygon.getStrokeWidth(),0);
     }
-
+    
 }

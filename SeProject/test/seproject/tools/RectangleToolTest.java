@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
@@ -11,7 +12,9 @@ import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.DrawingArea;
 import seproject.EventGenerator;
+import seproject.TestConstants;
 
 public class RectangleToolTest {
 
@@ -21,6 +24,8 @@ public class RectangleToolTest {
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private MouseEvent clickOnBlankPaper;
+    private SecureRandom random;
+    private DrawingArea dw;
     public RectangleToolTest() {
     }
 
@@ -30,17 +35,19 @@ public class RectangleToolTest {
      */
     @Before
     public void setUp() {
+        this.random = new SecureRandom();
         testShape = new Rectangle(0, 0, 10, 20);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
-
-        paper = new Pane();
+        
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
 
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        t = new RectangleTool(paper, borderColorProperty, fillColorProperty);
+        t = new RectangleTool(dw, borderColorProperty, fillColorProperty);
         clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getX(), testShape.getY());
     }
 

@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
@@ -11,29 +12,34 @@ import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.DrawingArea;
 import seproject.EventGenerator;
+import seproject.TestConstants;
 
 public class SelectionToolTest {
 
     private Pane paper;
+    private DrawingArea dw;
     private EllipseTool ell;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private SelectionTool st;
     private Ellipse instancedEllipse;
+    private SecureRandom random;
 
     @Before
     public void setUp() {
-        paper = new Pane();
-        
+
+        this.random = new SecureRandom();
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        ell = new EllipseTool(paper, borderColorProperty, fillColorProperty);
-        st = new SelectionTool(paper);
-        SelectedShapeManager.setSelectedShapeManagerPaper(paper);
-        
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
+        ell = new EllipseTool(dw, borderColorProperty, fillColorProperty);
+        st = new SelectionTool(dw);
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         
         ell.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, paper,100, 200));
         ell.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,200,300));

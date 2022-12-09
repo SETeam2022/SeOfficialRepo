@@ -19,6 +19,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -31,10 +32,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
@@ -42,11 +45,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
-import javafx.util.StringConverter;
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -72,8 +72,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private RadioButton addEllipsesButton;
     @FXML
-    private Pane drawingPane;
-    @FXML
     private ToolBar toolBar;
     @FXML
     private ToggleGroup g1;
@@ -81,31 +79,36 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker fillColorPicker;
     @FXML
     private ColorPicker strokeColorPicker;
-    
     @FXML
     private Button undoButton;
-    
     @FXML
     private TextField widthTextField;
-    
     @FXML
     private TextField heightTextField;
-    
     @FXML
     private ToolBar sideBar;
-    
     @FXML
     private Label errorLabelSize;
-    
     @FXML
     private Slider zoomSlider;
-    
     @FXML
     private ScrollPane scrollPane; 
     @FXML
     private RadioButton addTextButton;
     @FXML
     private RadioButton addPolygonButton;
+    @FXML
+    private Label errorLabelRotation;
+    @FXML
+    private TextField rotationTextField;
+    @FXML
+    private Button leftRotationButton;
+    @FXML
+    private Button rightRotationButton;
+    @FXML
+    private ToggleButton gridButton;
+    @FXML
+    private Spinner<Integer> gridSpinner;
 
     private final static double MAX_SIZE = 10000;
 
@@ -130,23 +133,46 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
+   
+    private DrawingArea drawingPane;
     @FXML
-    private Label errorLabelRotation;
+    private Button mirrorVerticalButton;
     @FXML
-    private TextField rotationTextField;
-    @FXML
-    private TextArea textArea;
-    @FXML
-    private Button leftRotationButton;
-    @FXML
-    private Button rightRotationButton;
-
-
+    private Button mirrorHorizontalButton;
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        /*Grid initialization*/
+        
+        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));
+        
+        gridButton.selectedProperty().setValue(false);
+        
+        drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
+        
+        initDrawingArea();
+        
+        /*
+        * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
+        *        scrollbars of the scrollpane becames sensibile.
+        */
+        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
+       
+        scrollPane.setContent(makeingDrawingPaneZoomSensitive);
+        
+        drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
+        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
+        
+        gridSpinner.getValueFactory().valueProperty().addListener(change->{
+            drawingPane.redrawGrid(gridSpinner.getValue());
+        });
+
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
+
         contextMenuInit();
 
         for (Node child : toolBar.getItems()) {
@@ -163,7 +189,7 @@ public class FXMLDocumentController implements Initializable {
             }
         }
 
-        fm = new FileManager(drawingPane);
+        fm = new FileManager(drawingPane.getPaper());
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
 
         /* Default color picker values */
@@ -180,7 +206,7 @@ public class FXMLDocumentController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (newValue == false) {
-                        SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
+                        //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                         selectedTool.deselect();
                     }
                 }
@@ -191,20 +217,10 @@ public class FXMLDocumentController implements Initializable {
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
 
         /* Text fields' size input validation */
-        UnaryOperator<Change> doubleFilter = change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
-                errorLabelSize.setManaged(false);
-                errorLabelSize.setVisible(false);
-                return change;
-            }
-            errorLabelSize.setManaged(true);
-            errorLabelSize.setVisible(true);
-            return null;
-        };
+        
 
-        TextFormatter tfWidth = new TextFormatter(doubleFilter), tfHeight = new TextFormatter(doubleFilter), 
-                tfRotation = new TextFormatter(doubleFilter);
+        TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)), 
+                tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation));
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
         rotationTextField.setTextFormatter(tfRotation);
@@ -212,29 +228,12 @@ public class FXMLDocumentController implements Initializable {
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
-
-        
-        
-        /* errorLabelRotation input validation */
-        
         
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-
-        drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
-        drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
-
-        Group g = new Group(drawingPane);
-        g.maxWidth(Screen.getMainScreen().getWidth());
-        g.maxHeight(Screen.getMainScreen().getHeight());
-        g.requestLayout();
-
-        drawingPane.setClip(new Rectangle(0, 0, drawingPane.getPrefWidth(), drawingPane.getPrefHeight()));
-
-        scrollPane.setContent(g);
-    }
+        
+}
 
     @FXML
     private void saveDrawing(ActionEvent event) {
@@ -269,12 +268,14 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
+        //selectedTool.selectedProperty.setValue(false);
         selectedTool = new SelectionTool(drawingPane);
     }
 
     @FXML
     private void ereaseShape(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().deleteSelectedShape();
+        selectedTool.deselect();
     }
 
     @FXML
@@ -294,10 +295,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addText(ActionEvent event) {
-        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty(),
-                textArea.textProperty(), textArea.prefWidthProperty(), textArea.prefHeightProperty(),
-                textArea.visibleProperty(), textArea.focusedProperty(), textArea.layoutXProperty(),
-                textArea.layoutYProperty());
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
     @FXML
@@ -305,7 +303,6 @@ public class FXMLDocumentController implements Initializable {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
-    @FXML
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             contextMenu.hide();
@@ -315,14 +312,12 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
     private void onMouseDraggedOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             selectedTool.onMouseDragged(event);
         }
     }
 
-    @FXML
     private void onMouseReleasedOnDrawingPane(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             selectedTool.onMouseReleased(event);
@@ -343,7 +338,7 @@ public class FXMLDocumentController implements Initializable {
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
     }
-
+    
     private void contextMenuInit() {
 
         this.contextMenu = new ContextMenu();
@@ -402,6 +397,39 @@ public class FXMLDocumentController implements Initializable {
     private void setNewHeight(KeyEvent event) {
         resizeSelectedShape(event);
     }
+    
+    @FXML
+    private void leftRotationAction(ActionEvent event) {
+        if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
+        }
+        return;
+    }
+
+    @FXML
+    private void rightRotationAction(ActionEvent event) {
+        if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
+        }
+        return;
+    }
+
+    @FXML
+    private void addGrid(ActionEvent event) {
+       drawingPane.showGrid(gridButton.selectedProperty().getValue());
+    }
 
     /**
      * This method is a utility method to resize the selected shape acoording to
@@ -439,33 +467,76 @@ public class FXMLDocumentController implements Initializable {
         return true;
     }
 
-    @FXML
-    private void leftRotationAction(ActionEvent event) {
-        if (!validateSize(rotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-        }else{
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
-            SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
-        }
-        return;
+    private void initDrawingArea(){
+        
+        drawingPane.getPaper().setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown()) {
+                    contextMenu.hide();
+                    selectedTool.onMousePressed(event);
+                } else if (event.isSecondaryButtonDown()) {
+                    contextMenu.show(drawingPane, event.getScreenX(), event.getScreenY());
+                }
+            }
+        });
+        
+        drawingPane.getPaper().setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown()) {
+                    selectedTool.onMouseDragged(event);
+                }
+            }
+        });
+        
+        drawingPane.getPaper().setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    selectedTool.onMouseReleased(event);
+                }
+            }
+        });
     }
-
-    @FXML
-    private void rightRotationAction(ActionEvent event) {
-        if (!validateSize(rotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-        }else{
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
-        }
-        return;
+    
+    /**
+     * This method allow to control the textField's text and label is 
+     * the error's label.
+     * @param label
+     * @return 
+     */
+    private UnaryOperator<Change> controlTextField(Label label){
+        UnaryOperator<Change> doubleFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
+                label.setManaged(false);
+                label.setVisible(false);
+                return change;
+            }
+            label.setManaged(true);
+            label.setVisible(true);
+            return null;
+        };
+        return doubleFilter;
     }
-
-
+    
+    /**
+     * The method allow to shape's vertical mirroring
+     * @param event 
+     */
+    @FXML
+    private void mirrorVerticalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
+    }
+    
+    /**
+     * The method allow to shape's horizontal mirroring
+     * @param event 
+     */
+    @FXML
+    private void mirrorHorizontalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
+    }
+    
 }

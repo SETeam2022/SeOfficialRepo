@@ -4,15 +4,6 @@ import javafx.event.EventTarget;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author teodo
- */
 public class EventGenerator {
         /**
          * Utility method that generate in easy way a mouse left click event

@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import seproject.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
@@ -27,7 +28,7 @@ public class RectangleTool extends DrawingTool {
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * Interior Picker's value.
      */
-    public RectangleTool(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public RectangleTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
     }
 

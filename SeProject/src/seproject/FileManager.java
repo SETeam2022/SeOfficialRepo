@@ -1,5 +1,6 @@
 package seproject;
 
+import com.sun.javafx.geom.Path2D;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -11,6 +12,7 @@ import java.nio.file.Files;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
 
 /**
  * This class is used to model a FileManager able to save the drawn shapes to an

@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -9,16 +10,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.*;
 import static org.junit.Assert.assertTrue;
+import seproject.DrawingArea;
 import seproject.EventGenerator;
+import seproject.TestConstants;
 
 public class EllipseToolTest {
 
+    private DrawingArea dw;
     private Pane paper;
     private Ellipse testShape;
     private EllipseTool t;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private MouseEvent clickOnBlankPaper;
+    private SecureRandom random;
 
     public EllipseToolTest() {
     }
@@ -29,17 +34,19 @@ public class EllipseToolTest {
      */
     @Before
     public void setUp() {
+        this.random = new SecureRandom();
         testShape = new Ellipse(0, 0);
         testShape.setRadiusX(10);
         testShape.setRadiusY(10);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
-        paper = new Pane();
+        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        paper = dw.getPaper();
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        t = new EllipseTool(paper, borderColorProperty, fillColorProperty);
+        t = new EllipseTool(dw, borderColorProperty, fillColorProperty);
         clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getCenterX(), testShape.getCenterY());
     }
 

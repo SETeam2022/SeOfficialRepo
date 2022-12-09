@@ -3,6 +3,7 @@ package seproject.tools;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import seproject.DrawingArea;
 
 public abstract class DrawingTool extends Tool {
 
@@ -11,7 +12,7 @@ public abstract class DrawingTool extends Tool {
     private final ObjectProperty<Color> strokeColorProperty;
     private final ObjectProperty<Color> fillColorProperty;
 
-    public DrawingTool(Pane paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public DrawingTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper);
         this.strokeColorProperty = strokeColorProperty;
         this.fillColorProperty = fillColorProperty;

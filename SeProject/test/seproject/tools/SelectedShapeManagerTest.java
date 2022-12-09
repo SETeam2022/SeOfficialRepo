@@ -12,30 +12,29 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.DrawingArea;
+import seproject.TestConstants;
 
 public class SelectedShapeManagerTest {
 
     private SelectedShapeManager selectedShapeManager;
-    private static Pane testPaper;
     private Shape testShape, testShape2, testShape3;
     private SecureRandom random;
-    private static final int maxValue = 10000;
+    private Pane testPaper;
+    private DrawingArea dw;
 
     public SelectedShapeManagerTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-        testPaper = new Pane();
-        SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
     }
 
     @Before
     public void setUp() {
         selectedShapeManager = SelectedShapeManager.getSelectedShapeManager();
+        this.random = new SecureRandom();
+        this.dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        this.testPaper = dw.getPaper();
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         testShape = new Ellipse();
         testShape2 = new Rectangle();
         testShape3 = new Line();
@@ -179,7 +178,7 @@ public class SelectedShapeManagerTest {
     public void testBringToFrontShape() {
         System.out.println("bringToFrontShape");
         int beforeBringToFront, afterBringToFront;
-        SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
         ssm.setSelectedShape(testShape);
         beforeBringToFront = testPaper.getChildren().indexOf(ssm.getSelectedShape());
@@ -195,7 +194,7 @@ public class SelectedShapeManagerTest {
     public void testBringToBackShape() {
         System.out.println("bringToBackShape");
         int beforeBringToBack, afterBringToBack;
-        SelectedShapeManager.setSelectedShapeManagerPaper(testPaper);
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
         ssm.setSelectedShape(testShape);
         ssm.bringToFrontShape();
@@ -259,7 +258,7 @@ public class SelectedShapeManagerTest {
     @Test
     public void testResizeSelectedShape() {
         System.out.println("resizeSelectedShape");
-        double expectedWidth = random.nextInt(maxValue), expectedHeight = random.nextInt(maxValue);
+        double expectedWidth = random.nextInt(TestConstants.MAX_WIDTH), expectedHeight = random.nextInt(TestConstants.MIN_HEIGHT);
         /* Resize Ellipse */
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
@@ -278,6 +277,9 @@ public class SelectedShapeManagerTest {
         assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
     
+    /**
+     * Test of the RotationShape method, of class SelectedShapeManager.
+     */
     @Test
     public void testRotationShape(){
         System.out.println("rotationShape");
@@ -285,4 +287,29 @@ public class SelectedShapeManagerTest {
         selectedShapeManager.rotationShape(45.0);
         assertEquals(45,selectedShapeManager.getSelectedShape().getRotate(),0);
     }
+    
+    /**
+     * Test of the MirrorVerticalShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testMirrorVerticalShape(){
+        System.out.println("mirrorVerticalShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        double prevMirroring = selectedShapeManager.getSelectedShape().getScaleX();
+        selectedShapeManager.mirrorVerticalShape();
+        assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleX(),0);
+    }
+    
+    /**
+     * Test of the MirrorHorizontalShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testMirrorHorizontalShape(){
+        System.out.println("mirrorHorizontalShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        double prevMirroring = selectedShapeManager.getSelectedShape().getScaleY();
+        selectedShapeManager.mirrorHorizontalShape();
+        assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleY(),0);
+    }
+    
 }
