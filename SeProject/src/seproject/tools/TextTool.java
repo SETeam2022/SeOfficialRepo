@@ -103,6 +103,10 @@ public class TextTool extends DrawingTool {
      */
     @Override
     public void deselect() {
+        if (shape != null) {
+            shape.fillProperty().unbind();
+            shape.strokeProperty().unbind();
+        }
         drawTextFromTextArea();
     }
 
@@ -119,6 +123,8 @@ public class TextTool extends DrawingTool {
             String text = tempTextArea.textProperty().get().trim();
             if (!(text == null || "".equals(text))) {
                 shape = new Text(rStartX, rStartY, text);
+                shape.fillProperty().bind(getFillColorProperty());
+                shape.strokeProperty().bind(getStrokeColorProperty());
                 shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
                 Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
             }
