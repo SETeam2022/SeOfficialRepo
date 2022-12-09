@@ -68,6 +68,8 @@ public class FileManager {
             return;
         }
         
+        paper.getChildren().clear();
+        
         try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)))){
             int size = in.readInt();
             for(int i=0; i<size; i++){
