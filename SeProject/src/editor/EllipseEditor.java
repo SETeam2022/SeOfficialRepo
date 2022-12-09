@@ -1,9 +1,15 @@
 package editor;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
-public class EllipseEditor implements ShapeEditor {
+public class EllipseEditor extends ShapeEditor {
 
     public EllipseEditor() {
     }
@@ -56,7 +62,7 @@ public class EllipseEditor implements ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Ellipse original = (Ellipse) shape;
-        Ellipse clone = new Ellipse();
+        Ellipse clone = (Ellipse) super.clone(shape);
         
         clone.setCenterX(original.getCenterX());
         clone.setCenterY(original.getCenterY());
@@ -64,11 +70,36 @@ public class EllipseEditor implements ShapeEditor {
         clone.setRadiusX(original.getRadiusX());
         clone.setRadiusY(original.getRadiusY());
         
-        clone.setStroke(original.getStroke());
-        clone.setFill(original.getFill());
-        clone.setStrokeWidth(original.getStrokeWidth());
-        
         return clone;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
+        Ellipse ell = (Ellipse) shape;
+        stream.writeDouble(ell.getCenterX());
+        stream.writeDouble(ell.getCenterY());
+        stream.writeDouble(ell.getRadiusX());
+        stream.writeDouble(ell.getRadiusY());
+        stream.writeObject(ell.getFill());
+        stream.writeObject(ell.getStroke());
+        stream.writeDouble(ell.getTranslateX());
+        stream.writeDouble(ell.getTranslateY());
+        stream.writeDouble(ell.getRotate());
+    }
+
+    @Override
+    public Shape loadShape(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+        Ellipse ell = new Ellipse();
+        ell.setCenterX(stream.readDouble());
+        ell.setCenterY(stream.readDouble());
+        ell.setRadiusX(stream.readDouble());
+        ell.setRadiusY(stream.readDouble());
+        ell.setFill((Color)stream.readObject());
+        ell.setStroke((Color)stream.readObject());
+        ell.setTranslateX(stream.readDouble());
+        ell.setTranslateY(stream.readDouble());
+        ell.setRotate(stream.readDouble());
+        return ell;
     }
 
 }

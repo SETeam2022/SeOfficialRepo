@@ -1,9 +1,11 @@
 package editor;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-public class LineEditor implements ShapeEditor {
+public class LineEditor extends ShapeEditor {
 
     /**
      *
@@ -79,6 +81,16 @@ public class LineEditor implements ShapeEditor {
         clone.setFill(original.getFill());
         clone.setStrokeWidth(original.getStrokeWidth());
         return clone;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Shape loadShape(ObjectInputStream stream) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

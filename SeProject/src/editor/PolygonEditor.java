@@ -1,11 +1,12 @@
 package editor;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
-import seproject.PolylineWrapper;
 
-public class PolygonEditor implements ShapeEditor {
+public class PolygonEditor extends ShapeEditor {
 
     /**
      * This method is used to set the width of a polygon to a given number.
@@ -19,7 +20,7 @@ public class PolygonEditor implements ShapeEditor {
     @Override
     public void setWidth(Shape shape, double width) {
 
-        PolylineWrapper polygon = (PolylineWrapper) shape;
+        Polyline polygon = (Polyline) shape;
         double minX = getMin(polygon.getPoints(),0),
                maxX = getMax(polygon.getPoints(), 0);
         
@@ -45,7 +46,7 @@ public class PolygonEditor implements ShapeEditor {
     @Override
     public void setHeight(Shape shape, double height) {
         
-        PolylineWrapper polygon = (PolylineWrapper) shape;
+        Polyline polygon = (Polyline) shape;
         double minY = getMin(polygon.getPoints(),1),
                maxY = getMax(polygon.getPoints(), 1);
         
@@ -68,7 +69,7 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public double getWidth(Shape shape) {
-        PolylineWrapper polygon = (PolylineWrapper) shape;
+        Polyline polygon = (Polyline) shape;
         double minX = getMin(polygon.getPoints(), 0), maxX = getMax(polygon.getPoints(), 0);
         return Math.abs(Math.abs(maxX) - Math.abs(minX));
     }
@@ -82,7 +83,7 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public double getHeight(Shape shape) {
-        PolylineWrapper polygon = (PolylineWrapper) shape;
+        Polyline polygon = (Polyline) shape;
         double minY = getMin(polygon.getPoints(), 1), maxY = getMax(polygon.getPoints(), 1);
         return Math.abs(Math.abs(maxY) - Math.abs(minY));
     }
@@ -94,12 +95,9 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public Shape clone(Shape shape) {
-        PolylineWrapper original = (PolylineWrapper) shape;
-        PolylineWrapper clone = new PolylineWrapper();
+        Polyline original = (Polyline) shape;
+        Polyline clone = (Polyline) super.clone(shape);
         clone.getPoints().setAll(original.getPoints());
-        clone.setStroke(original.getStroke());
-        clone.setStrokeWidth(original.getStrokeWidth());
-        clone.setFill(original.getFill());
         return clone;   
     }
 
@@ -135,5 +133,15 @@ public class PolygonEditor implements ShapeEditor {
             if (points.get(i) > max) { max = points.get(i); }
         }
         return max;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Shape loadShape(ObjectInputStream stream) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

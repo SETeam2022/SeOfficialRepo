@@ -9,11 +9,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
-
 /**
  * This class is used to model a FileManager able to save the drawn shapes to an
  * xml file and get the saved shapes from an xml file.
