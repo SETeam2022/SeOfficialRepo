@@ -10,6 +10,11 @@ import javafx.scene.text.Text;
  */
 public class DrawableText extends Text implements DrawableShape{
 
+    public DrawableText(double d, double d1, String string) {
+        super(d, d1, string);
+    }
+    
+
     @Override
     public void setShapeWidth(double width) {
     }
