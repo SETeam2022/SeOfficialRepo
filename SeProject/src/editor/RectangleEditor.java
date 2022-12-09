@@ -1,5 +1,7 @@
 package editor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 

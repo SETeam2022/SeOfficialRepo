@@ -67,17 +67,13 @@ public class LineEditor extends ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Line original = (Line) shape;
-        Line clone = new Line();
+        Line clone = (Line) super.clone(shape);
 
         clone.setStartX(original.getStartX());
         clone.setStartY(original.getStartY());
 
         clone.setEndX(original.getEndX());
         clone.setEndY(original.getEndY());
-
-        clone.setStroke(original.getStroke());
-        clone.setFill(original.getFill());
-        clone.setStrokeWidth(original.getStrokeWidth());
         return clone;
     }
 
