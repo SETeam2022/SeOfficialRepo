@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import seproject.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.shapes.DrawableRectangle;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -16,7 +17,7 @@ import seproject.commands.Invoker;
  */
 public class RectangleTool extends DrawingTool {
 
-    private Rectangle rectangle;
+    private DrawableRectangle rectangle;
     private double startX, startY;
 
     /**
@@ -45,7 +46,7 @@ public class RectangleTool extends DrawingTool {
     public void onMousePressed(MouseEvent event) {
         startX = event.getX();
         startY = event.getY();
-        rectangle = new Rectangle(startX, startY, 0, 0);
+        rectangle = new DrawableRectangle(startX, startY, 0, 0);
         rectangle.setStroke(this.getStrokeColorProperty().getValue());
         rectangle.setFill(this.getFillColorProperty().getValue());
         rectangle.setStrokeWidth(DrawingTool.widthStroke);

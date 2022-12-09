@@ -48,7 +48,7 @@ public class PolygonTool extends DrawingTool {
             polygon.setStroke(this.getStrokeColorProperty().getValue());
             polygon.setFill(this.getFillColorProperty().getValue());
             polygon.setStrokeWidth(DrawingTool.widthStroke);
-            Invoker.getInvoker().executeCommand(new DrawShapeCommand(polygon, paper));
+            //Invoker.getInvoker().executeCommand(new DrawShapeCommand(polygon, paper));
         }
         polygon.getPoints().addAll(event.getX(), event.getY());
     }

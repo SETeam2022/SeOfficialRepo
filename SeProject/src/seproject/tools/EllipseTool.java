@@ -8,6 +8,7 @@ import javafx.scene.shape.Ellipse;
 import seproject.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.shapes.DrawableEllipse;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -15,7 +16,7 @@ import seproject.commands.Invoker;
  */
 public class EllipseTool extends DrawingTool {
 
-    private Ellipse ell;
+    private DrawableEllipse ell;
     private double startX, startY;
 
     /**
@@ -43,7 +44,7 @@ public class EllipseTool extends DrawingTool {
     public void onMousePressed(MouseEvent event) {
         startX = event.getX();
         startY = event.getY();
-        ell = new Ellipse(event.getX(), event.getY(), 0, 0);
+        ell = new DrawableEllipse(event.getX(), event.getY(), 0, 0);
         ell.setStroke(this.getStrokeColorProperty().getValue());
         ell.setFill(this.getFillColorProperty().getValue());
         ell.setStrokeWidth(DrawingTool.widthStroke);

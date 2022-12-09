@@ -8,6 +8,7 @@ import javafx.scene.shape.Line;
 import seproject.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.shapes.DrawableLine;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw Lines
@@ -15,7 +16,7 @@ import seproject.commands.Invoker;
  */
 public class LineTool extends DrawingTool {
 
-    private Line line;
+    private DrawableLine line;
 
     /**
      * Create a new LineTool
@@ -53,7 +54,7 @@ public class LineTool extends DrawingTool {
 
         double startX = event.getX();
         double startY = event.getY();
-        line = new Line(startX, startY, startX, startY);
+        line = new DrawableLine(startX, startY, startX, startY);
         line.setStroke(this.getStrokeColorProperty().getValue());
         line.setFill(this.getFillColorProperty().getValue());
         line.setStrokeWidth(DrawingTool.widthStroke);

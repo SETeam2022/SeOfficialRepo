@@ -406,7 +406,7 @@ public class FXMLDocumentController implements Initializable {
         }else{
             errorLabelRotation.setVisible(false);
             errorLabelRotation.setManaged(false);
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getShapeRotation();
             SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
         }
         return;
@@ -420,7 +420,7 @@ public class FXMLDocumentController implements Initializable {
         }else{
             errorLabelRotation.setVisible(false);
             errorLabelRotation.setManaged(false);
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getShapeRotation();           
             SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
         }
         return;

@@ -17,6 +17,7 @@ import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.commands.ResizeCommand;
 import seproject.commands.*;
+import seproject.shapes.DrawableShape;
 
 /**
  * This class is the rappresentation of a specialized tool that can draw
@@ -24,7 +25,7 @@ import seproject.commands.*;
  */
 public class SelectedShapeManager {
 
-    private Shape selectedShape = null;
+    private DrawableShape selectedShape = null;
 
     private final DoubleProperty widthProperty, heightProperty,rotationProperty;
 
@@ -75,7 +76,7 @@ public class SelectedShapeManager {
      *
      * @return selected shape
      */
-    public Shape getSelectedShape() {
+    public DrawableShape getSelectedShape() {
         return selectedShape;
     }
 
@@ -83,13 +84,13 @@ public class SelectedShapeManager {
      *
      * @param selectedShape set the selected shape an adds the selection effect
      */
-    public void setSelectedShape(Shape selectedShape) {
+    public void setSelectedShape(DrawableShape selectedShape) {
         ssm.selectedShape = selectedShape;
 
-        ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
-        ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
-        ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
-        ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
+        //ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
+        ssm.widthProperty.setValue(selectedShape.getShapeWidth());
+        ssm.heightProperty.setValue(selectedShape.getShapeHeight());
+        ssm.rotationProperty.setValue(selectedShape.getShapeRotation());
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
     }
@@ -164,7 +165,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color, ssm.selectedShape));
+        //Invoker.getInvoker().executeCommand(new ChangeFillColorCommand(color, ssm.selectedShape));
     }
 
     /**
@@ -176,7 +177,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape));
+        //Invoker.getInvoker().executeCommand(new ChangeStrokeColorCommand(color, ssm.selectedShape));
     }
 
     /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
@@ -187,7 +188,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape, paper));
+        //Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape, paper));
     }
 
     /**
@@ -197,7 +198,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape, paper));
+        //Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape, paper));
     }
 
 
@@ -209,7 +210,7 @@ public class SelectedShapeManager {
         if (selectedShape == null) {
             return;
         }
-        this.copiedShape = selectedShape;
+        //this.copiedShape = selectedShape;
         this.shapeIsCopiedProperty.setValue(true);
 
     }
@@ -222,9 +223,9 @@ public class SelectedShapeManager {
             return;
         }
         incrementCopy += 10;
-        Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
-        clone.relocate(copiedShape.getBoundsInParent().getMinX() + incrementCopy, copiedShape.getBoundsInParent().getMinY() + incrementCopy);
-        Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
+        //Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
+        //clone.relocate(copiedShape.getBoundsInParent().getMinX() + incrementCopy, copiedShape.getBoundsInParent().getMinY() + incrementCopy);
+        //Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
     }
 
     /**
@@ -278,7 +279,7 @@ public class SelectedShapeManager {
         if (selectedShape == null){
             return;
         }
-        Invoker.getInvoker().executeCommand(new MirrorVerticalCommand(selectedShape));
+        //Invoker.getInvoker().executeCommand(new MirrorVerticalCommand(selectedShape));
     }
     
     /**
@@ -287,6 +288,6 @@ public class SelectedShapeManager {
         if (selectedShape == null){
             return;
         }
-        Invoker.getInvoker().executeCommand(new MirrorHorizontalCommand(selectedShape));
+        //Invoker.getInvoker().executeCommand(new MirrorHorizontalCommand(selectedShape));
     }
 }

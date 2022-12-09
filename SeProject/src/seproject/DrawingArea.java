@@ -6,11 +6,13 @@
 package seproject;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import seproject.shapes.DrawableShape;
 
 /**
  * This class create an abstraction of the application's area where the user can
@@ -78,12 +80,15 @@ public class DrawingArea extends Pane {
         paper.setPrefHeight(height);
     }
 
-    public void addShape(Shape shape) {
-        paper.getChildren().add(shape);
+    public void addShape(DrawableShape shape) {
+        if (shape instanceof Node )
+            paper.getChildren().add( (Node)shape);
     }
     
-    public boolean removeShape(Shape shape){
-        return paper.getChildren().remove(shape);
+    public boolean removeShape(DrawableShape shape){
+        if (shape instanceof Node )
+            return paper.getChildren().remove( (Node)shape);
+        return false;
     }
 
     private Group makeGrid(int newDistance) {

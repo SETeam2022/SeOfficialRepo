@@ -3,6 +3,7 @@ package seproject.commands;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import seproject.DrawingArea;
+import seproject.shapes.DrawableShape;
 
 /**
  * An object of this class represent the action of deleteing a shape from the
@@ -11,7 +12,7 @@ import seproject.DrawingArea;
  */
 public class DeleteShapeCommand implements Command {
 
-    private final Shape shape;
+    private final DrawableShape shape;
     private final DrawingArea paper;
 
     /**
@@ -20,7 +21,7 @@ public class DeleteShapeCommand implements Command {
      * @param shape the shape that will be deleted
      * @param paper the pane on witch the shape is rendered
      */
-    public DeleteShapeCommand(Shape shape, DrawingArea paper) {
+    public DeleteShapeCommand(DrawableShape shape, DrawingArea paper) {
         this.shape = shape;
         this.paper = paper;
     }

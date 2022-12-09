@@ -5,6 +5,7 @@
 package seproject.commands;
 
 import javafx.scene.shape.Shape;
+import seproject.shapes.DrawableShape;
 
 /**
  *
@@ -13,24 +14,24 @@ import javafx.scene.shape.Shape;
 public class RotationCommand implements Command{
     
     private double newValue, oldValue;
-    private Shape shape;
+    private DrawableShape shape;
 
-    public RotationCommand(double newValue, Shape shape) {
+    public RotationCommand(double newValue, DrawableShape shape) {
         this.newValue = newValue;
         this.shape = shape;
-        this.oldValue = shape.getRotate();
+        this.oldValue = shape.getShapeRotation();
     }
 
     
     
     @Override
     public void execute() {
-        this.shape.rotateProperty().setValue(this.newValue);
+        this.shape.setShapeRotation(newValue);
     }
 
     @Override
     public void undo() {
-        this.shape.rotateProperty().setValue(oldValue);
+        this.shape.setShapeRotation(oldValue);
     }
     
 }

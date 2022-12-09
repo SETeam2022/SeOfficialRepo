@@ -120,7 +120,7 @@ public class TextTool extends DrawingTool {
             if (!(text == null || "".equals(text))) {
                 shape = new Text(rStartX, rStartY, text);
                 shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
-                Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
+                //Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
             }
         }
         resetTool();

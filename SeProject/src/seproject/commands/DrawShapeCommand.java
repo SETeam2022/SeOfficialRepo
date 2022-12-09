@@ -3,6 +3,7 @@ package seproject.commands;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import seproject.DrawingArea;
+import seproject.shapes.DrawableShape;
 import seproject.tools.SelectedShapeManager;
 
 /**
@@ -12,7 +13,7 @@ import seproject.tools.SelectedShapeManager;
  */
 public class DrawShapeCommand implements Command {
 
-    private final Shape shape;
+    private final DrawableShape shape;
 
     private final DrawingArea paper;
 
@@ -22,7 +23,7 @@ public class DrawShapeCommand implements Command {
      * @param shape the shape that will be added to the paper
      * @param paper the paper on witch the shape will be added
      */
-    public DrawShapeCommand(Shape shape, DrawingArea paper) {
+    public DrawShapeCommand(DrawableShape shape, DrawingArea paper) {
         this.shape = shape;
         this.paper = paper;
     }

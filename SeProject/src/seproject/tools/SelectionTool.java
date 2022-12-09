@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
 import seproject.DrawingArea;
 import seproject.commands.*;
+import seproject.shapes.DrawableShape;
 
 public class SelectionTool extends Tool {
 
@@ -14,7 +15,7 @@ public class SelectionTool extends Tool {
     private boolean shapeHasBeenDragged;
     
     private Overlay overlay;
-    private Shape selectedShape = null;
+    private DrawableShape selectedShape = null;
     
     private SimpleDoubleProperty scaleX;
     private SimpleDoubleProperty scaleY;
@@ -40,20 +41,20 @@ public class SelectionTool extends Tool {
         //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
         Object eventNode = event.getTarget();
         if (eventNode instanceof Shape) {
-                Shape tmp = (Shape) eventNode;      
+                DrawableShape tmp = (DrawableShape) eventNode;      
                 if(selectedShape== null|| !selectedShape.equals(tmp)){
                     deselect();
                     selectedShape = tmp;
-                    overlay = new Overlay(selectedShape);
-                    paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
+                    //overlay = new Overlay(selectedShape);
+                    //paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
                     manager.setSelectedShape(selectedShape);
-                    overlay.toFront();
-                    System.out.println("Sono un overlay");
+                    //overlay.toFront();
+                    System.out.println(selectedShape.getClass());
                 }
-                startX = selectedShape.getTranslateX(); 
-                startY = selectedShape.getTranslateY(); 
-                offsetX = event.getSceneX()/scaleX.getValue() - selectedShape.getTranslateX();
-                offsetY = event.getSceneY()/scaleY.getValue()- selectedShape.getTranslateY();
+                startX = selectedShape.getShapeTranslateX();
+                startY = selectedShape.getShapeTranslateY(); 
+                offsetX = event.getSceneX()/scaleX.getValue() - selectedShape.getShapeTranslateX();
+                offsetY = event.getSceneY()/scaleY.getValue()- selectedShape.getShapeTranslateY();
         } else {
             deselect();
             selectedShape = null;
@@ -71,8 +72,8 @@ public class SelectionTool extends Tool {
     public void onMouseDragged(MouseEvent event) {
         //Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
-            selectedShape.setTranslateX(event.getSceneX()/scaleX.getValue() - offsetX);
-            selectedShape.setTranslateY(event.getSceneY()/scaleY.getValue() - offsetY);
+            selectedShape.setShapeTranslateX(event.getSceneX()/scaleX.getValue() - offsetX);
+            selectedShape.setShapeTranslateY(event.getSceneY()/scaleY.getValue() - offsetY);
             shapeHasBeenDragged = true;
         }
     }
