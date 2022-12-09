@@ -47,7 +47,6 @@ public class SelectionTool extends Tool {
                 overlay = new Overlay(selectedShape);
                 paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
                 manager.getShapeIsSelectedProperty().addListener((cl, oldValue, newValue) -> {
-                    System.out.println("uee");
                     if (!newValue && overlay != null) {
 
                         paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
