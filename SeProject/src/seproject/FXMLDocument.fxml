@@ -16,6 +16,8 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -230,7 +232,7 @@
                                     <Label fx:id="errorLabelRotation" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" translateY="5.0" visible="false" />
                                  </children>
                               </VBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox prefHeight="77.0" prefWidth="230.0">
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0">
                                        <children>
@@ -254,6 +256,38 @@
                                     </VBox>
                                  </children>
                               </HBox>
+                              <VBox prefHeight="133.0" prefWidth="230.0">
+                                 <children>
+                                    <HBox prefHeight="32.0" prefWidth="230.0">
+                                       <children>
+                                          <Label text="Vertical Stretching" />
+                                          <Label text="Horizontal Stretching" translateX="10.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="32.0" prefWidth="230.0">
+                                       <children>
+                                          <Button fx:id="verticalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verticalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="30.0">
+                                             <graphic>
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../icons/stretch-vertical.png" />
+                                                   </image></ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="horizontalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#horizontalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="120.0">
+                                             <graphic>
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../icons/stretch-horizontal.png" />
+                                                   </image></ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="stretchingTextField" maxWidth="70.0" translateX="72.0" />
+                                    <Label fx:id="errorLabelStretching" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" translateY="5.0" visible="false" />
+                                 </children>
+                              </VBox>
                                     </children>
                                     <padding>
                                         <Insets left="8.0" top="10.0" />

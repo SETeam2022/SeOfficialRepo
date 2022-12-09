@@ -312,4 +312,26 @@ public class SelectedShapeManagerTest {
         assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleY(),0);
     }
     
+    /**
+     * Test of the VerticalStretchingShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testVerticalStretchingShape(){
+        System.out.println("verticalStretchingShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.verticalStreachingShape(2);
+        assertEquals(2,selectedShapeManager.getSelectedShape().getScaleY(),0);
+    }
+    
+    /**
+     * Test of the HorizontalStretchingShape method, of class SelectedShapeManager.
+     */
+    @Test
+    public void testHorizontalStretchingShape(){
+        System.out.println("horizontalStretchingShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.horizontalStreachingShape(2);
+        assertEquals(2,selectedShapeManager.getSelectedShape().getScaleX(),0);
+    }
+    
 }

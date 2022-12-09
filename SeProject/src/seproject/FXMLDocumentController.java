@@ -140,6 +140,15 @@ public class FXMLDocumentController implements Initializable {
     private Button mirrorVerticalButton;
     @FXML
     private Button mirrorHorizontalButton;
+    private TextField streachingTextField;
+    @FXML
+    private Button verticalStretchingButton;
+    @FXML
+    private Button horizontalStretchingButton;
+    @FXML
+    private TextField stretchingTextField;
+    @FXML
+    private Label errorLabelStretching;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -221,10 +230,11 @@ public class FXMLDocumentController implements Initializable {
         
 
         TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)), 
-                tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation));
+                tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation)), tfStretching = new TextFormatter(this.controlTextField(errorLabelStretching));
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
         rotationTextField.setTextFormatter(tfRotation);
+        stretchingTextField.setTextFormatter(tfStretching);
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
@@ -538,6 +548,41 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void mirrorHorizontalAction(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
+    }
+    
+    /**
+     * The method allow to vertical stretching on selected shape due to textField's value
+     * @param event 
+     */
+    @FXML
+    private void verticalStretchingAction(ActionEvent event) {
+        if (!validateSize(stretchingTextField.getText())){
+            errorLabelStretching.setManaged(true);
+            errorLabelStretching.setVisible(true);
+        }else{
+            errorLabelStretching.setVisible(false);
+            errorLabelStretching.setManaged(false);
+            SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape((Double.parseDouble(stretchingTextField.getText())));
+        }
+        return;
+
+    }
+
+    /**
+     * The method allow to horizontal stretching on selected shape due to textField's value
+     * @param event 
+     */
+    @FXML
+    private void horizontalStretchingAction(ActionEvent event) {
+        if (!validateSize(stretchingTextField.getText())){
+            errorLabelStretching.setManaged(true);
+            errorLabelStretching.setVisible(true);
+        }else{
+            errorLabelStretching.setVisible(false);
+            errorLabelStretching.setManaged(false);
+            SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape((Double.parseDouble(stretchingTextField.getText())));
+        }
+        return;
     }
     
 }

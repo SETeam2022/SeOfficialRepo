@@ -1,10 +1,12 @@
 package seproject.tools;
 
+import javafx.scene.control.TextArea;
 import static java.lang.Double.min;
 import static java.lang.Math.max;
 import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -20,13 +22,12 @@ import seproject.TestConstants;
 public class TextToolTest {
 
     private DrawingArea paper;
-
     private TextTool t;
     private ObjectProperty<Color> strokeColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private SecureRandom random;
     private MouseEvent pressEvent;
-    private static final int TOLLERANCE = 2;
+    private static final double TOLLERANCE = 0.0002;
 
     public TextToolTest() {
     }
@@ -39,6 +40,7 @@ public class TextToolTest {
      */
     @Before
     public void setUp() {
+        new JFXPanel();
         paper = new DrawingArea(TestConstants.MAX_WIDTH, TestConstants.MAX_HEIGHT);
         paper.setMinSize(TestConstants.MIN_WIDTH, TestConstants.MIN_HEIGHT);
         this.random = new SecureRandom();
@@ -117,23 +119,32 @@ public class TextToolTest {
     }
 
     /**
-     * I can't run the test, because the onMouseRelease event in the TextTool,
-     * building a TextArea (incompatible with JUnit) throws an
-     * java.lang.ExceptionInInitializerError at
-     * seproject.tools.TextTool.createTextAreaFromRectangle(TextTool.java:114);
+     * This text checks whether after the mouse release event there is a
+     * TextArea of ​​the desired size after the mouse dragged. For the
+     * dimensions and position of the TextArea to be considered valid, they must
+     * coincide with those of the Rectangle.
      */
     @Test
     public void testOnMouseReleased() {
         System.out.println("onMouseReleased");
 
-        /*Point2D vertexA = new Point2D(pressEvent.getX(), pressEvent.getY());
+        Point2D vertexA = new Point2D(pressEvent.getX(), pressEvent.getY());
         Point2D vertexB = new Point2D(random.nextInt(TestConstants.MAX_WIDTH / 2) + pressEvent.getX(), random.nextInt(TestConstants.MAX_HEIGHT / 2) + pressEvent.getY());
 
         t.onMousePressed(pressEvent);
         t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
         Rectangle testRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
-         */
+
+        int expectedValue = 3;
+        int actualValue = paper.getContainerOfPaperAndGrid().getChildren().size();
+
+        assertEquals(expectedValue, actualValue);
+
+        TextArea actualNode = (TextArea) paper.getContainerOfPaperAndGrid().getChildren().get(actualValue - 1);
+        assertEquals(testRectangle.getX(), actualNode.getLayoutX(), TOLLERANCE);
+        assertEquals(testRectangle.getY(), actualNode.getLayoutY(), TOLLERANCE);
+
     }
 
     /**
