@@ -1,5 +1,8 @@
 package editor;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
@@ -65,6 +68,26 @@ public class EllipseEditor extends ShapeEditor {
         clone.setRadiusY(original.getRadiusY());
         
         return clone;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
+        super.saveShape(shape, stream);
+        Ellipse ell = (Ellipse) shape;
+        stream.writeDouble(ell.getCenterX());
+        stream.writeDouble(ell.getCenterY());
+        stream.writeDouble(ell.getRadiusX());
+        stream.writeDouble(ell.getRadiusY());
+    }
+
+    @Override
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        Ellipse ell = (Ellipse) super.loadShape(c, stream);
+        ell.setCenterX(stream.readDouble());
+        ell.setCenterY(stream.readDouble());
+        ell.setRadiusX(stream.readDouble());
+        ell.setRadiusY(stream.readDouble());
+        return ell;
     }
 
 }

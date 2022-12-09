@@ -249,7 +249,7 @@ public class FXMLDocumentController implements Initializable {
     private void saveDrawing(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Save");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.bin"));
         File f = fc.showSaveDialog(drawingPane.getScene().getWindow());
         try {
             fm.save(f);
@@ -262,11 +262,17 @@ public class FXMLDocumentController implements Initializable {
     private void loadDrawing(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Load");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.bin"));
         File f = fc.showOpenDialog(drawingPane.getScene().getWindow());
         try {
             fm.load(f);
         } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

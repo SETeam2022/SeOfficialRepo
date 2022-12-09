@@ -1,5 +1,8 @@
 package editor;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -75,6 +78,26 @@ public class LineEditor extends ShapeEditor {
         clone.setEndX(original.getEndX());
         clone.setEndY(original.getEndY());
         return clone;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+        super.saveShape(shape, stream);
+        Line line = (Line) shape;
+        stream.writeDouble(line.getStartX());
+        stream.writeDouble(line.getStartY());
+        stream.writeDouble(line.getEndX());
+        stream.writeDouble(line.getEndY());
+    }
+
+    @Override
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Line line = (Line) super.loadShape(c, stream);
+        line.setStartX(stream.readDouble());
+        line.setStartY(stream.readDouble());
+        line.setEndX(stream.readDouble());
+        line.setEndY(stream.readDouble());
+        return line;
     }
 
 }

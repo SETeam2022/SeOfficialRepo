@@ -1,7 +1,8 @@
 package editor;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -59,6 +60,27 @@ public class RectangleEditor extends ShapeEditor {
         clone.setHeight(original.getHeight());
         clone.setWidth(original.getWidth());
         return clone;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+        super.saveShape(shape, stream);
+        Rectangle rect = (Rectangle) shape;
+        stream.writeDouble(rect.getX());
+        stream.writeDouble(rect.getY());
+        stream.writeDouble(rect.getWidth());
+        stream.writeDouble(rect.getHeight());
+        
+    }
+
+    @Override
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Rectangle rect = (Rectangle) super.loadShape(c, stream);
+        rect.setX(stream.readDouble());
+        rect.setY(stream.readDouble());
+        rect.setWidth(stream.readDouble());
+        rect.setHeight(stream.readDouble());
+        return rect;
     }
 
 }

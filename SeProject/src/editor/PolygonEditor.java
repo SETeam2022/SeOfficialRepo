@@ -1,5 +1,9 @@
 package editor;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
@@ -131,5 +135,19 @@ public class PolygonEditor extends ShapeEditor {
             if (points.get(i) > max) { max = points.get(i); }
         }
         return max;
+    }
+
+    @Override
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+        super.saveShape(shape, stream);
+        Polyline polygon = (Polyline) shape;
+        stream.writeObject(new ArrayList (polygon.getPoints()));
+    }
+
+    @Override
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Polyline polygon = (Polyline) super.loadShape(c, stream);
+        polygon.getPoints().setAll((ArrayList) stream.readObject());
+        return polygon;
     }
 }
