@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class TextEditor extends ShapeEditor {
@@ -18,6 +19,7 @@ public class TextEditor extends ShapeEditor {
 
     @Override
     public void setHeight(Shape shape, double height) {
+        ((Text) shape).setFont(Font.font(height));
     }
 
     @Override
@@ -27,7 +29,7 @@ public class TextEditor extends ShapeEditor {
 
     @Override
     public double getHeight(Shape shape) {
-        return ((Text) shape).getLayoutBounds().getHeight();
+        return ((Text) shape).getFont().getSize();
     }
 
     @Override
@@ -38,6 +40,8 @@ public class TextEditor extends ShapeEditor {
         clone.setY(original.getY());
         clone.setText(original.getText());
         clone.setWrappingWidth(original.getWrappingWidth());
+        clone.setFont(original.getFont());
+
         return clone;
     }
 

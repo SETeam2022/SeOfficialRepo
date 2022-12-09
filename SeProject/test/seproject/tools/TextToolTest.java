@@ -5,12 +5,14 @@ import static java.lang.Double.min;
 import static java.lang.Math.max;
 import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +27,10 @@ public class TextToolTest {
     private TextTool t;
     private ObjectProperty<Color> strokeColorProperty;
     private ObjectProperty<Color> fillColorProperty;
+    private ReadOnlyObjectProperty<Integer> textSpinnerValueProperty;
     private SecureRandom random;
     private MouseEvent pressEvent;
-    private static final double TOLLERANCE = 0.0002;
+    private static final double TOLLERANCE = 0.00002;
 
     public TextToolTest() {
     }
@@ -50,9 +53,10 @@ public class TextToolTest {
         fillColorProperty = new SimpleObjectProperty<>();
         strokeColorProperty.set(Color.DARKORCHID);
         fillColorProperty.set(Color.AQUA);
+        textSpinnerValueProperty = new SimpleObjectProperty<>(TestConstants.DEFAULT_TEXT_SIZE);
         //
         random = new SecureRandom();
-        t = new TextTool(paper, strokeColorProperty, fillColorProperty);
+        t = new TextTool(paper, strokeColorProperty, fillColorProperty,textSpinnerValueProperty);
         pressEvent = EventGenerator.PrimaryButtonMouseDrag(paper, paper, random.nextInt(TestConstants.MAX_WIDTH / 2), random.nextInt(TestConstants.MAX_HEIGHT / 2));
     }
 
@@ -140,10 +144,11 @@ public class TextToolTest {
         int actualValue = paper.getContainerOfPaperAndGrid().getChildren().size();
 
         assertEquals(expectedValue, actualValue);
-
+        
         TextArea actualNode = (TextArea) paper.getContainerOfPaperAndGrid().getChildren().get(actualValue - 1);
         assertEquals(testRectangle.getX(), actualNode.getLayoutX(), TOLLERANCE);
         assertEquals(testRectangle.getY(), actualNode.getLayoutY(), TOLLERANCE);
+        
 
     }
 

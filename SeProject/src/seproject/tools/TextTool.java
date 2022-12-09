@@ -2,10 +2,13 @@ package seproject.tools;
 
 import static java.lang.Math.abs;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
@@ -19,12 +22,14 @@ public class TextTool extends DrawingTool {
     private TextArea tempTextArea;
     private Rectangle tempRectangle;
     private Text shape;
+    private final ReadOnlyObjectProperty<Integer> textSpinnerValueProperty;
+    private final SimpleObjectProperty<Font> fontProperty;
 
     private double rStartX, rStartY;
 
     /**
      * This tool allows you to add text in the form of a Shape to your drawing
-     * area. The text will be entered by the user in the appropriate TextArea
+     * area.The text will be entered by the user in the appropriate TextArea
      * created after having drawn a rectangle by clicking on the drawing area
      * and dragging with the mouse.
      *
@@ -33,9 +38,19 @@ public class TextTool extends DrawingTool {
      * ColorPicker's value.
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * ColorPicker's value.
+     * @param textSpinnerValueProperty is the spinner's IntegerValueProperty
+     * used to manage the text size.
+     *
      */
-    public TextTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public TextTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty, ReadOnlyObjectProperty<Integer> textSpinnerValueProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
+
+        this.textSpinnerValueProperty = textSpinnerValueProperty;
+        this.fontProperty = new SimpleObjectProperty<>(Font.font(11));
+        textSpinnerValueProperty.addListener((cl, oldVal, newVal) -> {
+            fontProperty.set(Font.font(newVal));
+        });
+
     }
 
     /**
@@ -123,8 +138,9 @@ public class TextTool extends DrawingTool {
             String text = tempTextArea.textProperty().get().trim();
             if (!(text == null || "".equals(text))) {
                 shape = new Text(rStartX, rStartY, text);
-                shape.fillProperty().bind(getFillColorProperty());
-                shape.strokeProperty().bind(getStrokeColorProperty());
+                shape.fillProperty().set(getFillColorProperty().get());
+                shape.strokeProperty().set(getStrokeColorProperty().get());
+                shape.setFont(fontProperty.get());
                 shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
                 Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
             }
@@ -148,15 +164,11 @@ public class TextTool extends DrawingTool {
         rStartY = tempRectangle.getY();
         this.tempTextArea.relocate(rStartX, rStartY);
         this.tempTextArea.setWrapText(true);
+        this.tempTextArea.fontProperty().bind(fontProperty);
         this.tempTextArea.prefWidthProperty().set(tempRectangle.getWidth());
         this.tempTextArea.prefHeightProperty().set(tempRectangle.getHeight());
         unSetRectangle();
-        tempTextArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                return;
-            }
-            deselect();
-        });
+
         paper.getContainerOfPaperAndGrid().getChildren().add(this.tempTextArea);
     }
 
@@ -173,6 +185,7 @@ public class TextTool extends DrawingTool {
             return;
         }
         paper.getContainerOfPaperAndGrid().getChildren().remove(this.tempTextArea);
+        tempTextArea.fontProperty().unbind();
         tempTextArea = null;
     }
 
