@@ -3,6 +3,7 @@ package editor;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
+import seproject.PolylineWrapper;
 
 public class PolygonEditor implements ShapeEditor {
 
@@ -18,7 +19,7 @@ public class PolygonEditor implements ShapeEditor {
     @Override
     public void setWidth(Shape shape, double width) {
 
-        Polyline polygon = (Polyline) shape;
+        PolylineWrapper polygon = (PolylineWrapper) shape;
         double minX = getMin(polygon.getPoints(),0),
                maxX = getMax(polygon.getPoints(), 0);
         
@@ -44,7 +45,7 @@ public class PolygonEditor implements ShapeEditor {
     @Override
     public void setHeight(Shape shape, double height) {
         
-        Polyline polygon = (Polyline) shape;
+        PolylineWrapper polygon = (PolylineWrapper) shape;
         double minY = getMin(polygon.getPoints(),1),
                maxY = getMax(polygon.getPoints(), 1);
         
@@ -67,7 +68,7 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public double getWidth(Shape shape) {
-        Polyline polygon = (Polyline) shape;
+        PolylineWrapper polygon = (PolylineWrapper) shape;
         double minX = getMin(polygon.getPoints(), 0), maxX = getMax(polygon.getPoints(), 0);
         return Math.abs(Math.abs(maxX) - Math.abs(minX));
     }
@@ -81,7 +82,7 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public double getHeight(Shape shape) {
-        Polyline polygon = (Polyline) shape;
+        PolylineWrapper polygon = (PolylineWrapper) shape;
         double minY = getMin(polygon.getPoints(), 1), maxY = getMax(polygon.getPoints(), 1);
         return Math.abs(Math.abs(maxY) - Math.abs(minY));
     }
@@ -93,8 +94,8 @@ public class PolygonEditor implements ShapeEditor {
      */
     @Override
     public Shape clone(Shape shape) {
-        Polyline original = (Polyline) shape;
-        Polyline clone = new Polyline();
+        PolylineWrapper original = (PolylineWrapper) shape;
+        PolylineWrapper clone = new PolylineWrapper();
         clone.getPoints().setAll(original.getPoints());
         clone.setStroke(original.getStroke());
         clone.setStrokeWidth(original.getStrokeWidth());
