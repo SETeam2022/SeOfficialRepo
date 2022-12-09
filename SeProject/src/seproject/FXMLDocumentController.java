@@ -1,5 +1,6 @@
 package seproject;
 
+import com.sun.glass.ui.Screen;
 import seproject.customComponents.DrawingArea;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
@@ -47,6 +48,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -159,11 +161,9 @@ public class FXMLDocumentController implements Initializable {
         textSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 11, 2));
 
         gridButton.selectedProperty().setValue(false);
-
-        //drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
-        drawingPane = new DrawingArea(1920, 1080);
-        initDrawingArea();
-
+       
+        drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
+        initDrawingArea();   
         /*
         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
         *        scrollbars of the scrollpane becames sensibile.

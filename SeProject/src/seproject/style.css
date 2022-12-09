@@ -118,3 +118,7 @@
 #paper {
     -fx-background-color: white;    
 }
+
+.scroll-pane {
+    -fx-focus-color: transparent;
+}

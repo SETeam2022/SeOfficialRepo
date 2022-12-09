@@ -19,7 +19,7 @@ public class TextEditor extends ShapeEditor {
 
     @Override
     public void setHeight(Shape shape, double height) {
-        ((Text) shape).setFont(Font.font(height));
+        ((Text) shape).fontProperty().set(Font.font(height));
     }
 
     @Override
@@ -52,6 +52,7 @@ public class TextEditor extends ShapeEditor {
         stream.writeDouble(text.getX());
         stream.writeDouble(text.getY());
         stream.writeUTF(text.getText());
+        stream.writeDouble(text.getFont().getSize());
         stream.writeDouble(text.getWrappingWidth());
     }
 
@@ -61,6 +62,9 @@ public class TextEditor extends ShapeEditor {
         text.setX(stream.readDouble());
         text.setY(stream.readDouble());
         text.setText(stream.readUTF());
+        Font tempFont= Font.font(stream.readDouble());
+        text.setFont(tempFont);
+        text.fontProperty().set(tempFont);
         text.setWrappingWidth(stream.readDouble());
         return text;
     }
