@@ -3,30 +3,28 @@ package seproject.tools;
 import seproject.Overlay;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 import seproject.DrawingArea;
 import seproject.commands.*;
-import seproject.*;
 
 public class SelectionTool extends Tool {
-    
+
     private final SelectedShapeManager manager;
     private double startX, startY, offsetX, offsetY;
     private boolean shapeHasBeenDragged;
-    
+
     private Overlay overlay;
     private Shape selectedShape = null;
-    
+
     private SimpleDoubleProperty scaleX;
     private SimpleDoubleProperty scaleY;
-    
+
     public SelectionTool(DrawingArea paper) {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
         this.shapeHasBeenDragged = false;
         this.scaleX = new SimpleDoubleProperty();
-        this.scaleY = new SimpleDoubleProperty();        
+        this.scaleY = new SimpleDoubleProperty();
         this.scaleX.bind(paper.getContainerOfPaperAndGrid().scaleXProperty());
         this.scaleY.bind(paper.getContainerOfPaperAndGrid().scaleYProperty());
     }
@@ -42,25 +40,27 @@ public class SelectionTool extends Tool {
         //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
         Object eventNode = event.getTarget();
         if (eventNode instanceof Shape) {
-            Shape tmp = (Shape) eventNode;            
+            Shape tmp = (Shape) eventNode;
             if (selectedShape == null || !selectedShape.equals(tmp)) {
                 deselect();
                 selectedShape = tmp;
                 overlay = new Overlay(selectedShape);
                 paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
                 manager.getShapeIsSelectedProperty().addListener((cl, oldValue, newValue) -> {
+                    System.out.println("uee");
                     if (!newValue && overlay != null) {
+
                         paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
                     }
                 });
                 manager.setSelectedShape(selectedShape);
             }
-            startX = selectedShape.getTranslateX();            
-            startY = selectedShape.getTranslateY();            
+            startX = selectedShape.getTranslateX();
+            startY = selectedShape.getTranslateY();
             offsetX = event.getSceneX() / scaleX.getValue() - selectedShape.getTranslateX();
             offsetY = event.getSceneY() / scaleY.getValue() - selectedShape.getTranslateY();
         } else {
-            deselect();            
+            deselect();
         }
     }
 
@@ -95,7 +95,7 @@ public class SelectionTool extends Tool {
         }
         shapeHasBeenDragged = false;
     }
-    
+
     @Override
     public void deselect() {
         if (selectedShape == null) {
@@ -105,5 +105,5 @@ public class SelectionTool extends Tool {
         paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         selectedShape = null;
     }
-    
+
 }

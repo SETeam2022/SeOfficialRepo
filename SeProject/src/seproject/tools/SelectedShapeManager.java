@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -82,9 +83,11 @@ public class SelectedShapeManager {
      */
     public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
-        ssm.widthProperty.setValue(selectedShape.getLayoutBounds().getWidth());
-        ssm.heightProperty.setValue(selectedShape.getLayoutBounds().getHeight());
-        ssm.rotationProperty.setValue(selectedShape.getRotate());
+
+        ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
+        ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
+        ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
+        ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
     }

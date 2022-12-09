@@ -141,6 +141,7 @@ public class TextTool extends DrawingTool {
         rStartX = tempRectangle.getX();
         rStartY = tempRectangle.getY();
         this.tempTextArea.relocate(rStartX, rStartY);
+        this.tempTextArea.setWrapText(true);
         this.tempTextArea.prefWidthProperty().set(tempRectangle.getWidth());
         this.tempTextArea.prefHeightProperty().set(tempRectangle.getHeight());
         unSetRectangle();
