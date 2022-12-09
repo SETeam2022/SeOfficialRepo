@@ -2,7 +2,7 @@ package seproject.tools;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
 
 /**
  * This class is the rappresentation of a unspecialized abstract tool. In order

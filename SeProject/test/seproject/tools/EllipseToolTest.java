@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.*;
 import static org.junit.Assert.assertTrue;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
 import seproject.TestConstants;
 

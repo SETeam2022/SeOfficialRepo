@@ -1,4 +1,4 @@
-package seproject;
+package seproject.customComponents;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

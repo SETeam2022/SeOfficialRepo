@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
 import seproject.TestConstants;
 
