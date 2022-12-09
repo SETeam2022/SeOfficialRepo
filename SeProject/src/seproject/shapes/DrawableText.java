@@ -8,50 +8,50 @@ import javafx.scene.text.Text;
  *
  * @author alewi
  */
-public class DrawableText extends Text implements DrawableShape{
+public class DrawableText extends Text implements DrawableShape {
 
     public DrawableText(double d, double d1, String string) {
         super(d, d1, string);
     }
-    
 
     @Override
     public void setShapeWidth(double width) {
+        super.setWrappingWidth(width);
     }
 
     @Override
     public void setShapeHeight(double height) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 
     @Override
     public void setShapeRotation(double rotation) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setRotate(rotation);
     }
 
     @Override
     public double getShapeWidth() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return super.getWrappingWidth();
     }
 
     @Override
     public double getShapeHeight() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return super.getLayoutBounds().getHeight();
     }
 
     @Override
     public double getShapeRotation() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return  super.getRotate();
     }
 
     @Override
     public void setShapeFillColor(Color color) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setFill(color);
     }
 
     @Override
     public void setShapeStrokeColor(Color color) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setStroke(color);
     }
 
     @Override
@@ -83,5 +83,5 @@ public class DrawableText extends Text implements DrawableShape{
     public void setShapeTranslateY(double y) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
