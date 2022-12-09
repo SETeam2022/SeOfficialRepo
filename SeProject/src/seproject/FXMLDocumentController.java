@@ -161,11 +161,9 @@ public class FXMLDocumentController implements Initializable {
         gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));
         
         gridButton.selectedProperty().setValue(false);
-        
-        //drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
-        drawingPane = new DrawingArea(1920,1080);
-        initDrawingArea();
-        
+       
+        drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
+        initDrawingArea();   
         /*
         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
         *        scrollbars of the scrollpane becames sensibile.
@@ -173,7 +171,6 @@ public class FXMLDocumentController implements Initializable {
         Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
        
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
-        
         drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
         
