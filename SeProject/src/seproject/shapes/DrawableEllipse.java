@@ -14,6 +14,7 @@ import javafx.scene.shape.Ellipse;
  * @author teodoroadinolfi
  */
 public class DrawableEllipse extends Ellipse implements DrawableShape {
+    
 
     public DrawableEllipse(double x, double y, double radiusX, double radiusY ) {
         super(x,y,radiusX,radiusY);
@@ -21,72 +22,74 @@ public class DrawableEllipse extends Ellipse implements DrawableShape {
 
     @Override
     public void setShapeWidth(double width) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.setRadiusX(width / 2);
     }
 
     @Override
     public void setShapeHeight(double height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       super.setRadiusY(height/2);
     }
-
+    
     @Override
-    public void setShapeRotation(double rotation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setShapeFillColor(Color color){
+        super.setFill(color);
     }
-
+    
     @Override
-    public double getShapeWidth() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setShapeStrokeColor(Color color){
+        super.setStroke(color);
+    } 
+    
+    @Override
+    public Bounds getShapeLayoutBounds(){
+        return super.getLayoutBounds();
     }
-
+    
     @Override
-    public double getShapeHeight() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getShapeRotation() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setShapeFillColor(Color color) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setShapeStrokeColor(Color color) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Bounds getShapeLayoutBounds() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Bounds getShapeBoundsInParent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Bounds getShapeBoundsInParent(){
+        return super.getBoundsInParent();
     }
 
     @Override
     public double getShapeTranslateX() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.getTranslateX();
     }
 
     @Override
     public double getShapeTranslateY() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.getTranslateY();
     }
 
     @Override
     public void setShapeTranslateX(double x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.setTranslateX(x);
     }
 
     @Override
     public void setShapeTranslateY(double y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.setTranslateY(y);
+    }
+
+ 
+    @Override
+    public double getShapeWidth() {
+         return super.getRadiusX()/2;
+    }
+
+    @Override
+    public double getShapeHeight() {
+       return super.getRadiusY()/2;
+    }
+
+    
+    @Override
+    public void setShapeRotation(double rotation) {
+        super.setRotate(rotation);
+    }
+
+    @Override
+    public double getShapeRotation() {
+        return  super.getRotate();
     }
     
     
