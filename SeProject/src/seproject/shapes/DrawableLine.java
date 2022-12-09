@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seproject.shapes;
 
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-/**
- *
- * @author teodoroadinolfi
- */
 public class DrawableLine extends Line implements DrawableShape{
 
     public DrawableLine(double startX , double startY , double endX ,  double endY) {
@@ -21,12 +12,17 @@ public class DrawableLine extends Line implements DrawableShape{
 
     @Override
      public void setShapeWidth(double width){
-         //super.setWidth(width);
+        int old = (int) Math.round(this.getShapeWidth());
+        if (old == width) return;
+        setEndX(getStartX() + width);
      }
     
     @Override
     public void setShapeHeight(double height){
-        //super.setHeight(height);
+        int old = (int) Math.round(getShapeHeight());
+        if (old == height)  return;
+        if (getEndY() < getStartY()) setEndY(getStartY() - height);
+        else setEndY(getStartY() + height);
     }
     
     @Override
@@ -71,14 +67,12 @@ public class DrawableLine extends Line implements DrawableShape{
 
     @Override
     public double getShapeWidth() {
-        //return super.getWidth();
-        return 1;
+        return Math.abs(getEndX() - getStartX());
     }
 
     @Override
     public double getShapeHeight() {
-        //return super.getHeight();
-        return 1;
+        return Math.abs(getEndY() - getStartY());
     }
 
     @Override
@@ -88,6 +82,6 @@ public class DrawableLine extends Line implements DrawableShape{
 
     @Override
     public double getShapeRotation() {
-        return  super.getRotate();
+        return super.getRotate();
     }
 }
