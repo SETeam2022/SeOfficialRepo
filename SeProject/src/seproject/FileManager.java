@@ -54,13 +54,7 @@ public class FileManager {
                 
             }
         }
-        /*try ( XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(Files.newOutputStream(f.toPath())))) {
-            encoder.setExceptionListener(e -> {
-                throw new RuntimeException(e);
-            });
-            encoder.setPersistenceDelegate(Color.class, new DefaultPersistenceDelegate(new String[]{"red", "green", "blue", "opacity"}));
-            encoder.writeObject(paper.getChildren().toArray(new Node[0]));
-        }*/
+        
     }
 
     /**
@@ -83,14 +77,6 @@ public class FileManager {
                 paper.getChildren().add(s);
             }
         }
-
-        /*try ( XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(Files.newInputStream(f.toPath())))) {
-            decoder.setExceptionListener(e -> {
-                throw new RuntimeException(e);
-            });
-
-            paper.getChildren().setAll((Node[]) decoder.readObject());
-        }*/
 
     }
 

@@ -68,7 +68,7 @@ public class FileManagerTest {
      * Test of save method, of class FileManager.
      */
     @Test
-    public void testSave() {
+    public void testSave() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         System.out.println("save");
         testDrawingIO();
     }
@@ -77,7 +77,7 @@ public class FileManagerTest {
      * Test of load method, of class FileManager.
      */
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         System.out.println("load");
         testDrawingIO();
     }
@@ -197,7 +197,7 @@ public class FileManagerTest {
      * This method performs the test of the save and load methods, calling each
      * other.
      */
-    private void testDrawingIO() {
+    private void testDrawingIO() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         try {
 
             /* Test 1: the pane has no shapes on it */
@@ -210,7 +210,7 @@ public class FileManagerTest {
             fm.save(file2);
             fm.load(file2);
             /* Check the number of shapes into the paper, which at this point has to be 1. */
-            assertEquals(paper.getChildren().toArray().length, 1);
+            assertEquals(1, paper.getChildren().toArray().length);
             /* Check if the shape is an instance of Rectangle */
             assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
             Rectangle instancedRectangle = (Rectangle) paper.getChildren().toArray()[0];

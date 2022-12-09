@@ -148,6 +148,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField stretchingTextField;
     @FXML
     private Label errorLabelStretching;
+    @FXML
+    private Spinner<?> textSpinner;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -190,6 +192,9 @@ public class FXMLDocumentController implements Initializable {
                 child.getStyleClass().add("toggle-button");
             }
         }
+        
+        addTextButton.getStyleClass().remove("radio-button");
+        addTextButton.getStyleClass().add("toggle-button");
         
         for (Node child : sideBar.getItems()) {
             if (child instanceof RadioButton){
