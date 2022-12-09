@@ -2,7 +2,7 @@ package seproject.commands;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
 
 public class BringToFrontCommand implements Command {
 

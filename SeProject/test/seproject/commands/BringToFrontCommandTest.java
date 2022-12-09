@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
 import seproject.TestConstants;
 import seproject.tools.SelectedShapeManager;
 

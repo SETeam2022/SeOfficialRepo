@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seproject;
+package seproject.customComponents;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
@@ -54,7 +54,7 @@ public class DrawingArea extends Pane {
      */
     public void redrawGrid(int newDistance) {
         this.containerOfPaperAndGrid.getChildren().remove(grid);
-        grid = makeGrid(newDistance);
+        this.grid = makeGrid(newDistance);
         this.containerOfPaperAndGrid.getChildren().add(grid);
     }
 
@@ -69,13 +69,9 @@ public class DrawingArea extends Pane {
     public Pane getPaper() {
         return this.paper;
     }
-
-    public void setPaperWidth(double width) {
-        paper.setPrefWidth(width);
-    }
-
-    public void setPaperHeight(double height) {
-        paper.setPrefHeight(height);
+    
+    public Group getGrid(){
+        return this.grid;
     }
 
     public void addShape(Shape shape) {

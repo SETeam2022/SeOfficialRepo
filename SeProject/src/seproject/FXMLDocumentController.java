@@ -1,5 +1,6 @@
 package seproject;
 
+import seproject.customComponents.DrawingArea;
 import com.sun.glass.ui.Screen;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
@@ -161,8 +162,8 @@ public class FXMLDocumentController implements Initializable {
         
         gridButton.selectedProperty().setValue(false);
         
-        drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
-        
+        //drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
+        drawingPane = new DrawingArea(1920,1080);
         initDrawingArea();
         
         /*
