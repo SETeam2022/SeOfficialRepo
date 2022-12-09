@@ -1,5 +1,6 @@
 package editor;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Line;
@@ -69,28 +70,34 @@ public class LineEditor extends ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Line original = (Line) shape;
-        Line clone = new Line();
+        Line clone = (Line) super.clone(shape);
 
         clone.setStartX(original.getStartX());
         clone.setStartY(original.getStartY());
 
         clone.setEndX(original.getEndX());
         clone.setEndY(original.getEndY());
-
-        clone.setStroke(original.getStroke());
-        clone.setFill(original.getFill());
-        clone.setStrokeWidth(original.getStrokeWidth());
         return clone;
     }
 
     @Override
-    public void saveShape(Shape shape, ObjectOutputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+        super.saveShape(shape, stream);
+        Line line = (Line) shape;
+        stream.writeDouble(line.getStartX());
+        stream.writeDouble(line.getStartY());
+        stream.writeDouble(line.getEndX());
+        stream.writeDouble(line.getEndY());
     }
 
     @Override
-    public Shape loadShape(ObjectInputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Line line = (Line) super.loadShape(c, stream);
+        line.setStartX(stream.readDouble());
+        line.setStartY(stream.readDouble());
+        line.setEndX(stream.readDouble());
+        line.setEndY(stream.readDouble());
+        return line;
     }
 
 }

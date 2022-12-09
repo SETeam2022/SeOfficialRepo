@@ -1,5 +1,6 @@
 package editor;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Shape;
@@ -41,13 +42,23 @@ public class TextEditor extends ShapeEditor {
     }
 
     @Override
-    public void saveShape(Shape shape, ObjectOutputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+        super.saveShape(shape, stream);
+        Text text = (Text) shape;
+        stream.writeDouble(text.getX());
+        stream.writeDouble(text.getY());
+        stream.writeUTF(text.getText());
+        stream.writeDouble(text.getWrappingWidth());
     }
 
     @Override
-    public Shape loadShape(ObjectInputStream stream) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Text text = (Text) super.loadShape(c, stream);
+        text.setX(stream.readDouble());
+        text.setY(stream.readDouble());
+        text.setText(stream.readUTF());
+        text.setWrappingWidth(stream.readDouble());
+        return text;
     }
 
 }

@@ -64,6 +64,7 @@ public class RectangleEditor extends ShapeEditor {
 
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+        super.saveShape(shape, stream);
         Rectangle rect = (Rectangle) shape;
         stream.writeDouble(rect.getX());
         stream.writeDouble(rect.getY());
@@ -73,8 +74,13 @@ public class RectangleEditor extends ShapeEditor {
     }
 
     @Override
-    public Shape loadShape(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Rectangle rect = (Rectangle) super.loadShape(c, stream);
+        rect.setX(stream.readDouble());
+        rect.setY(stream.readDouble());
+        rect.setWidth(stream.readDouble());
+        rect.setHeight(stream.readDouble());
+        return rect;
     }
 
 }

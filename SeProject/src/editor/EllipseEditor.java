@@ -3,9 +3,6 @@ package editor;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
@@ -75,30 +72,21 @@ public class EllipseEditor extends ShapeEditor {
 
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
+        super.saveShape(shape, stream);
         Ellipse ell = (Ellipse) shape;
         stream.writeDouble(ell.getCenterX());
         stream.writeDouble(ell.getCenterY());
         stream.writeDouble(ell.getRadiusX());
         stream.writeDouble(ell.getRadiusY());
-        stream.writeObject(ell.getFill());
-        stream.writeObject(ell.getStroke());
-        stream.writeDouble(ell.getTranslateX());
-        stream.writeDouble(ell.getTranslateY());
-        stream.writeDouble(ell.getRotate());
     }
 
     @Override
-    public Shape loadShape(ObjectInputStream stream) throws IOException, ClassNotFoundException{
-        Ellipse ell = new Ellipse();
+    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        Ellipse ell = (Ellipse) super.loadShape(c, stream);
         ell.setCenterX(stream.readDouble());
         ell.setCenterY(stream.readDouble());
         ell.setRadiusX(stream.readDouble());
         ell.setRadiusY(stream.readDouble());
-        ell.setFill((Color)stream.readObject());
-        ell.setStroke((Color)stream.readObject());
-        ell.setTranslateX(stream.readDouble());
-        ell.setTranslateY(stream.readDouble());
-        ell.setRotate(stream.readDouble());
         return ell;
     }
 

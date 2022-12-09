@@ -271,7 +271,8 @@ public class SelectedShapeManager {
     /* -------------------------------------------------------------- MIRRORING --------------------------------------------------------------*/
     
     /**
-     * This method allow to mirrorVerticalShape the shape due to param     */
+     * This method allow to mirrorVerticalShape the shape
+    */
     public void mirrorVerticalShape(){
         if (selectedShape == null){
             return;
@@ -280,11 +281,36 @@ public class SelectedShapeManager {
     }
     
     /**
-     * This method allow to mirrorHorizontalShape the shape due to param     */
+     * This method allow to mirrorHorizontalShape the shape     
+    */
     public void mirrorHorizontalShape(){
         if (selectedShape == null){
             return;
         }
         Invoker.getInvoker().executeCommand(new MirrorHorizontalCommand(selectedShape));
     }
+    
+    /* -------------------------------------------------------------- STREACHING --------------------------------------------------------------*/
+    /**
+     * This method allow to vertical stretch on selected shape due to parameter.
+     * @param value 
+     */
+    public void verticalStreachingShape(double value){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new VerticalStretchingCommand(selectedShape,value));
+    }
+    
+    /**
+     * This method allow to horizontal stretch on selected shape due to parameter.
+     * @param value 
+     */
+    public void horizontalStreachingShape(double value){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new HorizontalStretchingCommand(selectedShape,value));
+    }
+    
 }
