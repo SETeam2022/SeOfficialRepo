@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
 
-public class PolygonEditor implements ShapeEditor {
+public class PolygonEditor extends ShapeEditor {
 
     /**
      * This method is used to set the width of a polygon to a given number.
@@ -94,11 +94,8 @@ public class PolygonEditor implements ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Polyline original = (Polyline) shape;
-        Polyline clone = new Polyline();
+        Polyline clone = (Polyline) super.clone(shape);
         clone.getPoints().setAll(original.getPoints());
-        clone.setStroke(original.getStroke());
-        clone.setStrokeWidth(original.getStrokeWidth());
-        clone.setFill(original.getFill());
         return clone;   
     }
 

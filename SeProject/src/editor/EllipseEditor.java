@@ -3,7 +3,7 @@ package editor;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
-public class EllipseEditor implements ShapeEditor {
+public class EllipseEditor extends ShapeEditor {
 
     public EllipseEditor() {
     }
@@ -56,17 +56,13 @@ public class EllipseEditor implements ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Ellipse original = (Ellipse) shape;
-        Ellipse clone = new Ellipse();
+        Ellipse clone = (Ellipse) super.clone(shape);
         
         clone.setCenterX(original.getCenterX());
         clone.setCenterY(original.getCenterY());
         
         clone.setRadiusX(original.getRadiusX());
         clone.setRadiusY(original.getRadiusY());
-        
-        clone.setStroke(original.getStroke());
-        clone.setFill(original.getFill());
-        clone.setStrokeWidth(original.getStrokeWidth());
         
         return clone;
     }

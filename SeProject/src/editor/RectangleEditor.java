@@ -3,7 +3,7 @@ package editor;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public class RectangleEditor implements ShapeEditor {
+public class RectangleEditor extends ShapeEditor {
 
     /**
      *
@@ -53,12 +53,9 @@ public class RectangleEditor implements ShapeEditor {
     @Override
     public Shape clone(Shape shape) {
         Rectangle original = (Rectangle) shape;
-        Rectangle clone = new Rectangle();
+        Rectangle clone = (Rectangle) super.clone(shape);
         clone.setHeight(original.getHeight());
         clone.setWidth(original.getWidth());
-        clone.setStroke(original.getStroke());
-        clone.setStrokeWidth(original.getStrokeWidth());
-        clone.setFill(original.getFill());
         return clone;
     }
 

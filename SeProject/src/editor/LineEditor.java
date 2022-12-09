@@ -3,7 +3,7 @@ package editor;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-public class LineEditor implements ShapeEditor {
+public class LineEditor extends ShapeEditor {
 
     /**
      *
