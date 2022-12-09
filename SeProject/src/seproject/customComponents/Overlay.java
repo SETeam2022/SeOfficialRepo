@@ -25,7 +25,7 @@ public class Overlay extends Rectangle {
                 updateOverlay(t1);
             });
         }
-
+        
         private void updateOverlay(Bounds t1) {
             setX(t1.getMinX());
             setY(t1.getMinY());
