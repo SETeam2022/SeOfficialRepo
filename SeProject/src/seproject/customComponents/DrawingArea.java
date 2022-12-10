@@ -5,10 +5,17 @@
  */
 package seproject.customComponents;
 
+import editor.EditorNotFoundException;
+import editor.ShapeEditor;
+import editor.ShapeEditorFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -44,7 +51,6 @@ public class DrawingArea extends Pane {
         containerOfPaperAndGrid = new Group(paper,grid);
         containerOfPaperAndGrid.setClip(new Rectangle (0,0, width,height));
         super.getChildren().add(containerOfPaperAndGrid);
-        
     }
 
     /**
