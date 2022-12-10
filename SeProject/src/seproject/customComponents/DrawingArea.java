@@ -1,45 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seproject.customComponents;
 
-import editor.EditorNotFoundException;
-import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
- * This class create an abstraction of the application's area where the user can
- * draw, one of the principal aim of the drawing area is the management of the
+ * This class creates an abstraction of the application's area where the user can
+ * draw. One of the main goals of the drawing area is the management of the
  * grid that is in overlay with the drawing.
+ * 
  */
 public class DrawingArea extends Pane {
     
-    
     private static final double CONV_FACTOR =  37.7952755906; // 1cm =  37.7952755906 pixels
     
-    private  Pane paper;
+    private final Pane paper;
     
     private Group grid;
 
-    private Group containerOfPaperAndGrid;
+    private final Group containerOfPaperAndGrid;
 
     /**
-     * Create an isstance of the Drawing Area
+     * Creates an instance of the Drawing Area.
      *
-     * @param height
-     * @param width
+     * @param height the height of the drawing area
+     * @param width the width of the drawing area
      */
     public DrawingArea(double width, double height) {
         super.setPrefSize(width, height);
@@ -54,7 +42,7 @@ public class DrawingArea extends Pane {
     }
 
     /**
-     * Redraw the grid, with a new size for the side's grids's square
+     * Redraw the grid, with a new size for the side's grids's square.
      *
      * @param newDistance the size in cm of the grid's square
      */
@@ -66,18 +54,21 @@ public class DrawingArea extends Pane {
         this.containerOfPaperAndGrid.getChildren().add(grid);
     }
     /**
-     * Makes the overlaying grid visible
+     * Makes the overlaying grid visible.
+     * 
      * @param val true if the grid must be visible, flase if the grid must be invisible
      */
     public void showGrid(boolean val) {
         grid.setVisible(val);
     }
+    
     /**
      * The paper and grid group contains the two main elements of the DrawingArea:
      * <ul>
      *  <li>The grid: a group containing all the lines that builds the grid</li>
-     *  <li>The paper: a pane on witch all the shapes are added</li>
+     *  <li>The paper: a pane on which all the shapes are added</li>
      * </ul>
+     * 
      * @return the group containing the two elements.
      */
     public Group getContainerOfPaperAndGrid() {
@@ -85,7 +76,8 @@ public class DrawingArea extends Pane {
     }
     
     /**
-     * Getter for the paper
+     * Getter for the paper.
+     * 
      * @return  the Pane that works as a papaer
      */
     public Pane getPaper() {
@@ -93,14 +85,17 @@ public class DrawingArea extends Pane {
     }
     
     /**
-     * Gettet fo the grid
+     * Getter for the grid.
+     * 
      * @return the group containing the lines that makes the grid
      */
     public Group getGrid(){
         return this.grid;
     }
+    
     /**
-     * Adds a shape into the the paper
+     * Adds a shape into the the paper.
+     * 
      * @param shape the shape that will be added.
      */
     public void addShape(Shape shape) {
@@ -108,7 +103,8 @@ public class DrawingArea extends Pane {
     }
     
     /**
-     * Remove a shape from the paper
+     * Removes a shape from the paper.
+     * 
      * @param shape the shape that will be removed
      * @return true if the shape has been removed, false otherwise
      */
