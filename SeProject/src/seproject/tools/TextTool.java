@@ -16,9 +16,9 @@ import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
 /**
- * This class is the representation of a specialized tool that can draw a
- * Text on the screen.
- * 
+ * This class is the representation of a specialized tool that can draw a Text
+ * on the screen.
+ *
  */
 public class TextTool extends DrawingTool {
 
@@ -62,8 +62,8 @@ public class TextTool extends DrawingTool {
     /**
      * This function will be called after a click with the mouse on the
      * DrawingArea, a dotted rectangle will be instantiated which will guide the
-     * user in setting the dimensions of the TextArea which will be
-     * transformed into Text.
+     * user in setting the dimensions of the TextArea which will be transformed
+     * into Text.
      *
      * @param event is the event that generated the call to this method its X
      * and Y coordinates will be used for setting up the top left corner of the
@@ -129,6 +129,14 @@ public class TextTool extends DrawingTool {
         drawTextFromTextArea();
     }
 
+    /**
+     *
+     * Method that performs the creation of a temporary rectangle that will
+     * guide the user in calibrating the size of the TextArea.
+     *
+     * @param x the x coordinate of the top left vertex of the rectangle
+     * @param y the y coordinate of the top left vertex of the rectangle
+     */
     private void createTempRectangle(double x, double y) {
         this.tempRectangle = new Rectangle(x, y, 0, 0);
         this.tempRectangle.getStrokeDashArray().addAll(2d, 3d);
@@ -137,6 +145,14 @@ public class TextTool extends DrawingTool {
         paper.addShape(this.tempRectangle);
     }
 
+    /**
+     * This method attempts to create the object of the Text class based on the
+     * text inserted in the TextArea and the set size.
+     *
+     * In any case, if the creation of the figure fails (either due to the fact
+     * that the TextArea has not yet been instantiated, or due to the fact that
+     * its content is null) the Tool restores the state of the drawing pad.
+     */
     private void drawTextFromTextArea() {
         if (tempTextArea != null) {
             String text = tempTextArea.textProperty().get().trim();
@@ -177,6 +193,10 @@ public class TextTool extends DrawingTool {
         paper.getContainerOfPaperAndGrid().getChildren().add(this.tempTextArea);
     }
 
+    /**
+     * This method performs the operation of deleting the temporary guide
+     * rectangle.
+     */
     private void unSetRectangle() {
         if (this.tempRectangle == null) {
             return;
@@ -185,6 +205,9 @@ public class TextTool extends DrawingTool {
         tempRectangle = null;
     }
 
+    /**
+     * This method performs the operation of deleting the TextArea.
+     */
     private void unSetTempTextArea() {
         if (this.tempTextArea == null) {
             return;
@@ -194,6 +217,10 @@ public class TextTool extends DrawingTool {
         tempTextArea = null;
     }
 
+    /**
+     * This method resets the tool by eliminating any temporary TextArea and any
+     * temporary rectangle.
+     */
     private void resetTool() {
         unSetRectangle();
         unSetTempTextArea();

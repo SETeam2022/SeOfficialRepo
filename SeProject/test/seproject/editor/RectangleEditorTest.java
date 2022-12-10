@@ -89,6 +89,9 @@ public class RectangleEditorTest {
         return actualHeight == expectedHeight;
     }
 
+    /**
+     * Test of the RectangleEditor class' clone method.
+     */
     @Test
     public void testClone() {
         System.out.println("clone");

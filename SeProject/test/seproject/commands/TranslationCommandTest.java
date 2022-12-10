@@ -48,6 +48,9 @@ public class TranslationCommandTest {
 
     }
     
+    /**
+     * Test of executeWithZoomedPane method, of class TranslationCommand.
+     */
     @Test
     public void testExecuteWithZoomedPane(){
         System.out.println("executeWithZoomedPane");

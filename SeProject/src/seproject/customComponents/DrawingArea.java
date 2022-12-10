@@ -39,6 +39,7 @@ public class DrawingArea extends Pane {
         containerOfPaperAndGrid = new Group(paper,grid);
         containerOfPaperAndGrid.setClip(new Rectangle (0,0, width,height));
         super.getChildren().add(containerOfPaperAndGrid);
+        
     }
 
     /**

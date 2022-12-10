@@ -4,117 +4,112 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Shape;
 
 /**
- * This class provides a series of methods to make some operations on an Ellipse.
- * 
+ * This class provides a series of methods to make some operations on an
+ * Ellipse.
+ *
  */
-public class EllipseEditor extends ShapeEditor {
+public class EllipseEditor extends ShapeEditor<Ellipse> {
 
     public EllipseEditor() {
     }
 
     /**
      * This method allows to change the width of an ellipse.
-     * 
-     * @param shape the ellipse you want to modify.
+     *
+     * @param ellipse the ellipse you want to modify.
      * @param width you want to set.
      */
     @Override
-    public void setWidth(Shape shape, double width) {
-        ((Ellipse) shape).setRadiusX(width / 2);
+    public void setWidth(Ellipse ellipse, double width) {
+        ellipse.setRadiusX(width / 2);
     }
 
     /**
      * This method allows to change the height of an ellipse.
      *
-     * @param shape the ellipse you want to modify.
-     * @param height you want to set.     
+     * @param ellipse the ellipse you want to modify.
+     * @param height you want to set.
      */
     @Override
-    public void setHeight(Shape shape, double height) {
-        ((Ellipse) shape).setRadiusY(height / 2);
+    public void setHeight(Ellipse ellipse, double height) {
+        ellipse.setRadiusY(height / 2);
     }
 
     /**
      * This method allows to retrieve the width of an ellipse.
      *
-     * @param shape the ellipse you want to get width.
+     * @param ellipse the ellipse you want to get width.
      * @return the ellipse width.
      */
     @Override
-    public double getWidth(Shape shape) {
-        return ((Ellipse) shape).layoutBoundsProperty().get().getWidth();
+    public double getWidth(Ellipse ellipse) {
+        return ellipse.layoutBoundsProperty().get().getWidth();
     }
 
     /**
      * This method allows to retrieve the height of an ellipse.
      *
-     * @param shape the ellipse you want to get height.
+     * @param ellipse the ellipse you want to get height.
      * @return the ellipse height.
      */
     @Override
-    public double getHeight(Shape shape) {
-        return ((Ellipse) shape).layoutBoundsProperty().get().getHeight();
+    public double getHeight(Ellipse ellipse) {
+        return ellipse.layoutBoundsProperty().get().getHeight();
     }
 
     /**
-     * This method allows to clone an ellipse. 
+     * This method allows to clone an ellipse.
      *
-     * @param shape the ellipse you want to clone.
+     * @param ellipse the ellipse you want to clone.
      * @return the cloned ellipse (as Shape).
      */
     @Override
-    public Shape clone(Shape shape) {
-        Ellipse original = (Ellipse) shape;
-        Ellipse clone = (Ellipse) super.clone(shape);
-        
-        clone.setCenterX(original.getCenterX());
-        clone.setCenterY(original.getCenterY());
-        
-        clone.setRadiusX(original.getRadiusX());
-        clone.setRadiusY(original.getRadiusY());
-        
+    public Ellipse clone(Ellipse ellipse) {
+        Ellipse clone = super.clone(ellipse);
+        clone.setCenterX(ellipse.getCenterX());
+        clone.setCenterY(ellipse.getCenterY());
+        clone.setRadiusX(ellipse.getRadiusX());
+        clone.setRadiusY(ellipse.getRadiusY());
         return clone;
     }
 
     /**
      * This method allows to save an ellipse.
-     * 
-     * @param shape
+     *
+     * @param ellipse
      * @param stream
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
-    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
-        super.saveShape(shape, stream);
-        Ellipse ell = (Ellipse) shape;
-        stream.writeDouble(ell.getCenterX());
-        stream.writeDouble(ell.getCenterY());
-        stream.writeDouble(ell.getRadiusX());
-        stream.writeDouble(ell.getRadiusY());
+    public void saveShape(Ellipse ellipse, ObjectOutputStream stream) throws IOException {
+        super.saveShape(ellipse, stream);
+        stream.writeDouble(ellipse.getCenterX());
+        stream.writeDouble(ellipse.getCenterY());
+        stream.writeDouble(ellipse.getRadiusX());
+        stream.writeDouble(ellipse.getRadiusY());
     }
 
     /**
      * This method allows to load an ellipse.
-     * 
+     *
      * @param c
      * @param stream
      * @return the loaded ellipse
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws InstantiationException
-     * @throws IllegalAccessException 
+     * @throws IllegalAccessException
      */
     @Override
-    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
-        Ellipse ell = (Ellipse) super.loadShape(c, stream);
-        ell.setCenterX(stream.readDouble());
-        ell.setCenterY(stream.readDouble());
-        ell.setRadiusX(stream.readDouble());
-        ell.setRadiusY(stream.readDouble());
-        return ell;
+    public Ellipse loadShape(Class<Ellipse> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Ellipse ellipse = super.loadShape(c, stream);
+        ellipse.setCenterX(stream.readDouble());
+        ellipse.setCenterY(stream.readDouble());
+        ellipse.setRadiusX(stream.readDouble());
+        ellipse.setRadiusY(stream.readDouble());
+        return ellipse;
     }
 
 }

@@ -12,7 +12,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

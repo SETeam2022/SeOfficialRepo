@@ -4,102 +4,99 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
 
 /**
  * This class provieds a series of methods to make some operations on a line.
- * 
+ *
  */
-public class LineEditor extends ShapeEditor {
+public class LineEditor extends ShapeEditor<Line> {
 
     /**
      * This method allows to change the width of a line.
      *
-     * @param shape the line you want to edit Width
+     * @param line the line you want to edit Width
      * @param width the new line width
      */
     @Override
-    public void setWidth(Shape shape, double width) {
-        int old = (int) Math.round(this.getWidth(shape));
+    public void setWidth(Line line, double width) {
+        int old = (int) Math.round(this.getWidth(line));
         if (old == width) {
             return;
         }
 
-        ((Line) shape).setEndX(((Line) shape).getStartX() + width);
+        line.setEndX(line.getStartX() + width);
     }
 
     /**
      * This method allows to change the height of a line.
      *
-     * @param shape the line you want to edit Height
+     * @param line the line you want to edit Height
      * @param height
      */
     @Override
-    public void setHeight(Shape shape, double height) {
-        int old = (int) Math.round(this.getHeight(shape));
+    public void setHeight(Line line, double height) {
+        int old = (int) Math.round(this.getHeight(line));
         if (old == height) {
             return;
         }
 
-        if (((Line) shape).getEndY() < ((Line) shape).getStartY()) {
-            ((Line) shape).setEndY(((Line) shape).getStartY() - height);
+        if (line.getEndY() < line.getStartY()) {
+            line.setEndY(line.getStartY() - height);
         } else {
-            ((Line) shape).setEndY(((Line) shape).getStartY() + height);
+            line.setEndY(line.getStartY() + height);
         }
     }
 
     /**
      * This method allows to retrieve the width of a line.
      *
-     * @param shape the line you want to get Width
+     * @param line the line you want to get Width
      * @return the width of the lines
      */
     @Override
-    public double getWidth(Shape shape) {
-        return Math.abs(((Line) shape).getEndX() - ((Line) shape).getStartX());
+    public double getWidth(Line line) {
+        return Math.abs(line.getEndX() - line.getStartX());
     }
 
     /**
      * This method allows to retrieve the height of a line.
      *
-     * @param shape the line you want to get Height
+     * @param line the line you want to get Height
      * @return the height of the line
      */
     @Override
-    public double getHeight(Shape shape) {
-        return Math.abs(((Line) shape).getEndY() - ((Line) shape).getStartY());
+    public double getHeight(Line line) {
+        return Math.abs(line.getEndY() - line.getStartY());
     }
-    
+
     /**
      * This method allows to clone a line.
-     * 
-     * @param shape the line you want to clone.
+     *
+     * @param line the line you want to clone.
      * @return the cloned line.
      */
     @Override
-    public Shape clone(Shape shape) {
-        Line original = (Line) shape;
-        Line clone = (Line) super.clone(shape);
+    public Line clone(Line line) {
+        Line clone = super.clone(line);
 
-        clone.setStartX(original.getStartX());
-        clone.setStartY(original.getStartY());
+        clone.setStartX(line.getStartX());
+        clone.setStartY(line.getStartY());
 
-        clone.setEndX(original.getEndX());
-        clone.setEndY(original.getEndY());
+        clone.setEndX(line.getEndX());
+        clone.setEndY(line.getEndY());
         return clone;
     }
 
     /**
      * This method allows to save a line.
-     * 
-     * @param shape
+     *
+     * @param line
      * @param stream
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
-    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
-        super.saveShape(shape, stream);
-        Line line = (Line) shape;
+    public void saveShape(Line line, ObjectOutputStream stream) throws IOException {
+        super.saveShape(line, stream);
         stream.writeDouble(line.getStartX());
         stream.writeDouble(line.getStartY());
         stream.writeDouble(line.getEndX());
@@ -108,18 +105,18 @@ public class LineEditor extends ShapeEditor {
 
     /**
      * This method allows to load a line.
-     * 
+     *
      * @param c
      * @param stream
      * @return the loaded line
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws InstantiationException
-     * @throws IllegalAccessException 
+     * @throws IllegalAccessException
      */
     @Override
-    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Line line = (Line) super.loadShape(c, stream);
+    public Line loadShape(Class<Line> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Line line = super.loadShape(c, stream);
         line.setStartX(stream.readDouble());
         line.setStartY(stream.readDouble());
         line.setEndX(stream.readDouble());
