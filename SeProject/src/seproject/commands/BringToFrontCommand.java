@@ -3,6 +3,12 @@ package seproject.commands;
 import javafx.scene.shape.Shape;
 import seproject.customComponents.DrawingArea;
 
+/**
+ * An object of this class represents the action of bringing a shape to front, 
+ * the object also stores all the information needed for the undo of its
+ * operation.
+ * 
+ */
 public class BringToFrontCommand implements Command {
 
     private final Shape shape;

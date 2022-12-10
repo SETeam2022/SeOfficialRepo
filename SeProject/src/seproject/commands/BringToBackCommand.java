@@ -3,6 +3,12 @@ package seproject.commands;
 import javafx.scene.shape.Shape;
 import seproject.customComponents.DrawingArea;
 
+/**
+ * An object of this class represents the action of bringing a shape to back, 
+ * the object also stores all the information needed for the undo of its
+ * operation.
+ * 
+ */
 public class BringToBackCommand implements Command {
 
     private final Shape shape;

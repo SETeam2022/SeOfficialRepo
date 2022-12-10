@@ -3,7 +3,6 @@ package seproject.tools;
 import static java.lang.Math.abs;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import seproject.customComponents.DrawingArea;
@@ -11,7 +10,7 @@ import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
 /**
- * This class is the rappresentation of a specialized tool that can draw
+ * This class is the representation of a specialized tool that can draw a
  * Rectangle on the screen.
  */
 public class RectangleTool extends DrawingTool {
@@ -20,9 +19,9 @@ public class RectangleTool extends DrawingTool {
     private double startX, startY;
 
     /**
-     * Create a new RectangleTool
+     * Creates a new RectangleTool.
      *
-     * @param paper is the pane on witch the new rectangle nodes will be added
+     * @param paper is the pane on which the new rectangle nodes will be added
      * @param strokeColorProperty is the associated ObjectProperty of Stroke
      * Interior Picker's value.
      * @param fillColorProperty is the associated ObjectProperty of Fill
@@ -33,9 +32,9 @@ public class RectangleTool extends DrawingTool {
     }
 
     /**
-     * This function will be called after a click with the mouse on the paper it
+     * This function will be called after a click with the mouse on the paper. It
      * will draw on the screen a rectangle by adding a new node as a child for
-     * the Pane that works as a Paper
+     * the Pane that works as a Paper.
      *
      * @param event is the event that generated the call to this method its X
      * and Y coordinates will be used for setting up the top left corner of the
@@ -75,6 +74,13 @@ public class RectangleTool extends DrawingTool {
         rectangle.setHeight(newHeight);
     }
 
+    /**
+     * This function will be called when the mouse is released after a drag. The
+     * drawn rectangle will be shown on the paper.
+     * 
+     * @param event is the event that generated the call to this method, its X
+     * and Y coordinates will be used for rectangle's coordinates managing.
+     */
     @Override
     public void onMouseReleased(MouseEvent event) {
         double newWidth = abs(startX - event.getX());
