@@ -35,7 +35,7 @@ public class SelectionTool extends Tool {
     }
 
     /**
-     * This function will be called after a click with the mouse on the paper it
+     * This function will be called after a click with the mouse on the paper. It
      * will select a shape on the screen.
      *
      * @param event is the event that generated the call to this method
@@ -61,7 +61,7 @@ public class SelectionTool extends Tool {
 
     /**
      * This function will be called after a click with the mouse on the paper
-     * and, while the mouse is pressed, the users performs a drag. This
+     * and, while the mouse is pressed, the user perform a drag. This
      * fuction allows the user to drag a selected shape on the screen.
      *
      * @param event is the event that generated the call to this method

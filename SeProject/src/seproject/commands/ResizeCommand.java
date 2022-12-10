@@ -2,7 +2,6 @@ package seproject.commands;
 
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
 /**
