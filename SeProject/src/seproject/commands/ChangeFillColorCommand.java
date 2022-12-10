@@ -5,9 +5,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
 /**
- * An object of this class represent the action of changeing the fill color of a
- * shape, the onject also stores all the information neded for the undo of its
- * operation
+ * An object of this class represents the action of changing the fill color of a
+ * shape, the object also stores all the information neded for the undo of its
+ * operation.
  */
 public class ChangeFillColorCommand implements Command {
 
@@ -16,9 +16,9 @@ public class ChangeFillColorCommand implements Command {
     private final Shape shape;
 
     /**
-     * Create a ChangeFillColorCommand
+     * Creates a ChangeFillColorCommand.
      *
-     * @param newColor the new color that will be used for filling the shape
+     * @param newColor the new color that will be used to fill the shape
      * @param shape the shape on witch the color change will be done
      */
     public ChangeFillColorCommand(Color newColor, Shape shape) {
@@ -28,7 +28,7 @@ public class ChangeFillColorCommand implements Command {
     }
 
     /**
-     * Change effectivly the color of the shape
+     * Changes the color of the shape.
      */
     @Override
     public void execute() {
@@ -36,7 +36,7 @@ public class ChangeFillColorCommand implements Command {
     }
 
     /**
-     * Restore the color of the shape, before the change
+     * Restores the color which the shape had before the change.
      */
     @Override
     public void undo() {

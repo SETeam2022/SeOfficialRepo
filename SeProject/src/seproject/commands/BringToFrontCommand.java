@@ -1,13 +1,12 @@
 package seproject.commands;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import seproject.customComponents.DrawingArea;
 
 public class BringToFrontCommand implements Command {
 
-    private Shape shape;
-    private DrawingArea paper;
+    private final Shape shape;
+    private final DrawingArea paper;
     private int index;
 
     /**
