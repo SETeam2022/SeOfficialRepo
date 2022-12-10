@@ -42,6 +42,9 @@ public class Invoker {
         }
     }
 
+    /**
+     * Creates the Invoker.
+     */
     private Invoker() {
         stack = new Stack<>();
         undoIsEnabled = new SimpleBooleanProperty();

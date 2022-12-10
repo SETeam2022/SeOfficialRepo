@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
+
 /**
  * This class is used to model a FileManager able to save the drawn shapes to a
  * binary file and get the saved shapes from an binary file.
@@ -35,6 +36,7 @@ public class FileManager {
     /**
      * Saves the drawn shapes into a binary file.
      *
+     * @param f
      * @throws IOException
      */
     public void save(File f) throws IOException {
@@ -60,7 +62,11 @@ public class FileManager {
     /**
      * Loads a drawing from a binary file.
      *
+     * @param f
      * @throws IOException
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.InstantiationException
+     * @throws java.lang.IllegalAccessException
      */
     public void load(File f) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
