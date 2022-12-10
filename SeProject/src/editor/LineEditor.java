@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
 
 /**
  * This class provieds a series of methods to make some operations on a line.
