@@ -13,7 +13,7 @@ public class EventGenerator {
          * @param y coordinate of the click
          * @return a new mouse event correctly generated.
          */
-        public static MouseEvent PrimaryButtonMouseClick(Object source, EventTarget destination, double x , double y){
+        public static MouseEvent PrimaryButtonMousePressed(Object source, EventTarget destination, double x , double y){
             return new MouseEvent(source,destination,MouseEvent.MOUSE_PRESSED,x,y,0,0,MouseButton.PRIMARY,1,false,false,false,false,true,false,false,false,false,false,null);
         }
         
@@ -25,7 +25,7 @@ public class EventGenerator {
          * @param y coordinate of the click
          * @return a new mouse event correctly generated.
          */
-        public static MouseEvent PrimaryButtonMouseDrag(Object source, EventTarget destination, double x , double y){
+        public static MouseEvent PrimaryButtonMouseDragged(Object source, EventTarget destination, double x , double y){
             return new MouseEvent(source,destination,MouseEvent.MOUSE_DRAGGED,x,y,0,0,MouseButton.PRIMARY,1,false,false,false,false,true,false,false,false,false,false,null);
         };
         

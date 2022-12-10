@@ -73,7 +73,7 @@ public class PolygonToolTest {
         borderColorProperty.set(Color.VIOLET);
         
         t = new PolygonTool(dw, borderColorProperty, fillColorProperty);
-        pressEvent = EventGenerator.PrimaryButtonMouseDrag(paper,paper,coordinates.get(0), coordinates.get(1));
+        pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper,paper,coordinates.get(0), coordinates.get(1));
     }
 
     /**
@@ -94,7 +94,7 @@ public class PolygonToolTest {
         checkColors(testShape,polyInstance);
         /* Test 2: More presses on the paper */
         polyInstance.getPoints().removeAll(coordinates);
-        for (i = 0; i<TestConstants.NUM_VERTICES*2; i += 2) pressEvent = EventGenerator.PrimaryButtonMouseDrag(paper,paper,coordinates.get(i), coordinates.get(i+1));
+        for (i = 0; i<TestConstants.NUM_VERTICES*2; i += 2) pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper,paper,coordinates.get(i), coordinates.get(i+1));
         i = 0;
         for (Double d : polyInstance.getPoints()) {
             assertEquals(testShape.getPoints().get(i), d);
@@ -111,7 +111,7 @@ public class PolygonToolTest {
         paper.getChildren().clear();
         t.onMousePressed(pressEvent);
         double width = testShape.getPoints().get(2), height = testShape.getPoints().get(3);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,width,height));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,width,height));
         testEndOfEdge(testShape,width,height);
     }
 
@@ -124,7 +124,7 @@ public class PolygonToolTest {
         paper.getChildren().clear();
         t.onMousePressed(pressEvent);
         double width = testShape.getPoints().get(2), height = testShape.getPoints().get(3);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,width,height));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,width,height));
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(paper, paper, width,height));
         testEndOfEdge(testShape,width,height);
     }

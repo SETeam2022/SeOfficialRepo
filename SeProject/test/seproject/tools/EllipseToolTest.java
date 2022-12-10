@@ -47,7 +47,7 @@ public class EllipseToolTest {
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         t = new EllipseTool(dw, borderColorProperty, fillColorProperty);
-        clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getCenterX(), testShape.getCenterY());
+        clickOnBlankPaper = EventGenerator.PrimaryButtonMousePressed(paper, paper, testShape.getCenterX(), testShape.getCenterY());
     }
 
     /**
@@ -81,7 +81,7 @@ public class EllipseToolTest {
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");
         t.onMousePressed(clickOnBlankPaper);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper, paper, testShape.getRadiusX(), testShape.getRadiusY()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper, paper, testShape.getRadiusX(), testShape.getRadiusY()));
         Node elem = paper.getChildren().get(0);
         assertTrue("The shape isn't of the same class of the testShape", elem instanceof Ellipse);
         Ellipse casted = (Ellipse) elem;

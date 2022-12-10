@@ -48,7 +48,7 @@ public class RectangleToolTest {
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         t = new RectangleTool(dw, borderColorProperty, fillColorProperty);
-        clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getX(), testShape.getY());
+        clickOnBlankPaper = EventGenerator.PrimaryButtonMousePressed(paper, paper, testShape.getX(), testShape.getY());
     }
 
     /**
@@ -81,7 +81,7 @@ public class RectangleToolTest {
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");
         t.onMousePressed(clickOnBlankPaper);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,testShape.getWidth(),testShape.getHeight()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,testShape.getWidth(),testShape.getHeight()));
         Node elem = paper.getChildren().get(0);
         assertTrue("The shape isn't of the same class of the testShape",elem instanceof Rectangle);
         Rectangle casted = (Rectangle) elem;

@@ -9,9 +9,11 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +32,7 @@ public class TextToolTest {
     private SecureRandom random;
     private MouseEvent pressEvent;
     private static final double TOLLERANCE = 0.00002;
+    private static final String TEST_TEXT = "HEY THERE, I'M USING DEFINITELY NOT PAINT!";
 
     public TextToolTest() {
     }
@@ -55,8 +58,8 @@ public class TextToolTest {
         textSpinnerValueProperty = new SimpleObjectProperty<>(TestConstants.DEFAULT_TEXT_SIZE);
         //
         random = new SecureRandom();
-        t = new TextTool(paper, strokeColorProperty, fillColorProperty,textSpinnerValueProperty);
-        pressEvent = EventGenerator.PrimaryButtonMouseDrag(paper, paper, random.nextInt(TestConstants.MAX_WIDTH / 2), random.nextInt(TestConstants.MAX_HEIGHT / 2));
+        t = new TextTool(paper, strokeColorProperty, fillColorProperty, textSpinnerValueProperty);
+        pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper, paper, random.nextInt(TestConstants.MAX_WIDTH / 2), random.nextInt(TestConstants.MAX_HEIGHT / 2));
     }
 
     @After
@@ -110,7 +113,7 @@ public class TextToolTest {
         Point2D vertexB = new Point2D(random.nextInt(TestConstants.MAX_WIDTH / 2) + pressEvent.getX(), random.nextInt(TestConstants.MAX_HEIGHT / 2) + pressEvent.getY());
 
         t.onMousePressed(pressEvent);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
 
         Rectangle expectedRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
         Rectangle actualRectangle = (Rectangle) paper.getPaper().getChildren().get(0);
@@ -135,19 +138,51 @@ public class TextToolTest {
         Point2D vertexB = new Point2D(random.nextInt(TestConstants.MAX_WIDTH / 2) + pressEvent.getX(), random.nextInt(TestConstants.MAX_HEIGHT / 2) + pressEvent.getY());
 
         t.onMousePressed(pressEvent);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
         Rectangle testRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
 
-        int expectedValue = 3;
-        int actualValue = paper.getContainerOfPaperAndGrid().getChildren().size();
+        int expectedSize = 3;
+        int actualSize = paper.getContainerOfPaperAndGrid().getChildren().size();
 
-        assertEquals(expectedValue, actualValue);
-        
-        TextArea actualNode = (TextArea) paper.getContainerOfPaperAndGrid().getChildren().get(actualValue - 1);
-        assertEquals(testRectangle.getX(), actualNode.getLayoutX(), TOLLERANCE);
-        assertEquals(testRectangle.getY(), actualNode.getLayoutY(), TOLLERANCE);
-        
+        assertEquals(expectedSize, actualSize);
+
+        Node actualNode = paper.getContainerOfPaperAndGrid().getChildren().get(actualSize - 1);
+        Class<?> expectedClass = TextArea.class;
+        assertEquals(expectedClass, actualNode.getClass());
+
+        TextArea actualTextArea = (TextArea) actualNode;
+        assertEquals(testRectangle.getX(), actualTextArea.getLayoutX(), TOLLERANCE);
+        assertEquals(testRectangle.getY(), actualTextArea.getLayoutY(), TOLLERANCE);
+        actualTextArea.setText(TEST_TEXT);
+        int outX = (int) (testRectangle.getX() + testRectangle.getWidth() + 1);
+        int outY = (int) (testRectangle.getY() + testRectangle.getHeight() + 1);
+        int randOutX = outX + random.nextInt(TestConstants.MAX_WIDTH - outX);
+        int randOutY = outY + random.nextInt(TestConstants.MAX_HEIGHT - outY);
+
+        /**
+         * At this point in the code, a mouse click is simulated outside the
+         * TextArea, to then verify that this is no longer present on the grid
+         * and sheet group and that the sheet itself contains the equivalent of
+         * the Text class. It will later check that its content matches the test
+         * string.
+         */
+        t.onMousePressed(EventGenerator.PrimaryButtonMousePressed(pressEvent.getSource(), pressEvent.getTarget(), randOutX, randOutY));
+        t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), randOutX, randOutY));
+
+        expectedSize = 2;
+        actualSize = paper.getContainerOfPaperAndGrid().getChildren().size();
+        assertEquals(expectedSize, actualSize);
+
+        expectedSize = 1;
+        actualSize = paper.getPaper().getChildren().size();
+        assertEquals(expectedSize, actualSize);
+
+        actualNode = paper.getPaper().getChildren().get(actualSize - 1);
+        expectedClass = Text.class;
+        assertEquals(expectedClass, actualNode.getClass());
+        Text actualText = (Text) actualNode;
+        assertEquals(TEST_TEXT, actualText.getText());
 
     }
 
