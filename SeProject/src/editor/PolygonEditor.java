@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape;
  * polyline.
  * 
  */
-public class PolygonEditor extends ShapeEditor {
+public class PolygonEditor extends ShapeEditor<Polyline> {
 
     /**
      * This method is used to set the width of a polygon to a given number.
@@ -21,13 +21,12 @@ public class PolygonEditor extends ShapeEditor {
      * coordinate of a shape, normalizes all the other points, rescaling them
      * in the new range.
      * 
-     * @param shape
+     * @param polygon
      * @param width 
      */
     @Override
-    public void setWidth(Shape shape, double width) {
-
-        Polyline polygon = (Polyline) shape;
+    public void setWidth(Polyline polygon, double width) {
+        
         double minX = getMin(polygon.getPoints(),0),
                maxX = getMax(polygon.getPoints(), 0);
         
@@ -42,18 +41,16 @@ public class PolygonEditor extends ShapeEditor {
     }
 
     /**
-     * This method is used to set the height of a polygon to a given number.
-     * Starting from the new desired height, calculates the minimum and maximum y
-     * coordinate of a shape, normalizes all the other points, rescaling them
-     * in the new range.
-     * 
-     * @param shape
+     * This method is used to set the height of a polygon to a given number.Starting from the new desired height, calculates the minimum and maximum y
+ coordinate of a shape, normalizes all the other points, rescaling them
+ in the new range.
+     *
+     * @param polygon 
      * @param height 
      */
     @Override
-    public void setHeight(Shape shape, double height) {
+    public void setHeight(Polyline polygon, double height) {
         
-        Polyline polygon = (Polyline) shape;
         double minY = getMin(polygon.getPoints(),1),
                maxY = getMax(polygon.getPoints(), 1);
         
@@ -68,42 +65,39 @@ public class PolygonEditor extends ShapeEditor {
     }
 
     /**
-     * This method is used to get the width of a polygon. It is calculated as the
-     * difference between the minimum and maximum x values of the polygon.
+     * This method is used to get the width of a polygon.It is calculated as the
+ difference between the minimum and maximum x values of the polygon.
      * 
-     * @param shape
+     * @param polygon
      * @return the width of the polyline
      */
     @Override
-    public double getWidth(Shape shape) {
-        Polyline polygon = (Polyline) shape;
+    public double getWidth(Polyline polygon) {
         double minX = getMin(polygon.getPoints(), 0), maxX = getMax(polygon.getPoints(), 0);
         return Math.abs(Math.abs(maxX) - Math.abs(minX));
     }
 
     /**
-     * This method is used to get the height of a polygon. It is calculated as the
-     * difference between the minimum and maximum y values of the polygon.
+     * This method is used to get the height of a polygon.It is calculated as the
+ difference between the minimum and maximum y values of the polygon.
      * 
-     * @param shape
+     * @param polygon
      * @return the height of the polyline
      */
     @Override
-    public double getHeight(Shape shape) {
-        Polyline polygon = (Polyline) shape;
+    public double getHeight(Polyline polygon) {
         double minY = getMin(polygon.getPoints(), 1), maxY = getMax(polygon.getPoints(), 1);
         return Math.abs(Math.abs(maxY) - Math.abs(minY));
     }
 
     /**
      * This method allows to clone the polygon and its duplicate.
-     * @param shape
+     * @param original
      * @return a polyline
      */
     @Override
-    public Shape clone(Shape shape) {
-        Polyline original = (Polyline) shape;
-        Polyline clone = (Polyline) super.clone(shape);
+    public Polyline clone(Polyline original) {
+        Polyline clone = super.clone(original);
         clone.getPoints().setAll(original.getPoints());
         return clone;   
     }
@@ -150,10 +144,9 @@ public class PolygonEditor extends ShapeEditor {
      * @throws IOException 
      */
     @Override
-    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
+    public void saveShape(Polyline shape, ObjectOutputStream stream) throws IOException {
         super.saveShape(shape, stream);
-        Polyline polygon = (Polyline) shape;
-        stream.writeObject(new ArrayList (polygon.getPoints()));
+        stream.writeObject(new ArrayList (shape.getPoints()));
     }
 
     /**
@@ -168,8 +161,8 @@ public class PolygonEditor extends ShapeEditor {
      * @throws IllegalAccessException 
      */
     @Override
-    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Polyline polygon = (Polyline) super.loadShape(c, stream);
+    public Polyline loadShape(Class<Polyline> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Polyline polygon = super.loadShape(c, stream);
         polygon.getPoints().setAll((ArrayList) stream.readObject());
         return polygon;
     }
