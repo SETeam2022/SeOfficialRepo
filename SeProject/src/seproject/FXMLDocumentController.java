@@ -1,7 +1,7 @@
 package seproject;
 
-import seproject.customComponents.DrawingArea;
 import com.sun.glass.ui.Screen;
+import seproject.customComponents.DrawingArea;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
 import seproject.tools.LineTool;
@@ -48,6 +48,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -93,7 +94,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider zoomSlider;
     @FXML
-    private ScrollPane scrollPane; 
+    private ScrollPane scrollPane;
     @FXML
     private RadioButton addTextButton;
     @FXML
@@ -150,26 +151,27 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
-   
+
     private DrawingArea drawingPane;
 
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
-        /*-----------------Grid initialization---------------------------------*/       
-        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));       
-        gridButton.selectedProperty().setValue(false);       
+        /*-----------------Text Spinner initialization---------------------------------*/
+        textSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 16, 2));
+        /*-----------------Grid initialization---------------------------------*/
+        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
+        gridButton.selectedProperty().setValue(false);
         drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
         /*Adds the handler to the drawing area*/
-        initDrawingArea();        
+        initDrawingArea();
         /*
         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
         *        scrollbars of the scrollpane becames sensibile.
         */
         Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);       
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
+
         drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
         drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());        
         gridSpinner.getValueFactory().valueProperty().addListener(change->{
@@ -189,7 +191,7 @@ public class FXMLDocumentController implements Initializable {
         addTextButton.getStyleClass().remove("radio-button");
         addTextButton.getStyleClass().add("toggle-button");        
         for (Node child : sideBar.getItems()) {
-            if (child instanceof RadioButton){
+            if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
                 child.getStyleClass().add("toggle-button");
             }
@@ -233,8 +235,8 @@ public class FXMLDocumentController implements Initializable {
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-        
-}
+
+    }
 
     @FXML
     private void saveDrawing(ActionEvent event) {
@@ -301,7 +303,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addText(ActionEvent event) {
-        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty(), textSpinner.valueProperty());
     }
 
     @FXML
@@ -326,14 +328,16 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void setNewWidth(KeyEvent event) {
+
         resizeSelectedShape(event);
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
+        System.out.println(event);
         resizeSelectedShape(event);
     }
-    
+
     @FXML
     private void leftRotationAction(ActionEvent event) {
         if (!handleErrorLabel()){
@@ -408,7 +412,7 @@ public class FXMLDocumentController implements Initializable {
     
      @FXML
     private void addGrid(ActionEvent event) {
-       drawingPane.showGrid(gridButton.selectedProperty().getValue());
+        drawingPane.showGrid(gridButton.selectedProperty().getValue());
     }
 
     /**
@@ -459,8 +463,8 @@ public class FXMLDocumentController implements Initializable {
         return true;
     }
 
-    private void initDrawingArea(){
-        
+    private void initDrawingArea() {
+
         drawingPane.getPaper().setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -472,7 +476,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-        
+
         drawingPane.getPaper().setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -481,7 +485,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-        
+
         drawingPane.getPaper().setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -491,14 +495,15 @@ public class FXMLDocumentController implements Initializable {
             }
         });
     }
-    
+
     /**
-     * This method allow to control the textField's text and label is 
-     * the error's label.
+     * This method allow to control the textField's text and label is the
+     * error's label.
+     *
      * @param label
-     * @return 
+     * @return
      */
-    private UnaryOperator<Change> controlTextField(Label label){
+    private UnaryOperator<Change> controlTextField(Label label) {
         UnaryOperator<Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
             if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {

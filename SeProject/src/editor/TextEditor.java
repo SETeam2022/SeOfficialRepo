@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -34,6 +35,7 @@ public class TextEditor extends ShapeEditor {
      */
     @Override
     public void setHeight(Shape shape, double height) {
+        ((Text) shape).fontProperty().set(Font.font(height));
     }
 
     /**
@@ -55,7 +57,7 @@ public class TextEditor extends ShapeEditor {
      */
     @Override
     public double getHeight(Shape shape) {
-        return ((Text) shape).getLayoutBounds().getHeight();
+        return ((Text) shape).getFont().getSize();
     }
 
     /**
@@ -72,6 +74,8 @@ public class TextEditor extends ShapeEditor {
         clone.setY(original.getY());
         clone.setText(original.getText());
         clone.setWrappingWidth(original.getWrappingWidth());
+        clone.setFont(original.getFont());
+
         return clone;
     }
 
@@ -89,6 +93,7 @@ public class TextEditor extends ShapeEditor {
         stream.writeDouble(text.getX());
         stream.writeDouble(text.getY());
         stream.writeUTF(text.getText());
+        stream.writeDouble(text.getFont().getSize());
         stream.writeDouble(text.getWrappingWidth());
     }
 
@@ -109,6 +114,9 @@ public class TextEditor extends ShapeEditor {
         text.setX(stream.readDouble());
         text.setY(stream.readDouble());
         text.setText(stream.readUTF());
+        Font tempFont= Font.font(stream.readDouble());
+        text.setFont(tempFont);
+        text.fontProperty().set(tempFont);
         text.setWrappingWidth(stream.readDouble());
         return text;
     }
