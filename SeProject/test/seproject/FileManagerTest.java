@@ -52,9 +52,9 @@ public class FileManagerTest {
         paper = new Pane();
         fm = new FileManager(paper);
         try {
-            this.file1 = folder.newFile("testfile1.xml");
-            this.file2 = folder.newFile("testfile2.xml");
-            this.file3 = folder.newFile("testfile3.xml");
+            this.file1 = folder.newFile("testfile1.bin");
+            this.file2 = folder.newFile("testfile2.bin");
+            this.file3 = folder.newFile("testfile3.bin");
             this.random = new SecureRandom();
             this.testRectangle = createRectangle();
             this.testEllipse = createEllipse();
@@ -68,7 +68,7 @@ public class FileManagerTest {
      * Test of save method, of class FileManager.
      */
     @Test
-    public void testSave() {
+    public void testSave() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         System.out.println("save");
         testDrawingIO();
     }
@@ -77,7 +77,7 @@ public class FileManagerTest {
      * Test of load method, of class FileManager.
      */
     @Test
-    public void testLoad() {
+    public void testLoad() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         System.out.println("load");
         testDrawingIO();
     }
@@ -116,6 +116,7 @@ public class FileManagerTest {
      */
     private Line createLine() {
         Line newLine = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        newLine.setFill(Color.VIOLET);
         newLine.setStroke(Color.VIOLET);
         return newLine;
     }
@@ -129,10 +130,10 @@ public class FileManagerTest {
      * @return boolean
      */
     private boolean checkDims(Rectangle instancedRectangle, Rectangle testRectangle) {
-        assertEquals(instancedRectangle.getX(), testRectangle.getX(), 0);
-        assertEquals(instancedRectangle.getY(), testRectangle.getY(), 0);
-        assertEquals(instancedRectangle.getWidth(), testRectangle.getWidth(), 0);
-        assertEquals(instancedRectangle.getHeight(), testRectangle.getHeight(), 0);
+        assertEquals(testRectangle.getX(), instancedRectangle.getX(), 0);
+        assertEquals(testRectangle.getY(),instancedRectangle.getY(),  0);
+        assertEquals(testRectangle.getWidth(), instancedRectangle.getWidth(), 0);
+        assertEquals(testRectangle.getHeight(), instancedRectangle.getHeight(), 0);
         return true;
     }
 
@@ -144,10 +145,10 @@ public class FileManagerTest {
      * @return boolean
      */
     private boolean checkDims(Line instancedLine, Line testLine) {
-        assertEquals(instancedLine.getStartX(), testLine.getStartX(), 0);
-        assertEquals(instancedLine.getStartY(), testLine.getStartY(), 0);
-        assertEquals(instancedLine.getEndX(), testLine.getEndX(), 0);
-        assertEquals(instancedLine.getEndY(), testLine.getEndY(), 0);
+        assertEquals(testLine.getStartX(), instancedLine.getStartX(), 0);
+        assertEquals(testLine.getStartY(),instancedLine.getStartY(),  0);
+        assertEquals(testLine.getEndX(),instancedLine.getEndX(),  0);
+        assertEquals(testLine.getEndY(), instancedLine.getEndY(), 0);
         return true;
     }
 
@@ -160,10 +161,10 @@ public class FileManagerTest {
      * @return boolean
      */
     private boolean checkDims(Ellipse instancedEllipse, Ellipse testEllipse) {
-        assertEquals(instancedEllipse.getCenterX(), testEllipse.getCenterX(), 0);
-        assertEquals(instancedEllipse.getCenterY(), testEllipse.getCenterY(), 0);
-        assertEquals(instancedEllipse.getRadiusX(), testEllipse.getRadiusX(), 0);
-        assertEquals(instancedEllipse.getRadiusY(), testEllipse.getRadiusY(), 0);
+        assertEquals(testEllipse.getCenterX(), instancedEllipse.getCenterX(), 0);
+        assertEquals(testEllipse.getCenterY(), instancedEllipse.getCenterY(), 0);
+        assertEquals(testEllipse.getRadiusX(), instancedEllipse.getRadiusX(), 0);
+        assertEquals(testEllipse.getRadiusY(), instancedEllipse.getRadiusY(), 0);
         return true;
     }
 
@@ -175,8 +176,8 @@ public class FileManagerTest {
      * @return boolean
      */
     private boolean checkColors(Rectangle instancedRectangle, Rectangle testRectangle) {
-        assertEquals(instancedRectangle.getFill(), testRectangle.getFill());
-        assertEquals(instancedRectangle.getStroke(), testRectangle.getStroke());
+        assertEquals(testRectangle.getFill(), instancedRectangle.getFill() );
+        assertEquals(testRectangle.getStroke(), instancedRectangle.getStroke() );
         return true;
     }
 
@@ -188,8 +189,8 @@ public class FileManagerTest {
      * @return boolean
      */
     private boolean checkColors(Ellipse instancedEllipse, Ellipse testEllipse) {
-        assertEquals(instancedEllipse.getFill(), testEllipse.getFill());
-        assertEquals(instancedEllipse.getStroke(), testEllipse.getStroke());
+        assertEquals(testEllipse.getFill(), instancedEllipse.getFill());
+        assertEquals(testEllipse.getStroke(), instancedEllipse.getStroke());
         return true;
     }
 
@@ -197,23 +198,23 @@ public class FileManagerTest {
      * This method performs the test of the save and load methods, calling each
      * other.
      */
-    private void testDrawingIO() {
+    private void testDrawingIO() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         try {
 
             /* Test 1: the pane has no shapes on it */
             fm.save(file1);
             fm.load(file1);
-            assertEquals(paper.getChildren().toArray().length, 0);
+            assertEquals(0, paper.getChildren().size());
 
             /* Test 2: the pane has a colored shape on it */
             paper.getChildren().add(testRectangle);
             fm.save(file2);
             fm.load(file2);
             /* Check the number of shapes into the paper, which at this point has to be 1. */
-            assertEquals(paper.getChildren().toArray().length, 1);
+            assertEquals(1, paper.getChildren().size());
             /* Check if the shape is an instance of Rectangle */
             assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
-            Rectangle instancedRectangle = (Rectangle) paper.getChildren().toArray()[0];
+            Rectangle instancedRectangle = (Rectangle) paper.getChildren().get(0);
             /* Check if the tested rectangle and the instanced rectangle have the same dimensions */
             assertTrue(checkDims(instancedRectangle, testRectangle));
             /* Check if the tested rectangle and the instanced rectangle have the same colors */
@@ -224,22 +225,22 @@ public class FileManagerTest {
             fm.save(file3);
             fm.load(file3);
             /* Check the number of shapes into the paper, which at this point has to be 3. */
-            assertEquals(paper.getChildren().toArray().length, 3);
+            assertEquals(3, paper.getChildren().size());
             /* Check the instances' types of the shapes (in order of insertion among the children of the pane) */
             assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
             assertTrue(paper.getChildren().toArray()[1] instanceof Line);
             assertTrue(paper.getChildren().toArray()[2] instanceof Ellipse);
-            instancedRectangle = (Rectangle) paper.getChildren().toArray()[0];
+            instancedRectangle = (Rectangle) paper.getChildren().get(0);
             /* Check if the tested rectangle and the instanced rectangle have the same dimensions */
             assertTrue(checkDims(instancedRectangle, testRectangle));
             /* Check if the tested rectangle and the instanced rectangle have the same colors */
             assertTrue(checkColors(instancedRectangle, testRectangle));
-            Line instancedLine = (Line) paper.getChildren().toArray()[1];
+            Line instancedLine = (Line) paper.getChildren().get(1);
             /* Check if the tested line and the instanced line have the same dimensions */
             assertTrue(checkDims(instancedLine, testLine));
             /* Check if the tested line and the instanced line have the same colors */
-            assertEquals(instancedLine.getStroke(), testLine.getStroke());
-            Ellipse instancedEllipse = (Ellipse) paper.getChildren().toArray()[2];
+            assertEquals(testLine.getStroke(), instancedLine.getStroke());
+            Ellipse instancedEllipse = (Ellipse) paper.getChildren().get(2);
             /* Check if the tested ellipse and the ellipse line have the same dimensions */
             assertTrue(checkDims(instancedEllipse, testEllipse));
             /* Check if the tested ellipse and the ellipse line have the same colors */

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package seproject;
+package seproject.customComponents;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
@@ -54,38 +54,60 @@ public class DrawingArea extends Pane {
      */
     public void redrawGrid(int newDistance) {
         this.containerOfPaperAndGrid.getChildren().remove(grid);
-        grid = makeGrid(newDistance);
+        this.grid = makeGrid(newDistance);
         this.containerOfPaperAndGrid.getChildren().add(grid);
     }
-
+    /**
+     * Makes the overlaying grid visible
+     * @param val true if the grid must be visible, flase if the grid must be invisible
+     */
     public void showGrid(boolean val) {
         grid.setVisible(val);
     }
-
+    /**
+     * The paper and grid group contains the two main elements of the DrawingArea:
+     * <ul>
+     *  <li>The grid: a group containing all the lines that builds the grid</li>
+     *  <li>The paper: a pane on witch all the shapes are added</li>
+     * </ul>
+     * @return the group containing the two elements.
+     */
     public Group getContainerOfPaperAndGrid() {
         return this.containerOfPaperAndGrid;
     }
-
+    
+    /**
+     * Getter for the paper
+     * @return  the Pane that works as a papaer
+     */
     public Pane getPaper() {
         return this.paper;
     }
-
-    public void setPaperWidth(double width) {
-        paper.setPrefWidth(width);
+    
+    /**
+     * Gettet fo the grid
+     * @return the group containing the lines that makes the grid
+     */
+    public Group getGrid(){
+        return this.grid;
     }
-
-    public void setPaperHeight(double height) {
-        paper.setPrefHeight(height);
-    }
-
+    /**
+     * Adds a shape into the the paper
+     * @param shape the shape that will be added.
+     */
     public void addShape(Shape shape) {
         paper.getChildren().add(shape);
     }
     
+    /**
+     * Remove a shape from the paper
+     * @param shape the shape that will be removed
+     * @return true if the shape has been removed, false otherwise
+     */
     public boolean removeShape(Shape shape){
         return paper.getChildren().remove(shape);
     }
-
+    
     private Group makeGrid(int newDistance) {
         double distanceInPixel = newDistance * CONV_FACTOR;
         Group g = new Group();

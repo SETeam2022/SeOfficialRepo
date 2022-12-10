@@ -2,7 +2,7 @@ package seproject.commands;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
 import seproject.tools.SelectedShapeManager;
 
 /**

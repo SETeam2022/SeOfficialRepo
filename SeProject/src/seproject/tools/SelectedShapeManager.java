@@ -7,7 +7,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import seproject.DrawingArea;
+import seproject.customComponents.DrawingArea;
+import seproject.customComponents.Overlay;
 import seproject.commands.ChangeFillColorCommand;
 import seproject.commands.ChangeStrokeColorCommand;
 import seproject.commands.DeleteShapeCommand;
@@ -37,6 +38,8 @@ public class SelectedShapeManager {
     private Shape copiedShape = null;
 
     private int incrementCopy = 0;
+    
+    private Overlay overlay;
 
     private SelectedShapeManager() {
 
@@ -85,6 +88,8 @@ public class SelectedShapeManager {
         ssm.selectedShape = selectedShape;
 
         ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
+        overlay = new Overlay(selectedShape);
+        paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
         ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
         ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
         ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
@@ -99,6 +104,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
+        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
         ssm.selectedShape = null;
     }
@@ -148,8 +154,7 @@ public class SelectedShapeManager {
         }
 
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
-        ssm.selectedShape = null;
-        ssm.shapeIsSelectedProperty.setValue(false);
+        ssm.unsetSelectedShape();
 
     }
 
