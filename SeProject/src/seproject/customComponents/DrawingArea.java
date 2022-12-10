@@ -53,8 +53,10 @@ public class DrawingArea extends Pane {
      * @param newDistance the size in cm of the grid's square
      */
     public void redrawGrid(int newDistance) {
+        boolean oldValue = grid.visibleProperty().getValue();
         this.containerOfPaperAndGrid.getChildren().remove(grid);
         this.grid = makeGrid(newDistance);
+        this.grid.setVisible(oldValue);
         this.containerOfPaperAndGrid.getChildren().add(grid);
     }
     /**
