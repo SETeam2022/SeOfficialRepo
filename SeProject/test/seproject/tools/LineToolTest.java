@@ -46,7 +46,7 @@ public class LineToolTest {
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
         t = new LineTool(dw, borderColorProperty, fillColorProperty);
-        clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getStartX(), testShape.getStartY());
+        clickOnBlankPaper = EventGenerator.PrimaryButtonMousePressed(paper, paper, testShape.getStartX(), testShape.getStartY());
     }
 
     /**
@@ -79,7 +79,7 @@ public class LineToolTest {
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");
         t.onMousePressed(clickOnBlankPaper);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,testShape.getEndX(),  testShape.getEndY()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,testShape.getEndX(),  testShape.getEndY()));
         Node elem = paper.getChildren().get(0);
         assertTrue("The shape isn't of the same class of the testShape",elem instanceof Line);
         Line casted = (Line) elem;
