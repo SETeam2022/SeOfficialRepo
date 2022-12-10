@@ -17,6 +17,9 @@ public class ShapeEditorFactoryTest {
     public ShapeEditorFactoryTest() {
     }
 
+    /**
+     * Test of the getInstance methods, of class ShapeEditorFactory.
+     */
     @Test
     public void testGetInstance() {
         System.out.println("getInstance");
