@@ -18,8 +18,8 @@ import seproject.commands.ResizeCommand;
 import seproject.commands.*;
 
 /**
- * This class is the rappresentation of a specialized tool that can draw
- * SelectedShapeManager on the screen.
+ * This class represents a SelectedShapeManager.
+ * 
  */
 public class SelectedShapeManager {
 
@@ -41,6 +41,9 @@ public class SelectedShapeManager {
     
     private Overlay overlay;
 
+    /**
+     * Creates a SelectedShapeManager.
+     */
     private SelectedShapeManager() {
 
         this.widthProperty = new SimpleDoubleProperty();
@@ -53,7 +56,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * This methods returns the only instance of the selectedShapeManager
+     * This methods returns the only instance of the selectedShapeManager.
      *
      * @return ssm
      */
@@ -65,7 +68,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * This method must be called before the use of the SelectedShapeManager
+     * This method must be called before the use of the SelectedShapeManager.
      *
      * @param paper the pane on witch the shape will be selected
      */
@@ -74,7 +77,6 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return selected shape
      */
     public Shape getSelectedShape() {
@@ -82,8 +84,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
-     * @param selectedShape set the selected shape an adds the selection effect
+     * @param selectedShape set the selected shape an adds the selection overlay
      */
     public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
@@ -120,7 +121,6 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return widthProperty an observable property which contains the width of
      * the current shape's bounds
      */
@@ -129,7 +129,6 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return widthProperty an observable property which contains the height of
      * the current shape's bounds
      */
@@ -137,17 +136,25 @@ public class SelectedShapeManager {
         return ssm.heightProperty;
     }
     
+    /**
+     * @return widthProperty an observable property which contains the rotation value of
+     * the current shape's bounds
+     */
     public DoubleProperty getRotationProperty(){
         return ssm.rotationProperty;
     }
     
+    /**
+     * @return widthProperty an observable property which contains the stretch value of
+     * the current shape's bounds
+     */
     public DoubleProperty getStretchProperty(){
         return ssm.stretchProperty;
     }
 
     /**
-     * When this method is called if a shape has been selected it will be
-     * deleted from the paper
+     * When this method is called, if a shape has been selected, it will be
+     * deleted from the paper.
      */
     public void deleteSelectedShape() throws RuntimeException {
 
@@ -165,7 +172,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * Change the fill color of the selected shape to a given color
+     * Change the fill color of the selected shape to a given color.
      *
      * @param color the new color for filling the shape
      */
@@ -177,7 +184,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * Change the stroke color of the selected shape to a given color
+     * Change the stroke color of the selected shape to a given color.
      *
      * @param color the new color for the stroke of the shape
      */
@@ -189,8 +196,9 @@ public class SelectedShapeManager {
     }
 
     /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
+    
     /**
-     * Bring the selected shape on top layer
+     * Bring the selected shape on top layer.
      */
     public void bringToFrontShape() {
         if (ssm.selectedShape == null) {
@@ -200,7 +208,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * Bring the selected shape on down layer
+     * Bring the selected shape on down layer.
      */
     public void bringToBackShape() {
         if (ssm.selectedShape == null) {
@@ -211,6 +219,7 @@ public class SelectedShapeManager {
 
 
     /*-------------------------------------------CUT COPY AND PASTE ---------------------------------------------------------------*/
+    
     /**
      * This method performs the copy of the selected shape.
      */
@@ -245,7 +254,6 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return shapeIsCopiedProperty which allows to know if the selected shape
      * has been copied
      */
@@ -254,6 +262,7 @@ public class SelectedShapeManager {
     }
 
     /*--------------------------------------------------------------------RESIZE-----------------------------------------------------*/
+    
     /**
      * This method performs the resize of the selected shape.
      *
@@ -268,8 +277,9 @@ public class SelectedShapeManager {
     }
     
     /* -------------------------------------------------------------- ROTATION --------------------------------------------------------------*/
+    
     /**
-     * This method allow to rotate the shape due to param
+     * This method allow to rotate the shape due to param.
      * @param value
      */
     public void rotationShape(Double value){
@@ -282,8 +292,8 @@ public class SelectedShapeManager {
     /* -------------------------------------------------------------- MIRRORING --------------------------------------------------------------*/
     
     /**
-     * This method allow to mirrorVerticalShape the shape
-    */
+     * This method allow to mirrorVerticalShape the shape.
+     */
     public void mirrorVerticalShape(){
         if (selectedShape == null){
             return;
@@ -292,8 +302,8 @@ public class SelectedShapeManager {
     }
     
     /**
-     * This method allow to mirrorHorizontalShape the shape     
-    */
+     * This method allow to mirrorHorizontalShape the shape.     
+     */
     public void mirrorHorizontalShape(){
         if (selectedShape == null){
             return;
@@ -302,6 +312,7 @@ public class SelectedShapeManager {
     }
     
     /* -------------------------------------------------------------- STREACHING --------------------------------------------------------------*/
+    
     /**
      * This method allow to vertical stretch on selected shape due to parameter.
      * @param value 

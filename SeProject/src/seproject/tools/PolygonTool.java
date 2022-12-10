@@ -102,17 +102,11 @@ public class PolygonTool extends DrawingTool {
      */
     @Override
     public void deselect() {
-
-        if (polygon == null) {
-            return;
-        }
-
+        if (polygon == null) return;
         double startX = polygon.getPoints().get(0), startY = polygon.getPoints().get(1),
                 endX = polygon.getPoints().get(polygon.getPoints().size() - 2), endY = polygon.getPoints().get(polygon.getPoints().size() - 1);
-        if (!(startX == endX && startY == endY)) {
+        if (!(startX == endX && startY == endY))
             polygon.getPoints().addAll(startX, startY);
-        }
-
     }
 
     /**
@@ -120,10 +114,10 @@ public class PolygonTool extends DrawingTool {
      * a fixed DELTA, checks whether the two points can be considered the same
      * in relation to the tolerance bounds.
      *
-     * @param xStart
-     * @param yStart
-     * @param x
-     * @param y
+     * @param xStart x coordinate of the first point of the polygon
+     * @param yStart y coordinate of the first point of the polygon
+     * @param x x coordinate of the last detected point
+     * @param y y coordinate of the last detected point
      * @return boolean
      */
     private boolean isNearStart(double xStart, double yStart, double x, double y) {
