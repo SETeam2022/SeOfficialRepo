@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Shape;
 
 /**
  * This class provides a series of methods to make some operations on a
@@ -94,13 +93,13 @@ public class PolygonEditor extends ShapeEditor<Polyline> {
     /**
      * This method allows to clone the polygon and its duplicate.
      *
-     * @param original
+     * @param polygon
      * @return a polyline
      */
     @Override
-    public Polyline clone(Polyline original) {
-        Polyline clone = super.clone(original);
-        clone.getPoints().setAll(original.getPoints());
+    public Polyline clone(Polyline polygon) {
+        Polyline clone = super.clone(polygon);
+        clone.getPoints().setAll(polygon.getPoints());
         return clone;
     }
 
@@ -145,14 +144,14 @@ public class PolygonEditor extends ShapeEditor<Polyline> {
     /**
      * This method allows to save a polyline.
      *
-     * @param shape
+     * @param polygon
      * @param stream
      * @throws IOException
      */
     @Override
-    public void saveShape(Polyline shape, ObjectOutputStream stream) throws IOException {
-        super.saveShape(shape, stream);
-        stream.writeObject(new ArrayList(shape.getPoints()));
+    public void saveShape(Polyline polygon, ObjectOutputStream stream) throws IOException {
+        super.saveShape(polygon, stream);
+        stream.writeObject(new ArrayList(polygon.getPoints()));
     }
 
     /**

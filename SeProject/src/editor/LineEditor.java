@@ -14,93 +14,93 @@ public class LineEditor extends ShapeEditor<Line> {
     /**
      * This method allows to change the width of a line.
      *
-     * @param shape the line you want to edit Width
+     * @param line the line you want to edit Width
      * @param width the new line width
      */
     @Override
-    public void setWidth(Line shape, double width) {
-        int old = (int) Math.round(this.getWidth(shape));
+    public void setWidth(Line line, double width) {
+        int old = (int) Math.round(this.getWidth(line));
         if (old == width) {
             return;
         }
 
-        shape.setEndX(shape.getStartX() + width);
+        line.setEndX(line.getStartX() + width);
     }
 
     /**
      * This method allows to change the height of a line.
      *
-     * @param shape the line you want to edit Height
+     * @param line the line you want to edit Height
      * @param height
      */
     @Override
-    public void setHeight(Line shape, double height) {
-        int old = (int) Math.round(this.getHeight(shape));
+    public void setHeight(Line line, double height) {
+        int old = (int) Math.round(this.getHeight(line));
         if (old == height) {
             return;
         }
 
-        if (shape.getEndY() < shape.getStartY()) {
-            shape.setEndY(shape.getStartY() - height);
+        if (line.getEndY() < line.getStartY()) {
+            line.setEndY(line.getStartY() - height);
         } else {
-            shape.setEndY(shape.getStartY() + height);
+            line.setEndY(line.getStartY() + height);
         }
     }
 
     /**
      * This method allows to retrieve the width of a line.
      *
-     * @param shape the line you want to get Width
+     * @param line the line you want to get Width
      * @return the width of the lines
      */
     @Override
-    public double getWidth(Line shape) {
-        return Math.abs(shape.getEndX() - shape.getStartX());
+    public double getWidth(Line line) {
+        return Math.abs(line.getEndX() - line.getStartX());
     }
 
     /**
      * This method allows to retrieve the height of a line.
      *
-     * @param shape the line you want to get Height
+     * @param line the line you want to get Height
      * @return the height of the line
      */
     @Override
-    public double getHeight(Line shape) {
-        return Math.abs(shape.getEndY() - shape.getStartY());
+    public double getHeight(Line line) {
+        return Math.abs(line.getEndY() - line.getStartY());
     }
 
     /**
      * This method allows to clone a line.
      *
-     * @param original the line you want to clone.
+     * @param line the line you want to clone.
      * @return the cloned line.
      */
     @Override
-    public Line clone(Line original) {
-        Line clone = super.clone(original);
+    public Line clone(Line line) {
+        Line clone = super.clone(line);
 
-        clone.setStartX(original.getStartX());
-        clone.setStartY(original.getStartY());
+        clone.setStartX(line.getStartX());
+        clone.setStartY(line.getStartY());
 
-        clone.setEndX(original.getEndX());
-        clone.setEndY(original.getEndY());
+        clone.setEndX(line.getEndX());
+        clone.setEndY(line.getEndY());
         return clone;
     }
 
     /**
      * This method allows to save a line.
      *
-     * @param shape
+     * @param line
      * @param stream
      * @throws IOException
      */
     @Override
-    public void saveShape(Line shape, ObjectOutputStream stream) throws IOException {
-        super.saveShape(shape, stream);
-        stream.writeDouble(shape.getStartX());
-        stream.writeDouble(shape.getStartY());
-        stream.writeDouble(shape.getEndX());
-        stream.writeDouble(shape.getEndY());
+    public void saveShape(Line line, ObjectOutputStream stream) throws IOException {
+        super.saveShape(line, stream);
+        stream.writeDouble(line.getStartX());
+        stream.writeDouble(line.getStartY());
+        stream.writeDouble(line.getEndX());
+        stream.writeDouble(line.getEndY());
     }
 
     /**

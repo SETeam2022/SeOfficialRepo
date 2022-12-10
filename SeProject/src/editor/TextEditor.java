@@ -17,81 +17,79 @@ public class TextEditor extends ShapeEditor<Text> {
     /**
      * This method allows to set the width of a Text.
      *
-     * @param shape
+     * @param text
      * @param width
      */
     @Override
-    public void setWidth(Text shape, double width) {
-        shape.setWrappingWidth(width);
+    public void setWidth(Text text, double width) {
+        text.setWrappingWidth(width);
     }
 
     /**
      * This method allows to set the height of a Text.
      *
-     * @param shape
+     * @param text
      * @param height
      */
     @Override
-    public void setHeight(Text shape, double height) {
-        shape.setStyle("-fx-font-size: " + height + "px;");
+    public void setHeight(Text text, double height) {
+        text.setStyle("-fx-font-size: " + height + "px;");
     }
 
     /**
      * This method allows to retrieve the width of a Text.
      *
-     * @param shape
+     * @param text
      * @return
      */
     @Override
-    public double getWidth(Text shape) {
-        return shape.getWrappingWidth();
+    public double getWidth(Text text) {
+        return text.getWrappingWidth();
     }
 
     /**
      * This method allows ro retrieve the height of a Text.
      *
-     * @param shape
+     * @param text
      * @return
      */
     @Override
-    public double getHeight(Text shape) {
-        return shape.getFont().getSize();
+    public double getHeight(Text text) {
+        return text.getFont().getSize();
     }
 
     /**
      * This method allows to clone a Text.
      *
-     * @param shape
+     * @param text
      * @return
      */
     @Override
-    public Text clone(Text shape) {
-        Text original = (Text) shape;
-        Text clone = (Text) super.clone(original);
-        clone.setX(original.getX());
-        clone.setY(original.getY());
-        clone.setText(original.getText());
-        clone.setWrappingWidth(original.getWrappingWidth());
-        clone.setStyle("-fx-font-size: " + original.getFont().getSize() + "px;");
+    public Text clone(Text text) {
+        Text clone = (Text) super.clone(text);
+        clone.setX(text.getX());
+        clone.setY(text.getY());
+        clone.setText(text.getText());
+        clone.setWrappingWidth(text.getWrappingWidth());
+        clone.setStyle("-fx-font-size: " + text.getFont().getSize() + "px;");
         return clone;
     }
 
     /**
      * This method allows to save a Text.
      *
-     * @param shape
+     * @param text
      * @param stream
      * @throws IOException
      */
     @Override
-    public void saveShape(Text shape, ObjectOutputStream stream) throws IOException {
-        super.saveShape(shape, stream);
-
-        stream.writeDouble(shape.getX());
-        stream.writeDouble(shape.getY());
-        stream.writeUTF(shape.getText());
-        stream.writeDouble(shape.getFont().getSize());
-        stream.writeDouble(shape.getWrappingWidth());
+    public void saveShape(Text text, ObjectOutputStream stream) throws IOException {
+        super.saveShape(text, stream);
+        stream.writeDouble(text.getX());
+        stream.writeDouble(text.getY());
+        stream.writeUTF(text.getText());
+        stream.writeDouble(text.getFont().getSize());
+        stream.writeDouble(text.getWrappingWidth());
     }
 
     /**
