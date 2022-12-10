@@ -145,6 +145,10 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem bringToBack;
 
     private MenuItem deleteShape;
+    
+    private MenuItem verticalMirror;
+    
+    private MenuItem horizontalMirror;
 
     private Tool selectedTool;
 
@@ -336,7 +340,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void leftRotationAction(ActionEvent event) {
-        if (!handleErrorLabel()) {
+        if (!handleErrorLabel(rotationTextField,errorLabelRotation)) {
             double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
             SelectedShapeManager.getSelectedShapeManager().rotationShape(-1 * Double.parseDouble(rotationTextField.getText()) + rotationShape);
         }
@@ -344,7 +348,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void rightRotationAction(ActionEvent event) {
-        if (!handleErrorLabel()) {
+        if (!handleErrorLabel(rotationTextField,errorLabelRotation)) {
             double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
             SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText()) + rotationShape);
         }
@@ -378,17 +382,10 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML
     private void verticalStretchingAction(ActionEvent event) {
-        if (!validateSize(stretchingTextField.getText())) {
-            errorLabelStretching.setManaged(true);
-            errorLabelStretching.setVisible(true);
-        } else {
-            errorLabelStretching.setVisible(false);
-            errorLabelStretching.setManaged(false);
+        if(!handleErrorLabel(stretchingTextField,errorLabelStretching)){
             double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleY()) * (Double.parseDouble(stretchingTextField.getText()) / 100);
             SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape(newStretchValue);
         }
-        return;
-
     }
 
     /**
@@ -399,16 +396,10 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML
     private void horizontalStretchingAction(ActionEvent event) {
-        if (!validateSize(stretchingTextField.getText())) {
-            errorLabelStretching.setManaged(true);
-            errorLabelStretching.setVisible(true);
-        } else {
-            errorLabelStretching.setVisible(false);
-            errorLabelStretching.setManaged(false);
+        if(!handleErrorLabel(stretchingTextField,errorLabelStretching)){
             double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleX()) * (Double.parseDouble(stretchingTextField.getText()) / 100);
             SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape(newStretchValue);
         }
-        return;
     }
 
     @FXML
@@ -432,14 +423,14 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    private boolean handleErrorLabel() {
-        if (!validateSize(rotationTextField.getText())) {
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
+    private boolean handleErrorLabel(TextField textField, Label label) {
+        if (!validateSize(textField.getText())) {
+            label.setManaged(true);
+            label.setVisible(true);
             return true;
         } else {
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
+            label.setVisible(false);
+            label.setManaged(false);
             return false;
         }
     }
@@ -532,7 +523,10 @@ public class FXMLDocumentController implements Initializable {
         this.bringToFront = new MenuItem("Bring to Front");
         this.bringToBack = new MenuItem("Bring to Back");
         this.deleteShape = new MenuItem("Delete");
-        contextMenu.getItems().addAll(copy, cut, paste, deleteShape, bringToFront, bringToBack);
+        this.verticalMirror = new MenuItem("Vertical Mirror");
+        this.horizontalMirror = new MenuItem("Horizontal Mirror");
+        contextMenu.getItems().addAll(copy, cut, paste, deleteShape, 
+                bringToFront, bringToBack,verticalMirror, horizontalMirror);
 
         SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
 
@@ -542,6 +536,8 @@ public class FXMLDocumentController implements Initializable {
         bringToFront.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         bringToBack.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
         deleteShape.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        verticalMirror.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        horizontalMirror.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
 
         /* If something has been copied the paste button will be unlocked */
         paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
@@ -568,6 +564,14 @@ public class FXMLDocumentController implements Initializable {
 
         deleteShape.setOnAction(e -> {
             ssm.deleteSelectedShape();
+        });
+        
+        verticalMirror.setOnAction(e -> {
+            ssm.mirrorVerticalShape();
+        });
+        
+        horizontalMirror.setOnAction(e -> {
+            ssm.mirrorHorizontalShape();
         });
 
     }
