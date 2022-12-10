@@ -4,21 +4,13 @@ import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import java.security.SecureRandom;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import seproject.TestConstants;
 
-/**
- *
- * @author alewi
- */
 public class TextEditorTest {
 
     private Text testShape;
@@ -40,7 +32,7 @@ public class TextEditorTest {
     }
 
     /**
-     *
+     * Test of the TextEditor class' getSetWidth method.
      */
     @Test
     public void testGetSetWidth() {
@@ -49,7 +41,7 @@ public class TextEditorTest {
     }
 
     /**
-     *
+     * Test of the TextEditor class' getSetHeight method.
      */
     @Test
     public void testGetSetHeight() {
@@ -58,7 +50,7 @@ public class TextEditorTest {
     }
     
     /**
-     *
+     * Test of the TextEditor class' clone method.
      */
     @Test
     public void testClone() {

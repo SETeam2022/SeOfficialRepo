@@ -30,7 +30,7 @@ public class LineToolTest {
     }
 
     /**
-     * This method create the Test environment, it creates a test line with red
+     * This method creates the Test environment, it creates a test line with red
      * stroke and black fill, and istances a line tool.
      */
     @Before
@@ -50,9 +50,9 @@ public class LineToolTest {
     }
 
     /**
-     * Simulate a mouse click and check if the line added to the paper is in the
+     * Simulates a mouse click and check if the line added to the paper is in the
      * same start position of a test line and has the same stroke and fill color
-     * attribute
+     * attribute.
      */
     @Test
     public void testOnMousePressed() {
@@ -73,7 +73,7 @@ public class LineToolTest {
 
     /**
      * Simulate a mouse press and the drag. Checks if the line added to the
-     * paper has the same length (due to the drag effect)
+     * paper has the same length (due to the drag effect).
      */
     @Test
     public void testOnMouseDragged() {

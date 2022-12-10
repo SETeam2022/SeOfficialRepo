@@ -90,6 +90,9 @@ public class LineEditorTest {
         return actualHeight == expectedHeight;
     }
 
+    /**
+     * Test of the LineEditor class' clone method.
+     */
     @Test
     public void testClone() {
         System.out.println("clone");

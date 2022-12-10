@@ -54,7 +54,7 @@ public class RectangleToolTest {
     /**
      * Simulate a mouse click and check if the rectangle added to the paper is
      * in the same position of a test rectangle and has the same stroke and fill
-     * color attribute
+     * color attributes.
      */
     @Test
     public void testOnMousePressed() {
@@ -75,7 +75,7 @@ public class RectangleToolTest {
 
     /**
      * Simulate a mouse press and the drag. Checks if the rectangle added has
-     * the same width and height of the testShape
+     * the same width and height of the testShape.
      */
     @Test
     public void testOnMouseDragged() {
@@ -91,7 +91,7 @@ public class RectangleToolTest {
 
     /**
      * Simulate a mouse release. Checks if the rectangle added has the same
-     * width and height of the testShape
+     * width and height of the testShape.
      */
     @Test
     public void testOnMouseReleased() {
@@ -103,8 +103,6 @@ public class RectangleToolTest {
         Rectangle casted = (Rectangle) elem;
         Assert.assertEquals(testShape.getWidth(), casted.getWidth(), 0);
         Assert.assertEquals(testShape.getHeight(), casted.getHeight(), 0);
-
-
     }
 
 }

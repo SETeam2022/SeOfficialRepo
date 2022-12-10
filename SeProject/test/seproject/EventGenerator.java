@@ -8,7 +8,7 @@ public class EventGenerator {
         /**
          * Utility method that generate in easy way a mouse left click event
          * @param source the object that is the source of the event
-         * @param destination the object on witch the mouse clicked
+         * @param destination the object on which the mouse clicked
          * @param x coordinate of the click
          * @param y coordinate of the click
          * @return a new mouse event correctly generated.
@@ -20,7 +20,7 @@ public class EventGenerator {
         /**
          * Utility method that generate in easy way a mouse left drag event
          * @param source the object that is the source of the event
-         * @param destination the object on witch the mouse clicked
+         * @param destination the object on which the mouse clicked
          * @param x coordinate of the click
          * @param y coordinate of the click
          * @return a new mouse event correctly generated.
@@ -32,7 +32,7 @@ public class EventGenerator {
         /**
          * Utility method that generate in easy way a mouse left click event
          * @param source the object that is the source of the event
-         * @param destination the object on witch the mouse clicked
+         * @param destination the object on which the mouse clicked
          * @param x coordinate of the click
          * @param y coordinate of the click
          * @return a new mouse event correctly generated.
