@@ -25,7 +25,7 @@ public class SelectedShapeManager {
 
     private Shape selectedShape = null;
 
-    private final DoubleProperty widthProperty, heightProperty,rotationProperty;
+    private final DoubleProperty widthProperty, heightProperty,rotationProperty, stretchProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
 
@@ -46,6 +46,7 @@ public class SelectedShapeManager {
         this.widthProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
         this.rotationProperty = new SimpleDoubleProperty();
+        this.stretchProperty = new SimpleDoubleProperty();
         this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
         this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
 
@@ -92,7 +93,8 @@ public class SelectedShapeManager {
         paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
         ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
         ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
-        ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
+        ssm.rotationProperty.setValue(0);
+        ssm.stretchProperty.setValue(100);
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
     }
@@ -137,6 +139,10 @@ public class SelectedShapeManager {
     
     public DoubleProperty getRotationProperty(){
         return ssm.rotationProperty;
+    }
+    
+    public DoubleProperty getStretchProperty(){
+        return ssm.stretchProperty;
     }
 
     /**
