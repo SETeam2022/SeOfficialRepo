@@ -13,17 +13,17 @@ import javafx.scene.shape.Shape;
  * specific shape.
  * 
  */
-public abstract class ShapeEditor {
+public abstract class ShapeEditor<T extends Shape> {
 
-    public abstract void setWidth(Shape shape, double width);
+    public abstract void setWidth(T shape, double width);
 
-    public abstract void setHeight(Shape shape, double height);
+    public abstract void setHeight(T shape, double height);
 
-    public abstract double getWidth(Shape shape);
+    public abstract double getWidth(T shape);
 
-    public abstract double getHeight(Shape shape);
+    public abstract double getHeight(T shape);
     
-    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
+    public void saveShape(T shape, ObjectOutputStream stream) throws IOException{
         stream.writeObject(shape.getClass());
         stream.writeDouble(((Color)shape.getFill()).getRed());
         stream.writeDouble(((Color)shape.getFill()).getGreen());
@@ -41,8 +41,8 @@ public abstract class ShapeEditor {
         stream.writeDouble(shape.getScaleY());
     }
     
-    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
-        Shape s = (Shape) c.newInstance();
+    public T loadShape(Class<T> c ,ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        T s = c.newInstance();
         s.setFill(new Color(stream.readDouble(), stream.readDouble(), stream.readDouble(), stream.readDouble()));
         s.setStroke(new Color(stream.readDouble(), stream.readDouble(), stream.readDouble(), stream.readDouble()));
         s.setStrokeWidth(stream.readDouble());
@@ -54,9 +54,9 @@ public abstract class ShapeEditor {
         return s;
     }
 
-    public Shape clone(Shape shape) {
+    public T clone(T shape) {
         try {
-            Shape clone = shape.getClass().newInstance();
+            T clone = (T)shape.getClass().newInstance();
             clone.setStroke(shape.getStroke());
             clone.setStrokeWidth(shape.getStrokeWidth());
             clone.setFill(shape.getFill());

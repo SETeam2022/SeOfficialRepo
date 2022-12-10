@@ -6,6 +6,7 @@
 package seproject.customComponents;
 
 import editor.EditorNotFoundException;
+import editor.LineEditor;
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import java.util.logging.Level;
@@ -51,6 +52,7 @@ public class DrawingArea extends Pane {
         containerOfPaperAndGrid = new Group(paper,grid);
         containerOfPaperAndGrid.setClip(new Rectangle (0,0, width,height));
         super.getChildren().add(containerOfPaperAndGrid);
+        
     }
 
     /**

@@ -12,8 +12,8 @@ public class SelectionTool extends Tool {
     private boolean shapeHasBeenDragged;
     private Shape selectedShape = null;
 
-    private SimpleDoubleProperty scaleX;
-    private SimpleDoubleProperty scaleY;
+    private final SimpleDoubleProperty scaleX;
+    private final SimpleDoubleProperty scaleY;
 
     public SelectionTool(DrawingArea paper) {
         super(paper);

@@ -10,7 +10,7 @@ import javafx.scene.shape.Shape;
  * This class provides a series of methods to make some operations on an Ellipse.
  * 
  */
-public class EllipseEditor extends ShapeEditor {
+public class EllipseEditor extends ShapeEditor<Ellipse> {
 
     public EllipseEditor() {
     }
@@ -22,7 +22,7 @@ public class EllipseEditor extends ShapeEditor {
      * @param width you want to set.
      */
     @Override
-    public void setWidth(Shape shape, double width) {
+    public void setWidth(Ellipse shape, double width) {
         ((Ellipse) shape).setRadiusX(width / 2);
     }
 
@@ -33,7 +33,7 @@ public class EllipseEditor extends ShapeEditor {
      * @param height you want to set.     
      */
     @Override
-    public void setHeight(Shape shape, double height) {
+    public void setHeight(Ellipse shape, double height) {
         ((Ellipse) shape).setRadiusY(height / 2);
     }
 
@@ -44,8 +44,8 @@ public class EllipseEditor extends ShapeEditor {
      * @return the ellipse width.
      */
     @Override
-    public double getWidth(Shape shape) {
-        return ((Ellipse) shape).layoutBoundsProperty().get().getWidth();
+    public double getWidth(Ellipse shape) {
+        return  shape.layoutBoundsProperty().get().getWidth();
     }
 
     /**
@@ -55,8 +55,8 @@ public class EllipseEditor extends ShapeEditor {
      * @return the ellipse height.
      */
     @Override
-    public double getHeight(Shape shape) {
-        return ((Ellipse) shape).layoutBoundsProperty().get().getHeight();
+    public double getHeight(Ellipse shape) {
+        return shape.layoutBoundsProperty().get().getHeight();
     }
 
     /**
@@ -66,16 +66,12 @@ public class EllipseEditor extends ShapeEditor {
      * @return the cloned ellipse (as Shape).
      */
     @Override
-    public Shape clone(Shape shape) {
-        Ellipse original = (Ellipse) shape;
-        Ellipse clone = (Ellipse) super.clone(shape);
-        
+    public Ellipse clone(Ellipse original) {
+        Ellipse clone = super.clone(original);        
         clone.setCenterX(original.getCenterX());
-        clone.setCenterY(original.getCenterY());
-        
+        clone.setCenterY(original.getCenterY());       
         clone.setRadiusX(original.getRadiusX());
-        clone.setRadiusY(original.getRadiusY());
-        
+        clone.setRadiusY(original.getRadiusY());     
         return clone;
     }
 
@@ -87,13 +83,12 @@ public class EllipseEditor extends ShapeEditor {
      * @throws IOException 
      */
     @Override
-    public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
+    public void saveShape(Ellipse shape, ObjectOutputStream stream) throws IOException{
         super.saveShape(shape, stream);
-        Ellipse ell = (Ellipse) shape;
-        stream.writeDouble(ell.getCenterX());
-        stream.writeDouble(ell.getCenterY());
-        stream.writeDouble(ell.getRadiusX());
-        stream.writeDouble(ell.getRadiusY());
+        stream.writeDouble(shape.getCenterX());
+        stream.writeDouble(shape.getCenterY());
+        stream.writeDouble(shape.getRadiusX());
+        stream.writeDouble(shape.getRadiusY());
     }
 
     /**
@@ -108,13 +103,16 @@ public class EllipseEditor extends ShapeEditor {
      * @throws IllegalAccessException 
      */
     @Override
-    public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
-        Ellipse ell = (Ellipse) super.loadShape(c, stream);
+    public Ellipse loadShape(Class<Ellipse> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Ellipse ell = super.loadShape(c, stream);
         ell.setCenterX(stream.readDouble());
         ell.setCenterY(stream.readDouble());
         ell.setRadiusX(stream.readDouble());
         ell.setRadiusY(stream.readDouble());
         return ell;
     }
+
+
+
 
 }
