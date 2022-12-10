@@ -8,6 +8,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Shape;
 
+/**
+ * This class provides a series of methods to make some operations on a 
+ * polyline.
+ * 
+ */
 public class PolygonEditor extends ShapeEditor {
 
     /**
@@ -67,7 +72,7 @@ public class PolygonEditor extends ShapeEditor {
      * difference between the minimum and maximum x values of the polygon.
      * 
      * @param shape
-     * @return double, the width of the shape
+     * @return the width of the polyline
      */
     @Override
     public double getWidth(Shape shape) {
@@ -81,7 +86,7 @@ public class PolygonEditor extends ShapeEditor {
      * difference between the minimum and maximum y values of the polygon.
      * 
      * @param shape
-     * @return double, the height of the shape
+     * @return the height of the polyline
      */
     @Override
     public double getHeight(Shape shape) {
@@ -93,7 +98,7 @@ public class PolygonEditor extends ShapeEditor {
     /**
      * This method allows to clone the polygon and its duplicate.
      * @param shape
-     * @return Shape, the cloned shape
+     * @return a polyline
      */
     @Override
     public Shape clone(Shape shape) {
@@ -137,6 +142,13 @@ public class PolygonEditor extends ShapeEditor {
         return max;
     }
 
+    /**
+     * This method allows to save a polyline.
+     * 
+     * @param shape
+     * @param stream
+     * @throws IOException 
+     */
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
         super.saveShape(shape, stream);
@@ -144,6 +156,17 @@ public class PolygonEditor extends ShapeEditor {
         stream.writeObject(new ArrayList (polygon.getPoints()));
     }
 
+    /**
+     * This method allows to load a polyline.
+     * 
+     * @param c
+     * @param stream
+     * @return the polyline
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException 
+     */
     @Override
     public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Polyline polygon = (Polyline) super.loadShape(c, stream);

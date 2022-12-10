@@ -6,9 +6,14 @@ import java.io.ObjectOutputStream;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
+/**
+ * This class provieds a series of methods to make some operations on a line.
+ * 
+ */
 public class LineEditor extends ShapeEditor {
 
     /**
+     * This method allows to change the width of a line.
      *
      * @param shape the line you want to edit Width
      * @param width the new line width
@@ -24,6 +29,7 @@ public class LineEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to change the height of a line.
      *
      * @param shape the line you want to edit Height
      * @param height
@@ -43,9 +49,10 @@ public class LineEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to retrieve the width of a line.
      *
      * @param shape the line you want to get Width
-     * @return
+     * @return the width of the lines
      */
     @Override
     public double getWidth(Shape shape) {
@@ -53,9 +60,10 @@ public class LineEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to retrieve the height of a line.
      *
      * @param shape the line you want to get Height
-     * @return
+     * @return the height of the line
      */
     @Override
     public double getHeight(Shape shape) {
@@ -63,7 +71,8 @@ public class LineEditor extends ShapeEditor {
     }
     
     /**
-     *
+     * This method allows to clone a line.
+     * 
      * @param shape the line you want to clone.
      * @return the cloned line.
      */
@@ -80,6 +89,13 @@ public class LineEditor extends ShapeEditor {
         return clone;
     }
 
+    /**
+     * This method allows to save a line.
+     * 
+     * @param shape
+     * @param stream
+     * @throws IOException 
+     */
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
         super.saveShape(shape, stream);
@@ -90,6 +106,17 @@ public class LineEditor extends ShapeEditor {
         stream.writeDouble(line.getEndY());
     }
 
+    /**
+     * This method allows to load a line.
+     * 
+     * @param c
+     * @param stream
+     * @return the loaded line
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException 
+     */
     @Override
     public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Line line = (Line) super.loadShape(c, stream);
