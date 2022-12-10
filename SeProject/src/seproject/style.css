@@ -25,6 +25,7 @@
 
 .button {
     -fx-background-color: white;
+    -fx-background-radius: 15px;
 }
 
 .button:pressed:hover {
@@ -46,6 +47,7 @@
 .color-picker{
     -fx-background-color: white;
     -fx-color-label-visible: false;
+    -fx-background-radius: 15px;
 }
 
 .color-picker:hover {
@@ -117,4 +119,11 @@
 
 #paper {
     -fx-background-color: white;    
+}
+
+.edit-shape {
+    -fx-background-radius: 7px;
+    -fx-background-color: #E9E9E9;
+    -fx-border-radius: 7px;
+    -fx-border-color: #E9E9E9
 }

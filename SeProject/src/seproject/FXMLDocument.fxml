@@ -172,101 +172,130 @@
             <right>
                 <AnchorPane BorderPane.alignment="CENTER">
                     <children>
-                        <ToolBar fx:id="sideBar" style="-fx-background-color: lightblue;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ToolBar fx:id="sideBar" style="-fx-background-color: WhiteSmoke;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <items>
-                                <VBox minHeight="-Infinity" minWidth="-Infinity" prefWidth="238.0" spacing="10.0" style="-fx-background-color: whitesmoke;">
+                                <VBox minHeight="-Infinity" minWidth="-Infinity" prefWidth="238.0" spacing="10.0">
                                     <children>
                                         <Label text="Edit Shape">
                                             <font>
-                                                <Font size="18.0" />
+                                                <Font size="21.0" />
                                             </font>
                                         </Label>
-                                        <HBox prefHeight="51.0" prefWidth="200.0" spacing="20.0">
-                                            <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                                    <children>
-                                                        <Label text="Width" />
-                                                        <TextField fx:id="widthTextField" onKeyPressed="#setNewWidth">
-                                                            <VBox.margin>
-                                                                <Insets top="5.0" />
-                                                            </VBox.margin>
-                                                        </TextField>
-                                                    </children>
-                                                </VBox>
-                                                <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
-                                                    <children>
-                                                        <Label text="Height" />
-                                                        <TextField fx:id="heightTextField" onKeyPressed="#setNewHeight">
-                                                            <VBox.margin>
-                                                                <Insets top="5.0" />
-                                                            </VBox.margin>
-                                                        </TextField>
-                                                    </children>
-                                                </VBox>
-                                            </children>
-                                        </HBox>
-                                        <Label fx:id="errorLabelSize" layoutX="54.0" layoutY="83.0" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" />
-                              <VBox prefHeight="111.0" prefWidth="230.0">
+                              <VBox maxWidth="220.0" prefHeight="99.0" prefWidth="230.0" styleClass="edit-shape">
                                  <children>
-                                    <HBox prefHeight="28.0" prefWidth="230.0">
+                                    <Label text="Resize" translateX="5.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                              <HBox prefHeight="51.0" prefWidth="200.0" spacing="20.0">
+                                                  <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                          <children>
+                                                              <Label text="Width" translateX="10.0" translateY="5.0" />
+                                                              <TextField fx:id="widthTextField" maxWidth="50.0" onKeyPressed="#setNewWidth" translateX="10.0" translateY="5.0">
+                                                                  <VBox.margin>
+                                                                      <Insets top="5.0" />
+                                                                  </VBox.margin>
+                                                              </TextField>
+                                                          </children>
+                                                      </VBox>
+                                                      <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                                          <children>
+                                                              <Label text="Height" translateY="5.0" />
+                                                              <TextField fx:id="heightTextField" maxWidth="50.0" onKeyPressed="#setNewHeight" prefHeight="25.0" prefWidth="50.0" translateY="5.0">
+                                                                  <VBox.margin>
+                                                                      <Insets top="5.0" />
+                                                                  </VBox.margin>
+                                                              </TextField>
+                                                          </children>
+                                                      </VBox>
+                                                  </children>
+                                              </HBox>
+                                              <Label fx:id="errorLabelSize" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="5.0" translateY="5.0" />
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="70.0" maxWidth="220.0" minWidth="200.0" prefHeight="80.0" prefWidth="200.0" styleClass="edit-shape">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="64.0" text="Rotation" translateX="5.0" translateY="5.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="42.0" prefWidth="220.0">
                                        <children>
-                                          <Label text="Left Rotation" translateX="10.0" />
-                                          <Label text="Right Rotation" translateX="70.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="33.0" prefWidth="230.0">
-                                       <children>
-                                          <Button fx:id="leftRotationButton" mnemonicParsing="false" onAction="#leftRotationAction" translateX="30.0">
+                                          <TextField fx:id="rotationTextField" maxWidth="70.0" prefHeight="25.0" prefWidth="50.0" translateX="10.0" translateY="10.0" />
+                                          <Label prefHeight="26.0" prefWidth="8.0" text="°" translateX="15.0" translateY="7.0">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="leftRotationButton" mnemonicParsing="false" onAction="#leftRotationAction" translateX="50.0" translateY="10.0">
                                              <graphic>
                                                 <SVGPath content="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Left Rotation" />
+                                             </tooltip>
                                           </Button>
-                                          <Button fx:id="rightRotationButton" mnemonicParsing="false" onAction="#rightRotationAction" translateX="120.0">
+                                          <Button fx:id="rightRotationButton" mnemonicParsing="false" onAction="#rightRotationAction" translateX="70.0" translateY="10.0">
                                              <graphic>
                                                 <SVGPath content="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Right Rotation" />
+                                             </tooltip>
                                           </Button>
-                                          <TextField fx:id="rotationTextField" maxWidth="70.0" translateX="10.0" />
                                        </children>
                                     </HBox>
-                                    <Label fx:id="errorLabelRotation" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" translateY="5.0" visible="false" />
+                                    <Label fx:id="errorLabelRotation" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" visible="false" />
                                  </children>
                               </VBox>
-                              <HBox prefHeight="77.0" prefWidth="230.0">
+                              <VBox maxWidth="220.0" prefHeight="102.0" prefWidth="220.0" styleClass="edit-shape">
                                  <children>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                    <Label text="Mirror" translateX="5.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="32.0" prefWidth="230.0">
                                        <children>
-                                          <Label text="Mirror vertical" translateX="10.0" />
-                                          <Button fx:id="mirrorVerticalButton" mnemonicParsing="false" onAction="#mirrorVerticalAction" translateX="30.0" translateY="10.0">
+                                          <Button fx:id="mirrorVerticalButton" mnemonicParsing="false" onAction="#mirrorVerticalAction" translateX="10.0" translateY="7.0">
                                              <graphic>
                                                 <SVGPath content="M7 2.5a.5.5 0 0 0-.939-.24l-6 11A.5.5 0 0 0 .5 14h6a.5.5 0 0 0 .5-.5v-11zm2.376-.484a.5.5 0 0 1 .563.245l6 11A.5.5 0 0 1 15.5 14h-6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .376-.484zM10 4.46V13h4.658L10 4.46z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
                                           </Button>
+                                          <Label text="Vertical" translateX="30.0" translateY="10.0" />
                                        </children>
-                                    </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" translateX="20.0">
+                                    </HBox>
+                                    <HBox prefHeight="25.0" prefWidth="230.0" translateY="10.0">
                                        <children>
-                                          <Label text="Mirror horizontal" translateX="10.0" />
-                                          <Button fx:id="mirrorHorizontalButton" mnemonicParsing="false" onAction="#mirrorHorizontalAction" translateX="30.0" translateY="10.0">
+                                          <Button fx:id="mirrorHorizontalButton" mnemonicParsing="false" onAction="#mirrorHorizontalAction" translateX="13.0">
                                              <graphic>
                                                 <SVGPath content="M13.5 7a.5.5 0 0 0 .24-.939l-11-6A.5.5 0 0 0 2 .5v6a.5.5 0 0 0 .5.5h11zm.485 2.376a.5.5 0 0 1-.246.563l-11 6A.5.5 0 0 1 2 15.5v-6a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .485.376zM11.539 10H3v4.658L11.54 10z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
                                           </Button>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <VBox prefHeight="133.0" prefWidth="230.0">
-                                 <children>
-                                    <HBox prefHeight="32.0" prefWidth="230.0">
-                                       <children>
-                                          <Label text="Vertical Stretching" />
-                                          <Label text="Horizontal Stretching" translateX="10.0" />
+                                          <Label text="Horizontal" translateX="30.0" translateY="5.0" />
                                        </children>
                                     </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox maxWidth="220.0" prefHeight="84.0" prefWidth="220.0" styleClass="edit-shape">
+                                 <children>
+                                    <Label text="Stretching" translateX="5.0" translateY="5.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
                                     <HBox prefHeight="32.0" prefWidth="230.0">
                                        <children>
-                                          <Button fx:id="verticalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verticalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="30.0">
+                                          <TextField fx:id="stretchingTextField" maxWidth="70.0" prefHeight="25.0" prefWidth="50.0" translateX="10.0" translateY="10.0" />
+                                          <Label text="\%" translateX="15.0" translateY="15.0">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="verticalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verticalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="50.0" translateY="7.0">
                                              <graphic>
                                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -274,7 +303,7 @@
                                                    </image></ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="horizontalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#horizontalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="120.0">
+                                          <Button fx:id="horizontalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#horizontalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="70.0" translateY="7.0">
                                              <graphic>
                                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -282,7 +311,6 @@
                                                    </image></ImageView>
                                              </graphic>
                                           </Button>
-                                          <TextField fx:id="stretchingTextField" maxWidth="70.0" translateX="10.0" />
                                        </children>
                                     </HBox>
                                     <Label fx:id="errorLabelStretching" style="-fx-text-fill: #4169E1;" text="Not valid input, please retry!" translateX="10.0" translateY="5.0" visible="false" />

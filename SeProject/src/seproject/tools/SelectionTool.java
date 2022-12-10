@@ -104,5 +104,5 @@ public class SelectionTool extends Tool {
         paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         selectedShape = null;
     }
-
+    
 }
