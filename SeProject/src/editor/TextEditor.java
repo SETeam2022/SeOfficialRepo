@@ -35,7 +35,7 @@ public class TextEditor extends ShapeEditor {
      */
     @Override
     public void setHeight(Shape shape, double height) {
-        ((Text) shape).fontProperty().set(Font.font(height));
+        ((Text) shape).setStyle("-fx-font-size: " + height + "px;");
     }
 
     /**
