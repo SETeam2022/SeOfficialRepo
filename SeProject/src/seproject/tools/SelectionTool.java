@@ -1,6 +1,4 @@
 package seproject.tools;
-
-import seproject.customComponents.Overlay;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
@@ -12,8 +10,6 @@ public class SelectionTool extends Tool {
     private final SelectedShapeManager manager;
     private double startX, startY, offsetX, offsetY;
     private boolean shapeHasBeenDragged;
-
-    private Overlay overlay;
     private Shape selectedShape = null;
 
     private SimpleDoubleProperty scaleX;
@@ -44,7 +40,6 @@ public class SelectionTool extends Tool {
             if (selectedShape == null || !selectedShape.equals(tmp)) {
                 deselect();
                 selectedShape = tmp;
-                overlay = new Overlay(selectedShape);
                 manager.setSelectedShape(selectedShape);
             }
             startX = selectedShape.getTranslateX();
@@ -94,7 +89,6 @@ public class SelectionTool extends Tool {
             return;
         }
         manager.unsetSelectedShape();
-        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
         selectedShape = null;
     }
     
