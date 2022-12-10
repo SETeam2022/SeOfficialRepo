@@ -570,7 +570,8 @@ public class FXMLDocumentController implements Initializable {
         }else{
             errorLabelStretching.setVisible(false);
             errorLabelStretching.setManaged(false);
-            SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape((Double.parseDouble(stretchingTextField.getText())));
+            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleY()) * (Double.parseDouble(stretchingTextField.getText())/100);
+            SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape(newStretchValue);
         }
         return;
 
@@ -588,7 +589,8 @@ public class FXMLDocumentController implements Initializable {
         }else{
             errorLabelStretching.setVisible(false);
             errorLabelStretching.setManaged(false);
-            SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape((Double.parseDouble(stretchingTextField.getText())));
+            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleX()) * (Double.parseDouble(stretchingTextField.getText())/100);
+            SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape(newStretchValue);
         }
         return;
     }
