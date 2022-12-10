@@ -11,7 +11,8 @@ import javafx.scene.shape.Shape;
 /**
  * This abstract class provides a series of methods to make some operations on a
  * specific shape.
- * 
+ *
+ * @param <T>
  */
 public abstract class ShapeEditor<T extends Shape> {
 
@@ -22,17 +23,17 @@ public abstract class ShapeEditor<T extends Shape> {
     public abstract double getWidth(T shape);
 
     public abstract double getHeight(T shape);
-    
-    public void saveShape(T shape, ObjectOutputStream stream) throws IOException{
+
+    public void saveShape(T shape, ObjectOutputStream stream) throws IOException {
         stream.writeObject(shape.getClass());
-        stream.writeDouble(((Color)shape.getFill()).getRed());
-        stream.writeDouble(((Color)shape.getFill()).getGreen());
-        stream.writeDouble(((Color)shape.getFill()).getBlue());
-        stream.writeDouble(((Color)shape.getFill()).getOpacity());
-        stream.writeDouble(((Color)shape.getStroke()).getRed());
-        stream.writeDouble(((Color)shape.getStroke()).getGreen());
-        stream.writeDouble(((Color)shape.getStroke()).getBlue());
-        stream.writeDouble(((Color)shape.getStroke()).getOpacity());
+        stream.writeDouble(((Color) shape.getFill()).getRed());
+        stream.writeDouble(((Color) shape.getFill()).getGreen());
+        stream.writeDouble(((Color) shape.getFill()).getBlue());
+        stream.writeDouble(((Color) shape.getFill()).getOpacity());
+        stream.writeDouble(((Color) shape.getStroke()).getRed());
+        stream.writeDouble(((Color) shape.getStroke()).getGreen());
+        stream.writeDouble(((Color) shape.getStroke()).getBlue());
+        stream.writeDouble(((Color) shape.getStroke()).getOpacity());
         stream.writeDouble(shape.getStrokeWidth());
         stream.writeDouble(shape.getTranslateX());
         stream.writeDouble(shape.getTranslateY());
@@ -40,8 +41,8 @@ public abstract class ShapeEditor<T extends Shape> {
         stream.writeDouble(shape.getScaleX());
         stream.writeDouble(shape.getScaleY());
     }
-    
-    public T loadShape(Class<T> c ,ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+
+    public T loadShape(Class<T> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         T s = c.newInstance();
         s.setFill(new Color(stream.readDouble(), stream.readDouble(), stream.readDouble(), stream.readDouble()));
         s.setStroke(new Color(stream.readDouble(), stream.readDouble(), stream.readDouble(), stream.readDouble()));
@@ -56,7 +57,7 @@ public abstract class ShapeEditor<T extends Shape> {
 
     public T clone(T shape) {
         try {
-            T clone = (T)shape.getClass().newInstance();
+            T clone = (T) shape.getClass().newInstance();
             clone.setStroke(shape.getStroke());
             clone.setStrokeWidth(shape.getStrokeWidth());
             clone.setFill(shape.getFill());
