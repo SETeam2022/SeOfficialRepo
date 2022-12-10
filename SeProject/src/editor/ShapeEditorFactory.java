@@ -11,14 +11,14 @@ import javafx.scene.text.Text;
 public class ShapeEditorFactory {
 
     /**
-     * Instanced when the program stars. That choise is for better performance
-     * because the map is not instanced every time but only once.
+     * Instanced when the program stars. That choice is for obtaining better performances,
+     * since the map is not instanced every single time, but only once.
      */
     private static final Map<Class<?>, ShapeEditor> editors = new HashMap<>();
 
     /**
-     * Populed when the program stars. That choise is for better performance
-     * because the map is not populed every time but only once.
+     * Populed when the program stars. That choice is for obtaining better performances,
+     * since the map is not populed every single time, but only once.
      */
     static {
             editors.put(Rectangle.class, new RectangleEditor());
@@ -30,9 +30,9 @@ public class ShapeEditorFactory {
 
     /**
      *
-     * @param shapeClass is the is the shape's class you want to edit.
+     * @param shapeClass is the shape's class to be edited.
      *
-     * @return the ShapeEditor for your shape. Indeed, it is easy to see that
+     * @return the ShapeEditor for a specific shape. Indeed, it is easy to see that
      * you can use it for shape editing.
      */
     public static ShapeEditor getInstance(Class<?> shapeClass) {

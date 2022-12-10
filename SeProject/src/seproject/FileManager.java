@@ -14,8 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 /**
- * This class is used to model a FileManager able to save the drawn shapes to an
- * xml file and get the saved shapes from an xml file.
+ * This class is used to model a FileManager able to save the drawn shapes to a
+ * binary file and get the saved shapes from an binary file.
  *
  */
 public class FileManager {
@@ -33,7 +33,7 @@ public class FileManager {
     }
 
     /**
-     * Saves the drawn shapes into an xml file.
+     * Saves the drawn shapes into a binary file.
      *
      * @throws IOException
      */
@@ -58,7 +58,7 @@ public class FileManager {
     }
 
     /**
-     * Loads a drawing from an xml file.
+     * Loads a drawing from a binary file.
      *
      * @throws IOException
      */

@@ -8,6 +8,11 @@ import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
+/**
+ * This abstract class provides a series of methods to make some operations on a
+ * specific shape.
+ * 
+ */
 public abstract class ShapeEditor {
 
     public abstract void setWidth(Shape shape, double width);
