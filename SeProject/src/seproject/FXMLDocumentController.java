@@ -304,27 +304,6 @@ public class FXMLDocumentController implements Initializable {
     private void addPolygon(ActionEvent event) {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
-    /*
-    private void clickOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            contextMenu.hide();
-            selectedTool.onMousePressed(event);
-        } else if (event.isSecondaryButtonDown()) {
-            contextMenu.show(drawingPane, event.getScreenX(), event.getScreenY());
-        }
-    }
-
-    private void onMouseDraggedOnDrawingPane(MouseEvent event) {
-        if (event.isPrimaryButtonDown()) {
-            selectedTool.onMouseDragged(event);
-        }
-    }
-
-    private void onMouseReleasedOnDrawingPane(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY)) {
-            selectedTool.onMouseReleased(event);
-        }
-    }*/
 
     @FXML
     private void changeFillColor(ActionEvent event) {
@@ -341,6 +320,9 @@ public class FXMLDocumentController implements Initializable {
         Invoker.getInvoker().undoLastCommand();
     }
     
+    /**
+     * Convfigure the context menu and bind's its button whit the other componnets
+     */
     private void contextMenuInit() {
 
         this.contextMenu = new ContextMenu();
@@ -389,7 +371,7 @@ public class FXMLDocumentController implements Initializable {
         });
 
     }
-
+    
     @FXML
     private void setNewWidth(KeyEvent event) {
         resizeSelectedShape(event);
@@ -402,31 +384,34 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void leftRotationAction(ActionEvent event) {
-        if (!validateSize(rotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-        }else{
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
-            SelectedShapeManager.getSelectedShapeManager().rotationShape((-1*Double.parseDouble(rotationTextField.getText()))+ rotationShape);
+        if (!handleErrorLabel()){
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(-1*Double.parseDouble(rotationTextField.getText())+rotationShape);
         }
-        return;
     }
+    
 
     @FXML
     private void rightRotationAction(ActionEvent event) {
-        if (!validateSize(rotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-        }else{
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
+        if (!handleErrorLabel()){
             double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
             SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
         }
-        return;
     }
+    
+    private boolean handleErrorLabel(){
+    if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+            return true;
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            return false;
+        }
+    }
+    
+    
 
     @FXML
     private void addGrid(ActionEvent event) {
