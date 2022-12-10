@@ -156,81 +156,66 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         
-        /*Grid initialization*/
-        
-        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));
-        
-        gridButton.selectedProperty().setValue(false);
-       
+        /*-----------------Grid initialization---------------------------------*/       
+        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));       
+        gridButton.selectedProperty().setValue(false);       
         drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
-        initDrawingArea();   
+        /*Adds the handler to the drawing area*/
+        initDrawingArea();        
         /*
         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
         *        scrollbars of the scrollpane becames sensibile.
         */
-        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
-       
+        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);       
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
         drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
-        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
-        
+        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());        
         gridSpinner.getValueFactory().valueProperty().addListener(change->{
             drawingPane.redrawGrid(gridSpinner.getValue());
-        });
-
+        });        
+        /*-----------------Formatter for the text field---------------------------------*/
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
         df.setDecimalSeparatorAlwaysShown(false);
-
         contextMenuInit();
-
         for (Node child : toolBar.getItems()) {
             if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
                 child.getStyleClass().add("toggle-button");
             }
         }
-        
         addTextButton.getStyleClass().remove("radio-button");
-        addTextButton.getStyleClass().add("toggle-button");
-        
+        addTextButton.getStyleClass().add("toggle-button");        
         for (Node child : sideBar.getItems()) {
             if (child instanceof RadioButton){
                 child.getStyleClass().remove("radio-button");
                 child.getStyleClass().add("toggle-button");
             }
         }
-
         fm = new FileManager(drawingPane.getPaper());
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
-
-        /* Default color picker values */
+        /*-------------------- Default color picker -----------------------*/
         fillColorPicker.setValue(Color.WHITE);
-        strokeColorPicker.setValue(Color.BLACK);
+        strokeColorPicker.setValue(Color.BLACK);        
+        /*------------------------- Bindings ------------------------*/
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
-        undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());
-
-        /* Selecting an initial tool */
+        undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());        
+        /*------------------------- Selecting an initial tool -----------------*/
         selectedTool = new SelectionTool(drawingPane);
-
+        sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
+        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
+        /*------------------------- Adding a listener on the buttons ----------*/        
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (newValue == false) {
-                        //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
                         selectedTool.deselect();
                     }
                 }
             });
         }
-        
-        sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
-        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
-
-        /* Text fields' size input validation */
-        
-
+        /*------------------------- Text fields' size input validation ----------*/ 
         TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)), 
                 tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation)), tfStretching = new TextFormatter(this.controlTextField(errorLabelStretching));
         widthTextField.setTextFormatter(tfWidth);
@@ -240,9 +225,8 @@ public class FXMLDocumentController implements Initializable {
         errorLabelSize.setManaged(false);
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-        
-        /* Zoom slider's settings */
+        Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));        
+        /*--------------------------- Zoom slider's settings -------------------*/
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
         
@@ -287,7 +271,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-        //selectedTool.selectedProperty.setValue(false);
         selectedTool = new SelectionTool(drawingPane);
     }
 
@@ -321,7 +304,7 @@ public class FXMLDocumentController implements Initializable {
     private void addPolygon(ActionEvent event) {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
-
+    /*
     private void clickOnDrawingPane(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
             contextMenu.hide();
@@ -341,7 +324,7 @@ public class FXMLDocumentController implements Initializable {
         if (event.getButton().equals(MouseButton.PRIMARY)) {
             selectedTool.onMouseReleased(event);
         }
-    }
+    }*/
 
     @FXML
     private void changeFillColor(ActionEvent event) {
