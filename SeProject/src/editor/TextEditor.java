@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 
 /**
  * This class provides a series of methods to make some operations on a Text.
- * 
+ *
  */
 public class TextEditor extends ShapeEditor {
 
@@ -18,9 +18,9 @@ public class TextEditor extends ShapeEditor {
 
     /**
      * This method allows to set the width of a Text.
-     * 
+     *
      * @param shape
-     * @param width 
+     * @param width
      */
     @Override
     public void setWidth(Shape shape, double width) {
@@ -29,9 +29,9 @@ public class TextEditor extends ShapeEditor {
 
     /**
      * This method allows to set the height of a Text.
-     * 
+     *
      * @param shape
-     * @param height 
+     * @param height
      */
     @Override
     public void setHeight(Shape shape, double height) {
@@ -40,9 +40,9 @@ public class TextEditor extends ShapeEditor {
 
     /**
      * This method allows to retrieve the width of a Text.
-     * 
+     *
      * @param shape
-     * @return 
+     * @return
      */
     @Override
     public double getWidth(Shape shape) {
@@ -51,9 +51,9 @@ public class TextEditor extends ShapeEditor {
 
     /**
      * This method allows ro retrieve the height of a Text.
-     * 
+     *
      * @param shape
-     * @return 
+     * @return
      */
     @Override
     public double getHeight(Shape shape) {
@@ -62,9 +62,9 @@ public class TextEditor extends ShapeEditor {
 
     /**
      * This method allows to clone a Text.
-     * 
+     *
      * @param shape
-     * @return 
+     * @return
      */
     @Override
     public Shape clone(Shape shape) {
@@ -74,17 +74,16 @@ public class TextEditor extends ShapeEditor {
         clone.setY(original.getY());
         clone.setText(original.getText());
         clone.setWrappingWidth(original.getWrappingWidth());
-        clone.setFont(original.getFont());
-
+        clone.setStyle("-fx-font-size: " + original.getFont().getSize() + "px;");
         return clone;
     }
 
     /**
      * This method allows to save a Text.
-     * 
+     *
      * @param shape
      * @param stream
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
@@ -99,14 +98,14 @@ public class TextEditor extends ShapeEditor {
 
     /**
      * This method allows to load a Text.
-     * 
+     *
      * @param c
      * @param stream
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws InstantiationException
-     * @throws IllegalAccessException 
+     * @throws IllegalAccessException
      */
     @Override
     public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -114,9 +113,7 @@ public class TextEditor extends ShapeEditor {
         text.setX(stream.readDouble());
         text.setY(stream.readDouble());
         text.setText(stream.readUTF());
-        Font tempFont= Font.font(stream.readDouble());
-        text.setFont(tempFont);
-        text.fontProperty().set(tempFont);
+        text.setStyle("-fx-font-size: " + stream.readDouble() + "px;");
         text.setWrappingWidth(stream.readDouble());
         return text;
     }
