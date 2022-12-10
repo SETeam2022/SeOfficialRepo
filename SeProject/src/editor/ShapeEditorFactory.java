@@ -16,7 +16,7 @@ public class ShapeEditorFactory {
      * performances, since the map is not instanced every single time, but only
      * once.
      */
-    private static final Map<Class< ? extends Shape>, ShapeEditor> editors = new HashMap<>();
+    private static final Map<Class< ? extends Shape>, ShapeEditor<? extends Shape>> editors = new HashMap<>();
 
     /**
      * Populed when the program stars. That choice is for obtaining better
@@ -46,7 +46,7 @@ public class ShapeEditorFactory {
         return editor;
     }
 
-    public static void addInstance(Class<? extends Shape> shapeClass, ShapeEditor editor) {
+    public static void addInstance(Class<? extends Shape> shapeClass, ShapeEditor<? extends Shape> editor) {
         editors.put(shapeClass, editor);
     }
 }
