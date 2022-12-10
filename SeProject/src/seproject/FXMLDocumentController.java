@@ -116,8 +116,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button mirrorHorizontalButton;
     @FXML
-    private TextField streachingTextField;
-    @FXML
     private Button verticalStretchingButton;
     @FXML
     private Button horizontalStretchingButton;
@@ -231,6 +229,7 @@ public class FXMLDocumentController implements Initializable {
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(stretchingTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getStretchProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
+        
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
@@ -327,7 +326,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void setNewWidth(KeyEvent event) {
-
         resizeSelectedShape(event);
     }
 
@@ -574,5 +572,7 @@ public class FXMLDocumentController implements Initializable {
         });
 
     }
+
+    
 
 }
