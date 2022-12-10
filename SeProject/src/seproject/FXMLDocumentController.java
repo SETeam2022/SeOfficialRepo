@@ -110,7 +110,23 @@ public class FXMLDocumentController implements Initializable {
     private ToggleButton gridButton;
     @FXML
     private Spinner<Integer> gridSpinner;
-
+    @FXML
+    private Button mirrorVerticalButton;
+    @FXML
+    private Button mirrorHorizontalButton;
+    @FXML
+    private TextField streachingTextField;
+    @FXML
+    private Button verticalStretchingButton;
+    @FXML
+    private Button horizontalStretchingButton;
+    @FXML
+    private TextField stretchingTextField;
+    @FXML
+    private Label errorLabelStretching;
+    @FXML
+    private Spinner<Integer> textSpinner;
+    
     private final static double MAX_SIZE = 10000;
 
     private final static double MIN_ZOOM = 1;
@@ -136,21 +152,7 @@ public class FXMLDocumentController implements Initializable {
     private FileManager fm;
    
     private DrawingArea drawingPane;
-    @FXML
-    private Button mirrorVerticalButton;
-    @FXML
-    private Button mirrorHorizontalButton;
-    private TextField streachingTextField;
-    @FXML
-    private Button verticalStretchingButton;
-    @FXML
-    private Button horizontalStretchingButton;
-    @FXML
-    private TextField stretchingTextField;
-    @FXML
-    private Label errorLabelStretching;
-    @FXML
-    private Spinner<?> textSpinner;
+
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -199,11 +201,11 @@ public class FXMLDocumentController implements Initializable {
         strokeColorPicker.setValue(Color.BLACK);        
         /*------------------------- Bindings ------------------------*/
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
-        undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());        
+        undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());
+        sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
+        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());        
         /*------------------------- Selecting an initial tool -----------------*/
         selectedTool = new SelectionTool(drawingPane);
-        sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
-        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         /*------------------------- Adding a listener on the buttons ----------*/        
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -217,7 +219,7 @@ public class FXMLDocumentController implements Initializable {
         }
         /*------------------------- Text fields' size input validation ----------*/ 
         TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)), 
-                tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation)), tfStretching = new TextFormatter(this.controlTextField(errorLabelStretching));
+        tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation)), tfStretching = new TextFormatter(this.controlTextField(errorLabelStretching));
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
         rotationTextField.setTextFormatter(tfRotation);
@@ -320,58 +322,6 @@ public class FXMLDocumentController implements Initializable {
         Invoker.getInvoker().undoLastCommand();
     }
     
-    /**
-     * Convfigure the context menu and bind's its button whit the other componnets
-     */
-    private void contextMenuInit() {
-
-        this.contextMenu = new ContextMenu();
-        this.copy = new MenuItem("Copy");
-        this.cut = new MenuItem("Cut");
-        this.paste = new MenuItem("Paste");
-        this.bringToFront = new MenuItem("Bring to Front");
-        this.bringToBack = new MenuItem("Bring to Back");
-        this.deleteShape = new MenuItem("Delete");
-        contextMenu.getItems().addAll(copy, cut, paste, deleteShape, bringToFront, bringToBack);
-
-        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
-
-        /* If nothing is selected no options will be avilable */
-        copy.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
-        cut.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
-        bringToFront.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
-        bringToBack.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
-        deleteShape.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
-
-        /* If something has been copied the paste button will be unlocked */
-        paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
-
-        copy.setOnAction(e -> {
-            ssm.copySelectedShape();
-        });
-
-        cut.setOnAction(e -> {
-            ssm.cutShape();
-        });
-
-        paste.setOnAction(e -> {
-            ssm.pasteShape();
-        });
-
-        bringToFront.setOnAction(e -> {
-            ssm.bringToFrontShape();
-        });
-
-        bringToBack.setOnAction(e -> {
-            ssm.bringToBackShape();
-        });
-
-        deleteShape.setOnAction(e -> {
-            ssm.deleteSelectedShape();
-        });
-
-    }
-    
     @FXML
     private void setNewWidth(KeyEvent event) {
         resizeSelectedShape(event);
@@ -399,21 +349,62 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    private boolean handleErrorLabel(){
-    if (!validateSize(rotationTextField.getText())){
-            errorLabelRotation.setManaged(true);
-            errorLabelRotation.setVisible(true);
-            return true;
-        }else{
-            errorLabelRotation.setVisible(false);
-            errorLabelRotation.setManaged(false);
-            return false;
-        }
+     /**
+     * The method allow to shape's vertical mirroring
+     * @param event 
+     */
+    @FXML
+    private void mirrorVerticalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
     }
     
-    
-
+    /**
+     * The method allow to shape's horizontal mirroring
+     * @param event 
+     */
     @FXML
+    private void mirrorHorizontalAction(ActionEvent event) {
+        SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
+    }
+    
+    /**
+     * The method allow to vertical stretching on selected shape due to textField's value
+     * @param event 
+     */
+    @FXML
+    private void verticalStretchingAction(ActionEvent event) {
+        if (!validateSize(stretchingTextField.getText())){
+            errorLabelStretching.setManaged(true);
+            errorLabelStretching.setVisible(true);
+        }else{
+            errorLabelStretching.setVisible(false);
+            errorLabelStretching.setManaged(false);
+            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleY()) * (Double.parseDouble(stretchingTextField.getText())/100);
+            SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape(newStretchValue);
+        }
+        return;
+
+    }
+
+    /**
+     * The method allow to horizontal stretching on selected shape due to textField's value
+     * @param event 
+     */
+    @FXML
+    private void horizontalStretchingAction(ActionEvent event) {
+        if (!validateSize(stretchingTextField.getText())){
+            errorLabelStretching.setManaged(true);
+            errorLabelStretching.setVisible(true);
+        }else{
+            errorLabelStretching.setVisible(false);
+            errorLabelStretching.setManaged(false);
+            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleX()) * (Double.parseDouble(stretchingTextField.getText())/100);
+            SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape(newStretchValue);
+        }
+        return;
+    }
+    
+     @FXML
     private void addGrid(ActionEvent event) {
        drawingPane.showGrid(gridButton.selectedProperty().getValue());
     }
@@ -433,7 +424,19 @@ public class FXMLDocumentController implements Initializable {
             errorLabelSize.setVisible(true);
         }
     }
-
+    
+    private boolean handleErrorLabel(){
+    if (!validateSize(rotationTextField.getText())){
+            errorLabelRotation.setManaged(true);
+            errorLabelRotation.setVisible(true);
+            return true;
+        }else{
+            errorLabelRotation.setVisible(false);
+            errorLabelRotation.setManaged(false);
+            return false;
+        }
+    }
+    
     /**
      * This method validates the width inserted by the user. It returns true if
      * it is valid, false otherwise.
@@ -507,60 +510,58 @@ public class FXMLDocumentController implements Initializable {
         };
         return doubleFilter;
     }
-    
-    /**
-     * The method allow to shape's vertical mirroring
-     * @param event 
-     */
-    @FXML
-    private void mirrorVerticalAction(ActionEvent event) {
-        SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
-    }
-    
-    /**
-     * The method allow to shape's horizontal mirroring
-     * @param event 
-     */
-    @FXML
-    private void mirrorHorizontalAction(ActionEvent event) {
-        SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
-    }
-    
-    /**
-     * The method allow to vertical stretching on selected shape due to textField's value
-     * @param event 
-     */
-    @FXML
-    private void verticalStretchingAction(ActionEvent event) {
-        if (!validateSize(stretchingTextField.getText())){
-            errorLabelStretching.setManaged(true);
-            errorLabelStretching.setVisible(true);
-        }else{
-            errorLabelStretching.setVisible(false);
-            errorLabelStretching.setManaged(false);
-            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleY()) * (Double.parseDouble(stretchingTextField.getText())/100);
-            SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape(newStretchValue);
-        }
-        return;
-
-    }
 
     /**
-     * The method allow to horizontal stretching on selected shape due to textField's value
-     * @param event 
+     * Convfigure the context menu and bind's its button whit the other componnets
      */
-    @FXML
-    private void horizontalStretchingAction(ActionEvent event) {
-        if (!validateSize(stretchingTextField.getText())){
-            errorLabelStretching.setManaged(true);
-            errorLabelStretching.setVisible(true);
-        }else{
-            errorLabelStretching.setVisible(false);
-            errorLabelStretching.setManaged(false);
-            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleX()) * (Double.parseDouble(stretchingTextField.getText())/100);
-            SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape(newStretchValue);
-        }
-        return;
-    }
+    private void contextMenuInit() {
+
+        this.contextMenu = new ContextMenu();
+        this.copy = new MenuItem("Copy");
+        this.cut = new MenuItem("Cut");
+        this.paste = new MenuItem("Paste");
+        this.bringToFront = new MenuItem("Bring to Front");
+        this.bringToBack = new MenuItem("Bring to Back");
+        this.deleteShape = new MenuItem("Delete");
+        contextMenu.getItems().addAll(copy, cut, paste, deleteShape, bringToFront, bringToBack);
+
+        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
+
+        /* If nothing is selected no options will be avilable */
+        copy.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        cut.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        bringToFront.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        bringToBack.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+        deleteShape.disableProperty().bind(ssm.getShapeIsSelectedProperty().not());
+
+        /* If something has been copied the paste button will be unlocked */
+        paste.disableProperty().bind(ssm.getShapeIsCopiedProperty().not());
+
+        copy.setOnAction(e -> {
+            ssm.copySelectedShape();
+        });
+
+        cut.setOnAction(e -> {
+            ssm.cutShape();
+        });
+
+        paste.setOnAction(e -> {
+            ssm.pasteShape();
+        });
+
+        bringToFront.setOnAction(e -> {
+            ssm.bringToFrontShape();
+        });
+
+        bringToBack.setOnAction(e -> {
+            ssm.bringToBackShape();
+        });
+
+        deleteShape.setOnAction(e -> {
+            ssm.deleteSelectedShape();
+        });
+
+    }    
+   
     
 }
