@@ -161,7 +161,7 @@ public class TextTool extends DrawingTool {
                 shape.fillProperty().set(getFillColorProperty().get());
                 shape.strokeProperty().set(getStrokeColorProperty().get());
                 shape.setStyle("-fx-font-size: " + textSpinnerValueProperty.get() + "px;");
-                shape.setBoundsType(TextBoundsType.VISUAL);
+                //shape.setBoundsType(TextBoundsType.VISUAL);
                 shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
                 Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
             }

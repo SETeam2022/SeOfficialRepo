@@ -10,7 +10,7 @@ import javafx.scene.shape.Shape;
 public class MirrorHorizontalCommand implements Command{
     
     private final Shape shape;
-    private final double prevScale;
+    private final double prevScale, prevRotate;
 
     /**
      * Creates a MirrorHorizontalCommand.
@@ -20,6 +20,7 @@ public class MirrorHorizontalCommand implements Command{
     public MirrorHorizontalCommand(Shape shape) {
         this.shape = shape;
         this.prevScale = this.shape.getScaleY();
+        this.prevRotate = this.shape.getRotate();
     }
     
     /**
@@ -28,6 +29,7 @@ public class MirrorHorizontalCommand implements Command{
     @Override
     public void execute() {
         shape.setScaleY(prevScale*-1);
+        shape.setRotate(prevRotate*-1);
     }
     
     /**
@@ -35,7 +37,8 @@ public class MirrorHorizontalCommand implements Command{
      */
     @Override
     public void undo() {
-        shape.setScaleY(prevScale);        
+        shape.setScaleY(prevScale);   
+        shape.setRotate(prevRotate);
     }
     
 }
