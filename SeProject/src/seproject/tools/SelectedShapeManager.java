@@ -93,7 +93,7 @@ public class SelectedShapeManager {
         paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
         ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
         ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
-        ssm.rotationProperty.setValue(ssm.getSelectedShape().getRotate());
+        ssm.rotationProperty.setValue(0);
         ssm.stretchProperty.setValue(100);
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
