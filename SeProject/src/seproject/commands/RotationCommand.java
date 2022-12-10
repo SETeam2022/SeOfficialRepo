@@ -1,33 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package seproject.commands;
 
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author bvs
+ * An object of this class represents the action of rotating a shape, the
+ * object also stores all the information needed for the undo of its operation.
+ * 
  */
 public class RotationCommand implements Command{
     
-    private double newValue, oldValue;
-    private Shape shape;
+    private final double newValue;
+    private final double oldValue;
+    private final Shape shape;
 
+    /**
+     * Creates a RotationCommand.
+     * 
+     * @param newValue the new rotation value
+     * @param shape the shape which will be rotated
+     */
     public RotationCommand(double newValue, Shape shape) {
         this.newValue = newValue;
         this.shape = shape;
         this.oldValue = shape.getRotate();
     }
 
-    
-    
+    /**
+     * Rotates the shape.
+     */
     @Override
     public void execute() {
         this.shape.rotateProperty().setValue(this.newValue);
     }
 
+    /**
+     * Makes the shape go back to its previous rotation value.
+     */
     @Override
     public void undo() {
         this.shape.rotateProperty().setValue(oldValue);

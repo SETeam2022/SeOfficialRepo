@@ -6,8 +6,9 @@ import javafx.scene.shape.Shape;
 
 /**
  * An object of this class represents the action of changing the fill color of a
- * shape, the object also stores all the information neded for the undo of its
+ * shape, the object also stores all the information needed for the undo of its
  * operation.
+ * 
  */
 public class ChangeFillColorCommand implements Command {
 

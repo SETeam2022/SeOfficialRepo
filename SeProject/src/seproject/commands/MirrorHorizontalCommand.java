@@ -1,27 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package seproject.commands;
 
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author bvs
+ * An object of this class represents the action of horizontally mirroring a shape. 
+ * The object also stores all the information needed for the undo of its operation.
+ * 
  */
 public class MirrorHorizontalCommand implements Command{
     
     private final Shape shape;
     private final double prevScale;
 
+    /**
+     * Creates a MirrorHorizontalCommand.
+     * 
+     * @param shape the shape which will be horizontally mirrored
+     */
     public MirrorHorizontalCommand(Shape shape) {
         this.shape = shape;
         this.prevScale = this.shape.getScaleY();
     }
     
     /**
-     * This method execute the shape's horizontal mirroring.
+     * This method executes the shape's horizontal mirroring.
      */
     @Override
     public void execute() {
@@ -29,7 +31,7 @@ public class MirrorHorizontalCommand implements Command{
     }
     
     /**
-     * This method allow to do "undo" the shape's horizontal mirroring.
+     * This method allows to perform "undo" the shape's horizontal mirroring.
      */
     @Override
     public void undo() {

@@ -6,7 +6,7 @@ import javafx.scene.shape.Shape;
 
 /**
  * An object of this class represents the action of changing the stroke color of
- * a shape, the object also stores all the information neded for the undo of its
+ * a shape, the object also stores all the information needed for the undo of its
  * operation.
  */
 public class ChangeStrokeColorCommand implements Command {
