@@ -7,31 +7,65 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * This class provides a series of methods to make some operations on a Text.
+ * 
+ */
 public class TextEditor extends ShapeEditor {
 
     public TextEditor() {
     }
 
+    /**
+     * This method allows to set the width of a Text.
+     * 
+     * @param shape
+     * @param width 
+     */
     @Override
     public void setWidth(Shape shape, double width) {
         ((Text) shape).setWrappingWidth(width);
     }
 
+    /**
+     * This method allows to set the height of a Text.
+     * 
+     * @param shape
+     * @param height 
+     */
     @Override
     public void setHeight(Shape shape, double height) {
         ((Text) shape).fontProperty().set(Font.font(height));
     }
 
+    /**
+     * This method allows to retrieve the width of a Text.
+     * 
+     * @param shape
+     * @return 
+     */
     @Override
     public double getWidth(Shape shape) {
         return ((Text) shape).getWrappingWidth();
     }
 
+    /**
+     * This method allows ro retrieve the height of a Text.
+     * 
+     * @param shape
+     * @return 
+     */
     @Override
     public double getHeight(Shape shape) {
         return ((Text) shape).getFont().getSize();
     }
 
+    /**
+     * This method allows to clone a Text.
+     * 
+     * @param shape
+     * @return 
+     */
     @Override
     public Shape clone(Shape shape) {
         Text original = (Text) shape;
@@ -45,6 +79,13 @@ public class TextEditor extends ShapeEditor {
         return clone;
     }
 
+    /**
+     * This method allows to save a Text.
+     * 
+     * @param shape
+     * @param stream
+     * @throws IOException 
+     */
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException {
         super.saveShape(shape, stream);
@@ -56,6 +97,17 @@ public class TextEditor extends ShapeEditor {
         stream.writeDouble(text.getWrappingWidth());
     }
 
+    /**
+     * This method allows to load a Text.
+     * 
+     * @param c
+     * @param stream
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException 
+     */
     @Override
     public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Text text = (Text) super.loadShape(c, stream);

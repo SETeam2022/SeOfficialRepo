@@ -6,13 +6,18 @@ import java.io.ObjectOutputStream;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 
+/**
+ * This class provides a series of methods to make some operations on an Ellipse.
+ * 
+ */
 public class EllipseEditor extends ShapeEditor {
 
     public EllipseEditor() {
     }
 
     /**
-     *
+     * This method allows to change the width of an ellipse.
+     * 
      * @param shape the ellipse you want to modify.
      * @param width you want to set.
      */
@@ -22,6 +27,7 @@ public class EllipseEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to change the height of an ellipse.
      *
      * @param shape the ellipse you want to modify.
      * @param height you want to set.     
@@ -32,6 +38,7 @@ public class EllipseEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to retrieve the width of an ellipse.
      *
      * @param shape the ellipse you want to get width.
      * @return the ellipse width.
@@ -42,6 +49,7 @@ public class EllipseEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to retrieve the height of an ellipse.
      *
      * @param shape the ellipse you want to get height.
      * @return the ellipse height.
@@ -52,6 +60,7 @@ public class EllipseEditor extends ShapeEditor {
     }
 
     /**
+     * This method allows to clone an ellipse. 
      *
      * @param shape the ellipse you want to clone.
      * @return the cloned ellipse (as Shape).
@@ -70,6 +79,13 @@ public class EllipseEditor extends ShapeEditor {
         return clone;
     }
 
+    /**
+     * This method allows to save an ellipse.
+     * 
+     * @param shape
+     * @param stream
+     * @throws IOException 
+     */
     @Override
     public void saveShape(Shape shape, ObjectOutputStream stream) throws IOException{
         super.saveShape(shape, stream);
@@ -80,6 +96,17 @@ public class EllipseEditor extends ShapeEditor {
         stream.writeDouble(ell.getRadiusY());
     }
 
+    /**
+     * This method allows to load an ellipse.
+     * 
+     * @param c
+     * @param stream
+     * @return the loaded ellipse
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException 
+     */
     @Override
     public Shape loadShape(Class c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
         Ellipse ell = (Ellipse) super.loadShape(c, stream);

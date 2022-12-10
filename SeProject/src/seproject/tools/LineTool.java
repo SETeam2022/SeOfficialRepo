@@ -2,7 +2,6 @@ package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import seproject.customComponents.DrawingArea;
