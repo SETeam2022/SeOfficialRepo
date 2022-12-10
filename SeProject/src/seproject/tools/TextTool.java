@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
@@ -48,7 +49,7 @@ public class TextTool extends DrawingTool {
         this.textSpinnerValueProperty = textSpinnerValueProperty;
         this.fontProperty = new SimpleObjectProperty<>(Font.font(11));
         textSpinnerValueProperty.addListener((cl, oldVal, newVal) -> {
-            fontProperty.set(Font.font(newVal));
+            fontProperty.set(Font.font(Font.getDefault().getFamily(), newVal));
         });
 
     }
@@ -140,7 +141,8 @@ public class TextTool extends DrawingTool {
                 shape = new Text(rStartX, rStartY, text);
                 shape.fillProperty().set(getFillColorProperty().get());
                 shape.strokeProperty().set(getStrokeColorProperty().get());
-                shape.setFont(fontProperty.get());
+                shape.setStyle("-fx-font-size: " + textSpinnerValueProperty.get() + "px;");
+                shape.setBoundsType(TextBoundsType.VISUAL);
                 shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
                 Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
             }
