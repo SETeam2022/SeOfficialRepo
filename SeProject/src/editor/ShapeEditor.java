@@ -33,14 +33,14 @@ public abstract class ShapeEditor<T extends Shape> {
      */
     public void saveShape(T shape, ObjectOutputStream stream) throws IOException{
         stream.writeObject(shape.getClass());
-        stream.writeDouble(((Color)shape.getFill()).getRed());
-        stream.writeDouble(((Color)shape.getFill()).getGreen());
-        stream.writeDouble(((Color)shape.getFill()).getBlue());
-        stream.writeDouble(((Color)shape.getFill()).getOpacity());
-        stream.writeDouble(((Color)shape.getStroke()).getRed());
-        stream.writeDouble(((Color)shape.getStroke()).getGreen());
-        stream.writeDouble(((Color)shape.getStroke()).getBlue());
-        stream.writeDouble(((Color)shape.getStroke()).getOpacity());
+        stream.writeDouble(((Color) shape.getFill()).getRed());
+        stream.writeDouble(((Color) shape.getFill()).getGreen());
+        stream.writeDouble(((Color) shape.getFill()).getBlue());
+        stream.writeDouble(((Color) shape.getFill()).getOpacity());
+        stream.writeDouble(((Color) shape.getStroke()).getRed());
+        stream.writeDouble(((Color) shape.getStroke()).getGreen());
+        stream.writeDouble(((Color) shape.getStroke()).getBlue());
+        stream.writeDouble(((Color) shape.getStroke()).getOpacity());
         stream.writeDouble(shape.getStrokeWidth());
         stream.writeDouble(shape.getTranslateX());
         stream.writeDouble(shape.getTranslateY());
@@ -75,7 +75,7 @@ public abstract class ShapeEditor<T extends Shape> {
 
     public T clone(T shape) {
         try {
-            T clone = (T)shape.getClass().newInstance();
+            T clone = (T) shape.getClass().newInstance();
             clone.setStroke(shape.getStroke());
             clone.setStrokeWidth(shape.getStrokeWidth());
             clone.setFill(shape.getFill());

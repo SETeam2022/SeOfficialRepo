@@ -6,8 +6,9 @@ import java.io.ObjectOutputStream;
 import javafx.scene.shape.Rectangle;
 
 /**
- * This class provides a series of methods to make some opearations on a Rectangle.
- * 
+ * This class provides a series of methods to make some opearations on a
+ * Rectangle.
+ *
  */
 public class RectangleEditor extends ShapeEditor<Rectangle> {
 
@@ -35,7 +36,7 @@ public class RectangleEditor extends ShapeEditor<Rectangle> {
 
     /**
      * This method allows to retrieve the width of a rectangle.
-     * 
+     *
      * @param rectangle the rectangle you want to get Width
      * @return the width
      */
@@ -68,13 +69,13 @@ public class RectangleEditor extends ShapeEditor<Rectangle> {
         clone.setWidth(rectangle.getWidth());
         return clone;
     }
-    
+
     /**
      * This method allows to save a rectangle.
-     * 
+     *
      * @param rectangle
      * @param stream
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     public void saveShape(Rectangle rectangle, ObjectOutputStream stream) throws IOException {
@@ -82,19 +83,19 @@ public class RectangleEditor extends ShapeEditor<Rectangle> {
         stream.writeDouble(rectangle.getX());
         stream.writeDouble(rectangle.getY());
         stream.writeDouble(rectangle.getWidth());
-        stream.writeDouble(rectangle.getHeight());  
+        stream.writeDouble(rectangle.getHeight());
     }
 
     /**
      * This method allows to load a rectangle.
-     * 
+     *
      * @param c
      * @param stream
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws InstantiationException
-     * @throws IllegalAccessException 
+     * @throws IllegalAccessException
      */
     @Override
     public Rectangle loadShape(Class<Rectangle> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {

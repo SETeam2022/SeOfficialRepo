@@ -7,7 +7,7 @@ import javafx.scene.shape.Line;
 
 /**
  * This class provieds a series of methods to make some operations on a line.
- * 
+ *
  */
 public class LineEditor extends ShapeEditor<Line> {
 
@@ -40,8 +40,8 @@ public class LineEditor extends ShapeEditor<Line> {
             return;
         }
 
-        if ( shape.getEndY() < shape.getStartY()) {
-            shape.setEndY( shape.getStartY() - height);
+        if (shape.getEndY() < shape.getStartY()) {
+            shape.setEndY(shape.getStartY() - height);
         } else {
             shape.setEndY(shape.getStartY() + height);
         }
@@ -68,10 +68,10 @@ public class LineEditor extends ShapeEditor<Line> {
     public double getHeight(Line shape) {
         return Math.abs(shape.getEndY() - shape.getStartY());
     }
-    
+
     /**
      * This method allows to clone a line.
-     * 
+     *
      * @param original the line you want to clone.
      * @return the cloned line.
      */
@@ -89,10 +89,10 @@ public class LineEditor extends ShapeEditor<Line> {
 
     /**
      * This method allows to save a line.
-     * 
+     *
      * @param shape
      * @param stream
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     public void saveShape(Line shape, ObjectOutputStream stream) throws IOException {
@@ -105,14 +105,14 @@ public class LineEditor extends ShapeEditor<Line> {
 
     /**
      * This method allows to load a line.
-     * 
+     *
      * @param c
      * @param stream
      * @return the loaded line
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws InstantiationException
-     * @throws IllegalAccessException 
+     * @throws IllegalAccessException
      */
     @Override
     public Line loadShape(Class<Line> c, ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
