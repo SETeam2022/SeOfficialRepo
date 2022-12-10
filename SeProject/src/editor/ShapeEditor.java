@@ -12,6 +12,7 @@ import javafx.scene.shape.Shape;
  * This abstract class provides a series of methods to make some operations on a
  * specific shape.
  * 
+ * @param <T>
  */
 public abstract class ShapeEditor<T extends Shape> {
 
@@ -23,6 +24,13 @@ public abstract class ShapeEditor<T extends Shape> {
 
     public abstract double getHeight(T shape);
     
+    /**
+     * This method allows to save a shape.
+     * 
+     * @param shape
+     * @param stream
+     * @throws IOException 
+     */
     public void saveShape(T shape, ObjectOutputStream stream) throws IOException{
         stream.writeObject(shape.getClass());
         stream.writeDouble(((Color)shape.getFill()).getRed());
@@ -41,6 +49,17 @@ public abstract class ShapeEditor<T extends Shape> {
         stream.writeDouble(shape.getScaleY());
     }
     
+    /**
+     * This method allows to load a shape.
+     * 
+     * @param c
+     * @param stream
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException 
+     */
     public T loadShape(Class<T> c ,ObjectInputStream stream) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
         T s = c.newInstance();
         s.setFill(new Color(stream.readDouble(), stream.readDouble(), stream.readDouble(), stream.readDouble()));
