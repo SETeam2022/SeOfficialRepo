@@ -25,7 +25,7 @@ public abstract class ShapeEditor<T extends Shape> {
     public abstract double getHeight(T shape);
     
     /**
-     * This method allows to save a shape.
+     * This method allows to save a shape, storing all its main properties.
      * 
      * @param shape
      * @param stream
@@ -50,11 +50,11 @@ public abstract class ShapeEditor<T extends Shape> {
     }
     
     /**
-     * This method allows to load a shape.
+     * This method allows to load a shape, reading all its main properties.
      * 
      * @param c
      * @param stream
-     * @return
+     * @return a shape
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws InstantiationException
