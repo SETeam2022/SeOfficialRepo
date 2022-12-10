@@ -6,6 +6,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 public class ShapeEditorFactory {
@@ -14,7 +15,7 @@ public class ShapeEditorFactory {
      * Instanced when the program stars. That choice is for obtaining better performances,
      * since the map is not instanced every single time, but only once.
      */
-    private static final Map<Class<?>, ShapeEditor> editors = new HashMap<>();
+    private static final Map<Class< ? extends Shape>, ShapeEditor> editors = new HashMap<>();
 
     /**
      * Populed when the program stars. That choice is for obtaining better performances,
@@ -35,7 +36,13 @@ public class ShapeEditorFactory {
      * @return the ShapeEditor for a specific shape. Indeed, it is easy to see that
      * you can use it for shape editing.
      */
-    public static ShapeEditor getInstance(Class<?> shapeClass) {
-        return editors.get(shapeClass);
+    public static ShapeEditor getInstance(Class<? extends Shape> shapeClass) throws EditorNotFoundException{
+        ShapeEditor editor = editors.get(shapeClass);
+        if (editor == null) throw new EditorNotFoundException("Doesn't exist an editor for the class that you searched");
+        return editor;
+    }
+    
+    public static void addInstance(Class<? extends Shape> shapeClass, ShapeEditor editor){
+          editors.put(shapeClass,editor);
     }
 }

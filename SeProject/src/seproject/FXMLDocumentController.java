@@ -1,7 +1,7 @@
 package seproject;
 
-import seproject.customComponents.DrawingArea;
 import com.sun.glass.ui.Screen;
+import seproject.customComponents.DrawingArea;
 import seproject.tools.SelectedShapeManager;
 import seproject.tools.Tool;
 import seproject.tools.LineTool;
@@ -48,6 +48,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -93,7 +94,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider zoomSlider;
     @FXML
-    private ScrollPane scrollPane; 
+    private ScrollPane scrollPane;
     @FXML
     private RadioButton addTextButton;
     @FXML
@@ -126,7 +127,7 @@ public class FXMLDocumentController implements Initializable {
     private Label errorLabelStretching;
     @FXML
     private Spinner<Integer> textSpinner;
-    
+
     private final static double MAX_SIZE = 10000;
 
     private final static double MIN_ZOOM = 1;
@@ -150,31 +151,31 @@ public class FXMLDocumentController implements Initializable {
     private Tool selectedTool;
 
     private FileManager fm;
-   
+
     private DrawingArea drawingPane;
 
-   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
-        /*-----------------Grid initialization---------------------------------*/       
-        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1,100,1));       
-        gridButton.selectedProperty().setValue(false);       
+        /*-----------------Text Spinner initialization---------------------------------*/
+        textSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 16, 2));
+        /*-----------------Grid initialization---------------------------------*/
+        gridSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
+        gridButton.selectedProperty().setValue(false);
         drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
         /*Adds the handler to the drawing area*/
-        initDrawingArea();        
+        initDrawingArea();
         /*
         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
         *        scrollbars of the scrollpane becames sensibile.
-        */
-        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);       
+         */
+        Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
+
         drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
-        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());        
-        gridSpinner.getValueFactory().valueProperty().addListener(change->{
+        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
+        gridSpinner.getValueFactory().valueProperty().addListener(change -> {
             drawingPane.redrawGrid(gridSpinner.getValue());
-        });        
+        });
         /*-----------------Formatter for the text field---------------------------------*/
         DecimalFormat df = new DecimalFormat("##,####,####");
         df.setGroupingUsed(true);
@@ -187,9 +188,9 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         addTextButton.getStyleClass().remove("radio-button");
-        addTextButton.getStyleClass().add("toggle-button");        
+        addTextButton.getStyleClass().add("toggle-button");
         for (Node child : sideBar.getItems()) {
-            if (child instanceof RadioButton){
+            if (child instanceof RadioButton) {
                 child.getStyleClass().remove("radio-button");
                 child.getStyleClass().add("toggle-button");
             }
@@ -198,15 +199,15 @@ public class FXMLDocumentController implements Initializable {
         SelectedShapeManager.setSelectedShapeManagerPaper(drawingPane);
         /*-------------------- Default color picker -----------------------*/
         fillColorPicker.setValue(Color.WHITE);
-        strokeColorPicker.setValue(Color.BLACK);        
+        strokeColorPicker.setValue(Color.BLACK);
         /*------------------------- Bindings ------------------------*/
         ereaseButton.disableProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty().not());
         undoButton.disableProperty().bind(Invoker.getInvoker().getUndoIsEnabledProperty().not());
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
-        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());        
+        sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         /*------------------------- Selecting an initial tool -----------------*/
         selectedTool = new SelectionTool(drawingPane);
-        /*------------------------- Adding a listener on the buttons ----------*/        
+        /*------------------------- Adding a listener on the buttons ----------*/
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
@@ -217,9 +218,9 @@ public class FXMLDocumentController implements Initializable {
                 }
             });
         }
-        /*------------------------- Text fields' size input validation ----------*/ 
-        TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)), 
-        tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation)), tfStretching = new TextFormatter(this.controlTextField(errorLabelStretching));
+        /*------------------------- Text fields' size input validation ----------*/
+        TextFormatter tfWidth = new TextFormatter(this.controlTextField(errorLabelSize)), tfHeight = new TextFormatter(this.controlTextField(errorLabelSize)),
+                tfRotation = new TextFormatter(this.controlTextField(errorLabelRotation)), tfStretching = new TextFormatter(this.controlTextField(errorLabelStretching));
         widthTextField.setTextFormatter(tfWidth);
         heightTextField.setTextFormatter(tfHeight);
         rotationTextField.setTextFormatter(tfRotation);
@@ -228,13 +229,13 @@ public class FXMLDocumentController implements Initializable {
         errorLabelSize.setVisible(false);
         Bindings.bindBidirectional(widthTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getWidthProperty(), new NumberStringConverter(df));
         Bindings.bindBidirectional(heightTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getHeightProperty(), new NumberStringConverter(df));
-        Bindings.bindBidirectional(stretchingTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getStretchProperty(), new NumberStringConverter(df));        
-        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));        
+        Bindings.bindBidirectional(stretchingTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getStretchProperty(), new NumberStringConverter(df));
+        Bindings.bindBidirectional(rotationTextField.textProperty(), SelectedShapeManager.getSelectedShapeManager().getRotationProperty(), new NumberStringConverter(df));
         /* Zoom slider's settings */
         zoomSlider.setMin(MIN_ZOOM);
         zoomSlider.setMax(MAX_ZOOM);
-        
-}
+
+    }
 
     @FXML
     private void saveDrawing(ActionEvent event) {
@@ -301,7 +302,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addText(ActionEvent event) {
-        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
+        selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty(), textSpinner.valueProperty());
     }
 
     @FXML
@@ -323,65 +324,70 @@ public class FXMLDocumentController implements Initializable {
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
     }
-    
+
     @FXML
     private void setNewWidth(KeyEvent event) {
+
         resizeSelectedShape(event);
     }
 
     @FXML
     private void setNewHeight(KeyEvent event) {
+        System.out.println(event);
         resizeSelectedShape(event);
     }
-    
+
     @FXML
     private void leftRotationAction(ActionEvent event) {
-        if (!handleErrorLabel()){
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(-1*Double.parseDouble(rotationTextField.getText())+rotationShape);
+        if (!handleErrorLabel()) {
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(-1 * Double.parseDouble(rotationTextField.getText()) + rotationShape);
         }
     }
-    
 
     @FXML
     private void rightRotationAction(ActionEvent event) {
-        if (!handleErrorLabel()){
-            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();            
-            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText())+rotationShape);
+        if (!handleErrorLabel()) {
+            double rotationShape = SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getRotate();
+            SelectedShapeManager.getSelectedShapeManager().rotationShape(Double.parseDouble(rotationTextField.getText()) + rotationShape);
         }
     }
-    
-     /**
+
+    /**
      * The method allow to shape's vertical mirroring
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void mirrorVerticalAction(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().mirrorVerticalShape();
     }
-    
+
     /**
      * The method allow to shape's horizontal mirroring
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void mirrorHorizontalAction(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().mirrorHorizontalShape();
     }
-    
+
     /**
-     * The method allow to vertical stretching on selected shape due to textField's value
-     * @param event 
+     * The method allow to vertical stretching on selected shape due to
+     * textField's value
+     *
+     * @param event
      */
     @FXML
     private void verticalStretchingAction(ActionEvent event) {
-        if (!validateSize(stretchingTextField.getText())){
+        if (!validateSize(stretchingTextField.getText())) {
             errorLabelStretching.setManaged(true);
             errorLabelStretching.setVisible(true);
-        }else{
+        } else {
             errorLabelStretching.setVisible(false);
             errorLabelStretching.setManaged(false);
-            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleY()) * (Double.parseDouble(stretchingTextField.getText())/100);
+            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleY()) * (Double.parseDouble(stretchingTextField.getText()) / 100);
             SelectedShapeManager.getSelectedShapeManager().verticalStreachingShape(newStretchValue);
         }
         return;
@@ -389,26 +395,28 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * The method allow to horizontal stretching on selected shape due to textField's value
-     * @param event 
+     * The method allow to horizontal stretching on selected shape due to
+     * textField's value
+     *
+     * @param event
      */
     @FXML
     private void horizontalStretchingAction(ActionEvent event) {
-        if (!validateSize(stretchingTextField.getText())){
+        if (!validateSize(stretchingTextField.getText())) {
             errorLabelStretching.setManaged(true);
             errorLabelStretching.setVisible(true);
-        }else{
+        } else {
             errorLabelStretching.setVisible(false);
             errorLabelStretching.setManaged(false);
-            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleX()) * (Double.parseDouble(stretchingTextField.getText())/100);
+            double newStretchValue = (SelectedShapeManager.getSelectedShapeManager().getSelectedShape().getScaleX()) * (Double.parseDouble(stretchingTextField.getText()) / 100);
             SelectedShapeManager.getSelectedShapeManager().horizontalStreachingShape(newStretchValue);
         }
         return;
     }
-    
-     @FXML
+
+    @FXML
     private void addGrid(ActionEvent event) {
-       drawingPane.showGrid(gridButton.selectedProperty().getValue());
+        drawingPane.showGrid(gridButton.selectedProperty().getValue());
     }
 
     /**
@@ -426,19 +434,19 @@ public class FXMLDocumentController implements Initializable {
             errorLabelSize.setVisible(true);
         }
     }
-    
-    private boolean handleErrorLabel(){
-    if (!validateSize(rotationTextField.getText())){
+
+    private boolean handleErrorLabel() {
+        if (!validateSize(rotationTextField.getText())) {
             errorLabelRotation.setManaged(true);
             errorLabelRotation.setVisible(true);
             return true;
-        }else{
+        } else {
             errorLabelRotation.setVisible(false);
             errorLabelRotation.setManaged(false);
             return false;
         }
     }
-    
+
     /**
      * This method validates the width inserted by the user. It returns true if
      * it is valid, false otherwise.
@@ -459,8 +467,8 @@ public class FXMLDocumentController implements Initializable {
         return true;
     }
 
-    private void initDrawingArea(){
-        
+    private void initDrawingArea() {
+
         drawingPane.getPaper().setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -472,7 +480,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-        
+
         drawingPane.getPaper().setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -481,7 +489,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
-        
+
         drawingPane.getPaper().setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -491,14 +499,15 @@ public class FXMLDocumentController implements Initializable {
             }
         });
     }
-    
+
     /**
-     * This method allow to control the textField's text and label is 
-     * the error's label.
+     * This method allow to control the textField's text and label is the
+     * error's label.
+     *
      * @param label
-     * @return 
+     * @return
      */
-    private UnaryOperator<Change> controlTextField(Label label){
+    private UnaryOperator<Change> controlTextField(Label label) {
         UnaryOperator<Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
             if (newText.matches("^[0-9]*(\\.[0-9]*)?$")) {
@@ -514,7 +523,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * Convfigure the context menu and bind's its button whit the other componnets
+     * Convfigure the context menu and bind's its button whit the other
+     * componnets
      */
     private void contextMenuInit() {
 
@@ -563,7 +573,6 @@ public class FXMLDocumentController implements Initializable {
             ssm.deleteSelectedShape();
         });
 
-    }    
-   
-    
+    }
+
 }
