@@ -5,6 +5,10 @@ import javafx.scene.shape.*;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.*;
 
+/**
+ * This class represents the SelectionTool.
+ * 
+ */
 public class SelectionTool extends Tool {
 
     private final SelectedShapeManager manager;
@@ -15,6 +19,11 @@ public class SelectionTool extends Tool {
     private final SimpleDoubleProperty scaleX;
     private final SimpleDoubleProperty scaleY;
 
+    /**
+     * Creates a new SelectionTool.
+     * 
+     * @param paper is the pane whose shape nodes will be selected
+     */
     public SelectionTool(DrawingArea paper) {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
@@ -33,7 +42,6 @@ public class SelectionTool extends Tool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        //SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
         Object eventNode = event.getTarget();
         if (eventNode instanceof Shape) {
             Shape tmp = (Shape) eventNode;
@@ -53,14 +61,13 @@ public class SelectionTool extends Tool {
 
     /**
      * This function will be called after a click with the mouse on the paper
-     * and, while the mouse is pressed, the users performs a dragging. This
+     * and, while the mouse is pressed, the users performs a drag. This
      * fuction allows the user to drag a selected shape on the screen.
      *
      * @param event is the event that generated the call to this method
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
-        //Shape selectedShape = manager.getSelectedShape();
         if (selectedShape != null) {
             selectedShape.setTranslateX(event.getSceneX() / scaleX.getValue() - offsetX);
             selectedShape.setTranslateY(event.getSceneY() / scaleY.getValue() - offsetY);
@@ -70,24 +77,24 @@ public class SelectionTool extends Tool {
 
     /**
      * This function will be called after the release of the mouse primary
-     * button if the shape has been dragged a new TraslationCommand will be
-     * created in order to register its older position.
+     * button. If the shape has been dragged a new TraslationCommand will be
+     * created in order to register its latest position.
      *
      * @param event is the event that generated the call to this method
      */
     @Override
     public void onMouseReleased(MouseEvent event) {
-        if (selectedShape != null && shapeHasBeenDragged) {
+        if (selectedShape != null && shapeHasBeenDragged)
             Invoker.getInvoker().executeCommand(new TranslationCommand(selectedShape, offsetX, offsetY, startX, startY, scaleX.getValue(), scaleY.getValue(), event.getSceneX(), event.getSceneY()));
-        }
         shapeHasBeenDragged = false;
     }
 
+    /**
+     * The call to this method will unset the selected shape.
+     */
     @Override
     public void deselect() {
-        if (selectedShape == null) {
-            return;
-        }
+        if (selectedShape == null) return;
         manager.unsetSelectedShape();
         selectedShape = null;
     }

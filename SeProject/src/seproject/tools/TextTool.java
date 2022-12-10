@@ -15,6 +15,11 @@ import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 
+/**
+ * This class is the representation of a specialized tool that can draw a
+ * Text on the screen.
+ * 
+ */
 public class TextTool extends DrawingTool {
 
     private final static double MIN_RECTANLGE_AREA = 150; // The minimum area of rectangle that will be transformed in TextArea.
@@ -56,8 +61,8 @@ public class TextTool extends DrawingTool {
 
     /**
      * This function will be called after a click with the mouse on the
-     * DrawingArea a dotted rectangle will be instantiated which will guide the
-     * user in setting the dimensions of the TextArea which will have to be
+     * DrawingArea, a dotted rectangle will be instantiated which will guide the
+     * user in setting the dimensions of the TextArea which will be
      * transformed into Text.
      *
      * @param event is the event that generated the call to this method its X
@@ -76,7 +81,7 @@ public class TextTool extends DrawingTool {
      * This event will record the mouse drag after pressing on the DrawingArea.
      *
      * @param event based on the mouse coordinates during this event, the size
-     * of the rectangle at the end of that event, will be the TextArea size.
+     * of the rectangle at the end of that event, will be the TextArea's size.
      */
     @Override
     public void onMouseDragged(MouseEvent event) {
@@ -96,7 +101,6 @@ public class TextTool extends DrawingTool {
     }
 
     /**
-     *
      * If the guide Rectangle is null or does not reach the minimum size
      * requirements for instantiating a TextArea, the Tool is reset. Otherwise,
      * a TextArea will be instantiated.
@@ -113,7 +117,6 @@ public class TextTool extends DrawingTool {
     }
 
     /**
-     *
      * Executing this method will unbind the border of the figure. It will then
      * attempt to draw any text in the last TextArea.
      */

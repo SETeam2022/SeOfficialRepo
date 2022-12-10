@@ -12,6 +12,8 @@
     -fx-scale-x: 0.9;
     -fx-cursor: CLOSED_HAND;
 }
+/*linear-gradient(to left, #92bdff, #a5cbff, #bad9ff, #d0e6ff, #e7f3ff);/*linear-gradient(to left, #4891ff, #6eabff, #94c4ff, #bcdcff, #e7f3ff);/*LightSkyBlue; /*lightblue*/
+
 
 .toggle-button:hover {
     -fx-background-color: lightblue;
@@ -97,6 +99,7 @@
     -fx-scale-x: 0.9;
     -fx-background-radius: 10px;
     -fx-background-color: lightblue;
+    
 }
 
 .menu-item:hover{
@@ -126,7 +129,10 @@
 }
 .edit-shape {
     -fx-background-radius: 7px;
-    -fx-background-color: #E9E9E9;
+    -fx-background-color: white;
     -fx-border-radius: 7px;
-    -fx-border-color: #E9E9E9
+    -fx-border-color: white;/*#E9E9E9*/
+    -fx-effect:dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);;
 }
+
+
