@@ -333,7 +333,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void setNewHeight(KeyEvent event) {
-        System.out.println(event);
         resizeSelectedShape(event);
     }
 
