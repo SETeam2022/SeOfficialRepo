@@ -43,7 +43,7 @@ public class PolygonTool extends DrawingTool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        if (polygon == null) {
+        if (polygon == null || !paper.getPaper().getChildren().contains(polygon)) {
             polygon = new Polyline();
             polygon.getPoints().addAll(event.getX(), event.getY());
             polygon.setStroke(this.getStrokeColorProperty().getValue());

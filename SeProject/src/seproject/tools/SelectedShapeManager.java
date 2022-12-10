@@ -7,7 +7,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
 import seproject.customComponents.DrawingArea;
 import seproject.customComponents.Overlay;
 import seproject.commands.ChangeFillColorCommand;
