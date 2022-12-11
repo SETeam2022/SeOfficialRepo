@@ -1,5 +1,6 @@
 package seproject.commands;
 
+import java.security.SecureRandom;
 import javafx.scene.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,11 +11,13 @@ public class VerticalStretchingCommandTest {
     private Rectangle rect;
     private VerticalStretchingCommand cmd;
     private double prevStretchingValue, newStretchingValue;
+    private SecureRandom secure;
     
     @Before
     public void setUp() {
         rect = new Rectangle();
-        newStretchingValue = 2;
+        secure = new SecureRandom();
+        newStretchingValue = secure.nextInt(100);
         prevStretchingValue = rect.getScaleY();
         cmd = new VerticalStretchingCommand(rect,newStretchingValue);
     }

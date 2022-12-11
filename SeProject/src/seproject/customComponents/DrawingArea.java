@@ -35,7 +35,7 @@ public class DrawingArea extends Pane implements LayeredPaper {
      * @param height the height of the drawing area
      * @param width the width of the drawing area
      */
-    public DrawingArea(double width, double height) {
+    public DrawingArea(double width, double height){
         super.setPrefSize(width, height);
         paper = new Pane();
         paper.setId("paper");
@@ -44,7 +44,6 @@ public class DrawingArea extends Pane implements LayeredPaper {
         grid.setVisible(false);
         super.setClip(new Rectangle(0, 0, width, height));
         super.getChildren().addAll(paper,grid);
-
     }
 
     /**

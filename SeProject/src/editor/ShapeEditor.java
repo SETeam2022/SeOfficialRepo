@@ -3,6 +3,8 @@ package editor;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.paint.Color;
@@ -15,7 +17,8 @@ import javafx.scene.shape.Shape;
  * @param <T>
  */
 public abstract class ShapeEditor<T extends Shape> {
-
+    
+    private static final Map<Class< ? extends Shape>, ShapeEditor<? extends Shape>> editors = new HashMap<>();
     /**
      * This method allows to set the width of a shape.
      *
@@ -112,4 +115,6 @@ public abstract class ShapeEditor<T extends Shape> {
         }
         return null;
     }
+    
+    
 }

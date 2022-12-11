@@ -9,10 +9,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
 import seproject.Constants;
+import seproject.customComponents.LayeredPaper;
 
 public class DrawShapeCommandTest {
 
-    private Pane paper;
 
     private Shape testShape;
 
@@ -20,7 +20,7 @@ public class DrawShapeCommandTest {
     
     private SecureRandom random;
     
-    private DrawingArea dw;
+    private LayeredPaper paper;
 
     public DrawShapeCommandTest() {
     }
@@ -32,10 +32,9 @@ public class DrawShapeCommandTest {
     @Before
     public void setUp() {
         this.random = new SecureRandom();
-        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
-        paper = dw.getPaper();
+        paper = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         testShape = new Rectangle();
-        com = new DrawShapeCommand(testShape, dw);
+        com = new DrawShapeCommand(testShape, paper);
     }
 
     /**
@@ -46,7 +45,7 @@ public class DrawShapeCommandTest {
     public void testExecute() {
         System.out.println("execute");
         com.execute();
-        assertTrue(paper.getChildren().contains(testShape));
+        assertTrue(paper.paperContains(testShape));
     }
 
     /**
@@ -58,7 +57,7 @@ public class DrawShapeCommandTest {
         System.out.println("undo");
         com.execute();
         com.undo();
-        assertTrue(!paper.getChildren().contains(testShape));
+        assertTrue(!paper.paperContains(testShape));
     }
 
 }
