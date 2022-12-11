@@ -548,6 +548,7 @@ public class FXMLDocumentController implements Initializable {
 
         cut.setOnAction(e -> {
             ssm.cutShape();
+            selectedTool.deselect();
         });
 
         paste.setOnAction(e -> {
@@ -564,6 +565,8 @@ public class FXMLDocumentController implements Initializable {
 
         deleteShape.setOnAction(e -> {
             ssm.deleteSelectedShape();
+            selectedTool.deselect();
+
         });
         
         verticalMirror.setOnAction(e -> {
