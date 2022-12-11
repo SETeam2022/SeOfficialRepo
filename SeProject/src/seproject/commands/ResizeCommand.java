@@ -3,6 +3,7 @@ package seproject.commands;
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
 import javafx.scene.shape.Shape;
+import seproject.tools.SelectedShapeManager;
 
 /**
  * An object of this class represents the action of resaizing a shape, the
