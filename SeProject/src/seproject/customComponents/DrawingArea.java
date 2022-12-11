@@ -179,6 +179,9 @@ public class DrawingArea extends Pane implements LayeredPaper {
         return l;
     }
 
-
+    @Override
+    public int getPaperSize() {
+        return paper.getChildren().size();
+    }
 
 }
