@@ -143,11 +143,11 @@ public class TextToolTest {
         Rectangle testRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
 
         int expectedSize = 3;
-        int actualSize = paper.getContainerOfPaperAndGrid().getChildren().size();
+        int actualSize = paper.getChildren().size();
 
         assertEquals(expectedSize, actualSize);
 
-        Node actualNode = paper.getContainerOfPaperAndGrid().getChildren().get(actualSize - 1);
+        Node actualNode = paper.getChildren().get(actualSize - 1);
         Class<?> expectedClass = TextArea.class;
         assertEquals(expectedClass, actualNode.getClass());
 
@@ -171,7 +171,7 @@ public class TextToolTest {
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), randOutX, randOutY));
 
         expectedSize = 2;
-        actualSize = paper.getContainerOfPaperAndGrid().getChildren().size();
+        actualSize = paper.getChildren().size();
         assertEquals(expectedSize, actualSize);
 
         expectedSize = 1;

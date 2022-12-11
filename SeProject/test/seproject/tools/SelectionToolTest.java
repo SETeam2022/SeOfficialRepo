@@ -38,7 +38,7 @@ public class SelectionToolTest {
         dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         paper = dw.getPaper();
         ell = new EllipseTool(dw, borderColorProperty, fillColorProperty);
-        st = new SelectionTool(dw,dw.getContainerOfPaperAndGrid().scaleXProperty(),dw.getContainerOfPaperAndGrid().scaleYProperty());
+        st = new SelectionTool(dw,dw.scaleXProperty(),dw.scaleYProperty());
         SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         
         ell.onMousePressed(EventGenerator.PrimaryButtonMousePressed(paper, paper,100, 200));
