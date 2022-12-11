@@ -1,7 +1,7 @@
 package seproject.commands;
 
 import javafx.scene.shape.Shape;
-import seproject.customComponents.DrawingArea;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * An object of this class represents the action of deleting a shape from the
@@ -11,7 +11,7 @@ import seproject.customComponents.DrawingArea;
 public class DeleteShapeCommand implements Command {
 
     private final Shape shape;
-    private final DrawingArea paper;
+    private final LayeredPaper paper;
 
     /**
      * Creates a DeleteShapeCommand.
@@ -19,7 +19,7 @@ public class DeleteShapeCommand implements Command {
      * @param shape the shape that will be deleted
      * @param paper the pane on witch the shape is rendered
      */
-    public DeleteShapeCommand(Shape shape, DrawingArea paper) {
+    public DeleteShapeCommand(Shape shape, LayeredPaper paper) {
         this.shape = shape;
         this.paper = paper;
     }
@@ -29,7 +29,7 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void execute() {
-        paper.removeShape(shape);
+        paper.removeFromPaper(shape);
 
     }
 
@@ -38,7 +38,7 @@ public class DeleteShapeCommand implements Command {
      */
     @Override
     public void undo() {
-        paper.addShape(shape);
+        paper.addInPaper(shape);
     }
 
 }

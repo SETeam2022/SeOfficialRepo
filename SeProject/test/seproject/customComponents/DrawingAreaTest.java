@@ -91,7 +91,7 @@ public class DrawingAreaTest {
     @Test
     public void testAddShape(){
         Shape s = new Rectangle();
-        drawing.addShape(s);
+        drawing.addInPaper(s);
         assertTrue("The paper should contain the new shape",paper.getChildren().contains(s));         
     }
     
@@ -102,8 +102,8 @@ public class DrawingAreaTest {
     @Test
     public void testRemoveShape(){
         Shape s = new Rectangle();
-        drawing.addShape(s);
-        drawing.removeShape(s);
+        drawing.addInPaper(s);
+        drawing.removeFromPaper(s);
         assertFalse("The paper shouldn't contain the shape",paper.getChildren().contains(s));          
     }
     

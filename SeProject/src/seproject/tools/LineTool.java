@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class is the representation of a specialized tool that can draw Lines
@@ -25,7 +26,7 @@ public class LineTool extends DrawingTool {
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * Interior Picker's value.
      */
-    public LineTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public LineTool(LayeredPaper paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
     }
     
@@ -46,7 +47,7 @@ public class LineTool extends DrawingTool {
         line.setStroke(this.getStrokeColorProperty().getValue());
         line.setFill(this.getFillColorProperty().getValue());
         line.setStrokeWidth(DrawingTool.widthStroke);
-        Invoker.getInvoker().executeCommand(new DrawShapeCommand(line, paper));
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(line, getPaper()));
 
     }
 

@@ -4,9 +4,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
-import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class is the representation of a specialized tool which can draw
@@ -27,7 +27,7 @@ public class PolygonTool extends DrawingTool {
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * ColorPicker's value.
      */
-    public PolygonTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public PolygonTool(LayeredPaper paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
     }
 
@@ -43,13 +43,13 @@ public class PolygonTool extends DrawingTool {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        if (polygon == null || !paper.getPaper().getChildren().contains(polygon)) {
+        if (polygon == null || !this.getPaper().paperContains(polygon)){
             polygon = new Polyline();
             polygon.getPoints().addAll(event.getX(), event.getY());
             polygon.setStroke(this.getStrokeColorProperty().getValue());
             polygon.setFill(this.getFillColorProperty().getValue());
             polygon.setStrokeWidth(DrawingTool.widthStroke);
-            Invoker.getInvoker().executeCommand(new DrawShapeCommand(polygon, paper));
+            Invoker.getInvoker().executeCommand(new DrawShapeCommand(polygon, getPaper()));
         }
         polygon.getPoints().addAll(event.getX(), event.getY());
     }

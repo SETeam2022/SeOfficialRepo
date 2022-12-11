@@ -8,6 +8,7 @@ import javafx.scene.shape.Ellipse;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class is the representation of a specialized tool which can draw
@@ -27,7 +28,7 @@ public class EllipseTool extends DrawingTool {
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * Interior Picker's value.
      */
-    public EllipseTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public EllipseTool(LayeredPaper paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
     }
 
@@ -47,7 +48,7 @@ public class EllipseTool extends DrawingTool {
         ell.setStroke(this.getStrokeColorProperty().getValue());
         ell.setFill(this.getFillColorProperty().getValue());
         ell.setStrokeWidth(DrawingTool.widthStroke);
-        Invoker.getInvoker().executeCommand(new DrawShapeCommand(ell, paper));
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(ell, getPaper()));
     }
 
     /**

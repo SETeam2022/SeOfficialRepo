@@ -10,10 +10,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
-import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class is the representation of a specialized tool that can draw a Text
@@ -48,7 +47,7 @@ public class TextTool extends DrawingTool {
      * used to manage the text size.
      *
      */
-    public TextTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty, ReadOnlyObjectProperty<Integer> textSpinnerValueProperty) {
+    public TextTool(LayeredPaper paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty, ReadOnlyObjectProperty<Integer> textSpinnerValueProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
 
         this.textSpinnerValueProperty = textSpinnerValueProperty;
@@ -142,7 +141,7 @@ public class TextTool extends DrawingTool {
         this.tempRectangle.getStrokeDashArray().addAll(2d, 3d);
         this.tempRectangle.setFill(Color.TRANSPARENT);
         this.tempRectangle.setStroke(Color.GREY);
-        paper.addShape(this.tempRectangle);
+        getPaper().addInPaper(this.tempRectangle);
     }
 
     /**
@@ -163,7 +162,7 @@ public class TextTool extends DrawingTool {
                 shape.setStyle("-fx-font-size: " + textSpinnerValueProperty.get() + "px;");
                 //shape.setBoundsType(TextBoundsType.VISUAL);
                 shape.wrappingWidthProperty().set(tempTextArea.widthProperty().get());
-                Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, paper));
+                Invoker.getInvoker().executeCommand(new DrawShapeCommand(shape, getPaper()));
             }
         }
         resetTool();
@@ -190,7 +189,7 @@ public class TextTool extends DrawingTool {
         this.tempTextArea.prefHeightProperty().set(tempRectangle.getHeight());
         unSetRectangle();
 
-        paper.getContainerOfPaperAndGrid().getChildren().add(this.tempTextArea);
+        getPaper().addInTopLayer(this.tempTextArea);
     }
 
     /**
@@ -201,7 +200,7 @@ public class TextTool extends DrawingTool {
         if (this.tempRectangle == null) {
             return;
         }
-        paper.removeShape(tempRectangle);
+        getPaper().removeFromPaper(tempRectangle);
         tempRectangle = null;
     }
 
@@ -212,7 +211,7 @@ public class TextTool extends DrawingTool {
         if (this.tempTextArea == null) {
             return;
         }
-        paper.getContainerOfPaperAndGrid().getChildren().remove(this.tempTextArea);
+       getPaper().removeFromTopLayer(this.tempTextArea);
         tempTextArea.fontProperty().unbind();
         tempTextArea = null;
     }

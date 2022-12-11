@@ -3,6 +3,7 @@ package seproject.tools;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Color;
 import seproject.customComponents.DrawingArea;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class wants to represent the generic drawing tool.
@@ -24,7 +25,7 @@ public abstract class DrawingTool extends Tool {
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * Interior Picker's value.
      */
-    public DrawingTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public DrawingTool(LayeredPaper paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper);
         this.strokeColorProperty = strokeColorProperty;
         this.fillColorProperty = fillColorProperty;

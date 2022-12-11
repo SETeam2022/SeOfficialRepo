@@ -8,6 +8,7 @@ import javafx.scene.shape.Rectangle;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class is the representation of a specialized tool that can draw a
@@ -27,7 +28,7 @@ public class RectangleTool extends DrawingTool {
      * @param fillColorProperty is the associated ObjectProperty of Fill
      * Interior Picker's value.
      */
-    public RectangleTool(DrawingArea paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
+    public RectangleTool(LayeredPaper paper, ObjectProperty<Color> strokeColorProperty, ObjectProperty<Color> fillColorProperty) {
         super(paper, strokeColorProperty, fillColorProperty);
     }
 
@@ -48,7 +49,7 @@ public class RectangleTool extends DrawingTool {
         rectangle.setStroke(this.getStrokeColorProperty().getValue());
         rectangle.setFill(this.getFillColorProperty().getValue());
         rectangle.setStrokeWidth(DrawingTool.widthStroke);
-        Invoker.getInvoker().executeCommand(new DrawShapeCommand(rectangle, paper));
+        Invoker.getInvoker().executeCommand(new DrawShapeCommand(rectangle, getPaper()));
 
     }
 

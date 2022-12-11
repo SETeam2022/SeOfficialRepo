@@ -1,6 +1,8 @@
 package seproject.customComponents;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -8,17 +10,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
- * This class creates an abstraction of the application's area where the user can
- * draw. One of the main goals of the drawing area is the management of the
+ * This class creates an abstraction of the application's area where the user
+ * can draw. One of the main goals of the drawing area is the management of the
  * grid that is in overlay with the drawing.
- * 
+ *
  */
-public class DrawingArea extends Pane {
-    
-    private static final double CONV_FACTOR =  37.7952755906; // 1cm =  37.7952755906 pixels
-    
+public class DrawingArea extends Pane implements LayeredPaper {
+
+    private static final double CONV_FACTOR = 37.7952755906; // 1cm =  37.7952755906 pixels
+
     private final Pane paper;
-    
+
     private Group grid;
 
     private final Group containerOfPaperAndGrid;
@@ -36,10 +38,10 @@ public class DrawingArea extends Pane {
         paper.setPrefSize(width, height);
         grid = makeGrid(1);
         grid.setVisible(false);
-        containerOfPaperAndGrid = new Group(paper,grid);
-        containerOfPaperAndGrid.setClip(new Rectangle (0,0, width,height));
+        containerOfPaperAndGrid = new Group(paper, grid);
+        containerOfPaperAndGrid.setClip(new Rectangle(0, 0, width, height));
         super.getChildren().add(containerOfPaperAndGrid);
-        
+
     }
 
     /**
@@ -54,65 +56,96 @@ public class DrawingArea extends Pane {
         this.grid.setVisible(oldValue);
         this.containerOfPaperAndGrid.getChildren().add(grid);
     }
+
     /**
      * Makes the overlaying grid visible.
-     * 
-     * @param val true if the grid must be visible, flase if the grid must be invisible
+     *
+     * @param val true if the grid must be visible, flase if the grid must be
+     * invisible
      */
     public void showGrid(boolean val) {
         grid.setVisible(val);
     }
-    
+
     /**
-     * The paper and grid group contains the two main elements of the DrawingArea:
+     * The paper and grid group contains the two main elements of the
+     * DrawingArea:
      * <ul>
-     *  <li>The grid: a group containing all the lines that builds the grid</li>
-     *  <li>The paper: a pane on which all the shapes are added</li>
+     * <li>The grid: a group containing all the lines that builds the grid</li>
+     * <li>The paper: a pane on which all the shapes are added</li>
      * </ul>
-     * 
+     *
      * @return the group containing the two elements.
      */
     public Group getContainerOfPaperAndGrid() {
         return this.containerOfPaperAndGrid;
     }
-    
+
     /**
      * Getter for the paper.
-     * 
-     * @return  the Pane that works as a papaer
+     *
+     * @return the Pane that works as a papaer
      */
     public Pane getPaper() {
         return this.paper;
     }
-    
+
     /**
      * Getter for the grid.
-     * 
+     *
      * @return the group containing the lines that makes the grid
      */
-    public Group getGrid(){
+    public Group getGrid() {
         return this.grid;
     }
-    
+
     /**
      * Adds a shape into the the paper.
-     * 
+     *
      * @param shape the shape that will be added.
      */
-    public void addShape(Shape shape) {
+    @Override
+    public void addInPaper(Shape shape) {
         paper.getChildren().add(shape);
     }
-    
+
     /**
      * Removes a shape from the paper.
-     * 
+     *
      * @param shape the shape that will be removed
      * @return true if the shape has been removed, false otherwise
      */
-    public boolean removeShape(Shape shape){
+    @Override
+    public boolean removeFromPaper(Shape shape) {
         return paper.getChildren().remove(shape);
     }
     
+    
+    @Override
+    public boolean paperContains(Shape shape) {
+        return this.paper.getChildren().contains(shape);
+    }
+
+    /**
+     * Adds a node at an highest level of the paper.
+     *
+     * @param node
+     */
+    @Override
+    public void addInTopLayer(Node node) {
+        containerOfPaperAndGrid.getChildren().add(node);
+    }
+
+    /**
+     *
+     * @param node remove the node from the highest level of the paper.
+     * @return
+     */
+    @Override
+    public boolean removeFromTopLayer(Node node) {
+        return containerOfPaperAndGrid.getChildren().remove(node);
+    }
+
     private Group makeGrid(int newDistance) {
         double distanceInPixel = newDistance * CONV_FACTOR;
         Group g = new Group();

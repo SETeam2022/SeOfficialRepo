@@ -2,6 +2,7 @@ package seproject.commands;
 
 import javafx.scene.shape.Shape;
 import seproject.customComponents.DrawingArea;
+import seproject.customComponents.LayeredPaper;
 import seproject.tools.SelectedShapeManager;
 
 /**
@@ -13,7 +14,7 @@ public class DrawShapeCommand implements Command {
 
     private final Shape shape;
 
-    private final DrawingArea paper;
+    private final LayeredPaper paper;
 
     /**
      * Creates a DrawShapeCommand.
@@ -21,7 +22,7 @@ public class DrawShapeCommand implements Command {
      * @param shape the shape that will be added to the paper
      * @param paper the paper on which the shape will be added
      */
-    public DrawShapeCommand(Shape shape, DrawingArea paper) {
+    public DrawShapeCommand(Shape shape, LayeredPaper paper) {
         this.shape = shape;
         this.paper = paper;
     }
@@ -31,7 +32,7 @@ public class DrawShapeCommand implements Command {
      */
     @Override
     public void execute() {
-        paper.addShape(shape);
+        paper.addInPaper(shape);
     }
 
     /**
@@ -40,7 +41,7 @@ public class DrawShapeCommand implements Command {
     @Override
     public void undo() {
         SelectedShapeManager.getSelectedShapeManager().unsetSelectedShape();
-        paper.removeShape(shape);
+        paper.removeFromPaper(shape);
     }
 
 }

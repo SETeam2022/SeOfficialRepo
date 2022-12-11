@@ -208,7 +208,7 @@ public class FXMLDocumentController implements Initializable {
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         /*------------------------- Selecting an initial tool -----------------*/
-        selectedTool = new SelectionTool(drawingPane);
+        selectedTool = new SelectionTool(drawingPane,drawingPane.getContainerOfPaperAndGrid().scaleXProperty(),drawingPane.getContainerOfPaperAndGrid().scaleYProperty());
         /*------------------------- Adding a listener on the buttons ----------*/
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -279,7 +279,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-        selectedTool = new SelectionTool(drawingPane);
+        selectedTool = new SelectionTool(drawingPane,drawingPane.getContainerOfPaperAndGrid().scaleXProperty(),drawingPane.getContainerOfPaperAndGrid().scaleYProperty());
     }
 
     @FXML

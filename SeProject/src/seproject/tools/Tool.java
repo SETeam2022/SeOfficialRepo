@@ -1,8 +1,8 @@
 package seproject.tools;
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import seproject.customComponents.DrawingArea;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class is the representation of a unspecialized abstract tool. In order
@@ -10,14 +10,14 @@ import seproject.customComponents.DrawingArea;
  */
 public abstract class Tool {
 
-    DrawingArea paper;
+    private LayeredPaper paper;
 
     /**
      * Creation of a Tool.
      * 
      * @param paper is the pane on which the new Shape nodes will be added
      */
-    public Tool(DrawingArea paper) {
+    public Tool(LayeredPaper paper) {
         this.paper = paper;
     }
 
@@ -56,7 +56,7 @@ public abstract class Tool {
     /**
      * @return the pane that works as a paper which the tool is working on
      */
-    public Pane getPaper() {
+    public LayeredPaper getPaper() {
         return paper;
     }
 

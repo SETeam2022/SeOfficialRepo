@@ -1,9 +1,10 @@
 package seproject.tools;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
-import seproject.customComponents.DrawingArea;
 import seproject.commands.*;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class represents the SelectionTool.
@@ -16,22 +17,20 @@ public class SelectionTool extends Tool {
     private boolean shapeHasBeenDragged;
     private Shape selectedShape = null;
 
-    private final SimpleDoubleProperty scaleX;
-    private final SimpleDoubleProperty scaleY;
+    private final DoubleProperty scaleX;
+    private final DoubleProperty scaleY;
 
     /**
      * Creates a new SelectionTool.
      * 
      * @param paper is the pane whose shape nodes will be selected
      */
-    public SelectionTool(DrawingArea paper) {
+    public SelectionTool(LayeredPaper paper,DoubleProperty scaleX,DoubleProperty scaleY) {
         super(paper);
         this.manager = SelectedShapeManager.getSelectedShapeManager();
         this.shapeHasBeenDragged = false;
-        this.scaleX = new SimpleDoubleProperty();
-        this.scaleY = new SimpleDoubleProperty();
-        this.scaleX.bind(paper.getContainerOfPaperAndGrid().scaleXProperty());
-        this.scaleY.bind(paper.getContainerOfPaperAndGrid().scaleYProperty());
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
     }
 
     /**
