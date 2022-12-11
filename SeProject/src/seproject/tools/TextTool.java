@@ -52,7 +52,7 @@ public class TextTool extends DrawingTool {
         super(paper, strokeColorProperty, fillColorProperty);
 
         this.textSpinnerValueProperty = textSpinnerValueProperty;
-        this.fontProperty = new SimpleObjectProperty<>(Font.font(11));
+        this.fontProperty = new SimpleObjectProperty<>(Font.font(textSpinnerValueProperty.getValue()));
         textSpinnerValueProperty.addListener((cl, oldVal, newVal) -> {
             fontProperty.set(Font.font(Font.getDefault().getFamily(), newVal));
         });
