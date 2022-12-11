@@ -17,7 +17,8 @@ public class SeProject extends Application {
         stage.setScene(scene);
         stage.setTitle("Definitely not Paint");
         stage.getIcons().add(new Image("icons/paint.png"));
-
+        stage.setMinHeight(Constants.MIN_STAGE_HEIGHT);
+        stage.setMinWidth(Constants.MIN_STAGE_WIDTH);
         stage.show();
     }
 
