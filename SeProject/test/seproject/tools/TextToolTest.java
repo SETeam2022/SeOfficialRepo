@@ -77,7 +77,7 @@ public class TextToolTest {
         System.out.println("onMousePressed");
         t.onMousePressed(pressEvent);
         int expectedValue = 1;
-        int actualValue = paper.getPaper().getChildren().size();
+        int actualValue = paper.getPaperSize();
         assertEquals(expectedValue, actualValue);
         Class<?> expectedClass = Rectangle.class;
         Class<?> actualClass = paper.getPaper().getChildren().get(0).getClass();
@@ -97,7 +97,7 @@ public class TextToolTest {
         t.onMousePressed(pressEvent);
         t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), pressEvent.getX(), pressEvent.getY()));
         int expectedValue = 0;
-        int actualValue = paper.getPaper().getChildren().size();
+        int actualValue = paper.getPaperSize();
         assertEquals(expectedValue, actualValue);
     }
 
