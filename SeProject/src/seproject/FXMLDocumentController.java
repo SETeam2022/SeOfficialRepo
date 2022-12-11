@@ -57,21 +57,7 @@ import seproject.tools.TextTool;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private MenuItem saveMenuItem;
-    @FXML
-    private MenuItem loadMenuItem;
-    @FXML
-    private MenuItem closeMenuItem;
-    @FXML
-    private RadioButton selectButton;
-    @FXML
     private Button ereaseButton;
-    @FXML
-    private RadioButton addLineButton;
-    @FXML
-    private RadioButton addRectangleButton;
-    @FXML
-    private RadioButton addEllipsesButton;
     @FXML
     private ToolBar toolBar;
     @FXML

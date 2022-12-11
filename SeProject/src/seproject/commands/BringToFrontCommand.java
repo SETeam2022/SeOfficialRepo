@@ -1,7 +1,6 @@
 package seproject.commands;
 
 import javafx.scene.shape.Shape;
-import seproject.customComponents.DrawingArea;
 import seproject.customComponents.LayeredPaper;
 
 /**

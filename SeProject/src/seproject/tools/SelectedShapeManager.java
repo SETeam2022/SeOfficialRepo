@@ -1,7 +1,7 @@
 package seproject.tools;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -90,7 +90,7 @@ public class SelectedShapeManager {
     public void setSelectedShape(Shape selectedShape) throws PaperNotSetException {
         check();
         ssm.selectedShape = selectedShape;
-        ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
+        ShapeEditor pe = ShapeEditorChooser.getInstance(ssm.getSelectedShape().getClass());
         overlay = new Overlay(selectedShape);
         paper.addInTopLayer(overlay);
         ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
@@ -250,7 +250,7 @@ public class SelectedShapeManager {
     public void pasteShape() throws PaperNotSetException {
         check();
         incrementCopy += 10;
-        Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
+        Shape clone = ShapeEditorChooser.getInstance(copiedShape.getClass()).clone(copiedShape);
         clone.relocate(copiedShape.getBoundsInParent().getMinX() + incrementCopy, copiedShape.getBoundsInParent().getMinY() + incrementCopy);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
     }

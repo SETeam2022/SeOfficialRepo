@@ -1,7 +1,7 @@
 package seproject.editor;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -46,7 +46,7 @@ public class RectangleEditorTest {
         } catch (IOException ex) {
             Logger.getLogger(EllipseEditorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
+        this.editor = ShapeEditorChooser.getInstance(testShape.getClass());
         this.random = new SecureRandom();
     }
     

@@ -5,7 +5,7 @@ import editor.EllipseEditor;
 import editor.LineEditor;
 import editor.RectangleEditor;
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.CubicCurve;
 
@@ -22,7 +22,7 @@ public class ShapeEditorFactoryTest {
     }
 
     /**
-     * Test of the getInstance methods, of class ShapeEditorFactory.
+     * Test of the getInstance methods, of class ShapeEditorChooser.
      */
     @Test
     public void testGetInstance() {
@@ -33,17 +33,17 @@ public class ShapeEditorFactoryTest {
         // Test 1
         expectedClass = RectangleEditor.class;
         testShape = new Rectangle();
-        actualClass = ShapeEditorFactory.getInstance(testShape.getClass()).getClass();
+        actualClass = ShapeEditorChooser.getInstance(testShape.getClass()).getClass();
         assertEquals(expectedClass, actualClass);
         // Test 2
         expectedClass = LineEditor.class;
         testShape = new Line();
-        actualClass = ShapeEditorFactory.getInstance(testShape.getClass()).getClass();
+        actualClass = ShapeEditorChooser.getInstance(testShape.getClass()).getClass();
         assertEquals(expectedClass, actualClass);
         // Test 3
         expectedClass = EllipseEditor.class;
         testShape = new Ellipse();
-        actualClass = ShapeEditorFactory.getInstance(testShape.getClass()).getClass();
+        actualClass = ShapeEditorChooser.getInstance(testShape.getClass()).getClass();
         assertEquals(expectedClass, actualClass);
     }
 
@@ -55,18 +55,18 @@ public class ShapeEditorFactoryTest {
     @Test(expected = EditorNotFoundException.class)
     public void testGetInstanceException() {
         System.out.println("getInstanceException");
-        ShapeEditorFactory.getInstance(Arc.class);
+        ShapeEditorChooser.getInstance(Arc.class);
     }
 
     /**
      * It is checked if the new inserted instance is actually present in the
-     * ShapeEditorFactory map
+ ShapeEditorChooser map
      */
     @Test
     public void testAddInstance() {
         System.out.println("addInstance");
 
-        ShapeEditorFactory.addInstance(CubicCurve.class, new ShapeEditor<CubicCurve>() {
+        ShapeEditorChooser.addInstance(CubicCurve.class, new ShapeEditor<CubicCurve>() {
             @Override
             public void setWidth(CubicCurve shape, double width) {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -88,7 +88,7 @@ public class ShapeEditorFactoryTest {
             }
         });
 
-        ShapeEditorFactory.getInstance(CubicCurve.class);
+        ShapeEditorChooser.getInstance(CubicCurve.class);
 
     }
 

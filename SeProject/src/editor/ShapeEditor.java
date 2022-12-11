@@ -3,8 +3,6 @@ package editor;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.paint.Color;
@@ -14,7 +12,7 @@ import javafx.scene.shape.Shape;
  * This abstract class provides a series of methods to make some operations on a
  * specific shape.
  *
- * @param <T>
+ * @param <T> a class that extends shape
  */
 public abstract class ShapeEditor<T extends Shape> {
     /**

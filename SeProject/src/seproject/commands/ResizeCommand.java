@@ -1,9 +1,8 @@
 package seproject.commands;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import javafx.scene.shape.Shape;
-import seproject.tools.SelectedShapeManager;
 
 /**
  * An object of this class represents the action of resaizing a shape, the
@@ -36,7 +35,7 @@ public class ResizeCommand implements Command {
      */
     @Override
     public void execute() {
-        ShapeEditor editor = ShapeEditorFactory.getInstance(shape.getClass());
+        ShapeEditor editor = ShapeEditorChooser.getInstance(shape.getClass());
         oldWidth = editor.getWidth(shape);
         oldHeight = editor.getHeight(shape);
         editor.setWidth(shape, width);
@@ -48,7 +47,7 @@ public class ResizeCommand implements Command {
      */
     @Override
     public void undo() {
-        ShapeEditor editor = ShapeEditorFactory.getInstance(shape.getClass());
+        ShapeEditor editor = ShapeEditorChooser.getInstance(shape.getClass());
         editor.setWidth(shape, oldWidth);
         editor.setHeight(shape, oldHeight);
     }

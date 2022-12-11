@@ -1,6 +1,5 @@
 package seproject.tools;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.*;
 import seproject.commands.*;
@@ -23,7 +22,9 @@ public class SelectionTool extends Tool {
     /**
      * Creates a new SelectionTool.
      * 
-     * @param paper is the pane whose shape nodes will be selected
+     * @param paper is LayeredPaper whose shape nodes will be selected
+     * @param scaleX the x scale factor
+     * @param scaleY the y scale factor
      */
     public SelectionTool(LayeredPaper paper,DoubleProperty scaleX,DoubleProperty scaleY) {
         super(paper);

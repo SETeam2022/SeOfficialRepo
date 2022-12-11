@@ -23,7 +23,8 @@ public class HorizontalStretchingCommandTest {
     }
 
     /**
-     * Test of execute method, of class HorizontalStretchingCommand.
+     * This method strrtch the shape and verify that it's effectively changed 
+     * after the execution of the command
      */
     @Test
     public void testExecute() {
@@ -33,7 +34,7 @@ public class HorizontalStretchingCommandTest {
     }
 
     /**
-     * Test of undo method, of class HorizontalStretchingCommand.
+     * This method verify that the stetch is reported to the original sizes
      */
     @Test
     public void testUndo() {

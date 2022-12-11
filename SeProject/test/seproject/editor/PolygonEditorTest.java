@@ -1,7 +1,7 @@
 package seproject.editor;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -66,7 +66,7 @@ public class PolygonEditorTest {
             Logger.getLogger(EllipseEditorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.testShape.getPoints().addAll(list);
-        this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
+        this.editor = ShapeEditorChooser.getInstance(testShape.getClass());
     }
 
     @After

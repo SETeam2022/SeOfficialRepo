@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
-public class ShapeEditorFactory {
+public class ShapeEditorChooser {
 
     /**
      * Instanced when the program stars. That choice is for obtaining better

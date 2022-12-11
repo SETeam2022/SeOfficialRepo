@@ -1,7 +1,7 @@
 package seproject.tools;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import java.security.SecureRandom;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -448,7 +448,7 @@ public class SelectedShapeManagerTest {
         /* Resize Line */
         selectedShapeManager.setSelectedShape(testShape3);
         selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
-        ShapeEditor se = ShapeEditorFactory.getInstance(selectedShapeManager.getSelectedShape().getClass());
+        ShapeEditor se = ShapeEditorChooser.getInstance(selectedShapeManager.getSelectedShape().getClass());
         assertEquals(expectedHeight, se.getHeight(testShape3), 0);
         assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
@@ -473,7 +473,7 @@ public class SelectedShapeManagerTest {
         /* Resize Line */
         selectedShapeManager.setSelectedShape(testShape3);
         selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
-        ShapeEditor se = ShapeEditorFactory.getInstance(selectedShapeManager.getSelectedShape().getClass());
+        ShapeEditor se = ShapeEditorChooser.getInstance(selectedShapeManager.getSelectedShape().getClass());
         assertEquals(expectedHeight, se.getHeight(testShape3), 0);
         assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
