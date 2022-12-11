@@ -34,7 +34,10 @@ public class ShapeEditorFactory {
     /**
      *
      * @param shapeClass is the shape's class to be edited.
-     *
+     * 
+     * @throws EditorNotFoundException when no ShapeEditor was found that allows
+     * editing the required Shape Class.
+     * 
      * @return the ShapeEditor for a specific shape. Indeed, it is easy to see
      * that you can use it for shape editing.
      */
