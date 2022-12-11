@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class SelectionToolTest {
 
@@ -35,7 +35,7 @@ public class SelectionToolTest {
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         paper = dw.getPaper();
         ell = new EllipseTool(dw, borderColorProperty, fillColorProperty);
         st = new SelectionTool(dw,dw.scaleXProperty(),dw.scaleYProperty());

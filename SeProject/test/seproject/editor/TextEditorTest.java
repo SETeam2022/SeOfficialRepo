@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class TextEditorTest {
 
@@ -25,7 +25,7 @@ public class TextEditorTest {
     public void setUp() {
         new JFXPanel();
         this.random = new SecureRandom();
-        this.testShape = new Text(this.random.nextInt(TestConstants.MAX_WIDTH / 2), this.random.nextInt(TestConstants.MIN_HEIGHT / 2), EXAMPLE_STRING);
+        this.testShape = new Text(this.random.nextInt(Constants.MAX_WIDTH / 2), this.random.nextInt(Constants.MIN_HEIGHT / 2), EXAMPLE_STRING);
 
         this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
 
@@ -72,7 +72,7 @@ public class TextEditorTest {
      * @return true or false
      */
     private boolean testWidthShape() {
-        double expectedWidth = random.nextInt(TestConstants.MAX_WIDTH);
+        double expectedWidth = random.nextInt(Constants.MAX_WIDTH);
         double actualWidth;
         editor.setWidth(testShape, expectedWidth);
         actualWidth = editor.getWidth(testShape);
@@ -86,7 +86,7 @@ public class TextEditorTest {
      * @return true or false
      */
     boolean testHeightShape() {
-        double expectedHeight = random.nextInt(TestConstants.MAX_HEIGHT);
+        double expectedHeight = random.nextInt(Constants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);

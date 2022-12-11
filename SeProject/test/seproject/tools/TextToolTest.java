@@ -20,7 +20,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
-import seproject.TestConstants;
+import seproject.Constants;
+import seproject.customComponents.LayeredPaper;
 
 public class TextToolTest {
 
@@ -46,8 +47,8 @@ public class TextToolTest {
     @Before
     public void setUp() {
         new JFXPanel();
-        paper = new DrawingArea(TestConstants.MAX_WIDTH, TestConstants.MAX_HEIGHT);
-        paper.setMinSize(TestConstants.MIN_WIDTH, TestConstants.MIN_HEIGHT);
+        paper = new DrawingArea(Constants.MAX_WIDTH, Constants.MAX_HEIGHT);
+        paper.setMinSize(Constants.MIN_WIDTH, Constants.MIN_HEIGHT);
         this.random = new SecureRandom();
 
         // SET UP TEXT TOOL PROPERTIES.
@@ -55,11 +56,11 @@ public class TextToolTest {
         fillColorProperty = new SimpleObjectProperty<>();
         strokeColorProperty.set(Color.DARKORCHID);
         fillColorProperty.set(Color.AQUA);
-        textSpinnerValueProperty = new SimpleObjectProperty<>(TestConstants.DEFAULT_TEXT_SIZE);
+        textSpinnerValueProperty = new SimpleObjectProperty<>(Constants.DEFAULT_TEXT_SIZE);
         //
         random = new SecureRandom();
         t = new TextTool(paper, strokeColorProperty, fillColorProperty, textSpinnerValueProperty);
-        pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper, paper, random.nextInt(TestConstants.MAX_WIDTH / 2), random.nextInt(TestConstants.MAX_HEIGHT / 2));
+        pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper, paper, random.nextInt(Constants.MAX_WIDTH / 2), random.nextInt(Constants.MAX_HEIGHT / 2));
     }
 
     @After
@@ -110,12 +111,10 @@ public class TextToolTest {
     public void testOnMouseDragged() {
         System.out.println("onMouseDragged");
         Point2D vertexA = new Point2D(pressEvent.getX(), pressEvent.getY());
-        Point2D vertexB = new Point2D(random.nextInt(TestConstants.MAX_WIDTH / 2) + pressEvent.getX(), random.nextInt(TestConstants.MAX_HEIGHT / 2) + pressEvent.getY());
-
+        Rectangle expectedRectangle = createRectangleFromVertex(vertexA);
         t.onMousePressed(pressEvent);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(pressEvent.getSource(), pressEvent.getTarget(), vertexA.getX() + expectedRectangle.getWidth(), vertexA.getY() + expectedRectangle.getHeight()));
 
-        Rectangle expectedRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
         Rectangle actualRectangle = (Rectangle) paper.getPaper().getChildren().get(0);
 
         assertEquals(expectedRectangle.getX(), actualRectangle.getX(), TOLLERANCE);
@@ -134,13 +133,7 @@ public class TextToolTest {
     public void testOnMouseReleased() {
         System.out.println("onMouseReleased");
 
-        Point2D vertexA = new Point2D(pressEvent.getX(), pressEvent.getY());
-        Point2D vertexB = new Point2D(random.nextInt(TestConstants.MAX_WIDTH / 2) + pressEvent.getX(), random.nextInt(TestConstants.MAX_HEIGHT / 2) + pressEvent.getY());
-
-        t.onMousePressed(pressEvent);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
-        t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), vertexB.getX(), vertexB.getY()));
-        Rectangle testRectangle = createRectangleFrom2Vertexes(vertexA, vertexB);
+        Rectangle testRectangle = generateTempTextArea();
 
         int expectedSize = 3;
         int actualSize = paper.getChildren().size();
@@ -157,8 +150,8 @@ public class TextToolTest {
         actualTextArea.setText(TEST_TEXT);
         int outX = (int) (testRectangle.getX() + testRectangle.getWidth() + 1);
         int outY = (int) (testRectangle.getY() + testRectangle.getHeight() + 1);
-        int randOutX = outX + random.nextInt(TestConstants.MAX_WIDTH - outX);
-        int randOutY = outY + random.nextInt(TestConstants.MAX_HEIGHT - outY);
+        int randOutX = outX + random.nextInt(Constants.MAX_WIDTH - outX);
+        int randOutY = outY + random.nextInt(Constants.MAX_HEIGHT - outY);
 
         /**
          * At this point in the code, a mouse click is simulated outside the
@@ -194,19 +187,26 @@ public class TextToolTest {
     @Test
     public void testDeselect() {
         System.out.println("deselect");
+        Rectangle testRectangle = generateTempTextArea();
         t.deselect();
-        int expectedValue = 1;
+        int expectedValue = 2;
         int actualValue = paper.getChildren().size();
         assertEquals(expectedValue, actualValue);
 
     }
 
-    private Rectangle createRectangleFrom2Vertexes(Point2D a, Point2D b) {
-        double minX = min(a.getX(), b.getX());
-        double minY = min(a.getY(), b.getY());
-        double maxX = max(a.getX(), b.getX());
-        double maxY = max(a.getY(), b.getY());
-        return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+    private Rectangle createRectangleFromVertex(Point2D a) {
+        return new Rectangle(a.getX(), a.getY(), random.nextInt(Constants.MAX_WIDTH / 2 - Constants.MIN_WIDTH-1)+Constants.MIN_WIDTH+1, random.nextInt(Constants.MAX_HEIGHT/2 -100)+100);
+    }
+
+    private Rectangle generateTempTextArea() {
+        Point2D vertexA = new Point2D(pressEvent.getX(), pressEvent.getY());
+        Rectangle rect = createRectangleFromVertex(vertexA);
+        t.onMousePressed(pressEvent);
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(pressEvent.getSource(), pressEvent.getTarget(), vertexA.getX() + rect.getWidth(), vertexA.getY() + rect.getHeight()));
+        t.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(pressEvent.getSource(), pressEvent.getTarget(), vertexA.getX() + rect.getWidth(), vertexA.getY() + rect.getHeight()));
+        return rect;
+
     }
 
 }

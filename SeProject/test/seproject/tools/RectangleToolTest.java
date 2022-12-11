@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class RectangleToolTest {
 
@@ -40,7 +40,7 @@ public class RectangleToolTest {
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
         
-        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         paper = dw.getPaper();
 
         borderColorProperty = new SimpleObjectProperty<>();

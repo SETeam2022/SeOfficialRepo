@@ -7,7 +7,7 @@ import javafx.scene.shape.Ellipse;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class EllipseEditorTest {
 
@@ -68,7 +68,7 @@ public class EllipseEditorTest {
      * @return true or false
      */
     private boolean testWidthShape() {
-        double expectedWidth = random.nextInt(TestConstants.MAX_WIDTH);
+        double expectedWidth = random.nextInt(Constants.MAX_WIDTH);
         double actualWidth;
         editor.setWidth(testShape, expectedWidth);
         actualWidth = editor.getWidth(testShape);
@@ -82,7 +82,7 @@ public class EllipseEditorTest {
      * @return true or false
      */
     private boolean testHeightShape() {
-        double expectedHeight = random.nextInt(TestConstants.MAX_HEIGHT);
+        double expectedHeight = random.nextInt(Constants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);
