@@ -47,7 +47,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-
 import seproject.commands.Invoker;
 import javafx.util.converter.NumberStringConverter;
 import seproject.tools.PolygonTool;
@@ -138,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
         /*Adds the handler to the drawing area*/
         drawingAreaInit();
         /*
-         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
+         * Note: this operation is needed because only if the object on which the scale is performed is in a group the
          *        scrollbars of the scrollpane becomes sensibile.
          */
         Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
