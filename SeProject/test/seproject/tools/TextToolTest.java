@@ -136,7 +136,6 @@ public class TextToolTest {
         Rectangle testRectangle = generateTempTextArea();
 
         int expectedSize = 3;
-        System.out.println(testRectangle);
         int actualSize = paper.getChildren().size();
 
         assertEquals(expectedSize, actualSize);
