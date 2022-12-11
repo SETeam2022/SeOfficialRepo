@@ -51,10 +51,10 @@ public class DrawingArea extends Pane implements LayeredPaper {
      */
     public void redrawGrid(int newDistance) {
         boolean oldValue = grid.visibleProperty().getValue();
-        this.containerOfPaperAndGrid.getChildren().remove(grid);
+        this.removeFromTopLayer(grid);
         this.grid = makeGrid(newDistance);
         this.grid.setVisible(oldValue);
-        this.containerOfPaperAndGrid.getChildren().add(grid);
+        this.addInTopLayer(grid);
     }
 
     /**
