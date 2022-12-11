@@ -3,6 +3,7 @@ package seproject.commands;
 import editor.ShapeEditor;
 import editor.ShapeEditorChooser;
 import java.security.SecureRandom;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
@@ -38,6 +39,7 @@ public class ResizeCommandTest {
      */
     @Before
     public void setUp() {
+        new JFXPanel();
         testRectangle = new Rectangle();
         testEllipse = new Ellipse();
         testLine = new Line();
