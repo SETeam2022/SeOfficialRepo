@@ -196,7 +196,7 @@ public class TextToolTest {
     }
 
     private Rectangle createRectangleFromVertex(Point2D a) {
-        return new Rectangle(a.getX(), a.getY(), random.nextInt(Constants.MAX_WIDTH / 2), random.nextInt(Constants.MAX_HEIGHT / 2));
+        return new Rectangle(a.getX(), a.getY(), random.nextInt(Constants.MAX_WIDTH / 2 - Constants.MIN_WIDTH-1)+Constants.MIN_WIDTH+1, random.nextInt(Constants.MAX_HEIGHT/2 -100)+100);
     }
 
     private Rectangle generateTempTextArea() {
