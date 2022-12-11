@@ -1,6 +1,8 @@
 package seproject;
 
 final public class Constants {
+    public static final double STROKE_WIDTH = 2.5;
+    
     public static final int MIN_WIDTH = 192;
     public static final int MIN_HEIGHT = 198;
     public static final int MAX_WIDTH = 1920;

@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import seproject.Constants;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
@@ -47,7 +48,7 @@ public class EllipseTool extends DrawingTool {
         ell = new Ellipse(event.getX(), event.getY(), 0, 0);
         ell.setStroke(this.getStrokeColorProperty().getValue());
         ell.setFill(this.getFillColorProperty().getValue());
-        ell.setStrokeWidth(DrawingTool.widthStroke);
+        ell.setStrokeWidth(Constants.STROKE_WIDTH);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(ell, getPaper()));
     }
 
