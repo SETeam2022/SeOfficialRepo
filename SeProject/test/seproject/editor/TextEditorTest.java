@@ -2,13 +2,26 @@ package seproject.editor;
 
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.SecureRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import seproject.Constants;
 
 public class TextEditorTest {
@@ -17,6 +30,10 @@ public class TextEditorTest {
     private ShapeEditor editor;
     private SecureRandom random;
     private static final String EXAMPLE_STRING = "HEY THERE!";
+    private File file;
+    
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     public TextEditorTest() {
     }
@@ -26,7 +43,13 @@ public class TextEditorTest {
         new JFXPanel();
         this.random = new SecureRandom();
         this.testShape = new Text(this.random.nextInt(Constants.MAX_WIDTH / 2), this.random.nextInt(Constants.MIN_HEIGHT / 2), EXAMPLE_STRING);
-
+        this.testShape.setFill(Color.BLUE);
+        this.testShape.setStroke(Color.BLUE);
+        try {
+            this.file = folder.newFile("test.bin");
+        } catch (IOException ex) {
+            Logger.getLogger(EllipseEditorTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
 
     }
@@ -56,13 +79,7 @@ public class TextEditorTest {
     public void testClone() {
         System.out.println("clone");
         Text actualShape = (Text) editor.clone(testShape);
-        assertEquals(testShape.getX(), actualShape.getX(), 0);
-        assertEquals(testShape.getY(), actualShape.getY(), 0);
-        assertEquals(testShape.getText(), actualShape.getText());
-        assertEquals(testShape.getFont(), actualShape.getFont());
-        assertEquals(testShape.getWrappingWidth(), actualShape.getWrappingWidth(), 0);
-        assertEquals(testShape.getStroke(), actualShape.getStroke());
-        assertEquals(testShape.getFill(), actualShape.getFill());
+        equalTexts(testShape, actualShape);
     }
 
     /**
@@ -93,4 +110,35 @@ public class TextEditorTest {
         return actualHeight == expectedHeight;
     }
 
+    /**
+     * Test of saveShape method, of class TextEditor.
+     */
+    @Test
+    public void testSaveLoadShape() throws Exception {
+        System.out.println("saveShape");
+        try(ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)))){
+            editor.saveShape(testShape, out);
+        }
+        try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)))){
+            Class c = (Class) in.readObject();
+            Text readText = (Text) editor.loadShape(c,in);
+            equalTexts(testShape, readText);
+        }
+    }
+
+    /**
+     * Utility method to assert that two texts are equal.
+     * @param testShape
+     * @param actualShape 
+     */
+    public void equalTexts(Text testShape, Text actualShape){
+        assertEquals(testShape.getX(), actualShape.getX(), 0);
+        assertEquals(testShape.getY(), actualShape.getY(), 0);
+        assertEquals(testShape.getText(), actualShape.getText());
+        assertEquals(testShape.getFont(), actualShape.getFont());
+        assertEquals(testShape.getWrappingWidth(), actualShape.getWrappingWidth(), 0);
+        assertEquals(testShape.getStroke(), actualShape.getStroke());
+        assertEquals(testShape.getFill(), actualShape.getFill());
+    }
+    
 }
