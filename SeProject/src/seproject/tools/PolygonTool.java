@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import seproject.Constants;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.customComponents.LayeredPaper;
@@ -48,7 +49,7 @@ public class PolygonTool extends DrawingTool {
             polygon.getPoints().addAll(event.getX(), event.getY());
             polygon.setStroke(this.getStrokeColorProperty().getValue());
             polygon.setFill(this.getFillColorProperty().getValue());
-            polygon.setStrokeWidth(DrawingTool.widthStroke);
+            polygon.setStrokeWidth(Constants.STROKE_WIDTH);
             Invoker.getInvoker().executeCommand(new DrawShapeCommand(polygon, getPaper()));
         }
         polygon.getPoints().addAll(event.getX(), event.getY());
