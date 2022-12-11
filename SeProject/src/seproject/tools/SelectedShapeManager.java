@@ -88,7 +88,6 @@ public class SelectedShapeManager {
      */
     public void setSelectedShape(Shape selectedShape) {
         ssm.selectedShape = selectedShape;
-
         ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
         overlay = new Overlay(selectedShape);
         paper.addInTopLayer(overlay);
@@ -161,7 +160,6 @@ public class SelectedShapeManager {
         if (this.selectedShape == null) {
             return;
         }
-
         if (SelectedShapeManager.paper == null) {
             throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
         }
@@ -244,9 +242,7 @@ public class SelectedShapeManager {
      * This method performs the paste of the selected shape.
      */
     public void pasteShape() {
-        if (copiedShape == null) {
-            return;
-        }
+        check();
         incrementCopy += 10;
         Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
         clone.relocate(copiedShape.getBoundsInParent().getMinX() + incrementCopy, copiedShape.getBoundsInParent().getMinY() + incrementCopy);
@@ -343,4 +339,12 @@ public class SelectedShapeManager {
         Invoker.getInvoker().executeCommand(new HorizontalStretchingCommand(selectedShape,value));
     }
     
+    private void check(){
+        if (this.selectedShape == null) {
+            return;
+        }
+        if (SelectedShapeManager.paper == null) {
+            throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
+        }
+    }
 }
