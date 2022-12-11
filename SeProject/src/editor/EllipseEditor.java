@@ -45,7 +45,7 @@ public class EllipseEditor extends ShapeEditor<Ellipse> {
      */
     @Override
     public double getWidth(Ellipse ellipse) {
-        return ellipse.getRadiusX()*2;
+        return ellipse.radiusXProperty().getValue()*2;
     }
 
     /**
@@ -56,7 +56,7 @@ public class EllipseEditor extends ShapeEditor<Ellipse> {
      */
     @Override
     public double getHeight(Ellipse ellipse) {
-        return ellipse.getRadiusY()*2;
+        return ellipse.radiusYProperty().getValue()*2;
     }
 
     /**

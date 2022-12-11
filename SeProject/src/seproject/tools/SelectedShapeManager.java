@@ -284,6 +284,7 @@ public class SelectedShapeManager {
             return;
         }
         Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape, width, height));
+        
     }
     
     /* -------------------------------------------------------------- ROTATION --------------------------------------------------------------*/
@@ -348,9 +349,6 @@ public class SelectedShapeManager {
     private void check(){
         if (SelectedShapeManager.paper == null) {
             throw new PaperNotSetException("You have to call the configuration method first, no working Pane is setted");
-        }
-        if (this.selectedShape == null) {
-            return;
-        }
+        }   
     }
 }
