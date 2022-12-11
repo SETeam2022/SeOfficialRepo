@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import seproject.Constants;
 import seproject.customComponents.DrawingArea;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
@@ -48,7 +49,7 @@ public class RectangleTool extends DrawingTool {
         rectangle = new Rectangle(startX, startY, 0, 0);
         rectangle.setStroke(this.getStrokeColorProperty().getValue());
         rectangle.setFill(this.getFillColorProperty().getValue());
-        rectangle.setStrokeWidth(DrawingTool.widthStroke);
+        rectangle.setStrokeWidth(Constants.STROKE_WIDTH);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(rectangle, getPaper()));
 
     }
