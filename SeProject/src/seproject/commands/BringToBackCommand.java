@@ -2,6 +2,7 @@ package seproject.commands;
 
 import javafx.scene.shape.Shape;
 import seproject.customComponents.DrawingArea;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * An object of this class represents the action of bringing a shape to back, 
@@ -12,7 +13,7 @@ import seproject.customComponents.DrawingArea;
 public class BringToBackCommand implements Command {
 
     private final Shape shape;
-    private final DrawingArea paper;
+    private final LayeredPaper paper;
     private int index;
 
     /**
@@ -31,7 +32,7 @@ public class BringToBackCommand implements Command {
      */
     @Override
     public void execute() {
-        index = paper.getPaper().getChildren().indexOf(this.shape);
+        index = paper.indexInPaper(this.shape);
         this.shape.toBack();
     }
 
@@ -41,8 +42,8 @@ public class BringToBackCommand implements Command {
      */
     @Override
     public void undo() {
-        paper.getPaper().getChildren().remove(shape);
-        paper.getPaper().getChildren().add(index, shape);
+        paper.removeFromPaper(shape);
+        paper.addInPaper(index, shape);
     }
 
 }

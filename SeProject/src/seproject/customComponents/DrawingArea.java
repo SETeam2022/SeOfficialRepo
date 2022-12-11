@@ -108,6 +108,11 @@ public class DrawingArea extends Pane implements LayeredPaper {
     public void addInPaper(Shape shape) {
         paper.getChildren().add(shape);
     }
+    
+    @Override
+    public void addInPaper(int index, Shape shape) {
+        paper.getChildren().add(index,shape);
+    }
 
     /**
      * Removes a shape from the paper.
@@ -135,6 +140,17 @@ public class DrawingArea extends Pane implements LayeredPaper {
     public void addInTopLayer(Node node) {
         containerOfPaperAndGrid.getChildren().add(node);
     }
+    
+    /**
+     *
+     * @param shape
+     * @return
+     */
+    @Override
+    public int indexInPaper(Shape shape) {
+        return paper.getChildren().indexOf(shape);
+    }
+    
 
     /**
      *
@@ -171,5 +187,7 @@ public class DrawingArea extends Pane implements LayeredPaper {
         l.setStroke(new Color(0, 0, 0, 0.5));
         return l;
     }
+
+
 
 }
