@@ -13,8 +13,6 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
@@ -25,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
@@ -167,8 +166,8 @@ public class FXMLDocumentController implements Initializable {
         /*Adds the handler to the drawing area*/
         initDrawingArea();
         /*
-        * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
-        *        scrollbars of the scrollpane becames sensibile.
+         * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
+         *        scrollbars of the scrollpane becames sensibile.
          */
         Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
@@ -244,12 +243,13 @@ public class FXMLDocumentController implements Initializable {
     private void saveDrawing(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Save");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.bin"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
         File f = fc.showSaveDialog(drawingPane.getScene().getWindow());
         try {
             fm.save(f);
         } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.show();
         }
     }
 
@@ -257,19 +257,14 @@ public class FXMLDocumentController implements Initializable {
     private void loadDrawing(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Load");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.bin"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
         File f = fc.showOpenDialog(drawingPane.getScene().getWindow());
         try {
             fm.load(f);
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.show();
+        } 
     }
 
     @FXML

@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -151,6 +152,49 @@ public class RectangleEditorTest {
         assertEquals(testShape.getHeight(),actualShape.getHeight(),0);
         assertEquals(testShape.getFill(),actualShape.getFill());
         assertEquals(testShape.getStroke(),actualShape.getStroke());
+    }
+    
+        /**
+     * Test of the IOException thrown both by the save and load methods.
+     */
+    @Test(expected=IOException.class)
+    public void testIOException() throws Exception{
+        try(ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(""))))){
+            editor.saveShape(testShape, out);
+        }
+        try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File(""))))){
+            Class c = Class.forName("ciao");
+            editor.loadShape(c,in);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(EllipseEditorTest.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    /**
+     * Test of the ClassNotFoundException thrown by the load method.
+     */
+    @Test(expected=ClassNotFoundException.class)
+    public void testClassNotFoundException() throws Exception{
+        try(ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)))){
+            editor.saveShape(testShape, out);
+        }
+        try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)))){
+            Class c = Class.forName("Ciao");
+            editor.loadShape(c,in);
+        } 
+    }
+    
+    /**
+     * Test of the InstantiationException thrown by the load method.
+     */
+    @Test(expected=InstantiationException.class)
+    public void testInstantiationException() throws Exception{
+        try(ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)))){
+            editor.saveShape(testShape, out);
+        }
+        try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)))){
+            editor.loadShape(Shape.class,in);
+        } 
     }
 
 }

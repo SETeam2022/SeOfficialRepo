@@ -17,8 +17,6 @@ import javafx.scene.shape.Shape;
  * @param <T>
  */
 public abstract class ShapeEditor<T extends Shape> {
-    
-    private static final Map<Class< ? extends Shape>, ShapeEditor<? extends Shape>> editors = new HashMap<>();
     /**
      * This method allows to set the width of a shape.
      *

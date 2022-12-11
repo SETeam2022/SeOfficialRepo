@@ -1,7 +1,13 @@
 package seproject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,11 +16,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import seproject.editor.EllipseEditorTest;
 
 /**
  * This class' aim is the testing of the save and load methods of the
@@ -233,6 +241,5 @@ public class FileManagerTest {
         assertEquals(testEllipse.getStroke(), instancedEllipse.getStroke());
         return true;
     }
-
 
 }
