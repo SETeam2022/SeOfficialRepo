@@ -227,11 +227,19 @@ public class SelectedShapeManager {
         if (selectedShape == null) {
             return;
         }
-        this.copiedShape = selectedShape;
-        this.shapeIsCopiedProperty.setValue(true);
-
+        //this.copiedShape = selectedShape;
+        //this.shapeIsCopiedProperty.setValue(true);
+        Invoker.getInvoker().executeCommand(new CopyShapeCommand(selectedShape));
+        
     }
-
+    
+    public void setCopiedShape(Shape shape){
+        this.copiedShape = shape;
+    }
+    
+    public void setShapeIsCopiedProperty(boolean bool){
+        this.shapeIsCopiedProperty.setValue(bool);
+    }
     /**
      * This method performs the paste of the selected shape.
      */
