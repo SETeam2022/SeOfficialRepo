@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import seproject.Constants;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.customComponents.LayeredPaper;
