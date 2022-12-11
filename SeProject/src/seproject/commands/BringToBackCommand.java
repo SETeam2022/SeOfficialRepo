@@ -22,7 +22,7 @@ public class BringToBackCommand implements Command {
      * @param shape the shape which will be brought to back
      * @param paper the paper which the shape belongs to
      */
-    public BringToBackCommand(Shape shape, DrawingArea paper) {
+    public BringToBackCommand(Shape shape, LayeredPaper paper) {
         this.shape = shape;
         this.paper = paper;
     }
