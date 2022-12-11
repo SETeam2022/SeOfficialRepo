@@ -1,7 +1,7 @@
 package seproject.editor;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -41,7 +41,7 @@ public class LineEditorTest {
         this.testShape = new Line();
         this.testShape.setFill(Color.RED);
         this.testShape.setStroke(Color.RED);
-        this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
+        this.editor = ShapeEditorChooser.getInstance(testShape.getClass());
         try {
             this.file = folder.newFile("test.bin");
         } catch (IOException ex) {

@@ -136,10 +136,10 @@ public class FXMLDocumentController implements Initializable {
         gridButton.selectedProperty().setValue(false);
         drawingPane = new DrawingArea(Screen.getMainScreen().getWidth(), Screen.getMainScreen().getHeight());
         /*Adds the handler to the drawing area*/
-        initDrawingArea();
+        drawingAreaInit();
         /*
          * Note: this operation is needed because only if the object on witch the scale is performed is in a group the
-         *        scrollbars of the scrollpane becames sensibile.
+         *        scrollbars of the scrollpane becomes sensibile.
          */
         Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
@@ -211,6 +211,10 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    /**
+     * Saves a drawing on a new file with a custom extension.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void saveDrawing(ActionEvent event) {
         FileChooser fc = new FileChooser();
@@ -225,6 +229,10 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    /**
+     * Loads a drawing from a file chosen by the user.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void loadDrawing(ActionEvent event) {
         FileChooser fc = new FileChooser();
@@ -239,72 +247,129 @@ public class FXMLDocumentController implements Initializable {
         } 
     }
 
+    /**
+     * Closes the application.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void closeApplication(ActionEvent event) {
         Platform.exit();
     }
 
+    /**
+     * Sets the selection tool.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void selectShape(ActionEvent event) {
         selectedTool = new SelectionTool(drawingPane,drawingPane.scaleXProperty(),drawingPane.scaleYProperty());
     }
 
+    /**
+     * Deletes the selected shape.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void ereaseShape(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().deleteSelectedShape();
         selectedTool.deselect();
     }
 
+    /**
+     * Sets the line creation tool.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void addLine(ActionEvent event) {
         selectedTool = new LineTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
+    /**
+     * Sets the rectangle creation tool.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void addRectangle(ActionEvent event) {
         selectedTool = new RectangleTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
+    /**
+     * Sets the ellipse creation tool.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void addEllipses(ActionEvent event) {
         selectedTool = new EllipseTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
+    /**
+     * Sets the text creation tool.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void addText(ActionEvent event) {
         selectedTool = new TextTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty(), textSpinner.valueProperty());
     }
 
+    /**
+     * Sets the polygon creation tool.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void addPolygon(ActionEvent event) {
         selectedTool = new PolygonTool(drawingPane, strokeColorPicker.valueProperty(), fillColorPicker.valueProperty());
     }
 
+    /**
+     * Sets a new fill color.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void changeFillColor(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeFillColor(fillColorPicker.getValue());
     }
 
+    /**
+     * Sets a new stroke color.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void changeStrokeColor(ActionEvent event) {
         SelectedShapeManager.getSelectedShapeManager().changeSelectedShapeStrokeColor(strokeColorPicker.getValue());
     }
 
+    /**
+     * Unodes the last operation.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void undo(ActionEvent event) {
         Invoker.getInvoker().undoLastCommand();
     }
 
+    /**
+     * Takes the new width value inserted by the user and resizes the shape.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void setNewWidth(KeyEvent event) {
         resizeSelectedShape(event);
     }
 
+    /**
+     * Takes the new height value inserted by the user and resizes the shape.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void setNewHeight(KeyEvent event) {
         resizeSelectedShape(event);
     }
 
+    /**
+     * Applies a left rotation of the angle specified in the appropriate text field to the 
+     * selected shape.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void leftRotationAction(ActionEvent event) {
         if (!handleErrorLabel(rotationTextField,errorLabelRotation)) {
@@ -313,6 +378,11 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    /**
+     * Applies a right rotation of the angle specified in the appropriate text field to the
+     * selected shape.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void rightRotationAction(ActionEvent event) {
         if (!handleErrorLabel(rotationTextField,errorLabelRotation)) {
@@ -322,9 +392,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * The method allow to shape's vertical mirroring
-     *
-     * @param event
+     * The method allows to mirror the shape vertically.
+     * @param event the event which generated the call to this method
      */
     @FXML
     private void mirrorVerticalAction(ActionEvent event) {
@@ -332,9 +401,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * The method allow to shape's horizontal mirroring
-     *
-     * @param event
+     * The method allows to mirror the shape horizontally.
+     * @param event the event which generated the call to this method
      */
     @FXML
     private void mirrorHorizontalAction(ActionEvent event) {
@@ -342,10 +410,9 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * The method allow to vertical stretching on selected shape due to
-     * textField's value
-     *
-     * @param event
+     * The method allows to vertically stretch the selected shape of the value
+     * specified in the textField.
+     * @param event the event which generated the call to this method
      */
     @FXML
     private void verticalStretchingAction(ActionEvent event) {
@@ -356,10 +423,9 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * The method allow to horizontal stretching on selected shape due to
-     * textField's value
-     *
-     * @param event
+     * The method allows to horizontally stretch the selected shape of the value
+     * specified in the textField.
+     * @param event the event which generated the call to this method
      */
     @FXML
     private void horizontalStretchingAction(ActionEvent event) {
@@ -369,6 +435,10 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    /**
+     * Manages the grid visibility on the paper.
+     * @param event the event which generated the call to this method
+     */
     @FXML
     private void addGrid(ActionEvent event) {
         drawingPane.showGrid(gridButton.selectedProperty().getValue());
@@ -377,8 +447,7 @@ public class FXMLDocumentController implements Initializable {
     /**
      * This method is a utility method to resize the selected shape acoording to
      * the input inserted by the user.
-     *
-     * @param event
+     * @param event the event which generated the call to this method
      */
     private void resizeSelectedShape(KeyEvent event) {
         String width = widthTextField.getText(), height = heightTextField.getText();
@@ -390,6 +459,12 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    /**
+     * This is a utility method to manage the error lables.
+     * @param textField
+     * @param label
+     * @return 
+     */
     private boolean handleErrorLabel(TextField textField, Label label) {
         if (!validateSize(textField.getText())) {
             label.setManaged(true);
@@ -422,7 +497,10 @@ public class FXMLDocumentController implements Initializable {
         return true;
     }
 
-    private void initDrawingArea() {
+    /**
+     * This method initializes the drawing area.
+     */
+    private void drawingAreaInit() {
 
         drawingPane.getPaper().setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -456,8 +534,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * This method allow to control the textField's text and label is the
-     * error's label.
+     * This method allows to validate the textField's input and shows the given 
+     * lable.
      *
      * @param label
      * @return
@@ -478,8 +556,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * Convfigure the context menu and bind's its button whit the other
-     * componnets
+     * Configure the context menu and binds its button with the other
+     * components.
      */
     private void contextMenuInit() {
 
@@ -544,8 +622,6 @@ public class FXMLDocumentController implements Initializable {
             ssm.mirrorHorizontalShape();
         });
 
-    }
-
-    
+    } 
 
 }

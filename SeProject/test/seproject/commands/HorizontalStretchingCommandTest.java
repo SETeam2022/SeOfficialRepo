@@ -26,7 +26,8 @@ public class HorizontalStretchingCommandTest {
     }
 
     /**
-     * This method execute the stretching with the new value and verify that new value is equal to shape's value.
+     * This method stretch the shape and verify that it's effectively changed 
+     * after the execution of the command
      */
     @Test
     public void testExecute() {
@@ -36,7 +37,7 @@ public class HorizontalStretchingCommandTest {
     }
 
     /**
-     * This method execute the undo stretching and verify that shape's value is equal to prevStretchingValue.
+     * This method verify that the stetch is reported to the original sizes
      */
     @Test
     public void testUndo() {

@@ -12,7 +12,7 @@ import javafx.scene.shape.Shape;
  * This abstract class provides a series of methods to make some operations on a
  * specific shape.
  *
- * @param <T>
+ * @param <T> a class that extends shape
  */
 public abstract class ShapeEditor<T extends Shape> {
     /**

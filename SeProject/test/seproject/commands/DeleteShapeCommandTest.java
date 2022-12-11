@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
 import seproject.Constants;
 import seproject.customComponents.LayeredPaper;
-import seproject.tools.SelectedShapeManager;
 
 public class DeleteShapeCommandTest {
     

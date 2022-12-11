@@ -1,7 +1,6 @@
 package seproject.commands;
 
 import java.security.SecureRandom;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;

@@ -1,6 +1,5 @@
 package seproject.customComponents;
 
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -97,6 +96,11 @@ public class DrawingArea extends Pane implements LayeredPaper {
         paper.getChildren().add(shape);
     }
     
+    /**
+     * Adds a shape at the given index in the paper
+     * @param index the index where the paper will be added
+     * @param shape the shape that will be added
+     */
     @Override
     public void addInPaper(int index, Shape shape) {
         paper.getChildren().add(index,shape);
@@ -113,16 +117,19 @@ public class DrawingArea extends Pane implements LayeredPaper {
         return paper.getChildren().remove(shape);
     }
     
-    
+    /**
+     * Verify that the paper contains a given Shape
+     * @param shape that whe whant to test
+     * @return true if the paper contains the shape false otherwhise
+     */  
     @Override
     public boolean paperContains(Shape shape) {
         return this.paper.getChildren().contains(shape);
     }
 
     /**
-     * Adds a node at an highest level of the paper.
-     *
-     * @param node
+     * Adds a node on the top of the  paper
+     * @param node remove the node from the highest level of the paper.
      */
     @Override
     public void addInTopLayer(Node node) {
@@ -130,9 +137,9 @@ public class DrawingArea extends Pane implements LayeredPaper {
     }
     
     /**
-     *
-     * @param shape
-     * @return
+     * Return the index of the shape in the paper
+     * @param shape the shape that we are searching
+     * @return the index of the given shape or -1 if is not present
      */
     @Override
     public int indexInPaper(Shape shape) {
@@ -141,13 +148,22 @@ public class DrawingArea extends Pane implements LayeredPaper {
     
 
     /**
-     *
+     * Remove a node from the layers that are on the paper
      * @param node remove the node from the highest level of the paper.
-     * @return
+     * @return true if the node has been eliminated, flase otherwhise
      */
     @Override
     public boolean removeFromTopLayer(Node node) {
         return super.getChildren().remove(node);
+    }
+    
+    /**
+     * Getter for the paper size
+     * @return the number of shapes that are in the paper
+     */
+    @Override
+    public int getPaperSize() {
+        return paper.getChildren().size();
     }
 
     private Group makeGrid(int newDistance) {
@@ -176,9 +192,6 @@ public class DrawingArea extends Pane implements LayeredPaper {
         return l;
     }
 
-    @Override
-    public int getPaperSize() {
-        return paper.getChildren().size();
-    }
+
 
 }

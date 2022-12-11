@@ -1,7 +1,7 @@
 package seproject;
 
 import editor.ShapeEditor;
-import editor.ShapeEditorFactory;
+import editor.ShapeEditorChooser;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -50,7 +50,7 @@ public class FileManager {
             for (Node n : paper.getChildren()){
                 if (n instanceof Shape) {
                     Shape shape = (Shape) n;
-                    ShapeEditor editor = ShapeEditorFactory.getInstance(shape.getClass());
+                    ShapeEditor editor = ShapeEditorChooser.getInstance(shape.getClass());
                     editor.saveShape(shape, out);
                 }
             }
@@ -79,7 +79,7 @@ public class FileManager {
             int size = in.readInt();
             for(int i=0; i<size; i++){
                 Class c = (Class) in.readObject();
-                ShapeEditor editor = ShapeEditorFactory.getInstance(c);
+                ShapeEditor editor = ShapeEditorChooser.getInstance(c);
                 Shape s = editor.loadShape(c, in);
                 paper.getChildren().add(s);
             }

@@ -2,7 +2,6 @@ package seproject.tools;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Color;
-import seproject.customComponents.DrawingArea;
 import seproject.customComponents.LayeredPaper;
 
 /**
