@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import seproject.Constants;
 import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.customComponents.LayeredPaper;
@@ -21,8 +22,8 @@ import seproject.customComponents.LayeredPaper;
  */
 public class TextTool extends DrawingTool {
 
-    private final static double MIN_RECTANLGE_AREA = 150; // The minimum area of rectangle that will be transformed in TextArea.
-    private final static double MIN_RECTANLGE_WIDTH = 50; // The minimum width of rectangle that will be transformed in TextArea.
+     // The minimum area of rectangle that will be transformed in TextArea.
+    // The minimum width of rectangle that will be transformed in TextArea.
 
     private TextArea tempTextArea;
     private Rectangle tempRectangle;
@@ -108,7 +109,7 @@ public class TextTool extends DrawingTool {
      */
     @Override
     public void onMouseReleased(MouseEvent event) {
-        if (tempRectangle == null || tempRectangle.getWidth() <= MIN_RECTANLGE_WIDTH || (tempRectangle.getWidth() * tempRectangle.getHeight()) <= MIN_RECTANLGE_AREA) {
+        if (tempRectangle == null || tempRectangle.getWidth() <= Constants.MIN_TEXTAREA_WIDTH || (tempRectangle.getWidth() * tempRectangle.getHeight()) <= Constants.MIN_TEXTAREA_AREA) {
             resetTool();
             return;
         }

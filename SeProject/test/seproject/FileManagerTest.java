@@ -129,7 +129,7 @@ public class FileManagerTest {
      * @return Rectangle
      */
     private Rectangle createRectangle() {
-        Rectangle newRect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        Rectangle newRect = new Rectangle(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         newRect.setFill(Color.PINK);
         newRect.setStroke(Color.RED);
         return newRect;
@@ -142,7 +142,7 @@ public class FileManagerTest {
      * @return Rectangle
      */
     private Ellipse createEllipse() {
-        Ellipse newEllipse = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        Ellipse newEllipse = new Ellipse(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         newEllipse.setFill(Color.GREEN);
         newEllipse.setStroke(Color.BLUE);
         return newEllipse;
@@ -155,7 +155,7 @@ public class FileManagerTest {
      * @return Rectangle
      */
     private Line createLine() {
-        Line newLine = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        Line newLine = new Line(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         newLine.setFill(Color.VIOLET);
         newLine.setStroke(Color.VIOLET);
         return newLine;

@@ -15,7 +15,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
-import seproject.TestConstants;
+import seproject.Constants;
 
 /**
  * This class is used to test the PolygonTool class.
@@ -50,14 +50,14 @@ public class PolygonToolTest {
         paper = new Pane();
         
         this.random = new SecureRandom();
-        dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         paper = dw.getPaper();
         
         testShape = new Polyline();
         coordinates = new ArrayList <> ();
-        for(int i=0; i<TestConstants.NUM_VERTICES*2; i++) {
-            if (i > 1 && i < (TestConstants.NUM_VERTICES*2)-2) {
-                coordinates.add(random.nextDouble() + TestConstants.DELTA);
+        for(int i=0; i<Constants.NUM_VERTICES*2; i++) {
+            if (i > 1 && i < (Constants.NUM_VERTICES*2)-2) {
+                coordinates.add(random.nextDouble() + Constants.DELTA);
             }else{
                 coordinates.add(random.nextDouble());
             }  
@@ -94,7 +94,7 @@ public class PolygonToolTest {
         checkColors(testShape,polyInstance);
         /* Test 2: More presses on the paper */
         polyInstance.getPoints().removeAll(coordinates);
-        for (i = 0; i<TestConstants.NUM_VERTICES*2; i += 2) pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper,paper,coordinates.get(i), coordinates.get(i+1));
+        for (i = 0; i<Constants.NUM_VERTICES*2; i += 2) pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper,paper,coordinates.get(i), coordinates.get(i+1));
         i = 0;
         for (Double d : polyInstance.getPoints()) {
             assertEquals(testShape.getPoints().get(i), d);

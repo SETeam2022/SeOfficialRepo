@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class DrawingAreaTest {
     
@@ -31,7 +31,7 @@ public class DrawingAreaTest {
         new JFXPanel();
         random = new SecureRandom();
         newGridSize = random.nextInt(5)+2;
-        drawing = new DrawingArea(TestConstants.MAX_WIDTH,TestConstants.MAX_HEIGHT);
+        drawing = new DrawingArea(Constants.MAX_WIDTH,Constants.MAX_HEIGHT);
         paper = drawing.getPaper();
     }
 

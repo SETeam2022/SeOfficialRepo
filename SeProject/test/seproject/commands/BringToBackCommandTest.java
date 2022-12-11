@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
-import seproject.TestConstants;
+import seproject.Constants;
 import seproject.tools.SelectedShapeManager;
 
 public class BringToBackCommandTest {
@@ -34,9 +34,9 @@ public class BringToBackCommandTest {
         this.random = new SecureRandom();
         this.dw = new DrawingArea(1920,1080);
         this.paper = dw.getPaper();
-        this.rect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        this.ell = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        this.rect = new Rectangle(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        this.ell = new Ellipse(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        this.line = new Line(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
         this.invoker = Invoker.getInvoker();

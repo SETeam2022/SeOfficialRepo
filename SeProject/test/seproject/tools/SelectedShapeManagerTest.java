@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class SelectedShapeManagerTest {
 
@@ -32,7 +32,7 @@ public class SelectedShapeManagerTest {
     public void setUp() {
         selectedShapeManager = SelectedShapeManager.getSelectedShapeManager();
         this.random = new SecureRandom();
-        this.dw = new DrawingArea(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
+        this.dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         this.testPaper = dw.getPaper();
         SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         testShape = new Ellipse();
@@ -258,7 +258,7 @@ public class SelectedShapeManagerTest {
     @Test
     public void testResizeSelectedShape() {
         System.out.println("resizeSelectedShape");
-        double expectedWidth = random.nextInt(TestConstants.MAX_WIDTH), expectedHeight = random.nextInt(TestConstants.MIN_HEIGHT);
+        double expectedWidth = random.nextInt(Constants.MAX_WIDTH), expectedHeight = random.nextInt(Constants.MIN_HEIGHT);
         /* Resize Ellipse */
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);

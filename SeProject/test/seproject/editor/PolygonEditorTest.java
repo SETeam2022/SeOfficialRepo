@@ -9,7 +9,7 @@ import javafx.scene.shape.Polyline;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class PolygonEditorTest {
     
@@ -26,7 +26,7 @@ public class PolygonEditorTest {
         list = new ArrayList <>();
         this.random = new SecureRandom();
         this.testShape = new Polyline();
-        for(int i=0; i<TestConstants.NUM_VERTICES*2; i++) {
+        for(int i=0; i<Constants.NUM_VERTICES*2; i++) {
             list.add(random.nextDouble()); 
         }
         this.testShape.getPoints().addAll(list);
@@ -76,7 +76,7 @@ public class PolygonEditorTest {
      * @return true or false
      */
     private boolean testWidthShape() {
-        double expectedWidth = random.nextInt(TestConstants.MAX_WIDTH);
+        double expectedWidth = random.nextInt(Constants.MAX_WIDTH);
         double actualWidth;
         editor.setWidth(testShape, expectedWidth);
         actualWidth = editor.getWidth(testShape);
@@ -90,7 +90,7 @@ public class PolygonEditorTest {
      * @return true or false
      */
     private boolean testHeightShape() {
-        double expectedHeight = random.nextInt(TestConstants.MAX_HEIGHT);
+        double expectedHeight = random.nextInt(Constants.MAX_HEIGHT);
         double actualHeight;
         editor.setHeight(testShape, expectedHeight);
         actualHeight = editor.getHeight(testShape);

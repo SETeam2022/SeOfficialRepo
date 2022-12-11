@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import seproject.TestConstants;
+import seproject.Constants;
 
 public class ResizeCommandTest {
 
@@ -28,10 +28,10 @@ public class ResizeCommandTest {
     public void setUp() {
         testShape = new Rectangle();
         this.random = new SecureRandom();
-        previousWidth = random.nextInt(TestConstants.MAX_WIDTH);
-        previousHeight = random.nextInt(TestConstants.MAX_HEIGHT);
-        newWidth = random.nextInt(TestConstants.MAX_WIDTH);
-        newHeight = random.nextInt(TestConstants.MAX_HEIGHT);
+        previousWidth = random.nextInt(Constants.MAX_WIDTH);
+        previousHeight = random.nextInt(Constants.MAX_HEIGHT);
+        newWidth = random.nextInt(Constants.MAX_WIDTH);
+        newHeight = random.nextInt(Constants.MAX_HEIGHT);
         testShape.setWidth(previousWidth);
         testShape.setHeight(previousHeight);
         resize = new ResizeCommand(testShape, newWidth, newHeight);
