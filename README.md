@@ -5,6 +5,7 @@ The project consists in the creation of an application for the geometrical drawi
 - [General information and Software architecture][General information and Software architecture]
 - [Project's product backlog][ProductBacklog]
 - [Project's burndown chart][BurnDownChart]
+- [PowerPoint presentation][Presentation]
 ### Sprints Backlogs
   - #### Sprint 1
     - [Sprint 1 Backlog][Sprint1Backlog]
@@ -45,3 +46,5 @@ For the correct visualization of the burndown chart is reccomanded the use of Ex
 [Sprint3Retrospective]: <https://docs.google.com/document/d/1OMmm0bHvnY-rZJhh1Sq4TM8ktYi-Vvuqqnv4U5FDz8o/edit?usp=sharing>
 
 [BurnDownChart]: <https://docs.google.com/spreadsheets/d/166zcLV83E1ZZGvgBec796qDSFlMupY5T/edit?usp=share_link&ouid=102848482451963892074&rtpof=true&sd=true>
+
+[Presentation]: <https://www.canva.com/design/DAFUcMMnZHs/rpTKTyENQriNtqjW_CKEMw/view?utm_content=DAFUcMMnZHs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton>
