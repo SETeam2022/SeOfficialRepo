@@ -69,7 +69,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of getSelectedShape method, of class SelectedShapeManager.
+     * Test of getSelectedShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testGetSelectedShapeException() {
@@ -95,7 +96,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of setSelectedShape method, of class SelectedShapeManager.
+     * Test of setSelectedShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testSetSelectedShapeException() {
@@ -121,7 +123,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of unsetSelectedShape method, of class SelectedShapeManager.
+     * Test of unsetSelectedShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testUnsetSelectedShapeException() {
@@ -147,7 +150,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of getShapeIsSelectedProperty method, of class SelectedShapeManager.
+     * Test of getShapeIsSelectedProperty method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testGetShapeIsSelectedPropertyException() {
@@ -173,7 +177,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of deleteSelectedShape method, of class SelectedShapeManager.
+     * Test of deleteSelectedShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testDeleteSelectedShapeException() {
@@ -201,7 +206,7 @@ public class SelectedShapeManagerTest {
 
     /**
      * Test of changeSelectedShapeFillColor method, of class
-     * SelectedShapeManager.
+     * SelectedShapeManager whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testChangeSelectedShapeFillColorException() {
@@ -229,8 +234,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of changeSelectedShapeStrokeColor method, of class
-     * SelectedShapeManager.
+     * Test of changeSelectedShapeStrokeColor method, of class SelectedShapeManager 
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testChangeSelectedShapeStrokeColorException() {
@@ -283,7 +288,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of testBringToFrontShape method, of class SelectedShapeManager.
+     * Test of testBringToFrontShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testBringToFrontShapeException() {
@@ -315,7 +321,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of testBringToBackShape method, of class SelectedShapeManager.
+     * Test of testBringToBackShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testBringToBackShapeException() {
@@ -357,7 +364,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of copySelectedShape method, of class SelectedShapeManager.
+     * Test of copySelectedShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testCopyPasteSelectedShapeException() {
@@ -395,7 +403,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of cutShape method, of class SelectedShapeManager ----
+     * Test of cutShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testCutShapeException() {
@@ -417,7 +426,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of getShapeIsCopiedProperty method, of class SelectedShapeManager.
+     * Test of getShapeIsCopiedProperty method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testGetShapeIsCopiedPropertyException() {
@@ -454,7 +464,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of the resizeSelectedShape method, of class SelectedShapeManager.
+     * Test of the resizeSelectedShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testResizeSelectedShapeException() {
@@ -491,7 +502,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of the RotationShape method, of class SelectedShapeManager.
+     * Test of the RotationShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testRotationShapeException() {
@@ -516,6 +528,7 @@ public class SelectedShapeManagerTest {
 
     /**
      * Test of the MirrorVerticalShape method, of class SelectedShapeManager.
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testMirrorVerticalShapeException() {
@@ -528,6 +541,7 @@ public class SelectedShapeManagerTest {
 
     /**
      * Test of the MirrorHorizontalShape method, of class SelectedShapeManager.
+     * 
      */
     @Test
     public void testMirrorHorizontalShape() {
@@ -540,7 +554,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of the MirrorHorizontalShape method, of class SelectedShapeManager.
+     * Test of the MirrorHorizontalShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testMirrorHorizontalShapeException() {
@@ -565,8 +580,8 @@ public class SelectedShapeManagerTest {
     }
 
     /**
-     * Test of the VerticalStretchingShape method, of class
-     * SelectedShapeManager.
+     * Test of the VerticalStretchingShape method, of class SelectedShapeManager
+     * whitout a setted paper. A PaperNotSetException is expected.
      */
     @Test(expected = PaperNotSetException.class)
     public void testVerticalStretchingShapeException() {
