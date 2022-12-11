@@ -1,20 +1,11 @@
 package seproject.commands;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import seproject.tools.EllipseTool;
-import seproject.tools.SelectedShapeManager;
 import seproject.tools.SelectionTool;
 
 public class TranslationCommandTest {
@@ -57,8 +48,12 @@ public class TranslationCommandTest {
 
     }
     
+    /**
+     * Test of executeWithZoomedPane method, of class TranslationCommand.
+     */
     @Test
     public void testExecuteWithZoomedPane(){
+        System.out.println("executeWithZoomedPane");
         paper.setScaleX(50);
         paper.setScaleY(50);
         cmd = new TranslationCommand(testShape, offsetX, offsetY, startX, startY,paper.getScaleX(), paper.getScaleY(),eventX,eventY);

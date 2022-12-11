@@ -5,9 +5,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
 /**
- * An object of this class represent the action of changeing the stroke color of
- * a shape, the object also stores all the information neded for the undo of its
- * operation
+ * An object of this class represents the action of changing the stroke color of
+ * a shape, the object also stores all the information needed for the undo of its
+ * operation.
  */
 public class ChangeStrokeColorCommand implements Command {
 
@@ -16,7 +16,7 @@ public class ChangeStrokeColorCommand implements Command {
     private final Shape shape;
 
     /**
-     * Create a ChangeStrokeColorCommand
+     * Creates a ChangeStrokeColorCommand.
      *
      * @param newColor the new color that will be used for the shape's stroke
      * @param shape the shape on witch the color change will be done
@@ -28,7 +28,7 @@ public class ChangeStrokeColorCommand implements Command {
     }
 
     /**
-     * Change effectivly the color of the shape
+     * Changes the color of the shape.
      */
     @Override
     public void execute() {
@@ -36,7 +36,7 @@ public class ChangeStrokeColorCommand implements Command {
     }
 
     /**
-     * Restore the color of the shape, before the change
+     * Restores the color which the shape had before the change.
      */
     @Override
     public void undo() {

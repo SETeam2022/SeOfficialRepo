@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
@@ -11,32 +12,37 @@ import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
+import seproject.Constants;
 
 public class SelectionToolTest {
 
     private Pane paper;
+    private DrawingArea dw;
     private EllipseTool ell;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private SelectionTool st;
     private Ellipse instancedEllipse;
+    private SecureRandom random;
 
     @Before
     public void setUp() {
-        paper = new Pane();
-        
+
+        this.random = new SecureRandom();
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        ell = new EllipseTool(paper, borderColorProperty, fillColorProperty);
-        st = new SelectionTool(paper);
-        SelectedShapeManager.setSelectedShapeManagerPaper(paper);
+        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        paper = dw.getPaper();
+        ell = new EllipseTool(dw, borderColorProperty, fillColorProperty);
+        st = new SelectionTool(dw,dw.scaleXProperty(),dw.scaleYProperty());
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         
-        
-        ell.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, paper,100, 200));
-        ell.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,200,300));
+        ell.onMousePressed(EventGenerator.PrimaryButtonMousePressed(paper, paper,100, 200));
+        ell.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,200,300));
         
         instancedEllipse = (Ellipse) paper.getChildren().get(0);
         
@@ -48,7 +54,7 @@ public class SelectionToolTest {
     @Test
     public void testOnMousePressed() {
         System.out.println("onMousePressed");
-        st.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, instancedEllipse,100, 200));
+        st.onMousePressed(EventGenerator.PrimaryButtonMousePressed(paper, instancedEllipse,100, 200));
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();
         Node elem = paper.getChildren().get(0);
         assertTrue("The shape isn't of the same class of the testShape",elem instanceof Ellipse);
@@ -70,9 +76,9 @@ public class SelectionToolTest {
     public void testOnMouseDragged() {
         System.out.println("onMouseDragged");
         //Clicking on the shape
-        st.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, instancedEllipse,100, 200));
+        st.onMousePressed(EventGenerator.PrimaryButtonMousePressed(paper, instancedEllipse,100, 200));
         //Dragging the selected shape
-        st.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper, instancedEllipse,40, 40));
+        st.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper, instancedEllipse,40, 40));
         //Getting the selected shape
         Ellipse selectedEllipse = (Ellipse) SelectedShapeManager.getSelectedShapeManager().getSelectedShape();        
         Node elem = paper.getChildren().get(0);
@@ -90,7 +96,7 @@ public class SelectionToolTest {
     public void testOnMouseReleased() {
         System.out.println("onMouseReleased");
         //Clicking on the shape
-        st.onMousePressed(EventGenerator.PrimaryButtonMouseClick(paper, instancedEllipse,100, 200));
+        st.onMousePressed(EventGenerator.PrimaryButtonMousePressed(paper, instancedEllipse,100, 200));
         //Release the mouse in another position
         st.onMouseReleased(EventGenerator.PrimaryButtonMouseReleased(paper,instancedEllipse, 40, 10));
         //Getting the clicked shape

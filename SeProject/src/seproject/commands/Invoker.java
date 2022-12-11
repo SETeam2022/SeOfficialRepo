@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * The aim of tis class is the execution of all the commands, a command object
- * should never be executed by any other object, the only invoker istance is the
- * only one that can correctly execute all the command and undo all the
- * operation done in the correct order.
+ * should never be executed by any other object, the only invoker instance is the
+ * only one that can correctly execute all the commands and undo all the
+ * operations done in the correct order.
  */
 public class Invoker {
 
@@ -18,9 +18,9 @@ public class Invoker {
     private final SimpleBooleanProperty undoIsEnabled;
 
     /**
-     * This method let the Invoker execute the command passed as a parameter
+     * This method lets the Invoker execute the command passed as parameter.
      *
-     * @param com the command object that represent the action that must be
+     * @param com the command object that represents the action that must be
      * executed
      */
     public void executeCommand(Command com) {
@@ -30,7 +30,7 @@ public class Invoker {
     }
 
     /**
-     * This method let the Invoker execute the undo of the last command
+     * This method lets the Invoker execute the undo of the last command.
      */
     public void undoLastCommand() {
         if (!stack.isEmpty()) {
@@ -42,6 +42,9 @@ public class Invoker {
         }
     }
 
+    /**
+     * Creates the Invoker.
+     */
     private Invoker() {
         stack = new Stack<>();
         undoIsEnabled = new SimpleBooleanProperty();
@@ -49,8 +52,8 @@ public class Invoker {
     }
 
     /**
-     * This method return the only istance of the invoker, this object can be
-     * used by all the class that want to perfom an action
+     * This method returns the only istance of the invoker, this object can be
+     * used by all the classes that want to perfom an action.
      *
      * @return the only istance of the invoker object
      */
@@ -63,7 +66,7 @@ public class Invoker {
 
     /**
      *
-     * @return a property that allaw other objects knowing if the invoker can do
+     * @return a property that allows other objects to know if the invoker can do
      * the undo of a command or there isn't any command on witch it can work
      */
     public SimpleBooleanProperty getUndoIsEnabledProperty() {

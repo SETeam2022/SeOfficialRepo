@@ -1,19 +1,13 @@
 package seproject.tools;
 
-import editor.ShapeEditorFactory;
+import editor.ShapeEditor;
+import editor.ShapeEditorChooser;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import seproject.customComponents.Overlay;
 import seproject.commands.ChangeFillColorCommand;
 import seproject.commands.ChangeStrokeColorCommand;
 import seproject.commands.DeleteShapeCommand;
@@ -21,44 +15,48 @@ import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.commands.ResizeCommand;
 import seproject.commands.*;
+import seproject.customComponents.LayeredPaper;
 
 /**
- * This class is the rappresentation of a specialized tool that can draw
- * SelectedShapeManager on the screen.
+ * This class represents a SelectedShapeManager.
+ * 
  */
 public class SelectedShapeManager {
 
     private Shape selectedShape = null;
 
-    private final DoubleProperty widthProperty, heightProperty;
+    private final DoubleProperty widthProperty, heightProperty,rotationProperty, stretchProperty;
 
     private final SimpleBooleanProperty shapeIsSelectedProperty;
 
     private final SimpleBooleanProperty shapeIsCopiedProperty;
 
-    private static Pane paper;
+    private static LayeredPaper paper;
 
     private static SelectedShapeManager ssm = null;
 
     private Shape copiedShape = null;
 
-    private Group group;
-
-    private Overlay overlay;
-    
     private int incrementCopy = 0;
+    
+    private Overlay overlay;
 
+    /**
+     * Creates a SelectedShapeManager.
+     */
     private SelectedShapeManager() {
 
         this.widthProperty = new SimpleDoubleProperty();
         this.heightProperty = new SimpleDoubleProperty();
+        this.rotationProperty = new SimpleDoubleProperty();
+        this.stretchProperty = new SimpleDoubleProperty();
         this.shapeIsSelectedProperty = new SimpleBooleanProperty(false);
         this.shapeIsCopiedProperty = new SimpleBooleanProperty(false);
 
     }
 
     /**
-     * This methods returns the only instance of the selectedShapeManager
+     * This methods returns the only instance of the selectedShapeManager.
      *
      * @return ssm
      */
@@ -70,48 +68,46 @@ public class SelectedShapeManager {
     }
 
     /**
-     * This method must be called before the use of the SelectedShapeManager
+     * This method must be called before the use of the SelectedShapeManager.
      *
      * @param paper the pane on witch the shape will be selected
      */
-    public static void setSelectedShapeManagerPaper(Pane paper) {
+    public static void setSelectedShapeManagerPaper(LayeredPaper paper) {
         SelectedShapeManager.paper = paper;
     }
 
     /**
-     *
      * @return selected shape
      */
     public Shape getSelectedShape() {
         return selectedShape;
     }
 
-    /**
-     *
-     * @param selectedShape set the selected shape an adds the selection effect
+    /** Set the selected shape on witch the manager will work on
+     * @param selectedShape set the selected shape an adds the selection overlay
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void setSelectedShape(Shape selectedShape) {
+    public void setSelectedShape(Shape selectedShape) throws PaperNotSetException {
+        check();
         ssm.selectedShape = selectedShape;
-        group = new Group();
-        group.setMouseTransparent(true);
+        ShapeEditor pe = ShapeEditorChooser.getInstance(ssm.getSelectedShape().getClass());
         overlay = new Overlay(selectedShape);
-        group.getChildren().add(overlay);
-        group.toFront();
-        paper.getChildren().add(SelectedShapeManager.getSelectedShapeManager().group);
-        ssm.widthProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getWidth());
-        ssm.heightProperty.setValue(ssm.getSelectedShape().getLayoutBounds().getHeight());
+        paper.addInTopLayer(overlay);
+        ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
+        ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
+        ssm.rotationProperty.setValue(0);
+        ssm.stretchProperty.setValue(100);
         ssm.shapeIsSelectedProperty.setValue(true);
         ssm.incrementCopy = 0;
     }
 
     /**
-     * Unselect the current selected shape in SSM class if it isn't NULL.
+     * Unselect the current selected shape in SSM
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void unsetSelectedShape() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
-        group.getChildren().remove(overlay);
+    public void unsetSelectedShape() throws PaperNotSetException{
+        check();
+        paper.removeFromTopLayer(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
         ssm.selectedShape = null;
     }
@@ -125,7 +121,6 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return widthProperty an observable property which contains the width of
      * the current shape's bounds
      */
@@ -134,39 +129,66 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return widthProperty an observable property which contains the height of
      * the current shape's bounds
      */
     public DoubleProperty getHeightProperty() {
         return ssm.heightProperty;
     }
+    
+    /**
+     * @return widthProperty an observable property which contains the rotation value of
+     * the current shape's bounds
+     */
+    public DoubleProperty getRotationProperty(){
+        return ssm.rotationProperty;
+    }
+    
+    /**
+     * @return widthProperty an observable property which contains the stretch value of
+     * the current shape's bounds
+     */
+    public DoubleProperty getStretchProperty(){
+        return ssm.stretchProperty;
+    }
+    /**
+     * This method allow to set the copiedShape
+     * @param shape 
+     */
+    public void setCopiedShape(Shape shape){
+        this.copiedShape = shape;
+    }
+    
+    /**
+     * This method allow to set the ShapeIsCopiedProperty
+     * @param bool 
+     */
+    public void setShapeIsCopiedProperty(boolean bool){
+        this.shapeIsCopiedProperty.setValue(bool);
+    }
+    
+    /**
+     *
+     * @return the shape that is been copied
+     */
+    public Shape getCopiedShape(){
+        return this.copiedShape;
+    }
 
     /**
-     * When this method is called if a shape has been selected it will be
-     * deleted from the paper
+     * When this method is called, if a shape has been selected, it will be
+     * deleted from the paper.
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void deleteSelectedShape() throws RuntimeException {
-
-        if (this.selectedShape == null) {
-            return;
-        }
-
-        if (SelectedShapeManager.paper == null) {
-            throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
-        }
-
+    public void deleteSelectedShape() throws PaperNotSetException {
+        check();
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
-
-        /* TODO: I have to delete the shape from the map too */
-        group.getChildren().remove(overlay);
-        ssm.selectedShape = null;
-        ssm.shapeIsSelectedProperty.setValue(false);
+        ssm.unsetSelectedShape();
 
     }
 
     /**
-     * Change the fill color of the selected shape to a given color
+     * Change the fill color of the selected shape to a given color.
      *
      * @param color the new color for filling the shape
      */
@@ -178,7 +200,7 @@ public class SelectedShapeManager {
     }
 
     /**
-     * Change the stroke color of the selected shape to a given color
+     * Change the stroke color of the selected shape to a given color.
      *
      * @param color the new color for the stroke of the shape
      */
@@ -190,23 +212,21 @@ public class SelectedShapeManager {
     }
 
     /*-------------------------------------------BRING TO FRONT AND BRING TO BACK ---------------------------------------------------------------*/
+    
     /**
-     * Bring the selected shape on top layer
+     * Bring the selected shape on top layer.
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void bringToFrontShape() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
+    public void bringToFrontShape()throws PaperNotSetException {
+        check();
         Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape, paper));
     }
 
     /**
-     * Bring the selected shape on down layer
+     * Bring the selected shape on down layer.
      */
     public void bringToBackShape() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
+        check();
         Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape, paper));
     }
 
@@ -220,22 +240,18 @@ public class SelectedShapeManager {
         if (selectedShape == null) {
             return;
         }
-        this.copiedShape = selectedShape;
-        this.shapeIsCopiedProperty.setValue(true);
-
+        Invoker.getInvoker().executeCommand(new CopyShapeCommand(selectedShape));
+        
     }
-
     /**
      * This method performs the paste of the selected shape.
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void pasteShape() {
-        if (copiedShape == null) {
-            return;
-        }
+    public void pasteShape() throws PaperNotSetException {
+        check();
         incrementCopy += 10;
-        Bounds paperBounds = paper.getLayoutBounds();
-        Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
-        clone.relocate(copiedShape.getBoundsInParent().getMinX()+incrementCopy,copiedShape.getBoundsInParent().getMinY()+incrementCopy);
+        Shape clone = ShapeEditorChooser.getInstance(copiedShape.getClass()).clone(copiedShape);
+        clone.relocate(copiedShape.getBoundsInParent().getMinX() + incrementCopy, copiedShape.getBoundsInParent().getMinY() + incrementCopy);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(clone, paper));
     }
 
@@ -248,7 +264,6 @@ public class SelectedShapeManager {
     }
 
     /**
-     *
      * @return shapeIsCopiedProperty which allows to know if the selected shape
      * has been copied
      */
@@ -257,6 +272,7 @@ public class SelectedShapeManager {
     }
 
     /*--------------------------------------------------------------------RESIZE-----------------------------------------------------*/
+    
     /**
      * This method performs the resize of the selected shape.
      *
@@ -268,61 +284,71 @@ public class SelectedShapeManager {
             return;
         }
         Invoker.getInvoker().executeCommand(new ResizeCommand(selectedShape, width, height));
+        
     }
-}
-
-/*--------------------------------------------------------------------OVERLAY-----------------------------------------------------*/
-/**
- * This class represents the overlay shown when a shape is selected, that is a
- * selection box.
- *
- */
-class Overlay extends Rectangle {
-
-    final Shape selectedShape;
-    private ChangeListener<Bounds> overlayChangeListener;
-
-    Overlay(Shape selectedShape) {
-        setX(selectedShape.getLayoutBounds().getMinX());
-        setY(selectedShape.getLayoutBounds().getMinY());
-        setWidth(selectedShape.getLayoutBounds().getWidth());
-        setHeight(selectedShape.getLayoutBounds().getHeight());
-        setFill(Color.TRANSPARENT);
-        setStroke(Color.CORNFLOWERBLUE);
-        setStrokeWidth(3);
-        getStrokeDashArray().addAll(3.0, 5.0);
-        this.selectedShape = selectedShape;
-        monitorOverlay();
-    }
-
+    
+    /* -------------------------------------------------------------- ROTATION --------------------------------------------------------------*/
+    
     /**
-     * This method adds an observer on the boundsInParent of the selected shape,
-     * in order to detect a change and consequently resize tha overlay according
-     * to it.
+     * This method allow to rotate the shape due to param.
+     * @param value
      */
-    void monitorOverlay() {
-        final ReadOnlyObjectProperty<Bounds> bounds;
-        bounds = selectedShape.boundsInParentProperty();
-        updateOverlay(bounds.get());
-        overlayChangeListener = new ChangeListener<Bounds>() {
-            @Override
-            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-                updateOverlay(newValue);
-            }
-        };
-        bounds.addListener(overlayChangeListener);
+    public void rotationShape(Double value){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new RotationCommand(value, selectedShape));
     }
-
+    
+    /* -------------------------------------------------------------- MIRRORING --------------------------------------------------------------*/
+    
     /**
-     * This method, takes in input the newBounds on the selected shape and
-     * resizes the selection overlay according to them.
-     *
-     * @param newBounds
+     * This method allow to mirrorVerticalShape the shape.
      */
-    private void updateOverlay(Bounds newBounds) {
-        setX(newBounds.getMinX());
-        setY(newBounds.getMinY());
-        setWidth(newBounds.getWidth());
-        setHeight(newBounds.getHeight());
+    public void mirrorVerticalShape(){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new MirrorVerticalCommand(selectedShape));
+    }
+    
+    /**
+     * This method allow to mirrorHorizontalShape the shape.     
+     */
+    public void mirrorHorizontalShape(){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new MirrorHorizontalCommand(selectedShape));
+    }
+    
+    /* -------------------------------------------------------------- STREACHING --------------------------------------------------------------*/
+    
+    /**
+     * This method allow to vertical stretch on selected shape due to parameter.
+     * @param value 
+     */
+    public void verticalStreachingShape(double value){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new VerticalStretchingCommand(selectedShape,value));
+    }
+    
+    /**
+     * This method allow to horizontal stretch on selected shape due to parameter.
+     * @param value 
+     */
+    public void horizontalStreachingShape(double value){
+        if (selectedShape == null){
+            return;
+        }
+        Invoker.getInvoker().executeCommand(new HorizontalStretchingCommand(selectedShape,value));
+    }
+    
+    private void check(){
+        if (SelectedShapeManager.paper == null) {
+            throw new PaperNotSetException("You have to call the configuration method first, no working Pane is setted");
+        }   
     }
 }

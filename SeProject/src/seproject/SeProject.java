@@ -7,9 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-
 public class SeProject extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
@@ -18,6 +17,8 @@ public class SeProject extends Application {
         stage.setScene(scene);
         stage.setTitle("Definitely not Paint");
         stage.getIcons().add(new Image("icons/paint.png"));
+        stage.setMinHeight(Constants.MIN_STAGE_HEIGHT);
+        stage.setMinWidth(Constants.MIN_STAGE_WIDTH);
         stage.show();
     }
 
@@ -27,5 +28,4 @@ public class SeProject extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

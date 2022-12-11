@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
@@ -11,7 +12,9 @@ import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
+import seproject.Constants;
 
 public class RectangleToolTest {
 
@@ -21,33 +24,37 @@ public class RectangleToolTest {
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private MouseEvent clickOnBlankPaper;
+    private SecureRandom random;
+    private DrawingArea dw;
     public RectangleToolTest() {
     }
 
     /**
-     * This method create the Test environment, it creates a test rectangle with
+     * This method creates the Test environment, it creates a test rectangle with
      * red stroke and black fill, and istances a rectangle tool.
      */
     @Before
     public void setUp() {
+        this.random = new SecureRandom();
         testShape = new Rectangle(0, 0, 10, 20);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
-
-        paper = new Pane();
+        
+        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        paper = dw.getPaper();
 
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        t = new RectangleTool(paper, borderColorProperty, fillColorProperty);
-        clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getX(), testShape.getY());
+        t = new RectangleTool(dw, borderColorProperty, fillColorProperty);
+        clickOnBlankPaper = EventGenerator.PrimaryButtonMousePressed(paper, paper, testShape.getX(), testShape.getY());
     }
 
     /**
      * Simulate a mouse click and check if the rectangle added to the paper is
      * in the same position of a test rectangle and has the same stroke and fill
-     * color attribute
+     * color attributes.
      */
     @Test
     public void testOnMousePressed() {
@@ -68,13 +75,13 @@ public class RectangleToolTest {
 
     /**
      * Simulate a mouse press and the drag. Checks if the rectangle added has
-     * the same width and height of the testShape
+     * the same width and height of the testShape.
      */
     @Test
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");
         t.onMousePressed(clickOnBlankPaper);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,testShape.getWidth(),testShape.getHeight()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,testShape.getWidth(),testShape.getHeight()));
         Node elem = paper.getChildren().get(0);
         assertTrue("The shape isn't of the same class of the testShape",elem instanceof Rectangle);
         Rectangle casted = (Rectangle) elem;
@@ -84,7 +91,7 @@ public class RectangleToolTest {
 
     /**
      * Simulate a mouse release. Checks if the rectangle added has the same
-     * width and height of the testShape
+     * width and height of the testShape.
      */
     @Test
     public void testOnMouseReleased() {
@@ -96,8 +103,6 @@ public class RectangleToolTest {
         Rectangle casted = (Rectangle) elem;
         Assert.assertEquals(testShape.getWidth(), casted.getWidth(), 0);
         Assert.assertEquals(testShape.getHeight(), casted.getHeight(), 0);
-
-
     }
 
 }

@@ -10,7 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import seproject.TestConstants;
+import seproject.customComponents.DrawingArea;
+import seproject.Constants;
 import seproject.tools.SelectedShapeManager;
 
 public class BringToFrontCommandTest {
@@ -21,8 +22,8 @@ public class BringToFrontCommandTest {
     private Rectangle rect;
     private Ellipse ell;
     private Line line;
-    private BringToFrontCommand cmdRect, cmdLine, cmdEll;
-
+    private DrawingArea dw;
+    private Invoker invoker;
     /**
      * This method instances a new pane and a series of shapes which will be used during the 
      * test of the bring to front functionality.
@@ -30,12 +31,14 @@ public class BringToFrontCommandTest {
     @Before
     public void setUp() {
         this.random = new SecureRandom();
-        this.paper = new Pane();
-        this.rect = new Rectangle(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        this.ell = new Ellipse(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
-        SelectedShapeManager.setSelectedShapeManagerPaper(this.paper);
+        this.dw = new DrawingArea(1920,1080);
+        this.paper = dw.getPaper();
+        this.rect = new Rectangle(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        this.ell = new Ellipse(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        this.line = new Line(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT), random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
+        this.invoker = Invoker.getInvoker();
     }
 
     /**
@@ -56,16 +59,16 @@ public class BringToFrontCommandTest {
         insertAndBringToFront();
         
         /* Test 1: undo of the BringToFrontCommand on the line */
-        this.cmdLine.undo();
+        invoker.undoLastCommand();
         assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.rect));
         assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 2: undo of the BringToFrontCommand on the ellipse */
-        this.cmdEll.undo();
+        invoker.undoLastCommand();
         assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.rect));
         
         /* Test 3: undo of the BringToFrontCommand on the rectangle */
-        this.cmdRect.undo();
+        invoker.undoLastCommand();
         assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
     }
     
@@ -74,21 +77,21 @@ public class BringToFrontCommandTest {
      * simulating the classic utilization flow of a user.
      */
     private void insertAndBringToFront() {
-        this.paper.getChildren().clear();
+        //this.paper.getChildren().clear();
         
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);
-        this.cmdRect = createCommandAndExecute(this.rect, this.cmdRect);
-        assertEquals(1, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
+        createCommandAndExecute(this.rect);
+        assertEquals(0, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
         
         /* Test 2: there are two shapes inside the pane */
         this.paper.getChildren().add(ell);
-        this.cmdEll = createCommandAndExecute(this.rect, this.cmdEll);
+        createCommandAndExecute(this.rect);
         assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 3: there are three shapes inside the pane */
         this.paper.getChildren().add(line);
-        this.cmdLine = createCommandAndExecute(this.ell, this.cmdLine);
+        createCommandAndExecute(this.ell);
         assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.line));
         assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.rect));
     }
@@ -99,11 +102,9 @@ public class BringToFrontCommandTest {
      * @param cmd
      * @return BringToFrontCommand
      */
-    private BringToFrontCommand createCommandAndExecute(Shape s, BringToFrontCommand cmd) {
+    private void createCommandAndExecute(Shape s) {
         SelectedShapeManager.getSelectedShapeManager().setSelectedShape(s);
-        cmd = new BringToFrontCommand(s, this.paper);
-        cmd.execute();
-        return cmd;
+        invoker.executeCommand(new BringToFrontCommand(s, dw));
     }
 
 }

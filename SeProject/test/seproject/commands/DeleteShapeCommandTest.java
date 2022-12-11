@@ -1,15 +1,20 @@
 package seproject.commands;
 
-import javafx.scene.layout.Pane;
+import java.security.SecureRandom;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.customComponents.DrawingArea;
+import seproject.Constants;
+import seproject.customComponents.LayeredPaper;
 
 public class DeleteShapeCommandTest {
-
-    private Pane paper;
+    
+    private LayeredPaper paper;
+   
+    private SecureRandom random;
 
     private Shape testShape;
 
@@ -24,7 +29,8 @@ public class DeleteShapeCommandTest {
      */
     @Before
     public void setUp() {
-        paper = new Pane();
+        this.random = new SecureRandom();
+        paper = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         testShape = new Rectangle();
         com = new DeleteShapeCommand(testShape, paper);
     }
@@ -37,7 +43,7 @@ public class DeleteShapeCommandTest {
     public void testExecute() {
         System.out.println("execute");
         com.execute();
-        assertTrue(!paper.getChildren().contains(testShape));
+        assertTrue(!paper.paperContains(testShape));
     }
 
     /**
@@ -49,7 +55,7 @@ public class DeleteShapeCommandTest {
         System.out.println("undo");
         com.execute();
         com.undo();
-        assertTrue(paper.getChildren().contains(testShape));
+        assertTrue(paper.paperContains(testShape));
     }
 
 }

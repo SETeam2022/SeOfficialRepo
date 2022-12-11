@@ -1,19 +1,26 @@
 package seproject.commands;
 
-import javafx.scene.layout.Pane;
+import java.security.SecureRandom;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import seproject.customComponents.DrawingArea;
+import seproject.Constants;
+import seproject.customComponents.LayeredPaper;
+import seproject.tools.SelectedShapeManager;
 
 public class DrawShapeCommandTest {
 
-    private Pane paper;
 
     private Shape testShape;
 
     private DrawShapeCommand com;
+    
+    private SecureRandom random;
+    
+    private LayeredPaper paper;
 
     public DrawShapeCommandTest() {
     }
@@ -24,7 +31,9 @@ public class DrawShapeCommandTest {
      */
     @Before
     public void setUp() {
-        paper = new Pane();
+        this.random = new SecureRandom();
+        paper = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        SelectedShapeManager.setSelectedShapeManagerPaper(paper);
         testShape = new Rectangle();
         com = new DrawShapeCommand(testShape, paper);
     }
@@ -37,7 +46,7 @@ public class DrawShapeCommandTest {
     public void testExecute() {
         System.out.println("execute");
         com.execute();
-        assertTrue(paper.getChildren().contains(testShape));
+        assertTrue(paper.paperContains(testShape));
     }
 
     /**
@@ -49,7 +58,7 @@ public class DrawShapeCommandTest {
         System.out.println("undo");
         com.execute();
         com.undo();
-        assertTrue(!paper.getChildren().contains(testShape));
+        assertTrue(!paper.paperContains(testShape));
     }
 
 }

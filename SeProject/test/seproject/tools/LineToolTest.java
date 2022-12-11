@@ -1,5 +1,6 @@
 package seproject.tools;
 
+import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -11,43 +12,47 @@ import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
+import seproject.Constants;
 
 public class LineToolTest {
 
     private Pane paper;
     private Line testShape;
-
+    private DrawingArea dw;
     private ObjectProperty<Color> borderColorProperty;
     private ObjectProperty<Color> fillColorProperty;
     private LineTool t;
     private MouseEvent clickOnBlankPaper;
+    private SecureRandom random;
     public LineToolTest() {
     }
 
     /**
-     * This method create the Test environment, it creates a test line with red
+     * This method creates the Test environment, it creates a test line with red
      * stroke and black fill, and istances a line tool.
      */
     @Before
     public void setUp() {
-
+        this.random = new SecureRandom();
         testShape = new Line(443, 308, 471, 308);
         testShape.setStroke(Color.RED);
         testShape.setFill(Color.BLACK);
-        paper = new Pane();
+        dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        paper = dw.getPaper();
         borderColorProperty = new SimpleObjectProperty<>();
         fillColorProperty = new SimpleObjectProperty<>();
         borderColorProperty.set(Color.RED);
         fillColorProperty.set(Color.BLACK);
-        t = new LineTool(paper, borderColorProperty, fillColorProperty);
-        clickOnBlankPaper = EventGenerator.PrimaryButtonMouseClick(paper, paper, testShape.getStartX(), testShape.getStartY());
+        t = new LineTool(dw, borderColorProperty, fillColorProperty);
+        clickOnBlankPaper = EventGenerator.PrimaryButtonMousePressed(paper, paper, testShape.getStartX(), testShape.getStartY());
     }
 
     /**
-     * Simulate a mouse click and check if the line added to the paper is in the
+     * Simulates a mouse click and check if the line added to the paper is in the
      * same start position of a test line and has the same stroke and fill color
-     * attribute
+     * attribute.
      */
     @Test
     public void testOnMousePressed() {
@@ -68,13 +73,13 @@ public class LineToolTest {
 
     /**
      * Simulate a mouse press and the drag. Checks if the line added to the
-     * paper has the same length (due to the drag effect)
+     * paper has the same length (due to the drag effect).
      */
     @Test
     public void testOnMouseDragged() {
         System.out.println("mouseDragged");
         t.onMousePressed(clickOnBlankPaper);
-        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDrag(paper,paper,testShape.getEndX(),  testShape.getEndY()));
+        t.onMouseDragged(EventGenerator.PrimaryButtonMouseDragged(paper,paper,testShape.getEndX(),  testShape.getEndY()));
         Node elem = paper.getChildren().get(0);
         assertTrue("The shape isn't of the same class of the testShape",elem instanceof Line);
         Line casted = (Line) elem;
