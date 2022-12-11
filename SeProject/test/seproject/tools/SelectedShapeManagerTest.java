@@ -11,6 +11,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -34,7 +35,6 @@ public class SelectedShapeManagerTest {
         this.random = new SecureRandom();
         this.dw = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
         this.testPaper = dw.getPaper();
-        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         testShape = new Ellipse();
         testShape2 = new Rectangle();
         testShape3 = new Line();
@@ -55,12 +55,24 @@ public class SelectedShapeManagerTest {
         assertEquals(expResult, result);
     }
 
-
     /**
      * Test of getSelectedShape method, of class SelectedShapeManager.
      */
     @Test
     public void testGetSelectedShape() {
+        System.out.println("getSelectedShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        Shape expResult = testShape;
+        selectedShapeManager.setSelectedShape(testShape);
+        Shape result = selectedShapeManager.getSelectedShape();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getSelectedShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testGetSelectedShapeException() {
         System.out.println("getSelectedShape");
         Shape expResult = testShape;
         selectedShapeManager.setSelectedShape(testShape);
@@ -74,7 +86,20 @@ public class SelectedShapeManagerTest {
     @Test
     public void testSetSelectedShape() {
         System.out.println("setSelectedShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        Shape expResult = testShape;
+        selectedShapeManager.setSelectedShape(expResult);
 
+        Shape result = selectedShapeManager.getSelectedShape();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setSelectedShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testSetSelectedShapeException() {
+        System.out.println("setSelectedShape");
         Shape expResult = testShape;
         selectedShapeManager.setSelectedShape(expResult);
 
@@ -88,6 +113,19 @@ public class SelectedShapeManagerTest {
     @Test
     public void testUnsetSelectedShape() {
         System.out.println("unsetSelectedShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.unsetSelectedShape();
+        assertNull("Called unsetSelectedShape but shape in selectShapeManager is not null", selectedShapeManager.getSelectedShape());
+        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false", selectedShapeManager.getShapeIsSelectedProperty().get());
+    }
+
+    /**
+     * Test of unsetSelectedShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testUnsetSelectedShapeException() {
+        System.out.println("unsetSelectedShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.unsetSelectedShape();
         assertNull("Called unsetSelectedShape but shape in selectShapeManager is not null", selectedShapeManager.getSelectedShape());
@@ -99,6 +137,20 @@ public class SelectedShapeManagerTest {
      */
     @Test
     public void testGetShapeIsSelectedProperty() {
+        System.out.println("getShapeIsSelectedProperty");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.unsetSelectedShape();
+        assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false", selectedShapeManager.getShapeIsSelectedProperty().get());
+        selectedShapeManager.setSelectedShape(testShape);
+        assertTrue("Called setSelectedShape but shapeIsSelectedProperty in selectShapeManager is not true", selectedShapeManager.getShapeIsSelectedProperty().get());
+
+    }
+
+    /**
+     * Test of getShapeIsSelectedProperty method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testGetShapeIsSelectedPropertyException() {
         System.out.println("getShapeIsSelectedProperty");
         selectedShapeManager.unsetSelectedShape();
         assertFalse("Called unsetSelectedShape but shapeIsSelectedProperty in selectShapeManager is not false", selectedShapeManager.getShapeIsSelectedProperty().get());
@@ -113,6 +165,19 @@ public class SelectedShapeManagerTest {
     @Test
     public void testDeleteSelectedShape() {
         System.out.println("deleteSelectedShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.deleteSelectedShape();
+        assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", !testPaper.getChildren().contains(testShape));
+
+    }
+
+    /**
+     * Test of deleteSelectedShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testDeleteSelectedShapeException() {
+        System.out.println("deleteSelectedShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.deleteSelectedShape();
         assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", !testPaper.getChildren().contains(testShape));
@@ -125,6 +190,21 @@ public class SelectedShapeManagerTest {
      */
     @Test
     public void testChangeSelectedShapeFillColor() {
+        System.out.println("changeSelectedShapeFillColor");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        Paint expResult = (Paint) Color.MAGENTA;
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.changeSelectedShapeFillColor(Color.MAGENTA);
+        Paint result = selectedShapeManager.getSelectedShape().getFill();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of changeSelectedShapeFillColor method, of class
+     * SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testChangeSelectedShapeFillColorException() {
         System.out.println("changeSelectedShapeFillColor");
         Paint expResult = (Paint) Color.MAGENTA;
         selectedShapeManager.setSelectedShape(testShape);
@@ -139,6 +219,21 @@ public class SelectedShapeManagerTest {
      */
     @Test
     public void testChangeSelectedShapeStrokeColor() {
+        System.out.println("changeSelectedShapeStrokeColor");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        Paint expResult = (Paint) Color.MAGENTA;
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.changeSelectedShapeStrokeColor(Color.MAGENTA);
+        Paint result = selectedShapeManager.getSelectedShape().getStroke();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of changeSelectedShapeStrokeColor method, of class
+     * SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testChangeSelectedShapeStrokeColorException() {
         System.out.println("changeSelectedShapeStrokeColor");
         Paint expResult = (Paint) Color.MAGENTA;
         selectedShapeManager.setSelectedShape(testShape);
@@ -188,6 +283,21 @@ public class SelectedShapeManagerTest {
     }
 
     /**
+     * Test of testBringToFrontShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testBringToFrontShapeException() {
+        System.out.println("bringToFrontShape");
+        int beforeBringToFront, afterBringToFront;
+        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
+        ssm.setSelectedShape(testShape);
+        beforeBringToFront = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        ssm.bringToFrontShape();
+        afterBringToFront = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        assertTrue(afterBringToFront > beforeBringToFront);
+    }
+
+    /**
      * Test of testBringToBackShape method, of class SelectedShapeManager.
      */
     @Test
@@ -205,10 +315,52 @@ public class SelectedShapeManagerTest {
     }
 
     /**
+     * Test of testBringToBackShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testBringToBackShapeException() {
+        System.out.println("bringToBackShape");
+        int beforeBringToBack, afterBringToBack;
+        SelectedShapeManager ssm = SelectedShapeManager.getSelectedShapeManager();
+        ssm.setSelectedShape(testShape);
+        ssm.bringToFrontShape();
+        beforeBringToBack = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        ssm.bringToBackShape();
+        afterBringToBack = testPaper.getChildren().indexOf(ssm.getSelectedShape());
+        assertTrue(afterBringToBack < beforeBringToBack);
+    }
+
+    /**
      * Test of copySelectedShape method, of class SelectedShapeManager.
      */
     @Test
     public void testCopyPasteSelectedShape() {
+        System.out.println("copySelectedShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.copySelectedShape();
+        selectedShapeManager.pasteShape();
+        Integer expectedNumberOfShapes = 2;
+        Integer realNumberOfShapes = 0;
+        for (Node n : testPaper.getChildren()) {
+            if (n instanceof Ellipse) {
+                Ellipse foundedEllipse = (Ellipse) n;
+                Ellipse testEllipse = (Ellipse) testShape;
+                realNumberOfShapes++;
+                assertEquals(testEllipse.getCenterX(), foundedEllipse.getCenterX(), 0);
+                assertEquals(testEllipse.getCenterY(), foundedEllipse.getCenterY(), 0);
+                assertEquals(testEllipse.getRadiusX(), foundedEllipse.getRadiusX(), 0);
+                assertEquals(testEllipse.getRadiusY(), foundedEllipse.getRadiusY(), 0);
+            }
+        }
+        assertEquals(expectedNumberOfShapes, realNumberOfShapes);
+    }
+
+    /**
+     * Test of copySelectedShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testCopyPasteSelectedShapeException() {
         System.out.println("copySelectedShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.copySelectedShape();
@@ -235,6 +387,7 @@ public class SelectedShapeManagerTest {
     @Test
     public void testCutShape() {
         System.out.println("cutShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.cutShape();
         assertTrue("Called deleteSelectedShape method in a Pane where is only one Shape but it isn't removed from Pane.", !testPaper.getChildren().contains(testShape));
@@ -242,10 +395,32 @@ public class SelectedShapeManagerTest {
     }
 
     /**
+     * Test of cutShape method, of class SelectedShapeManager ----
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testCutShapeException() {
+        System.out.println("cutShape");
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.cutShape();
+    }
+
+    /**
      * Test of getShapeIsCopiedProperty method, of class SelectedShapeManager.
      */
     @Test
     public void testGetShapeIsCopiedProperty() {
+        System.out.println("getShapeIsCopiedProperty");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.copySelectedShape();
+        assertTrue(selectedShapeManager.getShapeIsCopiedProperty().get());
+    }
+
+    /**
+     * Test of getShapeIsCopiedProperty method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testGetShapeIsCopiedPropertyException() {
         System.out.println("getShapeIsCopiedProperty");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.copySelectedShape();
@@ -257,6 +432,32 @@ public class SelectedShapeManagerTest {
      */
     @Test
     public void testResizeSelectedShape() {
+        System.out.println("resizeSelectedShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        double expectedWidth = random.nextInt(Constants.MAX_WIDTH), expectedHeight = random.nextInt(Constants.MIN_HEIGHT);
+        /* Resize Ellipse */
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
+        assertEquals(expectedHeight, ((Ellipse) testShape).getLayoutBounds().getHeight(), 0);
+        assertEquals(expectedWidth, ((Ellipse) testShape).getLayoutBounds().getWidth(), 0);
+        /* Resize Rectangle */
+        selectedShapeManager.setSelectedShape(testShape2);
+        selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
+        assertEquals(expectedHeight, ((Rectangle) testShape2).getLayoutBounds().getHeight(), 0);
+        assertEquals(expectedWidth, ((Rectangle) testShape2).getLayoutBounds().getWidth(), 0);
+        /* Resize Line */
+        selectedShapeManager.setSelectedShape(testShape3);
+        selectedShapeManager.resizeSelectedShape(expectedWidth, expectedHeight);
+        ShapeEditor se = ShapeEditorFactory.getInstance(selectedShapeManager.getSelectedShape().getClass());
+        assertEquals(expectedHeight, se.getHeight(testShape3), 0);
+        assertEquals(expectedWidth, se.getWidth(testShape3), 0);
+    }
+
+    /**
+     * Test of the resizeSelectedShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testResizeSelectedShapeException() {
         System.out.println("resizeSelectedShape");
         double expectedWidth = random.nextInt(Constants.MAX_WIDTH), expectedHeight = random.nextInt(Constants.MIN_HEIGHT);
         /* Resize Ellipse */
@@ -276,62 +477,133 @@ public class SelectedShapeManagerTest {
         assertEquals(expectedHeight, se.getHeight(testShape3), 0);
         assertEquals(expectedWidth, se.getWidth(testShape3), 0);
     }
-    
+
     /**
      * Test of the RotationShape method, of class SelectedShapeManager.
      */
     @Test
-    public void testRotationShape(){
+    public void testRotationShape() {
+        System.out.println("rotationShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.rotationShape(45.0);
+        assertEquals(45, selectedShapeManager.getSelectedShape().getRotate(), 0);
+    }
+
+    /**
+     * Test of the RotationShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testRotationShapeException() {
         System.out.println("rotationShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.rotationShape(45.0);
-        assertEquals(45,selectedShapeManager.getSelectedShape().getRotate(),0);
+        assertEquals(45, selectedShapeManager.getSelectedShape().getRotate(), 0);
     }
-    
+
     /**
      * Test of the MirrorVerticalShape method, of class SelectedShapeManager.
      */
     @Test
-    public void testMirrorVerticalShape(){
+    public void testMirrorVerticalShape() {
+        System.out.println("mirrorVerticalShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        double prevMirroring = selectedShapeManager.getSelectedShape().getScaleX();
+        selectedShapeManager.mirrorVerticalShape();
+        assertEquals((-1 * prevMirroring), selectedShapeManager.getSelectedShape().getScaleX(), 0);
+    }
+
+    /**
+     * Test of the MirrorVerticalShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testMirrorVerticalShapeException() {
         System.out.println("mirrorVerticalShape");
         selectedShapeManager.setSelectedShape(testShape);
         double prevMirroring = selectedShapeManager.getSelectedShape().getScaleX();
         selectedShapeManager.mirrorVerticalShape();
-        assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleX(),0);
+        assertEquals((-1 * prevMirroring), selectedShapeManager.getSelectedShape().getScaleX(), 0);
     }
-    
+
     /**
      * Test of the MirrorHorizontalShape method, of class SelectedShapeManager.
      */
     @Test
-    public void testMirrorHorizontalShape(){
+    public void testMirrorHorizontalShape() {
+        System.out.println("mirrorHorizontalShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        double prevMirroring = selectedShapeManager.getSelectedShape().getScaleY();
+        selectedShapeManager.mirrorHorizontalShape();
+        assertEquals((-1 * prevMirroring), selectedShapeManager.getSelectedShape().getScaleY(), 0);
+    }
+
+    /**
+     * Test of the MirrorHorizontalShape method, of class SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testMirrorHorizontalShapeException() {
         System.out.println("mirrorHorizontalShape");
         selectedShapeManager.setSelectedShape(testShape);
         double prevMirroring = selectedShapeManager.getSelectedShape().getScaleY();
         selectedShapeManager.mirrorHorizontalShape();
-        assertEquals((-1*prevMirroring),selectedShapeManager.getSelectedShape().getScaleY(),0);
+        assertEquals((-1 * prevMirroring), selectedShapeManager.getSelectedShape().getScaleY(), 0);
     }
-    
+
     /**
-     * Test of the VerticalStretchingShape method, of class SelectedShapeManager.
+     * Test of the VerticalStretchingShape method, of class
+     * SelectedShapeManager.
      */
     @Test
-    public void testVerticalStretchingShape(){
+    public void testVerticalStretchingShape() {
+        System.out.println("verticalStretchingShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.verticalStreachingShape(2);
+        assertEquals(2, selectedShapeManager.getSelectedShape().getScaleY(), 0);
+    }
+
+    /**
+     * Test of the VerticalStretchingShape method, of class
+     * SelectedShapeManager.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testVerticalStretchingShapeException() {
         System.out.println("verticalStretchingShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.verticalStreachingShape(2);
-        assertEquals(2,selectedShapeManager.getSelectedShape().getScaleY(),0);
+        assertEquals(2, selectedShapeManager.getSelectedShape().getScaleY(), 0);
     }
-    
+
     /**
-     * Test of the HorizontalStretchingShape method, of class SelectedShapeManager.
+     * Test of the HorizontalStretchingShape method, of class
+     * SelectedShapeManager.
      */
     @Test
-    public void testHorizontalStretchingShape(){
+    public void testHorizontalStretchingShape() {
+        System.out.println("horizontalStretchingShape");
+        SelectedShapeManager.setSelectedShapeManagerPaper(dw);
+        selectedShapeManager.setSelectedShape(testShape);
+        selectedShapeManager.horizontalStreachingShape(2);
+        assertEquals(2, selectedShapeManager.getSelectedShape().getScaleX(), 0);
+    }
+
+    /**
+     * Test of the HorizontalStretchingShape method, of class
+     * SelectedShapeManager whitout a setted paper. A PaperNotSetException is
+     * expected.
+     */
+    @Test(expected = PaperNotSetException.class)
+    public void testHorizontalStretchingShapeException() {
         System.out.println("horizontalStretchingShape");
         selectedShapeManager.setSelectedShape(testShape);
         selectedShapeManager.horizontalStreachingShape(2);
-        assertEquals(2,selectedShapeManager.getSelectedShape().getScaleX(),0);
+        assertEquals(2, selectedShapeManager.getSelectedShape().getScaleX(), 0);
     }
-    
+
+    @After
+    public void teardown() {
+        SelectedShapeManager.setSelectedShapeManagerPaper(null);
+    }
 }
