@@ -2,11 +2,24 @@ package seproject.editor;
 
 import editor.ShapeEditor;
 import editor.ShapeEditorFactory;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.SecureRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
 import seproject.Constants;
 
 public class LineEditorTest {
@@ -14,7 +27,10 @@ public class LineEditorTest {
     private Line testShape;
     private ShapeEditor editor;
     private SecureRandom random;
-
+    private File file;
+    
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     public LineEditorTest() {
     }
@@ -22,7 +38,14 @@ public class LineEditorTest {
     @Before
     public void setUp() {
         this.testShape = new Line();
+        this.testShape.setFill(Color.RED);
+        this.testShape.setStroke(Color.RED);
         this.editor = ShapeEditorFactory.getInstance(testShape.getClass());
+        try {
+            this.file = folder.newFile("test.bin");
+        } catch (IOException ex) {
+            Logger.getLogger(EllipseEditorTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.random = new SecureRandom();
     }
 
@@ -97,6 +120,31 @@ public class LineEditorTest {
     public void testClone() {
         System.out.println("clone");
         Line actualShape = (Line) editor.clone(testShape);
+        equalLines(this.testShape, actualShape);
+    }
+
+    /**
+     * Test of saveShape method, of class LineEditor.
+     */
+    @Test
+    public void testSaveLoadShape() throws Exception {
+        System.out.println("saveLoadShape");
+        try(ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)))){
+            editor.saveShape(testShape, out);
+        }
+        try(ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)))){
+            Class c = (Class) in.readObject();
+            Line readLine = (Line) editor.loadShape(c,in);
+            equalLines(testShape, readLine);
+        }
+    }
+    
+    /**
+     * Utility method to assert that two lines are equal.
+     * @param testShape
+     * @param actualShape 
+     */
+    public void equalLines(Line testShape, Line actualShape){
         assertEquals(testShape.getStartX(),actualShape.getStartX(),0);
         assertEquals(testShape.getStartY(),actualShape.getStartY(),0);
         assertEquals(testShape.getEndX(),actualShape.getEndX(),0);

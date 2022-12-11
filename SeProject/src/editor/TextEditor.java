@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
 
 /**
  * This class provides a series of methods to make some operations on a Text.
