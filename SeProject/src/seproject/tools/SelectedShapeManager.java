@@ -83,10 +83,12 @@ public class SelectedShapeManager {
         return selectedShape;
     }
 
-    /**
+    /** Set the selected shape on witch the manager will work on
      * @param selectedShape set the selected shape an adds the selection overlay
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void setSelectedShape(Shape selectedShape) {
+    public void setSelectedShape(Shape selectedShape) throws PaperNotSetException {
+        check();
         ssm.selectedShape = selectedShape;
         ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
         overlay = new Overlay(selectedShape);
@@ -100,12 +102,11 @@ public class SelectedShapeManager {
     }
 
     /**
-     * Unselect the current selected shape in SSM class if it isn't NULL.
+     * Unselect the current selected shape in SSM
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void unsetSelectedShape() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
+    public void unsetSelectedShape() throws PaperNotSetException{
+        check();
         paper.removeFromTopLayer(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
         ssm.selectedShape = null;
@@ -177,16 +178,10 @@ public class SelectedShapeManager {
     /**
      * When this method is called, if a shape has been selected, it will be
      * deleted from the paper.
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void deleteSelectedShape() throws RuntimeException {
-
-        if (this.selectedShape == null) {
-            return;
-        }
-        if (SelectedShapeManager.paper == null) {
-            throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
-        }
-
+    public void deleteSelectedShape() throws PaperNotSetException {
+        check();
         Invoker.getInvoker().executeCommand(new DeleteShapeCommand(this.selectedShape, paper));
         ssm.unsetSelectedShape();
 
@@ -220,11 +215,10 @@ public class SelectedShapeManager {
     
     /**
      * Bring the selected shape on top layer.
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void bringToFrontShape() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
+    public void bringToFrontShape()throws PaperNotSetException {
+        check();
         Invoker.getInvoker().executeCommand(new BringToFrontCommand(ssm.selectedShape, paper));
     }
 
@@ -232,9 +226,7 @@ public class SelectedShapeManager {
      * Bring the selected shape on down layer.
      */
     public void bringToBackShape() {
-        if (ssm.selectedShape == null) {
-            return;
-        }
+        check();
         Invoker.getInvoker().executeCommand(new BringToBackCommand(ssm.selectedShape, paper));
     }
 
@@ -248,15 +240,14 @@ public class SelectedShapeManager {
         if (selectedShape == null) {
             return;
         }
-        //this.copiedShape = selectedShape;
-        //this.shapeIsCopiedProperty.setValue(true);
         Invoker.getInvoker().executeCommand(new CopyShapeCommand(selectedShape));
         
     }
     /**
      * This method performs the paste of the selected shape.
+     * @throws PaperNotSetException an exception advicing the user that no LayeredPaper has been setted
      */
-    public void pasteShape() {
+    public void pasteShape() throws PaperNotSetException {
         check();
         incrementCopy += 10;
         Shape clone = ShapeEditorFactory.getInstance(copiedShape.getClass()).clone(copiedShape);
@@ -355,11 +346,11 @@ public class SelectedShapeManager {
     }
     
     private void check(){
+        if (SelectedShapeManager.paper == null) {
+            throw new PaperNotSetException("You have to call the configuration method first, no working Pane is setted");
+        }
         if (this.selectedShape == null) {
             return;
-        }
-        if (SelectedShapeManager.paper == null) {
-            throw new RuntimeException("You have to call the configuration method first, no working Pane is setted");
         }
     }
 }

@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
 import seproject.Constants;
 import seproject.customComponents.LayeredPaper;
+import seproject.tools.SelectedShapeManager;
 
 public class DrawShapeCommandTest {
 
@@ -33,6 +34,7 @@ public class DrawShapeCommandTest {
     public void setUp() {
         this.random = new SecureRandom();
         paper = new DrawingArea(random.nextInt(Constants.MAX_WIDTH), random.nextInt(Constants.MAX_HEIGHT));
+        SelectedShapeManager.setSelectedShapeManagerPaper(paper);
         testShape = new Rectangle();
         com = new DrawShapeCommand(testShape, paper);
     }
