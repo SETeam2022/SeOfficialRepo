@@ -21,10 +21,6 @@ import seproject.customComponents.LayeredPaper;
  *
  */
 public class TextTool extends DrawingTool {
-
-     // The minimum area of rectangle that will be transformed in TextArea.
-    // The minimum width of rectangle that will be transformed in TextArea.
-
     private TextArea tempTextArea;
     private Rectangle tempRectangle;
     private Text shape;

@@ -8,8 +8,8 @@ final public class Constants {
     public static final int NUM_VERTICES = 7;
     public static final int DELTA = 60;
     public static final int DEFAULT_TEXT_SIZE = 11;
-    public final static double MIN_TEXTAREA_AREA = 150;
-    public final static double MIN_TEXTAREA_WIDTH = 50;
+    public final static double MIN_TEXTAREA_AREA = 150; // The minimum area of rectangle that will be transformed in TextArea.
+    public final static double MIN_TEXTAREA_WIDTH = 50;  // The minimum width of rectangle that will be transformed in TextArea.
     public final static double MIN_STAGE_WIDTH = 1300;
     public final static double MIN_STAGE_HEIGHT = 800;
     
