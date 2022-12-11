@@ -58,6 +58,10 @@ public class ShapeEditorFactoryTest {
         ShapeEditorFactory.getInstance(Arc.class);
     }
 
+    /**
+     * It is checked if the new inserted instance is actually present in the
+     * ShapeEditorFactory map
+     */
     @Test
     public void testAddInstance() {
         System.out.println("addInstance");
@@ -85,7 +89,7 @@ public class ShapeEditorFactoryTest {
         });
 
         ShapeEditorFactory.getInstance(CubicCurve.class);
-        
+
     }
 
 }
