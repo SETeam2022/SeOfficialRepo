@@ -57,21 +57,7 @@ import seproject.tools.TextTool;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private MenuItem saveMenuItem;
-    @FXML
-    private MenuItem loadMenuItem;
-    @FXML
-    private MenuItem closeMenuItem;
-    @FXML
-    private RadioButton selectButton;
-    @FXML
     private Button ereaseButton;
-    @FXML
-    private RadioButton addLineButton;
-    @FXML
-    private RadioButton addRectangleButton;
-    @FXML
-    private RadioButton addEllipsesButton;
     @FXML
     private ToolBar toolBar;
     @FXML
@@ -97,27 +83,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private RadioButton addTextButton;
     @FXML
-    private RadioButton addPolygonButton;
-    @FXML
     private Label errorLabelRotation;
     @FXML
     private TextField rotationTextField;
     @FXML
-    private Button leftRotationButton;
-    @FXML
-    private Button rightRotationButton;
-    @FXML
     private ToggleButton gridButton;
     @FXML
     private Spinner<Integer> gridSpinner;
-    @FXML
-    private Button mirrorVerticalButton;
-    @FXML
-    private Button mirrorHorizontalButton;
-    @FXML
-    private Button verticalStretchingButton;
-    @FXML
-    private Button horizontalStretchingButton;
     @FXML
     private TextField stretchingTextField;
     @FXML
