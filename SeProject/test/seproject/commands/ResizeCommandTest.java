@@ -39,7 +39,7 @@ public class ResizeCommandTest {
      */
     @Before
     public void setUp() {
-        new JFXPanel();
+        new JFXPanel(); // JavaFX content needed to initialize graphics
         testRectangle = new Rectangle();
         testEllipse = new Ellipse();
         testLine = new Line();
