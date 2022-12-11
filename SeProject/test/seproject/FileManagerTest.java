@@ -68,19 +68,59 @@ public class FileManagerTest {
      * Test of save method, of class FileManager.
      */
     @Test
-    public void testSave() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void testSaveAndLoad() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         System.out.println("save");
-        testDrawingIO();
+        try {
+            /* Test 1: the pane has no shapes on it */
+            fm.save(file1);
+            fm.load(file1);
+            assertEquals(0, paper.getChildren().size());
+
+            /* Test 2: the pane has a colored shape on it */
+            paper.getChildren().add(testRectangle);
+            fm.save(file2);
+            fm.load(file2);
+            /* Check the number of shapes into the paper, which at this point has to be 1. */
+            assertEquals(1, paper.getChildren().size());
+            /* Check if the shape is an instance of Rectangle */
+            assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
+            Rectangle instancedRectangle = (Rectangle) paper.getChildren().get(0);
+            /* Check if the tested rectangle and the instanced rectangle have the same dimensions */
+            assertTrue(checkDims(instancedRectangle, testRectangle));
+            /* Check if the tested rectangle and the instanced rectangle have the same colors */
+            assertTrue(checkColors(instancedRectangle, testRectangle));
+
+            /* Test 3: the pane has multiple different shapes on it */
+            paper.getChildren().addAll(testLine, testEllipse);
+            fm.save(file3);
+            fm.load(file3);
+            /* Check the number of shapes into the paper, which at this point has to be 3. */
+            assertEquals(3, paper.getChildren().size());
+            /* Check the instances' types of the shapes (in order of insertion among the children of the pane) */
+            assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
+            assertTrue(paper.getChildren().toArray()[1] instanceof Line);
+            assertTrue(paper.getChildren().toArray()[2] instanceof Ellipse);
+            instancedRectangle = (Rectangle) paper.getChildren().get(0);
+            /* Check if the tested rectangle and the instanced rectangle have the same dimensions */
+            assertTrue(checkDims(instancedRectangle, testRectangle));
+            /* Check if the tested rectangle and the instanced rectangle have the same colors */
+            assertTrue(checkColors(instancedRectangle, testRectangle));
+            Line instancedLine = (Line) paper.getChildren().get(1);
+            /* Check if the tested line and the instanced line have the same dimensions */
+            assertTrue(checkDims(instancedLine, testLine));
+            /* Check if the tested line and the instanced line have the same colors */
+            assertEquals(testLine.getStroke(), instancedLine.getStroke());
+            Ellipse instancedEllipse = (Ellipse) paper.getChildren().get(2);
+            /* Check if the tested ellipse and the ellipse line have the same dimensions */
+            assertTrue(checkDims(instancedEllipse, testEllipse));
+            /* Check if the tested ellipse and the ellipse line have the same colors */
+            assertTrue(checkColors(instancedEllipse, testEllipse));
+
+        } catch (IOException ex) {
+            Logger.getLogger(FileManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    /**
-     * Test of load method, of class FileManager.
-     */
-    @Test
-    public void testLoad() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        System.out.println("load");
-        testDrawingIO();
-    }
 
     /**
      * This is a utility method to create a colored Rectangle in order to allow
@@ -194,62 +234,5 @@ public class FileManagerTest {
         return true;
     }
 
-    /**
-     * This method performs the test of the save and load methods, calling each
-     * other.
-     */
-    private void testDrawingIO() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        try {
-
-            /* Test 1: the pane has no shapes on it */
-            fm.save(file1);
-            fm.load(file1);
-            assertEquals(0, paper.getChildren().size());
-
-            /* Test 2: the pane has a colored shape on it */
-            paper.getChildren().add(testRectangle);
-            fm.save(file2);
-            fm.load(file2);
-            /* Check the number of shapes into the paper, which at this point has to be 1. */
-            assertEquals(1, paper.getChildren().size());
-            /* Check if the shape is an instance of Rectangle */
-            assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
-            Rectangle instancedRectangle = (Rectangle) paper.getChildren().get(0);
-            /* Check if the tested rectangle and the instanced rectangle have the same dimensions */
-            assertTrue(checkDims(instancedRectangle, testRectangle));
-            /* Check if the tested rectangle and the instanced rectangle have the same colors */
-            assertTrue(checkColors(instancedRectangle, testRectangle));
-
-            /* Test 3: the pane has multiple different shapes on it */
-            paper.getChildren().addAll(testLine, testEllipse);
-            fm.save(file3);
-            fm.load(file3);
-            /* Check the number of shapes into the paper, which at this point has to be 3. */
-            assertEquals(3, paper.getChildren().size());
-            /* Check the instances' types of the shapes (in order of insertion among the children of the pane) */
-            assertTrue(paper.getChildren().toArray()[0] instanceof Rectangle);
-            assertTrue(paper.getChildren().toArray()[1] instanceof Line);
-            assertTrue(paper.getChildren().toArray()[2] instanceof Ellipse);
-            instancedRectangle = (Rectangle) paper.getChildren().get(0);
-            /* Check if the tested rectangle and the instanced rectangle have the same dimensions */
-            assertTrue(checkDims(instancedRectangle, testRectangle));
-            /* Check if the tested rectangle and the instanced rectangle have the same colors */
-            assertTrue(checkColors(instancedRectangle, testRectangle));
-            Line instancedLine = (Line) paper.getChildren().get(1);
-            /* Check if the tested line and the instanced line have the same dimensions */
-            assertTrue(checkDims(instancedLine, testLine));
-            /* Check if the tested line and the instanced line have the same colors */
-            assertEquals(testLine.getStroke(), instancedLine.getStroke());
-            Ellipse instancedEllipse = (Ellipse) paper.getChildren().get(2);
-            /* Check if the tested ellipse and the ellipse line have the same dimensions */
-            assertTrue(checkDims(instancedEllipse, testEllipse));
-            /* Check if the tested ellipse and the ellipse line have the same colors */
-            assertTrue(checkColors(instancedEllipse, testEllipse));
-
-        } catch (IOException ex) {
-            Logger.getLogger(FileManagerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
 }

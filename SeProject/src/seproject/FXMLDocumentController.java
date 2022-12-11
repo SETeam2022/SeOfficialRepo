@@ -173,8 +173,8 @@ public class FXMLDocumentController implements Initializable {
         Group makeingDrawingPaneZoomSensitive = new Group(drawingPane);
         scrollPane.setContent(makeingDrawingPaneZoomSensitive);
 
-        drawingPane.getContainerOfPaperAndGrid().scaleXProperty().bind(zoomSlider.valueProperty());
-        drawingPane.getContainerOfPaperAndGrid().scaleYProperty().bind(zoomSlider.valueProperty());
+        drawingPane.scaleXProperty().bind(zoomSlider.valueProperty());
+        drawingPane.scaleYProperty().bind(zoomSlider.valueProperty());
         gridSpinner.getValueFactory().valueProperty().addListener(change -> {
             drawingPane.redrawGrid(gridSpinner.getValue());
         });
@@ -208,7 +208,7 @@ public class FXMLDocumentController implements Initializable {
         sideBar.managedProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         sideBar.visibleProperty().bind(SelectedShapeManager.getSelectedShapeManager().getShapeIsSelectedProperty());
         /*------------------------- Selecting an initial tool -----------------*/
-        selectedTool = new SelectionTool(drawingPane,drawingPane.getContainerOfPaperAndGrid().scaleXProperty(),drawingPane.getContainerOfPaperAndGrid().scaleYProperty());
+        selectedTool = new SelectionTool(drawingPane,drawingPane.scaleXProperty(),drawingPane.scaleYProperty());
         /*------------------------- Adding a listener on the buttons ----------*/
         for (Toggle r : g1.getToggles()) {
             r.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -279,7 +279,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void selectShape(ActionEvent event) {
-        selectedTool = new SelectionTool(drawingPane,drawingPane.getContainerOfPaperAndGrid().scaleXProperty(),drawingPane.getContainerOfPaperAndGrid().scaleYProperty());
+        selectedTool = new SelectionTool(drawingPane,drawingPane.scaleXProperty(),drawingPane.scaleYProperty());
     }
 
     @FXML

@@ -12,7 +12,13 @@ import javafx.scene.shape.Shape;
 /**
  * This class creates an abstraction of the application's area where the user
  * can draw. One of the main goals of the drawing area is the management of the
- * grid that is in overlay with the drawing.
+ * grid that is in overlay with the drawing. 
+ * The DrawingArea pane is made by two principal elements:
+ * <ul>
+    <li>The grid: a group containing all the lines that builds the grid</li>
+ *  <li>The paper: a pane on which all the shapes are added</li>
+ * </ul>
+ * This object also implements the behaviour of a LayeredPaper on witch the tools can work
  *
  */
 public class DrawingArea extends Pane implements LayeredPaper {
@@ -22,8 +28,6 @@ public class DrawingArea extends Pane implements LayeredPaper {
     private final Pane paper;
 
     private Group grid;
-
-    private final Group containerOfPaperAndGrid;
 
     /**
      * Creates an instance of the Drawing Area.
@@ -38,9 +42,10 @@ public class DrawingArea extends Pane implements LayeredPaper {
         paper.setPrefSize(width, height);
         grid = makeGrid(1);
         grid.setVisible(false);
+        /*
         containerOfPaperAndGrid = new Group(paper, grid);
-        containerOfPaperAndGrid.setClip(new Rectangle(0, 0, width, height));
-        super.getChildren().add(containerOfPaperAndGrid);
+        containerOfPaperAndGrid.setClip(new Rectangle(0, 0, width, height));*/
+        super.getChildren().addAll(paper,grid);
 
     }
 
@@ -51,10 +56,10 @@ public class DrawingArea extends Pane implements LayeredPaper {
      */
     public void redrawGrid(int newDistance) {
         boolean oldValue = grid.visibleProperty().getValue();
-        this.containerOfPaperAndGrid.getChildren().remove(grid);
+        super.getChildren().remove(grid);
         this.grid = makeGrid(newDistance);
         this.grid.setVisible(oldValue);
-        this.containerOfPaperAndGrid.getChildren().add(grid);
+        super.getChildren().add(grid);
     }
 
     /**
@@ -65,20 +70,6 @@ public class DrawingArea extends Pane implements LayeredPaper {
      */
     public void showGrid(boolean val) {
         grid.setVisible(val);
-    }
-
-    /**
-     * The paper and grid group contains the two main elements of the
-     * DrawingArea:
-     * <ul>
-     * <li>The grid: a group containing all the lines that builds the grid</li>
-     * <li>The paper: a pane on which all the shapes are added</li>
-     * </ul>
-     *
-     * @return the group containing the two elements.
-     */
-    public Group getContainerOfPaperAndGrid() {
-        return this.containerOfPaperAndGrid;
     }
 
     /**
@@ -138,7 +129,7 @@ public class DrawingArea extends Pane implements LayeredPaper {
      */
     @Override
     public void addInTopLayer(Node node) {
-        containerOfPaperAndGrid.getChildren().add(node);
+        super.getChildren().add(node);
     }
     
     /**
@@ -159,7 +150,7 @@ public class DrawingArea extends Pane implements LayeredPaper {
      */
     @Override
     public boolean removeFromTopLayer(Node node) {
-        return containerOfPaperAndGrid.getChildren().remove(node);
+        return super.getChildren().remove(node);
     }
 
     private Group makeGrid(int newDistance) {

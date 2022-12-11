@@ -16,6 +16,7 @@ import seproject.commands.DrawShapeCommand;
 import seproject.commands.Invoker;
 import seproject.commands.ResizeCommand;
 import seproject.commands.*;
+import seproject.customComponents.LayeredPaper;
 
 /**
  * This class represents a SelectedShapeManager.
@@ -31,7 +32,7 @@ public class SelectedShapeManager {
 
     private final SimpleBooleanProperty shapeIsCopiedProperty;
 
-    private static DrawingArea paper;
+    private static LayeredPaper paper;
 
     private static SelectedShapeManager ssm = null;
 
@@ -72,7 +73,7 @@ public class SelectedShapeManager {
      *
      * @param paper the pane on witch the shape will be selected
      */
-    public static void setSelectedShapeManagerPaper(DrawingArea paper) {
+    public static void setSelectedShapeManagerPaper(LayeredPaper paper) {
         SelectedShapeManager.paper = paper;
     }
 
@@ -91,7 +92,7 @@ public class SelectedShapeManager {
 
         ShapeEditor pe = ShapeEditorFactory.getInstance(ssm.getSelectedShape().getClass());
         overlay = new Overlay(selectedShape);
-        paper.getContainerOfPaperAndGrid().getChildren().add(overlay);
+        paper.addInTopLayer(overlay);
         ssm.widthProperty.setValue(pe.getWidth(ssm.getSelectedShape()));
         ssm.heightProperty.setValue(pe.getHeight(ssm.getSelectedShape()));
         ssm.rotationProperty.setValue(0);
@@ -107,7 +108,7 @@ public class SelectedShapeManager {
         if (ssm.selectedShape == null) {
             return;
         }
-        paper.getContainerOfPaperAndGrid().getChildren().remove(overlay);
+        paper.removeFromTopLayer(overlay);
         ssm.shapeIsSelectedProperty.setValue(false);
         ssm.selectedShape = null;
     }

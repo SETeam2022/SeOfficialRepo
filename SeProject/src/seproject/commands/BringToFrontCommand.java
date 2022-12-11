@@ -22,7 +22,7 @@ public class BringToFrontCommand implements Command {
      * @param shape the shape which will be brought to front
      * @param paper the paper which the shape belongs to
      */
-    public BringToFrontCommand(Shape shape, DrawingArea paper) {
+    public BringToFrontCommand(Shape shape, LayeredPaper paper) {
         this.shape = shape;
         this.paper = paper;
     }

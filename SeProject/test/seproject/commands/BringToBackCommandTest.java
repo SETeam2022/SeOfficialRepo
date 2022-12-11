@@ -22,7 +22,8 @@ public class BringToBackCommandTest {
     private Rectangle rect;
     private Ellipse ell;
     private Line line;
-    private BringToBackCommand cmdRect, cmdLine, cmdEll;
+    private Invoker invoker;
+    
 
     /*
      * This method instances a new pane and a series of shapes which will be used during the 
@@ -38,6 +39,7 @@ public class BringToBackCommandTest {
         this.line = new Line(random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT), random.nextInt(TestConstants.MAX_WIDTH), random.nextInt(TestConstants.MAX_HEIGHT));
         SelectedShapeManager.setSelectedShapeManagerPaper(dw);
         this.ssm = SelectedShapeManager.getSelectedShapeManager();
+        this.invoker = Invoker.getInvoker();
     }
 
     /*
@@ -58,16 +60,16 @@ public class BringToBackCommandTest {
         insertAndBringToBack();
 
         /* Test 1: undo of the BringToBackCommand on the line */
-        this.cmdLine.undo();
+        invoker.undoLastCommand();
         assertTrue(this.paper.getChildren().indexOf(this.line) > this.paper.getChildren().indexOf(this.ell));
         assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 2: undo of the BringToBackCommand on the ellipse */
-        this.cmdEll.undo();
+        invoker.undoLastCommand();
         assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.rect));
         
         /* Test 3: undo of the BringToBackCommand on the rectangle */
-        this.cmdRect.undo();
+        invoker.undoLastCommand();
         assertEquals(0, this.paper.getChildren().indexOf(this.rect), 0);
     }
 
@@ -78,17 +80,17 @@ public class BringToBackCommandTest {
     private void insertAndBringToBack() {
         /* Test 1: there's just one shape inside the pane */
         this.paper.getChildren().add(rect);
-        this.cmdRect = createCommandAndExecute(this.rect, this.cmdRect);
+        createCommandAndExecute(this.rect);
         assertEquals(0, this.paper.getChildren().indexOf(this.ssm.getSelectedShape()), 0);
         
         /* Test 2: there are two shapes inside the pane */
         this.paper.getChildren().add(ell);
-        this.cmdEll = createCommandAndExecute(this.ell, this.cmdEll);
+        createCommandAndExecute(this.ell);
         assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         
         /* Test 3: there are three shapes inside the pane */
         this.paper.getChildren().add(line);
-        this.cmdLine = createCommandAndExecute(this.line, this.cmdLine);
+        createCommandAndExecute(this.line);
         assertTrue(this.paper.getChildren().indexOf(this.rect) > this.paper.getChildren().indexOf(this.ell));
         assertTrue(this.paper.getChildren().indexOf(this.ell) > this.paper.getChildren().indexOf(this.line));
     }
@@ -98,11 +100,9 @@ public class BringToBackCommandTest {
      * @param cmd
      * @return BringToBackCommand
      */
-    private BringToBackCommand createCommandAndExecute(Shape s, BringToBackCommand cmd) {
+    private void createCommandAndExecute(Shape s) {
         SelectedShapeManager.getSelectedShapeManager().setSelectedShape(s);
-        cmd = new BringToBackCommand(s, this.dw);
-        cmd.execute();
-        return cmd;
+        invoker.executeCommand(new BringToBackCommand(s, this.dw));
     }
 
 }
