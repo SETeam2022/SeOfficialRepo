@@ -9,9 +9,6 @@ import seproject.customComponents.LayeredPaper;
  * 
  */
 public abstract class DrawingTool extends Tool {
-
-    static final double widthStroke = 2.5;
-
     private final ObjectProperty<Color> strokeColorProperty;
     private final ObjectProperty<Color> fillColorProperty;
 

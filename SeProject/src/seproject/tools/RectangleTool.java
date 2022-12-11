@@ -47,7 +47,7 @@ public class RectangleTool extends DrawingTool {
         rectangle = new Rectangle(startX, startY, 0, 0);
         rectangle.setStroke(this.getStrokeColorProperty().getValue());
         rectangle.setFill(this.getFillColorProperty().getValue());
-        rectangle.setStrokeWidth(DrawingTool.widthStroke);
+        rectangle.setStrokeWidth(Constants.STROKE_WIDTH);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(rectangle, getPaper()));
 
     }

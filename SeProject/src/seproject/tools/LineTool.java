@@ -45,7 +45,7 @@ public class LineTool extends DrawingTool {
         line = new Line(startX, startY, startX, startY);
         line.setStroke(this.getStrokeColorProperty().getValue());
         line.setFill(this.getFillColorProperty().getValue());
-        line.setStrokeWidth(DrawingTool.widthStroke);
+        line.setStrokeWidth(Constants.STROKE_WIDTH);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(line, getPaper()));
 
     }

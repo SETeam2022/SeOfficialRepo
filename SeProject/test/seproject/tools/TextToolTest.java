@@ -1,8 +1,6 @@
 package seproject.tools;
 
 import javafx.scene.control.TextArea;
-import static java.lang.Double.min;
-import static java.lang.Math.max;
 import java.security.SecureRandom;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -14,14 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import seproject.customComponents.DrawingArea;
 import seproject.EventGenerator;
 import seproject.Constants;
-import seproject.customComponents.LayeredPaper;
 
 public class TextToolTest {
 
@@ -63,9 +59,6 @@ public class TextToolTest {
         pressEvent = EventGenerator.PrimaryButtonMouseDragged(paper, paper, random.nextInt(Constants.MAX_WIDTH / 2), random.nextInt(Constants.MAX_HEIGHT / 2));
     }
 
-    @After
-    public void tearDown() {
-    }
 
     /**
      * In that case, if there is a blank paper and I click on it at the end of

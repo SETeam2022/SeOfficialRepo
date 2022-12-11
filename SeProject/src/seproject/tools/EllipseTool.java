@@ -46,7 +46,7 @@ public class EllipseTool extends DrawingTool {
         ell = new Ellipse(event.getX(), event.getY(), 0, 0);
         ell.setStroke(this.getStrokeColorProperty().getValue());
         ell.setFill(this.getFillColorProperty().getValue());
-        ell.setStrokeWidth(DrawingTool.widthStroke);
+        ell.setStrokeWidth(Constants.STROKE_WIDTH);
         Invoker.getInvoker().executeCommand(new DrawShapeCommand(ell, getPaper()));
     }
 

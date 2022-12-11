@@ -35,16 +35,16 @@
                             <menus>
                                 <Menu mnemonicParsing="false" text="File">
                                     <items>
-                                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveDrawing" text="Save" />
-                                        <MenuItem fx:id="loadMenuItem" mnemonicParsing="false" onAction="#loadDrawing" text="Load" />
-                                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
+                                        <MenuItem mnemonicParsing="false" onAction="#saveDrawing" text="Save" />
+                                        <MenuItem mnemonicParsing="false" onAction="#loadDrawing" text="Load" />
+                                        <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Close" />
                                     </items>
                                 </Menu>
                             </menus>
                         </MenuBar>
                         <ToolBar fx:id="toolBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="1280.0">
                             <items>
-                                <RadioButton fx:id="selectButton" mnemonicParsing="false" onAction="#selectShape" prefHeight="43.0" prefWidth="49.0" selected="true" styleClass="button">
+                                <RadioButton mnemonicParsing="false" onAction="#selectShape" prefHeight="43.0" prefWidth="49.0" selected="true" styleClass="button">
                                     <graphic>
                                         <SVGPath content="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z" scaleX="1.5" scaleY="1.5" />
                                     </graphic>
@@ -63,7 +63,7 @@
                                         <Tooltip text="Delete" />
                                     </tooltip>
                                 </Button>
-                                <RadioButton fx:id="addLineButton" mnemonicParsing="false" onAction="#addLine" prefHeight="43.0" prefWidth="47.0" styleClass="button" toggleGroup="$g1">
+                                <RadioButton mnemonicParsing="false" onAction="#addLine" prefHeight="43.0" prefWidth="47.0" styleClass="button" toggleGroup="$g1">
                                     <graphic>
                                         <SVGPath content="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" fillRule="EVEN_ODD" scaleX="1.5" scaleY="1.5" />
                                     </graphic>
@@ -71,7 +71,7 @@
                                         <Tooltip text="Add Line Segment" />
                                     </tooltip>
                                 </RadioButton>
-                                <RadioButton fx:id="addRectangleButton" layoutX="715.0" layoutY="15.0" mnemonicParsing="false" onAction="#addRectangle" prefHeight="43.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
+                                <RadioButton layoutX="715.0" layoutY="15.0" mnemonicParsing="false" onAction="#addRectangle" prefHeight="43.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
                                     <graphic>
                                         <SVGPath content="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" scaleX="1.5" scaleY="1.5" />
                                     </graphic>
@@ -79,7 +79,7 @@
                                         <Tooltip text="Add Rectangle" />
                                     </tooltip>
                                 </RadioButton>
-                                <RadioButton fx:id="addEllipsesButton" layoutX="810.0" layoutY="15.0" mnemonicParsing="false" onAction="#addEllipses" prefHeight="44.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
+                                <RadioButton layoutX="810.0" layoutY="15.0" mnemonicParsing="false" onAction="#addEllipses" prefHeight="44.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
                                     <graphic>
                                         <SVGPath content="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" scaleX="1.5" scaleY="1.5" strokeLineCap="ROUND" strokeType="OUTSIDE" />
                                     </graphic>
@@ -87,7 +87,7 @@
                                         <Tooltip text="Add Ellipse" />
                                     </tooltip>
                                 </RadioButton>
-                                <RadioButton fx:id="addPolygonButton" layoutX="225.0" layoutY="10.0" mnemonicParsing="false" onAction="#addPolygon" prefHeight="44.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
+                                <RadioButton layoutX="225.0" layoutY="10.0" mnemonicParsing="false" onAction="#addPolygon" prefHeight="44.0" prefWidth="51.0" styleClass="button" toggleGroup="$g1">
                                     <graphic>
                                         <SVGPath content="M7.685 1.545a.5.5 0 0 1 .63 0l6.263 5.088a.5.5 0 0 1 .161.539l-2.362 7.479a.5.5 0 0 1-.476.349H4.099a.5.5 0 0 1-.476-.35L1.26 7.173a.5.5 0 0 1 .161-.54l6.263-5.087Zm8.213 5.28a.5.5 0 0 0-.162-.54L8.316.257a.5.5 0 0 0-.631 0L.264 6.286a.5.5 0 0 0-.162.538l2.788 8.827a.5.5 0 0 0 .476.349h9.268a.5.5 0 0 0 .476-.35l2.788-8.826Z" scaleX="1.5" scaleY="1.5" strokeLineCap="ROUND" strokeType="OUTSIDE" />
                                     </graphic>
@@ -235,7 +235,7 @@
                                                 <Font size="17.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="leftRotationButton" mnemonicParsing="false" onAction="#leftRotationAction" prefHeight="31.0" prefWidth="31.0" translateX="50.0" translateY="10.0">
+                                          <Button mnemonicParsing="false" onAction="#leftRotationAction" prefHeight="31.0" prefWidth="31.0" translateX="50.0" translateY="10.0">
                                              <graphic>
                                                 <SVGPath content="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
@@ -243,7 +243,7 @@
                                                 <Tooltip text="Left Rotation" />
                                              </tooltip>
                                           </Button>
-                                          <Button fx:id="rightRotationButton" mnemonicParsing="false" onAction="#rightRotationAction" prefHeight="31.0" prefWidth="31.0" translateX="70.0" translateY="10.0">
+                                          <Button mnemonicParsing="false" onAction="#rightRotationAction" prefHeight="31.0" prefWidth="31.0" translateX="70.0" translateY="10.0">
                                              <graphic>
                                                 <SVGPath content="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
@@ -265,7 +265,7 @@
                                     </Label>
                                     <HBox prefHeight="32.0" prefWidth="230.0">
                                        <children>
-                                          <Button fx:id="mirrorVerticalButton" mnemonicParsing="false" onAction="#mirrorVerticalAction" translateX="10.0" translateY="7.0">
+                                          <Button mnemonicParsing="false" onAction="#mirrorVerticalAction" translateX="10.0" translateY="7.0">
                                              <graphic>
                                                 <SVGPath content="M7 2.5a.5.5 0 0 0-.939-.24l-6 11A.5.5 0 0 0 .5 14h6a.5.5 0 0 0 .5-.5v-11zm2.376-.484a.5.5 0 0 1 .563.245l6 11A.5.5 0 0 1 15.5 14h-6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .376-.484zM10 4.46V13h4.658L10 4.46z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
@@ -275,7 +275,7 @@
                                     </HBox>
                                     <HBox prefHeight="34.0" prefWidth="220.0" translateY="10.0">
                                        <children>
-                                          <Button fx:id="mirrorHorizontalButton" mnemonicParsing="false" onAction="#mirrorHorizontalAction" prefHeight="49.0" prefWidth="31.0" translateX="13.0">
+                                          <Button mnemonicParsing="false" onAction="#mirrorHorizontalAction" prefHeight="49.0" prefWidth="31.0" translateX="13.0">
                                              <graphic>
                                                 <SVGPath content="M13.5 7a.5.5 0 0 0 .24-.939l-11-6A.5.5 0 0 0 2 .5v6a.5.5 0 0 0 .5.5h11zm.485 2.376a.5.5 0 0 1-.246.563l-11 6A.5.5 0 0 1 2 15.5v-6a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .485.376zM11.539 10H3v4.658L11.54 10z" scaleX="1.5" scaleY="1.5" />
                                              </graphic>
@@ -300,7 +300,7 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="verticalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verticalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="50.0" translateY="7.0">
+                                          <Button maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#verticalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="50.0" translateY="7.0">
                                              <graphic>
                                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -308,7 +308,7 @@
                                                    </image></ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="horizontalStretchingButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#horizontalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="70.0" translateY="7.0">
+                                          <Button maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#horizontalStretchingAction" prefHeight="30.0" prefWidth="30.0" translateX="70.0" translateY="7.0">
                                              <graphic>
                                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
