@@ -13,7 +13,9 @@ public class VerticalStretchingCommandTest {
     private double prevStretchingValue, newStretchingValue;
     private SecureRandom random;
 
-    
+    /**
+     * This method instances a rectangle, a random number, prevStretchingValue and the HorizontalStretchingCommand.
+     */
     @Before
     public void setUp() {
         rect = new Rectangle();
@@ -24,7 +26,7 @@ public class VerticalStretchingCommandTest {
     }
 
     /**
-     * Test of execute method, of class HorizontalStretchingCommand.
+     * This method execute the stretching with the new value and verify that new value is equal to shape's value.
      */
     @Test
     public void testExecute() {
@@ -34,7 +36,7 @@ public class VerticalStretchingCommandTest {
     }
 
     /**
-     * Test of undo method, of class HorizontalStretchingCommand.
+     * This method execute the undo stretching and verify that shape's value is equal to prevStretchingValue.
      */
     @Test
     public void testUndo() {

@@ -25,7 +25,7 @@ public class CopyShapeCommandTest {
     
     
     /**
-     * Test of execute method, of class CopyShapeCommand.
+     * This method execute the copy and verify that the shape is equal to shape copied.
      */
     @Test
     public void testExecute() {
@@ -35,11 +35,12 @@ public class CopyShapeCommandTest {
     }
 
     /**
-     * Test of undo method, of class CopyShapeCommand.
+     * This method execute the copy and execute the undu, then verify that the shape copied is null.
      */
     @Test
     public void testUndo() {
         System.out.println("undo");
+        cmd.execute();
         cmd.undo();
         assertEquals(SelectedShapeManager.getSelectedShapeManager().getCopiedShape(),null);
     }
