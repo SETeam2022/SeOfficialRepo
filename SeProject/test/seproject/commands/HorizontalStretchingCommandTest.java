@@ -13,6 +13,9 @@ public class HorizontalStretchingCommandTest {
     private double prevStretchingValue, newStretchingValue;
     private SecureRandom random;
     
+    /**
+     * This method instances a rectangle, a random number, prevStretchingValue and the HorizontalStretchingCommand
+     */
     @Before
     public void setUp() {
         rect = new Rectangle();
