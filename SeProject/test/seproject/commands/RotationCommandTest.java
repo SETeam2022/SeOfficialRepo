@@ -1,5 +1,6 @@
 package seproject.commands;
 
+import java.security.SecureRandom;
 import javafx.scene.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +11,14 @@ public class RotationCommandTest {
     private Rectangle rect;
     private RotationCommand cmd;
     private double startRotate, valueRotate;
+    private SecureRandom random;
     
     @Before
     public void setUp() {
         rect = new Rectangle();
         startRotate = rect.getRotate();
-        valueRotate = 45;
+        random = new SecureRandom();
+        valueRotate = random.nextInt(361);
         cmd = new RotationCommand(valueRotate, rect);
     }
 
