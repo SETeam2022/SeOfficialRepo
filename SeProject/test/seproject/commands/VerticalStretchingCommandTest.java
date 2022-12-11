@@ -11,13 +11,14 @@ public class VerticalStretchingCommandTest {
     private Rectangle rect;
     private VerticalStretchingCommand cmd;
     private double prevStretchingValue, newStretchingValue;
-    private SecureRandom secure;
+    private SecureRandom random;
+
     
     @Before
     public void setUp() {
         rect = new Rectangle();
-        secure = new SecureRandom();
-        newStretchingValue = secure.nextInt(100);
+        random = new SecureRandom();
+        newStretchingValue = random.nextInt(1000);
         prevStretchingValue = rect.getScaleY();
         cmd = new VerticalStretchingCommand(rect,newStretchingValue);
     }

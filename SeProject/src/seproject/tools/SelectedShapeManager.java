@@ -150,6 +150,29 @@ public class SelectedShapeManager {
     public DoubleProperty getStretchProperty(){
         return ssm.stretchProperty;
     }
+    /**
+     * This method allow to set the copiedShape
+     * @param shape 
+     */
+    public void setCopiedShape(Shape shape){
+        this.copiedShape = shape;
+    }
+    
+    /**
+     * This method allow to set the ShapeIsCopiedProperty
+     * @param bool 
+     */
+    public void setShapeIsCopiedProperty(boolean bool){
+        this.shapeIsCopiedProperty.setValue(bool);
+    }
+    
+    /**
+     *
+     * @return the shape that is been copied
+     */
+    public Shape getCopiedShape(){
+        return this.copiedShape;
+    }
 
     /**
      * When this method is called, if a shape has been selected, it will be
@@ -229,14 +252,6 @@ public class SelectedShapeManager {
         //this.shapeIsCopiedProperty.setValue(true);
         Invoker.getInvoker().executeCommand(new CopyShapeCommand(selectedShape));
         
-    }
-    
-    public void setCopiedShape(Shape shape){
-        this.copiedShape = shape;
-    }
-    
-    public void setShapeIsCopiedProperty(boolean bool){
-        this.shapeIsCopiedProperty.setValue(bool);
     }
     /**
      * This method performs the paste of the selected shape.

@@ -11,13 +11,13 @@ public class HorizontalStretchingCommandTest {
     private Rectangle rect;
     private HorizontalStretchingCommand cmd;
     private double prevStretchingValue, newStretchingValue;
-    private SecureRandom secure;
+    private SecureRandom random;
     
     @Before
     public void setUp() {
         rect = new Rectangle();
-        secure = new SecureRandom();
-        newStretchingValue = secure.nextInt(100);
+        random = new SecureRandom();
+        newStretchingValue = random.nextInt(1000);
         prevStretchingValue = rect.getScaleX();
         cmd = new HorizontalStretchingCommand(rect,newStretchingValue);
     }
