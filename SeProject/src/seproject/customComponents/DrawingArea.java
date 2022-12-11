@@ -42,9 +42,7 @@ public class DrawingArea extends Pane implements LayeredPaper {
         paper.setPrefSize(width, height);
         grid = makeGrid(1);
         grid.setVisible(false);
-        /*
-        containerOfPaperAndGrid = new Group(paper, grid);
-        containerOfPaperAndGrid.setClip(new Rectangle(0, 0, width, height));*/
+        super.setClip(new Rectangle(0, 0, width, height));
         super.getChildren().addAll(paper,grid);
 
     }
