@@ -10,6 +10,8 @@ final public class Constants {
     public static final int DEFAULT_TEXT_SIZE = 11;
     public final static double MIN_TEXTAREA_AREA = 150;
     public final static double MIN_TEXTAREA_WIDTH = 50;
+    public final static double MIN_STAGE_WIDTH = 1300;
+    public final static double MIN_STAGE_HEIGHT = 800;
     
     private Constants(){
     }

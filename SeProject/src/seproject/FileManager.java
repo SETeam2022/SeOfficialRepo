@@ -53,7 +53,6 @@ public class FileManager {
                     ShapeEditor editor = ShapeEditorFactory.getInstance(shape.getClass());
                     editor.saveShape(shape, out);
                 }
-                
             }
         }
         
@@ -85,7 +84,6 @@ public class FileManager {
                 paper.getChildren().add(s);
             }
         }
-
     }
 
 }
